@@ -605,6 +605,14 @@ canvas{
 
 .panel-result .grid-wrap{
   overflow: hidden;
+  width: max-content;
+}
+
+.panel-result .panel-body{
+  grid-template-columns: max-content minmax(280px, 1fr);
+  justify-content: start;
+  align-items: start;
+  column-gap: 14px;
 }
 
 .grid-canvas{
