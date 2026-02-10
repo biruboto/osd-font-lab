@@ -177,6 +177,7 @@ body{
   height: 100vh;
   padding: 12px;
   box-sizing: border-box;
+  display: flex;
 }
 
 /* ---------- topbar ---------- */
@@ -261,6 +262,11 @@ body{
   position: relative;
   display: inline-flex;
   min-width: 240px;
+}
+
+.font-select-stack .fontpicker{
+  width: 100%;
+  min-width: 0;
 }
 
 .fontpicker-btn{
@@ -429,9 +435,11 @@ canvas{
 /* ---------- split workspace ---------- */
 .split{
   display: grid;
-  grid-template-columns: 7fr 3fr; /* Font window | Tools */
+  grid-template-columns: 13fr 7fr; /* Font window | Tools */
   gap: 12px;
   height: 100%;
+  width: min(100%, 1420px);
+  margin: 0 auto;
   min-height: 0;
   min-width: 0;
 }
@@ -492,8 +500,12 @@ canvas{
 }
 
 .panel-base .panel-header-controls{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: stretch;
+  column-gap: 10px;
+  row-gap: 0;
 }
 
 .font-select-stack{
@@ -501,6 +513,16 @@ canvas{
   flex-direction: column;
   gap: 8px;
   align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+
+.font-select-stack .field{
+  width: 100%;
+}
+
+.font-select-stack select{
+  width: 100%;
 }
 
 /* Keep dropdown groups stable (non-stretch) */
@@ -570,7 +592,6 @@ canvas{
   width: 100%;
   text-align: center;
   margin-bottom: 6px;
-  white-space: pre-line;
 }
 
 .load-status-live{
@@ -630,7 +651,7 @@ canvas{
 
 .panel-result .panel-body{
   grid-template-columns: max-content minmax(260px, 300px);
-  justify-content: start;
+  justify-content: center;
   align-items: start;
   column-gap: 14px;
 }
@@ -718,6 +739,11 @@ canvas{
 }
 
 .sidecar-controls.is-empty{ opacity: 0.6; }
+
+.hold-preview-btn.is-holding{
+  border-color: var(--accent-0);
+  background: color-mix(in srgb, var(--accent-0) 14%, var(--bg-2));
+}
 
 /* ---------- D-pad / nudging UI ---------- */
 .nudgeBox{ margin: 0; display: block; }

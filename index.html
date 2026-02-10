@@ -25,11 +25,15 @@
                 <div class="zoom-label">Glyph Inspector</div>
                 <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
                 <div id="glyphInfo" class="inspector-body glyph-info-inline">
-                  Load a font, then click a glyph.
+                  (Load a font, then click a glyph.)
                 </div>
               </div>
 
               <div class="sidecar-controls">
+                <button id="holdOriginalPreview" type="button" class="hold-preview-btn">
+                  Hold for Original
+                </button>
+
                 <label class="field checkbox">
                   <input id="showGrids" type="checkbox" checked />
                   <span>Show grids</span>

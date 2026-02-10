@@ -35,6 +35,7 @@ const replNudgeReadout = document.getElementById("replNudgeReadout");
 const selCount = document.getElementById("selCount");
 
 const showGridsEl = document.getElementById("showGrids");
+const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
 
 const exportMCMBtn = document.getElementById("exportMCM");
 const exportPNGBtn = document.getElementById("exportPNG");
@@ -54,6 +55,7 @@ const COLS = 16;
 let baseFont = null;     // decoded MCM
 let resultFont = null;   // base + overlay + nudges
 let currentOverlay = null;
+let holdOriginalPreview = false;
 
 let selectedIndex = 0;
 let selectedSet = new Set([0]);
@@ -912,7 +914,7 @@ function renderLoadStatusVisual() {
   const subtext = loadStatusSubtext;
   const error = loadStatusError;
   loadStatus.classList.toggle("is-error", error);
-  loadStatus.textContent = subtext ? `${text}\n${subtext}` : text;
+  loadStatus.textContent = subtext ? `${text} (${subtext})` : text;
 }
 
 function setLoadStatus(text, { error = false, subtext = "" } = {}) {
@@ -1126,6 +1128,7 @@ function updateInfoPanel(index) {
 
 function rerenderAll() {
   if (!baseFont || !resultFont) return;
+  const displayFont = holdOriginalPreview ? baseFont : resultFont;
 
   // Only render base panel when compare is enabled
   if (compareMode) {
@@ -1135,8 +1138,8 @@ function rerenderAll() {
     }
   }
 
-  renderGrid(resultGridCtx, resultGridCanvas, resultFont);
-  renderZoom(resultZoomCtx, resultZoomCanvas, resultFont, selectedIndex);
+  renderGrid(resultGridCtx, resultGridCanvas, displayFont);
+  renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selectedIndex);
 
   updateInfoPanel(selectedIndex);
   updateSelectionCount();
@@ -1641,6 +1644,27 @@ function initEvents() {
       localStorage.setItem("showGrids", showGrids ? "1" : "0");
       rerenderAll();
     });
+  }
+
+  // Hold-to-preview-original (momentary)
+  if (holdOriginalPreviewBtn) {
+    const setHold = (on) => {
+      if (holdOriginalPreview === on) return;
+      holdOriginalPreview = on;
+      holdOriginalPreviewBtn.classList.toggle("is-holding", on);
+      rerenderAll();
+    };
+
+    holdOriginalPreviewBtn.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      setHold(true);
+    });
+    holdOriginalPreviewBtn.addEventListener("mouseup", () => setHold(false));
+    holdOriginalPreviewBtn.addEventListener("mouseleave", () => setHold(false));
+    holdOriginalPreviewBtn.addEventListener("touchstart", () => setHold(true), { passive: true });
+    holdOriginalPreviewBtn.addEventListener("touchend", () => setHold(false));
+    holdOriginalPreviewBtn.addEventListener("touchcancel", () => setHold(false));
+    window.addEventListener("mouseup", () => setHold(false));
   }
 
   // grids click
