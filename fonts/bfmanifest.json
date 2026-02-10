@@ -1,0 +1,52 @@
+[
+  {
+    "file": "betaflight.mcm",
+    "name": "Betaflight",
+    "thumb": "thumbs/betaflight/betaflight.png"
+  },
+  {
+    "file": "bold.mcm",
+    "name": "Bold",
+    "thumb": "thumbs/betaflight/bold.png"
+  },
+  {
+    "file": "clarity.mcm",
+    "name": "Clarity",
+    "thumb": "thumbs/betaflight/clarity.png"
+  },
+  {
+    "file": "default.mcm",
+    "name": "Default",
+    "thumb": "thumbs/betaflight/default.png"
+  },
+  {
+    "file": "digital.mcm",
+    "name": "Digital",
+    "thumb": "thumbs/betaflight/digital.png"
+  },
+  {
+    "file": "extra_large.mcm",
+    "name": "Extra Large",
+    "thumb": "thumbs/betaflight/extra_large.png"
+  },
+  {
+    "file": "impact_mini.mcm",
+    "name": "Impact Mini",
+    "thumb": "thumbs/betaflight/impact_mini.png"
+  },
+  {
+    "file": "impact.mcm",
+    "name": "Impact",
+    "thumb": "thumbs/betaflight/impact.png"
+  },
+  {
+    "file": "large.mcm",
+    "name": "Large",
+    "thumb": "thumbs/betaflight/large.png"
+  },
+  {
+    "file": "vision.mcm",
+    "name": "Vision",
+    "thumb": "thumbs/betaflight/vision.png"
+  }
+]
