@@ -277,7 +277,7 @@ function buildFontPicker({
 
   const caret = document.createElement("span");
   caret.className = "fontpicker-caret";
-  caret.textContent = "v";
+  caret.textContent = "\u25BE";
 
   btn.appendChild(thumb);
   btn.appendChild(name);
@@ -979,7 +979,17 @@ function drawZoomPixelGrid(ctx, cellW, cellH, scale, ox, oy) {
   ctx.restore();
 }
 
+function snapZoomCanvasToIntegerScale(canvas, font) {
+  if (!canvas || !font) return;
+  const rect = canvas.getBoundingClientRect();
+  const targetW = Math.max(1, Math.floor(rect.width));
+  const cssScale = Math.max(1, Math.floor(targetW / font.width));
+  canvas.style.width = `${cssScale * font.width}px`;
+  canvas.style.height = `${cssScale * font.height}px`;
+}
+
 function renderZoom(ctx, canvas, font, index) {
+  snapZoomCanvasToIntegerScale(canvas, font);
   fitCanvasToCSS(canvas, ctx);
 
   const { glyphs, width, height } = font;
@@ -990,7 +1000,7 @@ function renderZoom(ctx, canvas, font, index) {
   ctx.fillStyle = matte;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  const scale = Math.floor(Math.min((canvas.width - 24) / width, (canvas.height - 24) / height));
+  const scale = Math.max(1, Math.floor(Math.min(canvas.width / width, canvas.height / height)));
   const ox = Math.floor((canvas.width - width * scale) / 2);
   const oy = Math.floor((canvas.height - height * scale) / 2);
 

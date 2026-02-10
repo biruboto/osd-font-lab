@@ -14,10 +14,7 @@
     <div class="split">
 
       <section class="font-pane">
-        <section class="panel panel-result">
-    <div class="panel-header">
-    </div>
-
+        <section class="panel panel-result panel-no-header">
     <div class="panel-body">
       <div class="grid-wrap">
         <canvas id="resultGrid" class="grid-canvas"></canvas>
@@ -25,13 +22,9 @@
 
       <aside class="sidecar">
         <div class="zoom-wrap">
-          <div class="zoom-label">Zoom</div>
+          <div class="zoom-label">Glyph Inspector</div>
           <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
-        </div>
-
-        <div class="inspector-card">
-          <div class="inspector-title">Glyph Inspector</div>
-          <div id="glyphInfo" class="inspector-body">
+          <div id="glyphInfo" class="inspector-body glyph-info-inline">
             Load a font, then click a glyph.
           </div>
         </div>
@@ -90,10 +83,12 @@
 
       <!-- RIGHT: Tools window -->
       <section class="tools-pane">
+        <div class="tools-brand-row">
+          <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
+        </div>
         <header class="topbar">
   <div class="topbar-left">
-    <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
-    <label class="field theme-inline field-stack">
+    <label class="field theme-inline">
       <span>Theme</span>
       <select id="themeSelect">
         <option value="dusk">Dusk</option>
@@ -118,7 +113,7 @@
   <div class="panel-header-controls">
     <div class="font-select-stack">
       <label class="field field-stack bf-inline">
-        <span>Load a default font</span>
+        <span>Load a default Betaflight font</span>
         <select id="bfFontSelect">
           <option value="">(choose default)</option>
         </select>
