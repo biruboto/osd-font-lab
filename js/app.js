@@ -30,6 +30,10 @@ if (resultZoomCtx) resultZoomCtx.imageSmoothingEnabled = false;
 
 const glyphInfo = document.getElementById("glyphInfo");
 const overlaySelect = document.getElementById("overlaySelect");
+const swapTargetSelect = document.getElementById("swapTargetSelect");
+const swapSourceSelect = document.getElementById("swapSourceSelect");
+const clearSwapTargetBtn = document.getElementById("clearSwapTargetBtn");
+const clearAllSwapsBtn = document.getElementById("clearAllSwapsBtn");
 
 const replNudgeReadout = document.getElementById("replNudgeReadout");
 const selCount = document.getElementById("selCount");
@@ -57,6 +61,27 @@ let resultFont = null;   // base + overlay + nudges
 let currentOverlay = null;
 let holdOriginalPreview = false;
 
+const SWAP_TARGETS = [
+  { id: "rssi", label: "RSSI", indices: [1] },
+  { id: "throttle", label: "Throttle", indices: [4] },
+  { id: "volts", label: "Volts", indices: [6] },
+  { id: "mah", label: "mAh", indices: [7] },
+  { id: "amp", label: "A / Amp", indices: [154] },
+  { id: "thermometer", label: "Thermometer", indices: [122] },
+  { id: "lq", label: "LQ", indices: [123] },
+  { id: "on_m", label: "ON m", indices: [155] },
+  { id: "fly_m", label: "FLY m", indices: [156] },
+  { id: "battery_set", label: "Battery Set", indices: [144, 145, 146, 147, 148, 149, 150, 151] },
+  { id: "crosshair_set", label: "Crosshair Set", indices: [114, 115, 116] },
+];
+
+const swapTargetsById = new Map(SWAP_TARGETS.map((t) => [t.id, t]));
+const swapSourceCache = new Map(); // sourceId(+target) -> decoded glyph source
+const swapSourceRegistry = new Map(); // sourceId -> source descriptor
+const swapOverrides = new Map(); // idx -> Uint8Array glyph
+let swapTargetPickerApi = null;
+let swapSourcePickerApi = null;
+
 let selectedIndex = 0;
 let selectedSet = new Set([0]);
 let selectionAnchor = 0;
@@ -69,6 +94,7 @@ const nudge = {
 // Shared overlay cache (used by dropdown + title banner)
 const overlayCache = new Map(); // file -> overlay JSON
 let overlayManifest = null;     // cached manifest list [{file,name,id,...}]
+let swapPackManifest = null;    // cached list from fonts/swappacks.json
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -258,6 +284,12 @@ function buildFontPicker({
 }) {
   if (!selectEl) return;
 
+  if (selectEl.__fontPickerApi) {
+    selectEl.__fontPickerApi.rebuild();
+    selectEl.__fontPickerApi.refresh();
+    return selectEl.__fontPickerApi;
+  }
+
   // Hide native select (keep it for your existing logic + accessibility fallback)
   // Visually hide, but keep it in the DOM (so we can drive it with keyboard logic)
   selectEl.style.position = "absolute";
@@ -299,7 +331,27 @@ function buildFontPicker({
   // Insert picker right after the select
   selectEl.parentNode.insertBefore(wrap, selectEl.nextSibling);
 
-  const previewCache = new Map(); // value -> dataURL
+  const previewReq = new WeakMap(); // img -> request id
+
+  function setPreviewImage(imgEl, value) {
+    if (!imgEl) return;
+    if (!value) {
+      imgEl.removeAttribute("src");
+      return;
+    }
+    const reqId = (previewReq.get(imgEl) || 0) + 1;
+    previewReq.set(imgEl, reqId);
+    Promise.resolve(getPreviewUrl(value))
+      .then((url) => {
+        if (previewReq.get(imgEl) !== reqId) return;
+        if (url) imgEl.src = url;
+        else imgEl.removeAttribute("src");
+      })
+      .catch(() => {
+        if (previewReq.get(imgEl) !== reqId) return;
+        imgEl.removeAttribute("src");
+      });
+  }
 
   function setButtonFromValue(value) {
     const opt = [...selectEl.options].find(o => o.value === value);
@@ -313,9 +365,7 @@ function buildFontPicker({
     }
 
     thumb.style.display = "";          // show again for real options
-    const url = getPreviewUrl(value);
-    if (url) thumb.src = url;
-    else thumb.removeAttribute("src");
+    setPreviewImage(thumb, value);
   }
 
 
@@ -335,9 +385,7 @@ function buildFontPicker({
         const t = document.createElement("img");
         t.className = "fontpicker-thumb";
         t.alt = "";
-
-        const url = getPreviewUrl(value);
-        if (url) t.src = url;
+        setPreviewImage(t, value);
 
         row.appendChild(t);
       }
@@ -357,6 +405,18 @@ function buildFontPicker({
         wrap.classList.remove("open");
       });
     }
+  }
+
+  function refreshMenuPreviews() {
+    for (const row of menu.children) {
+      const value = row.getAttribute("data-value") || "";
+      const img = row.querySelector(".fontpicker-thumb");
+      if (img) setPreviewImage(img, value);
+    }
+  }
+
+  function rebuildMenu() {
+    menu.innerHTML = "";
   }
 
 
@@ -415,6 +475,20 @@ function buildFontPicker({
 
   // Initialize
   setButtonFromValue(selectEl.value);
+
+  const api = {
+    refresh: () => {
+      setButtonFromValue(selectEl.value);
+      refreshMenuPreviews();
+    },
+    rebuild: () => {
+      rebuildMenu();
+      setButtonFromValue(selectEl.value);
+    },
+    close: () => wrap.classList.remove("open"),
+  };
+  selectEl.__fontPickerApi = api;
+  return api;
 }
 
 async function handleBuffer(buf, label = "loaded.mcm") {
@@ -431,6 +505,8 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   rerenderAll();
 
   setLoadStatus(`Loaded: ${label}`, { subtext: `${buf.byteLength} bytes` });
+  swapTargetPickerApi?.refresh();
+  swapSourcePickerApi?.refresh();
 }
 
 
@@ -539,6 +615,64 @@ function drawFontPreviewStrip(font, text = "ABC123") {
   return canvas.toDataURL("image/png");
 }
 
+function drawGlyphPreviewStrip(glyphs, width = 12, height = 18, pad = 1) {
+  const list = (glyphs || []).filter(Boolean);
+  if (!list.length) return "";
+
+  const canvas = document.createElement("canvas");
+  canvas.width = list.length * (width + pad);
+  canvas.height = height;
+
+  const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+
+  list.forEach((g, gi) => {
+    const ox = gi * (width + pad);
+    for (let y = 0; y < height; y++) {
+      for (let x = 0; x < width; x++) {
+        const v = g[y * width + x];
+        if (v === 1) continue;
+        ctx.fillStyle = pxColorViewer(v);
+        ctx.fillRect(ox + x, y, 1, 1);
+      }
+    }
+  });
+
+  return canvas.toDataURL("image/png");
+}
+
+function previewIndicesForTarget(target) {
+  if (!target) return [];
+  if (target.id === "battery_set") return [144, 150, 151]; // full, empty, main
+  if (target.id === "crosshair_set") return [114, 115, 116];
+  return target.indices || [];
+}
+
+function getSwapTargetPreviewUrl(targetId) {
+  if (!targetId || !baseFont?.glyphs) return "";
+  const target = swapTargetsById.get(targetId);
+  if (!target) return "";
+  const idxs = previewIndicesForTarget(target);
+  const glyphs = idxs.map((idx) => baseFont.glyphs[idx]).filter(Boolean);
+  return drawGlyphPreviewStrip(glyphs, baseFont.width || 12, baseFont.height || 18, 1);
+}
+
+async function getSwapSourcePreviewUrl(sourceId) {
+  if (!sourceId) return "";
+  const targetId = swapTargetSelect?.value || SWAP_TARGETS[0]?.id;
+  if (!targetId) return "";
+  let sourceFont = null;
+  try {
+    sourceFont = await getSwapSourceFontForTarget(sourceId, targetId);
+  } catch {
+    return "";
+  }
+  const target = swapTargetsById.get(targetId);
+  const idxs = previewIndicesForTarget(target);
+  const glyphs = idxs.map((idx) => sourceFont?.glyphs?.[idx]).filter(Boolean);
+  return drawGlyphPreviewStrip(glyphs, sourceFont?.width || 12, sourceFont?.height || 18, 1);
+}
+
 
 
 /* -----------------------------
@@ -587,6 +721,323 @@ function clearSelectionNudges() {
   for (const idx of selectedSet) nudge.perGlyph.delete(idx);
   rebuildResultFont();
   rerenderAll();
+}
+
+function applySwapTargetFromFont(targetId, sourceFont) {
+  const target = swapTargetsById.get(targetId);
+  if (!target || !sourceFont?.glyphs) return { applied: false, changed: 0, total: 0, focusIndex: null };
+
+  let changed = 0;
+
+  for (const idx of target.indices) {
+    const g = sourceFont.glyphs[idx];
+    if (!g) continue;
+    const prev = resultFont?.glyphs?.[idx];
+    let isDifferent = true;
+    if (prev && prev.length === g.length) {
+      isDifferent = false;
+      for (let i = 0; i < g.length; i++) {
+        if (prev[i] !== g[i]) {
+          isDifferent = true;
+          break;
+        }
+      }
+    }
+    if (isDifferent) changed++;
+    swapOverrides.set(idx, new Uint8Array(g));
+  }
+  rebuildResultFont();
+  rerenderAll();
+  return {
+    applied: true,
+    changed,
+    total: target.indices.length,
+    focusIndex: target.indices[0] ?? null,
+  };
+}
+
+function clearSwapTarget(targetId) {
+  const target = swapTargetsById.get(targetId);
+  if (!target) return;
+  for (const idx of target.indices) swapOverrides.delete(idx);
+  rebuildResultFont();
+  rerenderAll();
+}
+
+function clearAllSwaps() {
+  swapOverrides.clear();
+  rebuildResultFont();
+  rerenderAll();
+}
+
+function glyphDiffCount(a, b) {
+  if (!a || !b || a.length !== b.length) return -1;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) d++;
+  }
+  return d;
+}
+
+async function getSwapSourceFont(file) {
+  if (!file) return null;
+  const source = swapSourceRegistry.get(file);
+  if (!source) throw new Error(`Unknown swap source: ${file}`);
+
+  if (source.kind === "bf_mcm") {
+    if (swapSourceCache.has(file)) return swapSourceCache.get(file);
+    const r = await fetch(`fonts/betaflight/${encodeURIComponent(source.file)}`);
+    if (!r.ok) throw new Error(`swap source fetch HTTP ${r.status} for ${source.file}`);
+    const buf = await r.arrayBuffer();
+    const font = decodeMCM(buf);
+    swapSourceCache.set(file, font);
+    return font;
+  }
+
+  throw new Error(`Unsupported swap source kind: ${source.kind}`);
+}
+
+function syncSwapSourceSelect() {
+  if (!swapSourceSelect) return;
+  const prev = swapSourceSelect.value;
+  swapSourceSelect.innerHTML = `<option value="">(choose source)</option>`;
+
+  const entries = [...swapSourceRegistry.values()].sort((a, b) => {
+    if (a.kind !== b.kind) return a.kind.localeCompare(b.kind);
+    return a.label.localeCompare(b.label);
+  });
+
+  for (const entry of entries) {
+    const opt = document.createElement("option");
+    opt.value = entry.id;
+    opt.textContent = entry.label;
+    swapSourceSelect.appendChild(opt);
+  }
+
+  if (prev && swapSourceRegistry.has(prev)) {
+    swapSourceSelect.value = prev;
+  }
+  swapSourcePickerApi?.rebuild();
+  swapSourcePickerApi?.refresh();
+}
+
+function colorToGlyphValue(r, g, b, a) {
+  if (a < 16) return 1;
+
+  const drg = Math.abs(r - g);
+  const dgb = Math.abs(g - b);
+  const drb = Math.abs(r - b);
+  const maxDiff = Math.max(drg, dgb, drb);
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+  if (maxDiff <= 18 && lum >= 92 && lum <= 176) return 1;
+  if (lum >= 210) return 2;
+  return 3;
+}
+
+async function decodePngGlyphStrip(url, glyphCount, {
+  glyphWidth = 12,
+  glyphHeight = 18,
+  gap = 0,
+} = {}) {
+  const img = new Image();
+  img.decoding = "async";
+  img.src = url;
+  await img.decode();
+
+  const expectedW = glyphCount * glyphWidth + Math.max(0, glyphCount - 1) * gap;
+  if (img.width < expectedW || img.height < glyphHeight) {
+    throw new Error(`PNG too small: ${url} (${img.width}x${img.height}, expected at least ${expectedW}x${glyphHeight})`);
+  }
+
+  const c = document.createElement("canvas");
+  c.width = img.width;
+  c.height = img.height;
+  const ctx = c.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.drawImage(img, 0, 0);
+
+  const glyphs = [];
+  for (let gi = 0; gi < glyphCount; gi++) {
+    const sx = gi * (glyphWidth + gap);
+    const data = ctx.getImageData(sx, 0, glyphWidth, glyphHeight).data;
+    const out = new Uint8Array(glyphWidth * glyphHeight);
+    for (let i = 0, p = 0; i < out.length; i++, p += 4) {
+      out[i] = colorToGlyphValue(data[p], data[p + 1], data[p + 2], data[p + 3]);
+    }
+    glyphs.push(out);
+  }
+  return glyphs;
+}
+
+async function getSwapSourceFontForTarget(sourceId, targetId) {
+  const target = swapTargetsById.get(targetId);
+  if (!target) throw new Error(`Unknown swap target: ${targetId}`);
+  const source = swapSourceRegistry.get(sourceId);
+  if (!source) throw new Error(`Unknown swap source: ${sourceId}`);
+
+  if (source.kind === "bf_mcm") {
+    return getSwapSourceFont(sourceId);
+  }
+
+  if (source.kind === "png_pack") {
+    const packTarget = source.targets?.[targetId];
+    if (!packTarget?.png) {
+      throw new Error(`Pack '${source.label}' has no PNG for target '${targetId}'`);
+    }
+
+    const cacheKey = `${sourceId}::${targetId}`;
+    if (swapSourceCache.has(cacheKey)) return swapSourceCache.get(cacheKey);
+
+    const glyphsFromPng = await decodePngGlyphStrip(
+      packTarget.png,
+      target.indices.length,
+      {
+        glyphWidth: packTarget.glyphWidth ?? source.glyphWidth ?? 12,
+        glyphHeight: packTarget.glyphHeight ?? source.glyphHeight ?? 18,
+        gap: packTarget.gap ?? source.gap ?? 0,
+      },
+    );
+
+    const glyphs = new Array(256);
+    for (let i = 0; i < target.indices.length; i++) {
+      glyphs[target.indices[i]] = glyphsFromPng[i];
+    }
+    const font = {
+      width: source.glyphWidth ?? 12,
+      height: source.glyphHeight ?? 18,
+      format: "png_pack",
+      glyphs,
+    };
+    swapSourceCache.set(cacheKey, font);
+    return font;
+  }
+
+  throw new Error(`Unsupported swap source kind: ${source.kind}`);
+}
+
+function initSwapUI() {
+  if (swapTargetSelect) {
+    swapTargetSelect.innerHTML = `<option value="">(choose target)</option>`;
+    for (const target of SWAP_TARGETS) {
+      const opt = document.createElement("option");
+      opt.value = target.id;
+      opt.textContent = target.label;
+      swapTargetSelect.appendChild(opt);
+    }
+  }
+
+  swapTargetPickerApi = buildFontPicker({
+    selectEl: swapTargetSelect,
+    getLabel: (opt) => opt.textContent,
+    getValue: (opt) => opt.value,
+    getPreviewUrl: (value) => getSwapTargetPreviewUrl(value),
+  });
+
+  swapSourcePickerApi = buildFontPicker({
+    selectEl: swapSourceSelect,
+    getLabel: (opt) => opt.textContent,
+    getValue: (opt) => opt.value,
+    getPreviewUrl: (value) => getSwapSourcePreviewUrl(value),
+  });
+
+  const selectTargetInGrid = (targetId) => {
+    const target = swapTargetsById.get(targetId);
+    if (!target || !Array.isArray(target.indices) || target.indices.length === 0) return;
+
+    selectedSet = new Set(target.indices);
+    selectionAnchor = target.indices[0];
+    selectedIndex = target.indices[0];
+    rerenderAll();
+  };
+
+  const applySwapSelection = async ({ silentIncomplete = false } = {}) => {
+    const targetId = swapTargetSelect?.value;
+    const sourceId = swapSourceSelect?.value;
+
+    if (!baseFont) {
+      if (!silentIncomplete) setLoadStatus("Load a base font first.", { error: true });
+      return;
+    }
+
+    if (!targetId || !sourceId) {
+      if (!silentIncomplete) setLoadStatus("Select swap target + source first.");
+      return;
+    }
+
+    try {
+      // Ensure result view is active while applying swaps.
+      holdOriginalPreview = false;
+      holdOriginalPreviewBtn?.classList.remove("is-holding");
+
+      const sourceMeta = swapSourceRegistry.get(sourceId);
+      const sourceLabel = sourceMeta?.label || sourceId;
+      const sourceFont = await getSwapSourceFontForTarget(sourceId, targetId);
+      const beforeGlyph = (() => {
+        const target = swapTargetsById.get(targetId);
+        const idx = target?.indices?.[0];
+        return idx == null ? null : resultFont?.glyphs?.[idx];
+      })();
+      const out = applySwapTargetFromFont(targetId, sourceFont);
+      if (!out.applied) {
+        setLoadStatus("Swap did not apply.", { error: true });
+        return;
+      }
+      if (out.focusIndex != null) {
+        selectedIndex = out.focusIndex;
+        rerenderAll();
+      }
+      const idx = out.focusIndex;
+      const afterGlyph = idx == null ? null : resultFont?.glyphs?.[idx];
+      const sourceGlyph = idx == null ? null : sourceFont?.glyphs?.[idx];
+      const baseGlyph = idx == null ? null : baseFont?.glyphs?.[idx];
+      const beforeDiff = glyphDiffCount(beforeGlyph, sourceGlyph);
+      const afterDiff = glyphDiffCount(afterGlyph, sourceGlyph);
+      const baseDiff = glyphDiffCount(baseGlyph, sourceGlyph);
+      if (out.changed === 0) {
+        setLoadStatus(`No visible change for ${targetId}; source matches current glyph(s).`);
+      } else {
+        setLoadStatus(`Applied swap: ${targetId} from ${sourceLabel} (${out.changed}/${out.total} changed, baseΔ=${baseDiff}, beforeΔ=${beforeDiff}, afterΔ=${afterDiff})`);
+      }
+    } catch (err) {
+      console.error("Swap apply failed", err);
+      setLoadStatus(`Swap failed: ${sourceId}`, { error: true });
+    }
+  };
+
+  swapTargetSelect?.addEventListener("change", () => {
+    selectTargetInGrid(swapTargetSelect.value);
+    swapSourcePickerApi?.rebuild();
+    swapSourcePickerApi?.refresh();
+    applySwapSelection({ silentIncomplete: true });
+  });
+
+  swapSourceSelect?.addEventListener("change", () => {
+    applySwapSelection({ silentIncomplete: true });
+  });
+
+  // Initialize visual target selection from the default dropdown value.
+  if (swapTargetSelect?.value) {
+    selectTargetInGrid(swapTargetSelect.value);
+  }
+
+  clearSwapTargetBtn?.addEventListener("click", () => {
+    holdOriginalPreview = false;
+    holdOriginalPreviewBtn?.classList.remove("is-holding");
+
+    const targetId = swapTargetSelect?.value;
+    if (!targetId) return;
+    clearSwapTarget(targetId);
+    setLoadStatus(`Cleared swap: ${targetId}`);
+  });
+
+  clearAllSwapsBtn?.addEventListener("click", () => {
+    holdOriginalPreview = false;
+    holdOriginalPreviewBtn?.classList.remove("is-holding");
+
+    clearAllSwaps();
+    setLoadStatus("Cleared all swaps.");
+  });
 }
 
 function applyReplacedNudge(dx, dy) {
@@ -772,6 +1223,12 @@ function rebuildResultFont() {
 
       resultFont.glyphs[i] = renderOverlayToCell(og, i);
     }
+  }
+
+  // Apply explicit swap overrides (single glyphs / sets).
+  for (const [idx, glyph] of swapOverrides.entries()) {
+    if (idx < 0 || idx > 255) continue;
+    resultFont.glyphs[idx] = new Uint8Array(glyph);
   }
 
   // Apply per-glyph nudges as pixel shifts to ANY glyph (icons included)
@@ -1557,6 +2014,70 @@ async function handleFile(file) {
   await handleBuffer(buf, file.name);
 }
 
+async function loadSwapPackManifest() {
+  if (swapPackManifest) return swapPackManifest;
+  try {
+    const res = await fetch("fonts/swappacks.json");
+    if (res.status === 404) {
+      swapPackManifest = [];
+      return swapPackManifest;
+    }
+    if (!res.ok) throw new Error(`swappacks.json HTTP ${res.status}`);
+    const list = await res.json();
+    if (!Array.isArray(list)) throw new Error("swappacks.json did not return an array");
+    swapPackManifest = list;
+    return list;
+  } catch (err) {
+    console.warn("Failed to load swappacks.json; continuing with default MCM sources only.", err);
+    swapPackManifest = [];
+    return swapPackManifest;
+  }
+}
+
+function registerBetaflightSwapSources(list) {
+  for (const entry of list) {
+    const id = `bf:${entry.file}`;
+    swapSourceRegistry.set(id, {
+      id,
+      kind: "bf_mcm",
+      file: entry.file,
+      label: `BF ${entry.name}`,
+    });
+  }
+}
+
+function resolvePackAssetPath(pathLike) {
+  if (!pathLike || typeof pathLike !== "string") return "";
+  if (/^(?:https?:)?\/\//i.test(pathLike) || pathLike.startsWith("/") || pathLike.startsWith("./") || pathLike.startsWith("../")) {
+    return pathLike;
+  }
+  return `fonts/${pathLike}`;
+}
+
+function registerPngPackSwapSources(list) {
+  for (const entry of list) {
+    if (!entry?.id || !entry?.name || !entry?.targets || typeof entry.targets !== "object") continue;
+    const normalizedTargets = {};
+    for (const [targetId, cfg] of Object.entries(entry.targets)) {
+      if (!cfg) continue;
+      normalizedTargets[targetId] = {
+        ...cfg,
+        png: resolvePackAssetPath(cfg.png),
+      };
+    }
+    const id = `pack:${entry.id}`;
+    swapSourceRegistry.set(id, {
+      id,
+      kind: "png_pack",
+      label: entry.name,
+      targets: normalizedTargets,
+      glyphWidth: entry.glyphWidth ?? 12,
+      glyphHeight: entry.glyphHeight ?? 18,
+      gap: entry.gap ?? 0,
+    });
+  }
+}
+
 async function loadBetaflightDefaults() {
   if (!bfFontSelect) return;
 
@@ -1573,6 +2094,7 @@ async function loadBetaflightDefaults() {
   }
 
   bfFontSelect.innerHTML = `<option value="">(choose default)</option>`;
+  swapSourceRegistry.clear();
   for (const entry of list) {
     const opt = document.createElement("option");
     opt.value = entry.file;
@@ -1581,6 +2103,10 @@ async function loadBetaflightDefaults() {
     if (entry.thumb) opt.dataset.thumb = entry.thumb;
     bfFontSelect.appendChild(opt);
   }
+  registerBetaflightSwapSources(list);
+  const packList = await loadSwapPackManifest();
+  registerPngPackSwapSources(packList);
+  syncSwapSourceSelect();
 
 
   buildFontPicker({
@@ -1733,6 +2259,7 @@ function init() {
 
   updateReplReadout();
   setLoadStatus(loadStatusText);
+  initSwapUI();
   initTheme();
   initEvents();
   loadOverlayIndex();

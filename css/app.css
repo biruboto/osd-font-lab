@@ -286,8 +286,10 @@ body{
 }
 
 .fontpicker-thumb{
-  width: 70px;
+  width: auto;
   height: 18px;
+  max-width: 120px;
+  object-fit: contain;
   image-rendering: pixelated;
   flex: 0 0 auto;
 
@@ -346,16 +348,20 @@ body{
 }
 
 .fontpicker-item .fontpicker-thumb{
-  width: 90px;
+  width: auto;
   height: 18px;
+  max-width: 140px;
+  object-fit: contain;
 }
 
 .fontpicker-item .fontpicker-name{
   opacity: 0.95;
 }
 .fontpicker-item .fontpicker-thumb{
-  width: 90px;
+  width: auto;
   height: 18px;
+  max-width: 140px;
+  object-fit: contain;
 
   background: transparent;
   box-shadow: none;
@@ -592,6 +598,41 @@ canvas{
   width: 100%;
   text-align: center;
   margin-bottom: 6px;
+}
+
+.swap-controls{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+  width: 100%;
+  align-items: end;
+  margin-bottom: 8px;
+}
+
+.swap-controls select{
+  width: 100%;
+}
+
+.swap-controls .fontpicker{
+  width: 100%;
+  min-width: 0;
+  max-width: 320px;
+}
+
+.swap-controls .fontpicker-btn{
+  width: 100%;
+}
+
+.swap-controls .fontpicker-menu{
+  width: min(320px, calc(100vw - 40px));
+}
+
+.swap-actions{
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  grid-column: 1 / -1;
 }
 
 .load-status-live{

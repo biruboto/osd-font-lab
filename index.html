@@ -86,7 +86,6 @@
                 <option value="dusk">Dusk</option>
                 <option value="crt">CRT</option>
                 <option value="amber-terminal">Amber Terminal</option>
-                <option value="paper-tape">Paper Tape</option>
                 <option value="cold-phosphor">Cold Phosphor</option>
                 <option value="lavender-circuit">Lavender Circuit</option>
               </select>
@@ -123,6 +122,22 @@
                 Drop .mcm or click
               </div>
               <input id="file" type="file" accept=".mcm" hidden>
+            </div>
+            <div class="swap-controls">
+              <label class="field field-stack">
+                <span>Swap target</span>
+                <select id="swapTargetSelect"></select>
+              </label>
+              <label class="field field-stack">
+                <span>Swap source</span>
+                <select id="swapSourceSelect">
+                  <option value="">(choose source)</option>
+                </select>
+              </label>
+              <div class="swap-actions">
+                <button id="clearSwapTargetBtn" type="button">Clear target</button>
+                <button id="clearAllSwapsBtn" type="button">Clear all swaps</button>
+              </div>
             </div>
           </div>
 
