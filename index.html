@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -15,70 +15,70 @@
 
       <section class="font-pane">
         <section class="panel panel-result panel-no-header">
-    <div class="panel-body">
-      <div class="grid-wrap">
-        <canvas id="resultGrid" class="grid-canvas"></canvas>
-      </div>
-
-      <aside class="sidecar">
-        <div class="zoom-wrap">
-          <div class="zoom-label">Glyph Inspector</div>
-          <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
-          <div id="glyphInfo" class="inspector-body glyph-info-inline">
-            Load a font, then click a glyph.
-          </div>
-        </div>
-
-        <div class="sidecar-controls">
-          <label class="field checkbox">
-            <input id="showGrids" type="checkbox" checked />
-            <span>Show grids</span>
-          </label>
-
-          <div class="nudgeRow tiny">
-            <span id="selCount">Selected: 1</span>
-          </div>
-
-          <div class="nudgeBox">
-            <div class="nudgeTitle">Nudge replaced</div>
-            <div class="dpad" data-nudge-target="replaced">
-              <span class="blank"></span>
-              <button type="button" data-dx="0" data-dy="-1">&uarr;</button>
-              <span class="blank"></span>
-
-              <button type="button" data-dx="-1" data-dy="0">&larr;</button>
-              <button type="button" data-dx="0" data-dy="0" data-action="reset">&#10226;</button>
-              <button type="button" data-dx="1" data-dy="0">&rarr;</button>
-
-              <span class="blank"></span>
-              <button type="button" data-dx="0" data-dy="1">&darr;</button>
-              <span class="blank"></span>
+          <div class="panel-body">
+            <div class="grid-wrap">
+              <canvas id="resultGrid" class="grid-canvas"></canvas>
             </div>
-            <div class="nudgeRow tiny">
-              Current: <span id="replNudgeReadout">x 0, y 0</span>
-            </div>
+
+            <aside class="sidecar">
+              <div class="zoom-wrap">
+                <div class="zoom-label">Glyph Inspector</div>
+                <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
+                <div id="glyphInfo" class="inspector-body glyph-info-inline">
+                  Load a font, then click a glyph.
+                </div>
+              </div>
+
+              <div class="sidecar-controls">
+                <label class="field checkbox">
+                  <input id="showGrids" type="checkbox" checked />
+                  <span>Show grids</span>
+                </label>
+
+                <div class="nudgeRow tiny">
+                  <span id="selCount">Selected: 1</span>
+                </div>
+
+                <div class="nudgeBox">
+                  <div class="nudgeTitle">Nudge replaced</div>
+                  <div class="dpad" data-nudge-target="replaced">
+                    <span class="blank"></span>
+                    <button type="button" data-dx="0" data-dy="-1">&uarr;</button>
+                    <span class="blank"></span>
+
+                    <button type="button" data-dx="-1" data-dy="0">&larr;</button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="reset">&#10226;</button>
+                    <button type="button" data-dx="1" data-dy="0">&rarr;</button>
+
+                    <span class="blank"></span>
+                    <button type="button" data-dx="0" data-dy="1">&darr;</button>
+                    <span class="blank"></span>
+                  </div>
+                  <div class="nudgeRow tiny">
+                    Current: <span id="replNudgeReadout">x 0, y 0</span>
+                  </div>
+                </div>
+
+                <div class="nudgeBox">
+                  <div class="nudgeTitle">Nudge selection</div>
+                  <div class="dpad" data-nudge-target="selection">
+                    <span class="blank"></span>
+                    <button type="button" data-dx="0" data-dy="-1">&uarr;</button>
+                    <span class="blank"></span>
+
+                    <button type="button" data-dx="-1" data-dy="0">&larr;</button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="clear">&times;</button>
+                    <button type="button" data-dx="1" data-dy="0">&rarr;</button>
+
+                    <span class="blank"></span>
+                    <button type="button" data-dx="0" data-dy="1">&darr;</button>
+                    <span class="blank"></span>
+                  </div>
+                </div>
+              </div>
+            </aside>
           </div>
-
-          <div class="nudgeBox">
-            <div class="nudgeTitle">Nudge selection</div>
-            <div class="dpad" data-nudge-target="selection">
-              <span class="blank"></span>
-              <button type="button" data-dx="0" data-dy="-1">&uarr;</button>
-              <span class="blank"></span>
-
-              <button type="button" data-dx="-1" data-dy="0">&larr;</button>
-              <button type="button" data-dx="0" data-dy="0" data-action="clear">&times;</button>
-              <button type="button" data-dx="1" data-dy="0">&rarr;</button>
-
-              <span class="blank"></span>
-              <button type="button" data-dx="0" data-dy="1">&darr;</button>
-              <span class="blank"></span>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
-  </section>
+        </section>
       </section>
 
       <!-- RIGHT: Tools window -->
@@ -87,62 +87,59 @@
           <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
         </div>
         <header class="topbar">
-  <div class="topbar-left">
-    <label class="field theme-inline">
-      <span>Theme</span>
-      <select id="themeSelect">
-        <option value="dusk">Dusk</option>
-        <option value="crt">CRT</option>
-        <option value="amber-terminal">Amber Terminal</option>
-        <option value="paper-tape">Paper Tape</option>
-        <option value="cold-phosphor">Cold Phosphor</option>
-        <option value="lavender-circuit">Lavender Circuit</option>
-      </select>
-    </label>
-  </div>
+          <div class="topbar-left">
+            <label class="field theme-inline">
+              <span>Theme</span>
+              <select id="themeSelect">
+                <option value="dusk">Dusk</option>
+                <option value="crt">CRT</option>
+                <option value="amber-terminal">Amber Terminal</option>
+                <option value="paper-tape">Paper Tape</option>
+                <option value="cold-phosphor">Cold Phosphor</option>
+                <option value="lavender-circuit">Lavender Circuit</option>
+              </select>
+            </label>
+          </div>
 
-  <div class="topbar-right">
-    <div class="exports">
-      <button id="exportMCM" type="button">Export .mcm</button>
-      <button id="exportPNG" type="button">Export PNG</button>
-    </div>
-  </div>
-</header>
+          <div class="topbar-right">
+            <div class="exports">
+              <button id="exportMCM" type="button">Export .mcm</button>
+              <button id="exportPNG" type="button">Export PNG</button>
+            </div>
+          </div>
+        </header>
         <section class="panel panel-base">
-<div class="panel-header">
-  <div class="panel-header-controls">
-    <div class="font-select-stack">
-      <label class="field field-stack bf-inline">
-        <span>Load a default Betaflight font</span>
-        <select id="bfFontSelect">
-          <option value="">(choose default)</option>
-        </select>
-      </label>
-      <label class="field field-stack overlay-inline">
-        <span>Replace with</span>
-        <select id="overlaySelect"></select>
-      </label>
-    </div>
-    
-    <span class="or-sep">-OR-</span>
+          <div class="panel-header">
+            <div id="loadStatus" class="load-status hint" aria-live="polite">No file loaded.</div>
+            <div class="panel-header-controls">
+              <div class="font-select-stack">
+                <label class="field field-stack bf-inline">
+                  <span>Load a default font</span>
+                  <select id="bfFontSelect">
+                    <option value="">(choose default)</option>
+                  </select>
+                </label>
+                <label class="field field-stack overlay-inline">
+                  <span>Replace with</span>
+                  <select id="overlaySelect"></select>
+                </label>
+              </div>
 
-    <div id="drop" class="dropzone dropzone-inline" role="button" tabindex="0">
-      Drop .mcm or click
-    </div>
-    <input id="file" type="file" accept=".mcm" hidden>
-  </div>
-</div>
+              <span class="or-sep">-OR-</span>
 
-<div id="loadStatus" class="load-status hint" aria-live="polite"></div>
+              <div id="drop" class="dropzone dropzone-inline" role="button" tabindex="0">
+                Drop .mcm or click
+              </div>
+              <input id="file" type="file" accept=".mcm" hidden>
+            </div>
+          </div>
 
-
-
-    <div class="panel-body panel-body-single panel-body-base">
-      <div class="grid-wrap">
-        <canvas id="baseGrid" class="grid-canvas"></canvas>
-      </div>
-    </div>
-  </section>
+          <div class="panel-body panel-body-single panel-body-base">
+            <div class="grid-wrap">
+              <canvas id="baseGrid" class="grid-canvas"></canvas>
+            </div>
+          </div>
+        </section>
       </section>
 
     </div>

@@ -71,6 +71,10 @@ let overlayManifest = null;     // cached manifest list [{file,name,id,...}]
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
 
+let loadStatusText = "No file loaded.";
+let loadStatusSubtext = "";
+let loadStatusError = false;
+
 // Betaflight OSD glyph labels (from Betaflight docs table)
 const BF_GLYPH_LABELS = (() => {
   // Named / special symbols from the docs table
@@ -238,6 +242,7 @@ function initTheme() {
     localStorage.setItem(THEME_KEY, t);
     applyTheme(t);
     rerenderAll();
+    renderLoadStatusVisual();
     window.__redrawBrandTitle?.();
   });
 }
@@ -363,43 +368,43 @@ function buildFontPicker({
   });
 
   btn.addEventListener("keydown", (e) => {
-  const k = e.key;
+    const k = e.key;
 
-  // Open/close like a normal control
-  if (k === "Enter" || k === " ") {
-    e.preventDefault();
-    ensureMenuBuilt();
-    wrap.classList.toggle("open");
-    return;
-  }
+    // Open/close like a normal control
+    if (k === "Enter" || k === " ") {
+      e.preventDefault();
+      ensureMenuBuilt();
+      wrap.classList.toggle("open");
+      return;
+    }
 
-  // Arrow keys: cycle options and preview immediately
-  if (k === "ArrowDown" || k === "ArrowUp") {
-    e.preventDefault();
+    // Arrow keys: cycle options and preview immediately
+    if (k === "ArrowDown" || k === "ArrowUp") {
+      e.preventDefault();
 
-    const dir = (k === "ArrowDown") ? 1 : -1;
-    const max = selectEl.options.length - 1;
+      const dir = (k === "ArrowDown") ? 1 : -1;
+      const max = selectEl.options.length - 1;
 
-    let i = selectEl.selectedIndex;
-    if (i < 0) i = 0;
+      let i = selectEl.selectedIndex;
+      if (i < 0) i = 0;
 
-    i = Math.max(0, Math.min(max, i + dir));
-    if (i === selectEl.selectedIndex) return;
+      i = Math.max(0, Math.min(max, i + dir));
+      if (i === selectEl.selectedIndex) return;
 
-    selectEl.selectedIndex = i;
-    selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+      selectEl.selectedIndex = i;
+      selectEl.dispatchEvent(new Event("change", { bubbles: true }));
 
-    // Keep the custom button UI synced instantly
-    setButtonFromValue(selectEl.value);
-    onChange?.(selectEl.value);
-    return;
-  }
+      // Keep the custom button UI synced instantly
+      setButtonFromValue(selectEl.value);
+      onChange?.(selectEl.value);
+      return;
+    }
 
-  // Escape closes menu
-  if (k === "Escape") {
-    wrap.classList.remove("open");
-  }
-});
+    // Escape closes menu
+    if (k === "Escape") {
+      wrap.classList.remove("open");
+    }
+  });
 
   document.addEventListener("mousedown", closeOnOutside);
 
@@ -415,7 +420,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
     baseFont = decodeMCM(buf);
   } catch (err) {
     console.error("decodeMCM failed for", label, err);
-    if (loadStatus) loadStatus.textContent = `Failed to load: ${label}`;
+    setLoadStatus(`Failed to load: ${label}`, { error: true });
     throw err;
   }
 
@@ -423,7 +428,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   rebuildResultFont();
   rerenderAll();
 
-  if (loadStatus) loadStatus.textContent = `Loaded: ${label} (${buf.byteLength} bytes)`;
+  setLoadStatus(`Loaded: ${label}`, { subtext: `${buf.byteLength} bytes` });
 }
 
 
@@ -509,7 +514,7 @@ function drawFontPreviewStrip(font, text = "ABC123") {
   const ctx = canvas.getContext("2d");
   ctx.imageSmoothingEnabled = false;
 
-  // IMPORTANT: do NOT fill the canvas - leave it transparent
+  // Do not fill the canvas; leave it transparent.
 
   chars.forEach((ch, i) => {
     const code = ch.charCodeAt(0);
@@ -839,12 +844,41 @@ function renderOverlayPreviewCell(overlay, ch) {
   return applyStroke4(out, cellW, cellH);
 }
 
+function measureCellInkBounds(cell, cellW, cellH) {
+  let minX = cellW;
+  let maxX = -1;
+  for (let y = 0; y < cellH; y++) {
+    for (let x = 0; x < cellW; x++) {
+      const v = cell[y * cellW + x];
+      if (v === 1) continue; // background
+      if (x < minX) minX = x;
+      if (x > maxX) maxX = x;
+    }
+  }
+
+  if (maxX < minX) return null; // no ink
+  return { minX, maxX, width: maxX - minX + 1 };
+}
+
 function drawOverlayPreviewStrip(overlay, text = "ABC123") {
   const cellW = 12, cellH = 18;
-  const pad = 1;
+  const gap = 2;
+  const chars = [...text];
+
+  const cells = chars.map((ch) => renderOverlayPreviewCell(overlay, ch));
+  const widths = cells.map((cell, i) => {
+    const ch = chars[i];
+    const bounds = measureCellInkBounds(cell, cellW, cellH);
+    if (bounds) return bounds.width;
+    if (ch === " ") return 4;
+    return 2;
+  });
+
+  const totalWidth =
+    widths.reduce((sum, w) => sum + w, 0) + Math.max(0, widths.length - 1) * gap;
 
   const canvas = document.createElement("canvas");
-  canvas.width = text.length * (cellW + pad);
+  canvas.width = Math.max(1, totalWidth);
   canvas.height = cellH;
 
   const ctx = canvas.getContext("2d");
@@ -852,24 +886,47 @@ function drawOverlayPreviewStrip(overlay, text = "ABC123") {
 
   // transparent background
 
-  [...text].forEach((ch, i) => {
-    const cell = renderOverlayPreviewCell(overlay, ch);
-    const ox = i * (cellW + pad);
+  let penX = 0;
+  chars.forEach((ch, i) => {
+    const cell = cells[i];
+    const bounds = measureCellInkBounds(cell, cellW, cellH);
+    const drawWidth = widths[i];
+    const srcX = bounds ? bounds.minX : 0;
 
     for (let y = 0; y < cellH; y++) {
-      for (let x = 0; x < cellW; x++) {
-        const v = cell[y * cellW + x];
+      for (let x = 0; x < drawWidth; x++) {
+        const sx = srcX + x;
+        if (sx < 0 || sx >= cellW) continue;
+        const vv = cell[y * cellW + sx];
 
         // skip background
-        if (v === 1) continue;
+        if (vv === 1) continue;
 
-        ctx.fillStyle = pxColorViewer(v); // 2 = white, 3 = black stroke
-        ctx.fillRect(ox + x, y, 1, 1);
+        ctx.fillStyle = pxColorViewer(vv); // 2 = white, 3 = black stroke
+        ctx.fillRect(penX + x, y, 1, 1);
       }
     }
+
+    penX += drawWidth + (i < chars.length - 1 ? gap : 0);
   });
 
   return canvas.toDataURL("image/png");
+}
+
+function renderLoadStatusVisual() {
+  if (!loadStatus) return;
+  const text = loadStatusText;
+  const subtext = loadStatusSubtext;
+  const error = loadStatusError;
+  loadStatus.classList.toggle("is-error", error);
+  loadStatus.textContent = subtext ? `${text}\n${subtext}` : text;
+}
+
+function setLoadStatus(text, { error = false, subtext = "" } = {}) {
+  loadStatusText = String(text ?? "");
+  loadStatusSubtext = String(subtext ?? "");
+  loadStatusError = !!error;
+  renderLoadStatusVisual();
 }
 
 async function getOverlayPreviewUrl(file) {
@@ -1016,7 +1073,7 @@ function renderZoom(ctx, canvas, font, index) {
 }
 
 function formatAscii(index) {
-  if (!isReplaceable(index)) return null;          // <- key change
+  if (!isReplaceable(index)) return null;
   const ch = String.fromCharCode(index);
   const printable = (ch === " ")
     ? "SPACE"
@@ -1224,18 +1281,19 @@ async function loadOverlayIndex() {
     opt.value = entry.file;
     opt.textContent = entry.name;
 
-    if (entry.thumb) opt.dataset.thumb = entry.thumb; // <---
+    if (entry.thumb) opt.dataset.thumb = entry.thumb;
     overlaySelect.appendChild(opt);
   }
 
 
   buildFontPicker({
-  selectEl: overlaySelect,
-  getLabel: (opt) => opt.textContent,
-  getValue: (opt) => opt.value,
-  getPreviewUrl: (value) => getThumbForValue(overlaySelect, value),
-});
+    selectEl: overlaySelect,
+    getLabel: (opt) => opt.textContent,
+    getValue: (opt) => opt.value,
+    getPreviewUrl: (value) => getThumbForValue(overlaySelect, value),
+  });
 
+  renderLoadStatusVisual();
 
   overlaySelect.addEventListener("change", async () => {
     const file = overlaySelect.value;
@@ -1256,6 +1314,7 @@ async function loadOverlayIndex() {
 
     rebuildResultFont();
     rerenderAll();
+    renderLoadStatusVisual();
   });
 }
 
@@ -1387,26 +1446,31 @@ async function initBrandTitle() {
     }
   };
 
-  // Rare single-glyph reroll
+  // Timed full-title glitch reroll
   let rerollBusy = false;
+  const GLITCH_MIN_MS = 15000;
+  const GLITCH_MAX_MS = 20000;
+  const GLITCH_DURATION_MS = 900;
+  const nextGlitchDelay = () =>
+    GLITCH_MIN_MS + Math.floor(Math.random() * (GLITCH_MAX_MS - GLITCH_MIN_MS + 1));
+  let nextGlitchAt = performance.now() + nextGlitchDelay();
+  let glitchState = null; // { end, picks, overlays }
 
-  async function rerollOneGlyph() {
-    if (rerollBusy || items.length === 0) return;
+  async function beginGlitchReroll() {
+    if (rerollBusy || glitchState || items.length === 0) return;
     rerollBusy = true;
 
     try {
-      const it = items[(Math.random() * items.length) | 0];
-
-      const entry = list[(Math.random() * list.length) | 0];
-      const newFile = entry.file;
-      const newOverlay = await getOverlayByFile(newFile);
-
-      it.file = newFile;
-      it.overlay = newOverlay;
-
-      drawOverlayGlyphToTinyCanvas(it.ctx, it.overlay, it.ch, getBrandInk());
+      const picks = items.map(() => list[(Math.random() * list.length) | 0]?.file).filter(Boolean);
+      const overlays = await Promise.all(picks.map((file) => getOverlayByFile(file)));
+      const now = performance.now();
+      glitchState = {
+        end: now + GLITCH_DURATION_MS,
+        picks,
+        overlays,
+      };
     } catch (err) {
-      console.warn("Brand title reroll failed:", err);
+      console.warn("Brand title glitch reroll failed:", err);
     } finally {
       rerollBusy = false;
     }
@@ -1419,14 +1483,45 @@ async function initBrandTitle() {
 
   function tick(now) {
     const t = (now - t0) / 1000;
+    const glitchActive = !!glitchState && now < glitchState.end;
+    const ink = getBrandInk();
 
-    for (const it of items) {
+    for (let i = 0; i < items.length; i++) {
+      const it = items[i];
       const y = Math.sin(t * speed + it.phase) * amp;
-      it.el.style.transform = `translateY(${y.toFixed(2)}px)`;
+
+      if (glitchActive) {
+        // Flicker + jitter + temporary overlay swaps for a "static" glitch effect.
+        const jx = (Math.random() * 3 - 1.5);
+        const jy = (Math.random() * 4 - 2);
+        it.el.style.transform = `translate(${jx.toFixed(2)}px, ${(y + jy).toFixed(2)}px)`;
+        it.el.style.opacity = (0.55 + Math.random() * 0.45).toFixed(2);
+        it.el.style.filter = `contrast(${(125 + Math.random() * 120).toFixed(0)}%) brightness(${(85 + Math.random() * 50).toFixed(0)}%)`;
+
+        const flickerOverlay = (Math.random() < 0.5)
+          ? it.overlay
+          : glitchState.overlays[i];
+        drawOverlayGlyphToTinyCanvas(it.ctx, flickerOverlay, it.ch, ink);
+      } else {
+        it.el.style.transform = `translateY(${y.toFixed(2)}px)`;
+        it.el.style.opacity = "1";
+        it.el.style.filter = "none";
+      }
     }
 
-    if (!rerollBusy && Math.random() < 0.0008) {
-      rerollOneGlyph();
+    if (glitchState && now >= glitchState.end) {
+      for (let i = 0; i < items.length; i++) {
+        const it = items[i];
+        it.file = glitchState.picks[i];
+        it.overlay = glitchState.overlays[i];
+        drawOverlayGlyphToTinyCanvas(it.ctx, it.overlay, it.ch, ink);
+      }
+      glitchState = null;
+    }
+
+    if (!rerollBusy && !glitchState && now >= nextGlitchAt) {
+      beginGlitchReroll();
+      nextGlitchAt = now + nextGlitchDelay();
     }
 
     requestAnimationFrame(tick);
@@ -1473,17 +1568,17 @@ async function loadBetaflightDefaults() {
     opt.value = entry.file;
     opt.textContent = entry.name;
 
-    if (entry.thumb) opt.dataset.thumb = entry.thumb; // <---
+    if (entry.thumb) opt.dataset.thumb = entry.thumb;
     bfFontSelect.appendChild(opt);
   }
 
 
   buildFontPicker({
-  selectEl: bfFontSelect,
-  getLabel: (opt) => opt.textContent,
-  getValue: (opt) => opt.value,
-  getPreviewUrl: (value) => getThumbForValue(bfFontSelect, value),
-});
+    selectEl: bfFontSelect,
+    getLabel: (opt) => opt.textContent,
+    getValue: (opt) => opt.value,
+    getPreviewUrl: (value) => getThumbForValue(bfFontSelect, value),
+  });
 
 
   bfFontSelect.addEventListener("change", async () => {
@@ -1494,14 +1589,14 @@ async function loadBetaflightDefaults() {
       const r = await fetch(`fonts/betaflight/${encodeURIComponent(file)}`);
       if (!r.ok) throw new Error(`default font fetch HTTP ${r.status} for ${file}`);
       const buf = await r.arrayBuffer();
-      await handleBuffer(buf, `Betaflight: ${file}`);
+      await handleBuffer(buf, file);
     } catch (err) {
       console.error("Failed to load betaflight default font:", file, err);
     }
   });
 }
 
-  const COMPARE_KEY = "osdFontLabCompare";
+const COMPARE_KEY = "osdFontLabCompare";
 let compareMode = (localStorage.getItem(COMPARE_KEY) ?? "0") === "1";
 
 function applyCompareMode(on) {
@@ -1518,7 +1613,7 @@ function applyCompareMode(on) {
 }
 
 function initEvents() {
-    // compare toggle
+  // compare toggle
   if (compareToggle) {
     compareToggle.checked = compareMode;
     applyCompareMode(compareMode); // apply on load
@@ -1602,7 +1697,8 @@ function initEvents() {
 
 function init() {
   updateReplReadout();
-  initTheme();          // <---
+  setLoadStatus(loadStatusText);
+  initTheme();
   initEvents();
   loadOverlayIndex();
   loadBetaflightDefaults();

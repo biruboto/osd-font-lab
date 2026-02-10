@@ -1,4 +1,4 @@
-/* css/app.css */
+﻿/* css/app.css */
 
 /* ---------- color palettes ---------- */
 :root{
@@ -26,8 +26,8 @@
   /* OSD viewer colors */
   --osd-matte: var(--bg-2);
   --osd-0: transparent; /* keep transparent truly transparent */
-  --osd-1: #6c7280;     /* themed “gray” pixels */
-  --osd-2: #e6e1d6;     /* off-white “white” pixels */
+  --osd-1: #6c7280;     /* themed gray pixels */
+  --osd-2: #e6e1d6;     /* off-white white pixels */
   --osd-3: #11131a;     /* off-black stroke */
 
   /* Brand title ink */
@@ -557,12 +557,32 @@ canvas{
 
 .panel-base .or-sep{
   align-self: flex-start;
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 .load-status{
   margin-top: 4px;
   min-height: 1.2em;
+}
+
+.panel-base .load-status{
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 6px;
+  white-space: pre-line;
+}
+
+.load-status-live{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 #drop.hot{
@@ -609,10 +629,15 @@ canvas{
 }
 
 .panel-result .panel-body{
-  grid-template-columns: max-content minmax(280px, 1fr);
+  grid-template-columns: max-content minmax(280px, 320px);
   justify-content: start;
   align-items: start;
   column-gap: 14px;
+}
+
+.panel-result .sidecar{
+  justify-self: start;
+  width: min(100%, 320px);
 }
 
 .grid-canvas{
