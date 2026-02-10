@@ -961,6 +961,20 @@ function drawCellGridOverlay(ctx, font) {
   ctx.restore();
 }
 
+function renderPlaceholderGrid(ctx, canvas, width = 12, height = 18) {
+  const rows = Math.ceil(256 / COLS);
+  canvas.width = COLS * width * SCALE;
+  canvas.height = rows * height * SCALE;
+
+  const matte = cssVar("--osd-matte", "#1f232b");
+  ctx.fillStyle = matte;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  if (showGrids) {
+    drawCellGridOverlay(ctx, { width, height });
+  }
+}
+
 function renderGrid(ctx, canvas, font) {
   const { glyphs, width, height } = font;
   const rows = Math.ceil(glyphs.length / COLS);
@@ -1689,6 +1703,10 @@ function initEvents() {
 ------------------------------ */
 
 function init() {
+  // Keep layout stable before any font is loaded.
+  if (resultGridCtx && resultGridCanvas) renderPlaceholderGrid(resultGridCtx, resultGridCanvas);
+  if (baseGridCtx && baseGridCanvas) renderPlaceholderGrid(baseGridCtx, baseGridCanvas);
+
   updateReplReadout();
   setLoadStatus(loadStatusText);
   initTheme();

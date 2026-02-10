@@ -724,9 +724,8 @@ canvas{
 .nudgeTitle{ opacity: 0.8; font-size: 13px; margin-bottom: 8px; }
 
 .dpad{
-  display: grid;
-  grid-template-columns: 32px 32px 32px;
-  grid-template-rows: 32px 32px 32px;
+  display: flex;
+  flex-wrap: nowrap;
   gap: 6px;
   justify-content: start;
   align-items: center;
