@@ -629,7 +629,7 @@ canvas{
 }
 
 .panel-result .panel-body{
-  grid-template-columns: max-content minmax(280px, 320px);
+  grid-template-columns: max-content minmax(260px, 300px);
   justify-content: start;
   align-items: start;
   column-gap: 14px;
@@ -637,7 +637,7 @@ canvas{
 
 .panel-result .sidecar{
   justify-self: start;
-  width: min(100%, 320px);
+  width: min(100%, 300px);
 }
 
 .grid-canvas{
@@ -671,6 +671,7 @@ canvas{
 
 .zoom-canvas{
   width: 100%;
+  max-width: 264px;
   height: auto;
   aspect-ratio: 2 / 3; /* 240x360 */
   margin: 0 auto;

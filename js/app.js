@@ -577,11 +577,6 @@ function rangeSelect(toIdx) {
    Nudges
 ------------------------------ */
 
-function getNudgeForIndex(idx) {
-  const per = nudge.perGlyph.get(idx);
-  return { x: per?.x ?? 0, y: per?.y ?? 0 };
-}
-
 function updateReplReadout() {
   if (replNudgeReadout) replNudgeReadout.textContent = `x ${nudge.replaced.x}, y ${nudge.replaced.y}`;
 }
@@ -736,10 +731,8 @@ function renderOverlayToCell(overlayGlyph, targetIdx) {
 
   const globalX = nudge.replaced.x;
   const globalY = nudge.replaced.y;
-  const per = getNudgeForIndex(targetIdx);
-
-  const xoff = baseX + globalX + per.x;
-  const yoff = baseY + globalY + per.y;
+  const xoff = baseX + globalX;
+  const yoff = baseY + globalY;
 
   for (let y = 0; y < h; y++) {
     const row = overlayGlyph.rows[y] >>> 0;
