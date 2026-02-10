@@ -15,17 +15,17 @@ const bfFontSelect = document.getElementById("bfFontSelect");
 
 const baseGridCanvas = document.getElementById("baseGrid");
 const resultGridCanvas = document.getElementById("resultGrid");
-const baseGridCtx = baseGridCanvas.getContext("2d");
-const resultGridCtx = resultGridCanvas.getContext("2d");
-baseGridCtx.imageSmoothingEnabled = false;
-resultGridCtx.imageSmoothingEnabled = false;
+const baseGridCtx = baseGridCanvas?.getContext("2d");
+const resultGridCtx = resultGridCanvas?.getContext("2d");
+if (baseGridCtx) baseGridCtx.imageSmoothingEnabled = false;
+if (resultGridCtx) resultGridCtx.imageSmoothingEnabled = false;
 
 const baseZoomCanvas = document.getElementById("baseZoom");
 const resultZoomCanvas = document.getElementById("resultZoom");
-const baseZoomCtx = baseZoomCanvas.getContext("2d");
-const resultZoomCtx = resultZoomCanvas.getContext("2d");
-baseZoomCtx.imageSmoothingEnabled = false;
-resultZoomCtx.imageSmoothingEnabled = false;
+const baseZoomCtx = baseZoomCanvas?.getContext("2d");
+const resultZoomCtx = resultZoomCanvas?.getContext("2d");
+if (baseZoomCtx) baseZoomCtx.imageSmoothingEnabled = false;
+if (resultZoomCtx) resultZoomCtx.imageSmoothingEnabled = false;
 
 const glyphInfo = document.getElementById("glyphInfo");
 const overlaySelect = document.getElementById("overlaySelect");
@@ -1055,7 +1055,9 @@ function rerenderAll() {
   // Only render base panel when compare is enabled
   if (compareMode) {
     renderGrid(baseGridCtx, baseGridCanvas, baseFont);
-    renderZoom(baseZoomCtx, baseZoomCanvas, baseFont, selectedIndex);
+    if (baseZoomCtx && baseZoomCanvas) {
+      renderZoom(baseZoomCtx, baseZoomCanvas, baseFont, selectedIndex);
+    }
   }
 
   renderGrid(resultGridCtx, resultGridCanvas, resultFont);
