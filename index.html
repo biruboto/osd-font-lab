@@ -13,18 +13,9 @@
     <!-- Split workspace -->
     <div class="split">
 
-      <!-- LEFT: Font window (Result font) -->
       <section class="font-pane">
         <section class="panel panel-result">
     <div class="panel-header">
-      <div>
-        <div class="panel-title">Result font</div>
-        <div class="panel-subtitle">Overlay + nudges (export)</div>
-      </div>
-          <label class="field overlay-inline">
-      <span>Replace with:</span>
-      <select id="overlaySelect"></select>
-    </label>
     </div>
 
     <div class="panel-body">
@@ -102,11 +93,7 @@
         <header class="topbar">
   <div class="topbar-left">
     <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
-  </div>
-
-  <div class="topbar-right">
-    <div class="exports">
-      <label class="field theme-inline">
+    <label class="field theme-inline field-stack">
       <span>Theme</span>
       <select id="themeSelect">
         <option value="dusk">Dusk</option>
@@ -117,7 +104,10 @@
         <option value="lavender-circuit">Lavender Circuit</option>
       </select>
     </label>
+  </div>
 
+  <div class="topbar-right">
+    <div class="exports">
       <button id="exportMCM" type="button">Export .mcm</button>
       <button id="exportPNG" type="button">Export PNG</button>
     </div>
@@ -125,18 +115,19 @@
 </header>
         <section class="panel panel-base">
 <div class="panel-header">
-  <div>
-    <div class="panel-title">Base font</div>
-    <div class="panel-subtitle">Imported MCM</div>
-  </div>
-
   <div class="panel-header-controls">
-    <label class="field bf-inline">
-      <span>Betaflight</span>
-      <select id="bfFontSelect">
-        <option value="">(choose default)</option>
-      </select>
-    </label>
+    <div class="font-select-stack">
+      <label class="field field-stack bf-inline">
+        <span>Load a default font</span>
+        <select id="bfFontSelect">
+          <option value="">(choose default)</option>
+        </select>
+      </label>
+      <label class="field field-stack overlay-inline">
+        <span>Replace with</span>
+        <select id="overlaySelect"></select>
+      </label>
+    </div>
     
     <span class="or-sep">-OR-</span>
 
@@ -146,6 +137,8 @@
     <input id="file" type="file" accept=".mcm" hidden>
   </div>
 </div>
+
+<div id="loadStatus" class="load-status hint" aria-live="polite"></div>
 
 
 

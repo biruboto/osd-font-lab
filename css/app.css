@@ -191,7 +191,8 @@ body{
 
 .topbar-left{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
   min-width: 0;
 }
@@ -351,6 +352,12 @@ body{
   align-items: center;
 }
 
+.field-stack{
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
 .field span{
   opacity: 0.75;
   font-size: 0.9rem;
@@ -408,7 +415,7 @@ canvas{
 /* ---------- split workspace ---------- */
 .split{
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Font window | Tools */
+  grid-template-columns: 7fr 3fr; /* Font window | Tools */
   gap: 12px;
   height: 100%;
   min-height: 0;
@@ -450,6 +457,11 @@ canvas{
   align-items: center;
 }
 
+/* Base panel has a 2-row control stack; keep title and dropzone aligned to top row */
+.panel-base .panel-header{
+  align-items: flex-start;
+}
+
 /* Controls row on the right side of the header */
 .panel-header-controls{
   display: flex;
@@ -459,6 +471,18 @@ canvas{
   flex: 1 1 auto;
   min-width: 0;
   justify-content: flex-end;
+}
+
+.panel-base .panel-header-controls{
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.font-select-stack{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
 }
 
 /* Keep dropdown groups stable (non-stretch) */
@@ -486,10 +510,11 @@ canvas{
 }
 
 #drop.dropzone-inline{
-  /* fill whatever space remains in header-controls */
-  flex: 1 1 auto;
-  min-width: 0;
-  max-width: none;
+  /* fixed-width target that always fits within right-pane constraints */
+  flex: 0 1 220px;
+  width: 220px;
+  min-width: 160px;
+  max-width: 100%;
 
   display: inline-flex;
   align-items: center;
@@ -505,6 +530,20 @@ canvas{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.panel-base #drop.dropzone-inline{
+  margin-top: 24px;
+}
+
+.panel-base .or-sep{
+  align-self: flex-start;
+  margin-top: 28px;
+}
+
+.load-status{
+  margin-top: 4px;
+  min-height: 1.2em;
 }
 
 #drop.hot{

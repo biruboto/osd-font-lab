@@ -6,6 +6,7 @@ import { decodeMCM, encodeMCM } from "./mcm.js";
 ------------------------------ */
 const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
+const loadStatus = document.getElementById("loadStatus");
 
 const themeSelect = document.getElementById("themeSelect");
 
@@ -414,7 +415,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
     baseFont = decodeMCM(buf);
   } catch (err) {
     console.error("decodeMCM failed for", label, err);
-    drop.innerHTML = `Failed to load: <b>${escapeHtml(label)}</b>`;
+    if (loadStatus) loadStatus.textContent = `Failed to load: ${label}`;
     throw err;
   }
 
@@ -422,7 +423,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   rebuildResultFont();
   rerenderAll();
 
-  drop.innerHTML = `Loaded: <b>${escapeHtml(label)}</b> <span class="hint">(${buf.byteLength} bytes)</span>`;
+  if (loadStatus) loadStatus.textContent = `Loaded: ${label} (${buf.byteLength} bytes)`;
 }
 
 
