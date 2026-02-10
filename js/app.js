@@ -110,7 +110,7 @@ const BF_GLYPH_LABELS = (() => {
     0x1E: { names: ["SYM_SAT_L"], note: "GPS icon left" },
     0x1F: { names: ["SYM_SAT_R"], note: "GPS icon right" },
 
-    // ASCII section: 0x20..0x5F (32..95) is â€œASCII for printing stringsâ€
+    // ASCII section: 0x20..0x5F (32..95) is "ASCII for printing strings"
     // Special callouts inside ASCII block:
     0x2D: { names: ["SYM_HYPHEN"], note: "" },
     0x57: { names: ["SYM_WATT"], note: "Also ASCII 'W'" },
@@ -187,11 +187,11 @@ const BF_GLYPH_LABELS = (() => {
     // Betaflight doc calls out 0x20..0x5F as ASCII printing section
     if (idx < 0x20 || idx > 0x5F) return null;
     const ch = String.fromCharCode(idx);
-    return ch === " " ? "SPACE" : `â€œ${ch}â€`;
+    return ch === " " ? "SPACE" : `"${ch}"`;
   }
 
   function logoLabel(idx) {
-    // After 0xA0 â€œlogo starts hereâ€ through 0xFE are effectively logo/splash tiles
+    // After 0xA0 "logo starts here" through 0xFE are effectively logo/splash tiles
     if (idx < 0xA0 || idx > 0xFE) return null;
     return `Logo tile ${idx - 0xA0} (0x${idx.toString(16).toUpperCase().padStart(2, "0")})`;
   }
@@ -276,7 +276,7 @@ function buildFontPicker({
 
   const caret = document.createElement("span");
   caret.className = "fontpicker-caret";
-  caret.textContent = "â–¾";
+  caret.textContent = "v";
 
   btn.appendChild(thumb);
   btn.appendChild(name);
@@ -508,7 +508,7 @@ function drawFontPreviewStrip(font, text = "ABC123") {
   const ctx = canvas.getContext("2d");
   ctx.imageSmoothingEnabled = false;
 
-  // IMPORTANT: do NOT fill the canvas â€” leave it transparent
+  // IMPORTANT: do NOT fill the canvas - leave it transparent
 
   chars.forEach((ch, i) => {
     const code = ch.charCodeAt(0);

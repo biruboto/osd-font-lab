@@ -33,7 +33,10 @@ export function decodeMCM(arrayBuffer) {
   const glyphBytes = new Uint8Array(needed);
   for (let i = 0; i < needed; i++) {
     const s = bitLines[i].trim();
-    if (!/^[01]{8}$/.test(s)) {`r`n      throw new Error(`Invalid MCM byte line at index ${i}: "${s}"`);`r`n    }`r`n    glyphBytes[i] = parseInt(s, 2);
+    if (!/^[01]{8}$/.test(s)) {
+      throw new Error(`Invalid MCM byte line at index ${i}: "${s}"`);
+    }
+    glyphBytes[i] = parseInt(s, 2);
   }
 
   // Decode 2bpp pixels into per-glyph arrays
