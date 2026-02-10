@@ -38,6 +38,13 @@
           <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
         </div>
 
+        <div class="inspector-card">
+          <div class="inspector-title">Glyph Inspector</div>
+          <div id="glyphInfo" class="inspector-body">
+            Load a font, then click a glyph.
+          </div>
+        </div>
+
         <div class="sidecar-controls">
           <label class="field checkbox">
             <input id="showGrids" type="checkbox" checked />
@@ -142,19 +149,10 @@
 
 
 
-    <div class="panel-body">
+    <div class="panel-body panel-body-single panel-body-base">
       <div class="grid-wrap">
         <canvas id="baseGrid" class="grid-canvas"></canvas>
       </div>
-
-      <aside class="sidecar">
-                <div class="inspector-card">
-          <div class="inspector-title">Glyph Inspector</div>
-          <div id="glyphInfo" class="inspector-body">
-            Load a font, then click a glyph.
-          </div>
-        </div>
-      </aside>
     </div>
   </section>
       </section>

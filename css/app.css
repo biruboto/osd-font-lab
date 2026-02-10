@@ -522,6 +522,19 @@ canvas{
   min-width: 0;
 }
 
+.panel-body-single{
+  grid-template-columns: 1fr;
+}
+
+/* Keep base-grid pane fully hidden unless compare mode is enabled */
+.panel-body-base .grid-wrap{
+  display: none;
+}
+
+:root[data-compare="1"] .panel-body-base .grid-wrap{
+  display: block;
+}
+
 /* sheet area */
 .grid-wrap{
   background: transparent;

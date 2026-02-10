@@ -1532,7 +1532,7 @@ function initEvents() {
 
   // grids click
   baseGridCanvas?.addEventListener("click", (e) => {
-    if (!baseFont) return;
+    if (!baseFont || !compareMode) return;
     handleGridClick(e, baseGridCanvas, baseFont);
   });
 
