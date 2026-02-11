@@ -1,0 +1,135 @@
+/* css/themes.css */
+
+/* ---------- color palettes ---------- */
+:root{
+  /* page + panels */
+  --bg-0: #161823;
+  --bg-1: #21243a;
+  --bg-2: #2a2f47;
+  --bg-3: #3a4263;
+
+  /* text */
+  --text-0: #e6e1d6;
+  --text-1: #c8c1b3;
+  --text-muted: #9a94a1;
+
+  /* accents */
+  --accent-0: #62b6a6;
+  --accent-1: #a8d6c7;
+  --accent-2: #f1d7a2;
+  --danger: #c56a7a;
+
+  /* surfaces */
+  --canvas-bg: var(--bg-2);
+  --canvas-frame: color-mix(in srgb, var(--bg-3) 80%, transparent);
+
+  /* OSD viewer colors */
+  --osd-matte: var(--bg-2);
+  --osd-0: transparent;
+  --osd-1: #6c7280;
+  --osd-2: #e6e1d6;
+  --osd-3: #11131a;
+
+  /* Brand title ink */
+  --brand-ink: var(--accent-0);
+
+  /* Control sizing */
+  --control-h: 36px;
+  --control-radius: 10px;
+  --control-px: 10px;
+}
+
+/* Theme: CRT */
+:root[data-theme="crt"]{
+  --bg-0: #08110c;
+  --bg-1: #0e1c14;
+  --bg-2: #0a2416;
+  --bg-3: #1c6b3a;
+
+  --text-0: #c7ffd8;
+  --text-1: #8fe6b1;
+  --text-muted: #5aa679;
+
+  --accent-0: #34d17a;
+  --accent-1: #7ff2b0;
+  --accent-2: #c7ffd8;
+  --danger: #ff6b6b;
+
+  --osd-matte: var(--bg-2);
+  --osd-0: #061009;
+  --osd-1: #2f6a49;
+  --osd-2: #c7ffd8;
+  --osd-3: #031108;
+
+  --brand-ink: #6fff8f;
+}
+
+/* Theme: Amber Terminal */
+:root[data-theme="amber-terminal"]{
+  --bg-0: #1c1a16;
+  --bg-1: #2a241b;
+  --bg-2: #3a3023;
+  --bg-3: #6b5533;
+
+  --text-0: #ffd36a;
+  --text-1: #e0b95a;
+  --text-muted: #a08955;
+
+  --accent-0: #ffb000;
+  --accent-1: #c9973a;
+  --accent-2: #ffe29a;
+
+  --osd-0: #120f0b;
+  --osd-1: #6b5a3a;
+  --osd-2: #ffd36a;
+  --osd-3: #1c1a16;
+}
+
+/* Theme: Cold Phosphor */
+:root[data-theme="cold-phosphor"]{
+  --bg-0: #0b0f12;
+  --bg-1: #121820;
+  --bg-2: #18212b;
+  --bg-3: #2b3c4d;
+
+  --text-0: #b7fff1;
+  --text-1: #8fd9cc;
+  --text-muted: #5fa3a1;
+
+  --accent-0: #5fffe1;
+  --accent-1: #2fcab4;
+  --accent-2: #a9fff0;
+
+  --osd-0: #06090b;
+  --osd-1: #3a5a5a;
+  --osd-2: #b7fff1;
+  --osd-3: #0b0f12;
+}
+
+/* Theme: Lavender Circuit */
+:root[data-theme="lavender-circuit"]{
+  --bg-0: #1f1d2b;
+  --bg-1: #2a2740;
+  --bg-2: #353258;
+  --bg-3: #615e85;
+
+  --text-0: #e0e0dc;
+  --text-1: #d9a3cd;
+  --text-muted: #9c8dc2;
+
+  --accent-0: #90b4de;
+  --accent-1: #a3d1af;
+  --accent-2: #ebc3a7;
+  --danger: #717fb0;
+
+  --canvas-bg: var(--bg-2);
+  --canvas-frame: var(--bg-3);
+
+  --osd-matte: var(--bg-2);
+  --osd-0: #141322;
+  --osd-1: #717fb0;
+  --osd-2: #e0e0dc;
+  --osd-3: #1f1d2b;
+
+  --brand-ink: #d9a3cd;
+}
