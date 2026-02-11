@@ -347,6 +347,15 @@ body{
   background: color-mix(in srgb, var(--accent-0) 12%, transparent);
 }
 
+.fontpicker-group{
+  padding: 6px 10px;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
 .fontpicker-item .fontpicker-thumb{
   width: auto;
   height: 18px;

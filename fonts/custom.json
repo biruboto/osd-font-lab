@@ -1,7 +1,7 @@
 [
   {
     "id": "hearts_battery",
-    "name": "OSDFL Hearts",
+    "name": "Hearts",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -11,7 +11,7 @@
   },
   {
     "id": "crosshair_dk",
-    "name": "OSDFL DK",
+    "name": "DK",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -21,7 +21,7 @@
   },
   {
     "id": "crosshair_invader",
-    "name": "OSDFL Invader",
+    "name": "Invader",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -31,7 +31,7 @@
   },
   {
     "id": "crosshair_junkfood",
-    "name": "OSDFL Junkfood",
+    "name": "Junkfood",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -41,7 +41,7 @@
   },
   {
     "id": "crosshair_mage",
-    "name": "OSDFL Mage",
+    "name": "Mage",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -51,7 +51,7 @@
   },
   {
     "id": "crosshair_skullhorns",
-    "name": "OSDFL Skullhorns",
+    "name": "Skullhorns",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -61,7 +61,7 @@
   },
   {
     "id": "clock",
-    "name": "OSDFL Clock",
+    "name": "Clock",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,
@@ -72,7 +72,7 @@
   },
   {
     "id": "rmpocket",
-    "name": "OSDFL RM Pocket",
+    "name": "RM Pocket",
     "glyphWidth": 12,
     "glyphHeight": 18,
     "gap": 0,

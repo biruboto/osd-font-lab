@@ -69,8 +69,8 @@ const SWAP_TARGETS = [
   { id: "amp", label: "A / Amp", indices: [154] },
   { id: "thermometer", label: "Thermometer", indices: [122] },
   { id: "lq", label: "LQ", indices: [123] },
-  { id: "on_m", label: "ON m", indices: [155] },
-  { id: "fly_m", label: "FLY m", indices: [156] },
+  { id: "on_m", label: "On Timer", indices: [155] },
+  { id: "fly_m", label: "Fly Timer", indices: [156] },
   { id: "battery_set", label: "Batteries", indices: [144, 145, 146, 147, 148, 149, 150, 151] },
   { id: "crosshair_set", label: "Crosshairs", indices: [114, 115, 116] },
 ];
@@ -372,7 +372,7 @@ function buildFontPicker({
   function ensureMenuBuilt() {
     if (menu.childElementCount) return;
 
-    for (const opt of selectEl.options) {
+    const appendOptionRow = (opt) => {
       const value = getValue(opt);
       const label = getLabel(opt);
 
@@ -404,6 +404,23 @@ function buildFontPicker({
         onChange?.(value);
         wrap.classList.remove("open");
       });
+    };
+
+    for (const child of selectEl.children) {
+      if (child.tagName === "OPTGROUP") {
+        const groupRow = document.createElement("div");
+        groupRow.className = "fontpicker-group";
+        groupRow.textContent = child.label || "";
+        menu.appendChild(groupRow);
+
+        for (const opt of child.children) {
+          if (opt.tagName === "OPTION") appendOptionRow(opt);
+        }
+        continue;
+      }
+      if (child.tagName === "OPTION") {
+        appendOptionRow(child);
+      }
     }
   }
 
@@ -835,14 +852,27 @@ function syncSwapSourceSelect() {
     })
     .sort((a, b) => {
     if (a.kind !== b.kind) return a.kind.localeCompare(b.kind);
-    return a.label.localeCompare(b.label);
+      return a.label.localeCompare(b.label);
     });
+
+  const bfGroup = document.createElement("optgroup");
+  bfGroup.label = "Betaflight Defaults";
+  const customGroup = document.createElement("optgroup");
+  customGroup.label = "OSD Font Lab";
 
   for (const entry of entries) {
     const opt = document.createElement("option");
     opt.value = entry.id;
     opt.textContent = entry.label;
-    swapSourceSelect.appendChild(opt);
+    if (entry.kind === "bf_mcm") bfGroup.appendChild(opt);
+    else customGroup.appendChild(opt);
+  }
+
+  if (bfGroup.children.length) swapSourceSelect.appendChild(bfGroup);
+  if (customGroup.children.length) swapSourceSelect.appendChild(customGroup);
+
+  if (swapSourceSelect.options.length <= 1) {
+    swapSourceSelect.innerHTML = `<option value="">(no sources for target)</option>`;
   }
 
   if (prev && swapSourceRegistry.has(prev)) {
@@ -953,12 +983,21 @@ async function getSwapSourceFontForTarget(sourceId, targetId) {
 function initSwapUI() {
   if (swapTargetSelect) {
     swapTargetSelect.innerHTML = `<option value="">(choose target)</option>`;
+    const singleGroup = document.createElement("optgroup");
+    singleGroup.label = "Single Glyph";
+    const setGroup = document.createElement("optgroup");
+    setGroup.label = "Glyph Sets";
+
     for (const target of SWAP_TARGETS) {
       const opt = document.createElement("option");
       opt.value = target.id;
       opt.textContent = target.label;
-      swapTargetSelect.appendChild(opt);
+      if ((target.indices?.length || 0) > 1) setGroup.appendChild(opt);
+      else singleGroup.appendChild(opt);
     }
+
+    if (singleGroup.children.length) swapTargetSelect.appendChild(singleGroup);
+    if (setGroup.children.length) swapTargetSelect.appendChild(setGroup);
   }
 
   swapTargetPickerApi = buildFontPicker({
@@ -2067,7 +2106,7 @@ function registerBetaflightSwapSources(list) {
       id,
       kind: "bf_mcm",
       file: entry.file,
-      label: `BF ${entry.name}`,
+      label: entry.name,
     });
   }
 }
