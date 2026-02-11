@@ -1139,6 +1139,28 @@ async function loadManifest() {
   return list;
 }
 
+async function loadAllOverlayManifests() {
+  const all = [];
+  for (const lib of OVERLAY_LIBRARIES) {
+    try {
+      let list = overlayManifestCache.get(lib.id);
+      if (!list) {
+        const res = await fetch(lib.manifestPath);
+        if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
+        list = await res.json();
+        if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
+        overlayManifestCache.set(lib.id, list);
+      }
+      for (const entry of list) {
+        all.push({ ...entry, __libraryId: lib.id });
+      }
+    } catch (err) {
+      console.warn(`Brand title: skipping unavailable library ${lib.id}`, err);
+    }
+  }
+  return all;
+}
+
 function isLibrarySelectValue(value) {
   return typeof value === "string" && value.startsWith(LIB_SELECT_PREFIX);
 }
@@ -1192,8 +1214,8 @@ async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "") {
   }
 }
 
-async function getOverlayByFile(file) {
-  const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
+async function getOverlayByFileFromLibrary(libraryId, file) {
+  const lib = OVERLAY_LIBRARIES.find((l) => l.id === libraryId) || OVERLAY_LIBRARIES[0];
   const cacheKey = `${lib.id}::${file}`;
   if (overlayCache.has(cacheKey)) return overlayCache.get(cacheKey);
   const r = await fetch(`${lib.dataDir}/${encodeURIComponent(file)}`);
@@ -1201,6 +1223,10 @@ async function getOverlayByFile(file) {
   const j = await r.json();
   overlayCache.set(cacheKey, j);
   return j;
+}
+
+async function getOverlayByFile(file) {
+  return getOverlayByFileFromLibrary(currentOverlayLibraryId, file);
 }
 
 async function loadOverlayIndex() {
@@ -1311,7 +1337,7 @@ async function initBrandTitle() {
 
   let list;
   try {
-    list = await loadManifest();
+    list = await loadAllOverlayManifests();
   } catch (err) {
     console.warn("Brand title: no manifest, falling back to text.", err);
     brandEl.textContent = BRAND_TEXT;
@@ -1332,15 +1358,19 @@ async function initBrandTitle() {
   const picks = chars.map(ch => {
     if (ch === " ") return null;
     const entry = list[(Math.random() * list.length) | 0];
-    return entry.file;
+    return { libraryId: entry.__libraryId || currentOverlayLibraryId, file: entry.file };
   });
 
   // load unique overlays used initially
-  const unique = [...new Set(picks.filter(Boolean))];
+  const unique = [...new Set(picks.filter(Boolean).map((p) => `${p.libraryId}::${p.file}`))];
   const overlays = new Map();
   try {
     await Promise.all(
-      unique.map(async (file) => overlays.set(file, await getOverlayByFile(file)))
+      unique.map(async (key) => {
+        const [libraryId, ...rest] = key.split("::");
+        const file = rest.join("::");
+        overlays.set(key, await getOverlayByFileFromLibrary(libraryId, file));
+      })
     );
   } catch (err) {
     console.warn("Brand title: failed loading overlays, falling back to text.", err);
@@ -1370,13 +1400,16 @@ async function initBrandTitle() {
     const ctx = c.getContext("2d");
     ctx.imageSmoothingEnabled = false;
 
-    const file = picks[i];
-    const overlay = overlays.get(file);
+    const pick = picks[i];
+    const file = pick.file;
+    const libraryId = pick.libraryId;
+    const overlay = overlays.get(`${libraryId}::${file}`);
 
     const item = {
       el: c,
       ctx,
       ch,
+      libraryId,
       file,
       overlay,
       phase: i * 0.55,
@@ -1411,8 +1444,16 @@ async function initBrandTitle() {
     rerollBusy = true;
 
     try {
-      const picks = items.map(() => list[(Math.random() * list.length) | 0]?.file).filter(Boolean);
-      const overlays = await Promise.all(picks.map((file) => getOverlayByFile(file)));
+      const picks = items
+        .map(() => {
+          const entry = list[(Math.random() * list.length) | 0];
+          if (!entry?.file) return null;
+          return { libraryId: entry.__libraryId || currentOverlayLibraryId, file: entry.file };
+        })
+        .filter(Boolean);
+      const overlays = await Promise.all(
+        picks.map((p) => getOverlayByFileFromLibrary(p.libraryId, p.file))
+      );
       const now = performance.now();
       glitchState = {
         end: now + GLITCH_DURATION_MS,
@@ -1462,7 +1503,8 @@ async function initBrandTitle() {
     if (glitchState && now >= glitchState.end) {
       for (let i = 0; i < items.length; i++) {
         const it = items[i];
-        it.file = glitchState.picks[i];
+        it.libraryId = glitchState.picks[i].libraryId;
+        it.file = glitchState.picks[i].file;
         it.overlay = glitchState.overlays[i];
         drawOverlayGlyphToTinyCanvas(it.ctx, it.overlay, it.ch, ink);
       }
