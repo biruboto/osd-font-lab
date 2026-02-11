@@ -25,3 +25,10 @@
 - Run syntax checks after edits:
   - `node --check js/app.js`
   - `node --check js/modules/<module>.js`
+
+## Quick Regression Checklist
+- Import base `.mcm` via dropzone.
+- Import YAFF via `Import .yaff` button (confirm diagnostics show imported/skipped counts).
+- Apply and clear icon swaps.
+- Export `.mcm` and PNG.
+- Switch theme and verify preview colors/thumbnails refresh.

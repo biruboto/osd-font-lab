@@ -31,6 +31,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+  height: var(--control-h);
   min-height: var(--control-h);
   background: var(--bg-2);
   color: var(--text-0);
@@ -137,8 +138,11 @@
 }
 
 .field span{
+  display: block;
   opacity: 0.75;
   font-size: 0.9rem;
+  line-height: 1.2;
+  min-height: 1.2em;
 }
 
 .checkbox span{
@@ -226,11 +230,66 @@ select{
 
 .font-select-stack select{
   width: 100%;
+  height: var(--control-h);
+  min-height: var(--control-h);
 }
 
 .panel-header-controls .bf-inline,
 .panel-header-controls .overlay-inline{
   flex: 0 0 auto;
+}
+
+.or-select-stack{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.import-select-stack{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 220px;
+  min-width: 160px;
+  max-width: 100%;
+  align-items: stretch;
+}
+
+.or-row{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.field .import-spacer,
+.or-spacer{
+  visibility: hidden;
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  min-height: 1.2em;
+  user-select: none;
+  pointer-events: none;
+}
+
+.or-row .or-sep{
+  height: var(--control-h);
+  min-height: var(--control-h);
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.import-select-stack .import-inline{
+  width: 100%;
+}
+
+.import-select-stack .import-inline > .dropzone-inline{
+  width: 100%;
 }
 
 /* ---------- drop zone + status ---------- */
@@ -239,15 +298,16 @@ select{
   color: var(--text-muted);
 }
 
-#drop.dropzone-inline{
-  flex: 0 1 220px;
-  width: 220px;
-  min-width: 160px;
-  max-width: 100%;
+#drop.dropzone-inline,
+#yaffImportBtn.dropzone-inline{
+  width: 100%;
+  height: var(--control-h);
+  min-width: 0;
+  min-height: var(--control-h);
+  line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--control-h);
   padding: 0 var(--control-px);
   border-radius: var(--control-radius);
   box-sizing: border-box;
@@ -256,15 +316,18 @@ select{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background: var(--bg-2);
 }
 
-.panel-base #drop.dropzone-inline{
-  margin-top: 24px;
+#yaffImportBtn.dropzone-inline{
+  border: 1px dashed var(--bg-3);
+  color: var(--text-muted);
+  font: inherit;
+  line-height: 1;
 }
 
 .panel-base .or-sep{
-  align-self: flex-start;
-  margin-top: 30px;
+  align-self: center;
 }
 
 .load-status{

@@ -156,14 +156,14 @@ body{
     align-items: stretch;
   }
 
-  .panel-base #drop.dropzone-inline{
-    margin-top: 0;
+  .import-select-stack{
     width: min(320px, 100%);
     min-width: 0;
   }
 
-  .panel-base .or-sep{
-    margin-top: 0;
+  .or-select-stack{
+    width: 100%;
+    max-width: 320px;
   }
 
   .swap-controls{

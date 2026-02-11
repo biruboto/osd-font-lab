@@ -28,12 +28,15 @@ import {
 } from "./modules/swap-registry.js";
 import { initDpadControls } from "./modules/dpad.js";
 import { createWorkspaceRenderer } from "./modules/workspace-render.js";
+import { parseYaffToOverlay } from "./modules/yaff.js";
 
 /* -----------------------------
    DOM
 ------------------------------ */
 const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
+const yaffFileInput = document.getElementById("yaffFile");
+const yaffImportBtn = document.getElementById("yaffImportBtn");
 const loadStatus = document.getElementById("loadStatus");
 
 const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
@@ -1395,8 +1398,45 @@ async function initBrandTitle() {
 ------------------------------ */
 
 async function handleFile(file) {
+  const name = String(file?.name || "").toLowerCase();
+  if (name.endsWith(".yaff")) {
+    const text = await file.text();
+    const overlay = parseYaffToOverlay(text);
+    const count = Object.keys(overlay?.glyphs || {}).length;
+    const stats = overlay?._importStats || {};
+    if (!count) {
+      const bits = [];
+      if (stats.blocksFound) bits.push(`${stats.blocksFound} blocks`);
+      if (stats.labelsUnsupported) bits.push(`${stats.labelsUnsupported} unsupported labels`);
+      if (stats.oversizeSkipped) bits.push(`${stats.oversizeSkipped} oversize skipped`);
+      const subtext = bits.join(", ");
+      setLoadStatus(`YAFF import failed: no usable glyphs in ${file.name}`, { error: true, subtext });
+      return;
+    }
+    currentOverlay = overlay;
+    if (overlaySelect) overlaySelect.value = "";
+    rebuildResultFont();
+    rerenderAll();
+    const diag = [];
+    diag.push(`${count} glyphs`);
+    if (stats.oversizeSkipped) diag.push(`${stats.oversizeSkipped} oversize skipped`);
+    if (stats.labelsUnsupported) diag.push(`${stats.labelsUnsupported} unsupported labels`);
+    setLoadStatus(`Loaded YAFF overlay: ${file.name}`, { subtext: diag.join(", ") });
+    return;
+  }
+
   const buf = await file.arrayBuffer();
   await handleBuffer(buf, file.name);
+}
+
+function isYaffFile(file) {
+  const name = String(file?.name || "").toLowerCase();
+  return name.endsWith(".yaff");
+}
+
+function isMcmFile(file) {
+  const name = String(file?.name || "").toLowerCase();
+  return name.endsWith(".mcm");
 }
 
 async function loadSwapCustomManifest() {
@@ -1545,10 +1585,26 @@ function initEvents() {
 
   // drop zone + file picker
   drop?.addEventListener("click", () => fileInput?.click());
+  yaffImportBtn?.addEventListener("click", () => yaffFileInput?.click());
 
   fileInput?.addEventListener("change", () => {
     const f = fileInput.files?.[0];
-    if (f) handleFile(f);
+    if (!f) return;
+    if (!isMcmFile(f)) {
+      setLoadStatus("Please choose a .mcm file here. Use Import .yaff for YAFF files.", { error: true });
+      return;
+    }
+    handleFile(f);
+  });
+
+  yaffFileInput?.addEventListener("change", () => {
+    const f = yaffFileInput.files?.[0];
+    if (!f) return;
+    if (!isYaffFile(f)) {
+      setLoadStatus("Please choose a .yaff file.", { error: true });
+      return;
+    }
+    handleFile(f);
   });
 
   drop?.addEventListener("dragenter", (e) => { e.preventDefault(); drop.classList.add("hot"); });
@@ -1558,7 +1614,16 @@ function initEvents() {
     e.preventDefault();
     drop.classList.remove("hot");
     const f = e.dataTransfer.files?.[0];
-    if (f) handleFile(f);
+    if (!f) return;
+    if (!isMcmFile(f)) {
+      if (isYaffFile(f)) {
+        setLoadStatus("Use the Import .yaff button for YAFF overlays.", { error: true });
+      } else {
+        setLoadStatus("Unsupported file type. Drop a .mcm file here.", { error: true });
+      }
+      return;
+    }
+    handleFile(f);
   });
 
   window.addEventListener("dragover", (e) => e.preventDefault());

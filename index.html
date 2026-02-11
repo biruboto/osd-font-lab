@@ -113,13 +113,43 @@
                   <select id="overlaySelect"></select>
                 </label>
               </div>
-
-              <span class="or-sep">-OR-</span>
-
-              <div id="drop" class="dropzone dropzone-inline" role="button" tabindex="0">
-                Drop .mcm or click
+              <div class="or-select-stack" aria-hidden="true">
+                <div class="or-row">
+                  <span class="or-spacer" aria-hidden="true">&nbsp;</span>
+                  <span class="or-sep">-OR-</span>
+                </div>
+                <div class="or-row">
+                  <span class="or-spacer" aria-hidden="true">&nbsp;</span>
+                  <span class="or-sep">-OR-</span>
+                </div>
+              </div>
+              <div class="import-select-stack">
+                <label class="field field-stack import-inline">
+                  <span class="import-spacer" aria-hidden="true">&nbsp;</span>
+                  <div
+                    id="drop"
+                    class="dropzone dropzone-inline"
+                    role="button"
+                    tabindex="0"
+                    title="Import a base .mcm font file"
+                  >
+                    Drop .mcm or click
+                  </div>
+                </label>
+                <label class="field field-stack import-inline">
+                  <span class="import-spacer" aria-hidden="true">&nbsp;</span>
+                  <button
+                    id="yaffImportBtn"
+                    type="button"
+                    class="dropzone dropzone-inline"
+                    title="Import a YAFF replacement overlay; glyphs larger than 12x18 are skipped"
+                  >
+                    Import .yaff
+                  </button>
+                </label>
               </div>
               <input id="file" type="file" accept=".mcm" hidden>
+              <input id="yaffFile" type="file" accept=".yaff" hidden>
             </div>
             <div class="tools-section-title">- Icons -</div>
             <div class="swap-controls">
