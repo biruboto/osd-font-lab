@@ -81,6 +81,8 @@ const swapSourceRegistry = new Map(); // sourceId -> source descriptor
 const swapOverrides = new Map(); // idx -> Uint8Array glyph
 let swapTargetPickerApi = null;
 let swapSourcePickerApi = null;
+let overlayPickerApi = null;
+let bfPickerApi = null;
 
 let selectedIndex = 0;
 let selectedSet = new Set([0]);
@@ -95,6 +97,8 @@ const nudge = {
 const overlayCache = new Map(); // file -> overlay JSON
 let overlayManifest = null;     // cached manifest list [{file,name,id,...}]
 let swapCustomManifest = null;  // cached list from fonts/custom.json
+const overlayPreviewUrlCache = new Map(); // `${theme}|${file}` -> dataURL
+const bfPreviewUrlCache = new Map();      // `${theme}|${file}` -> dataURL
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -259,6 +263,15 @@ function applyTheme(theme) {
   }
 }
 
+function currentThemeId() {
+  return document.documentElement.getAttribute("data-theme") || "dusk";
+}
+
+function clearDynamicPreviewCaches() {
+  overlayPreviewUrlCache.clear();
+  bfPreviewUrlCache.clear();
+}
+
 function initTheme() {
   if (!themeSelect) return;
 
@@ -270,9 +283,14 @@ function initTheme() {
     const t = themeSelect.value;
     localStorage.setItem(THEME_KEY, t);
     applyTheme(t);
+    clearDynamicPreviewCaches();
     rerenderAll();
     renderLoadStatusVisual();
     window.__redrawBrandTitle?.();
+    overlayPickerApi?.refresh();
+    bfPickerApi?.refresh();
+    swapTargetPickerApi?.refresh();
+    swapSourcePickerApi?.refresh();
   });
 }
 
@@ -282,6 +300,7 @@ function buildFontPicker({
   getValue,          // (optionEl) => string
   getPreviewUrl,     // (value) => string URL to png
   onChange,          // (value) => void
+  lazyMenuPreviews = false,
 }) {
   if (!selectEl) return;
 
@@ -386,7 +405,8 @@ function buildFontPicker({
         const t = document.createElement("img");
         t.className = "fontpicker-thumb";
         t.alt = "";
-        setPreviewImage(t, value);
+        t.setAttribute("data-value", value);
+        if (!lazyMenuPreviews) setPreviewImage(t, value);
 
         row.appendChild(t);
       }
@@ -425,11 +445,20 @@ function buildFontPicker({
     }
   }
 
-  function refreshMenuPreviews() {
+  function isRowVisibleInMenu(rowEl) {
+    const rr = rowEl.getBoundingClientRect();
+    const mr = menu.getBoundingClientRect();
+    return rr.bottom >= mr.top && rr.top <= mr.bottom;
+  }
+
+  function refreshMenuPreviews({ all = false } = {}) {
     for (const row of menu.children) {
-      const value = row.getAttribute("data-value") || "";
       const img = row.querySelector(".fontpicker-thumb");
-      if (img) setPreviewImage(img, value);
+      if (!img) continue;
+      const value = img.getAttribute("data-value") || row.getAttribute("data-value") || "";
+      if (!value) continue;
+      if (!all && lazyMenuPreviews && !isRowVisibleInMenu(row)) continue;
+      setPreviewImage(img, value);
     }
   }
 
@@ -493,6 +522,10 @@ function buildFontPicker({
   });
 
   document.addEventListener("mousedown", closeOnOutside);
+  menu.addEventListener("scroll", () => {
+    if (!wrap.classList.contains("open")) return;
+    refreshMenuPreviews();
+  });
 
   // Keep button in sync if something else changes the select
   selectEl.addEventListener("change", () => setButtonFromValue(selectEl.value));
@@ -503,6 +536,7 @@ function buildFontPicker({
   const api = {
     refresh: () => {
       setButtonFromValue(selectEl.value);
+      if (wrap.classList.contains("open")) refreshMenuPreviews();
     },
     rebuild: () => {
       rebuildMenu();
@@ -840,6 +874,12 @@ function syncSwapSourceSelect() {
   if (!swapSourceSelect) return;
   const prev = swapSourceSelect.value;
   const targetId = swapTargetSelect?.value || "";
+  if (!targetId) {
+    swapSourceSelect.innerHTML = `<option value="">(choose target first)</option>`;
+    swapSourcePickerApi?.rebuild();
+    swapSourcePickerApi?.refresh();
+    return;
+  }
   swapSourceSelect.innerHTML = `<option value="">(choose source)</option>`;
 
   const entries = [...swapSourceRegistry.values()]
@@ -848,7 +888,6 @@ function syncSwapSourceSelect() {
       if (entry.kind === "bf_mcm") return true;
 
       // Custom sources must explicitly support the selected target.
-      if (!targetId) return true;
       return !!entry.targets?.[targetId];
     })
     .sort((a, b) => {
@@ -1316,6 +1355,11 @@ function rebuildResultFont() {
 const bfPreviewFontCache = new Map(); // file -> decoded font
 
 async function getBetaflightPreviewUrl(file) {
+  if (!file) return "";
+  const cacheKey = `${currentThemeId()}|${file}`;
+  const cached = bfPreviewUrlCache.get(cacheKey);
+  if (cached) return cached;
+
   // file is like "betaflight.mcm"
   let font = bfPreviewFontCache.get(file);
   if (!font) {
@@ -1325,7 +1369,9 @@ async function getBetaflightPreviewUrl(file) {
     font = decodeMCM(buf);
     bfPreviewFontCache.set(file, font);
   }
-  return drawFontPreviewStrip(font);
+  const url = drawFontPreviewStrip(font);
+  bfPreviewUrlCache.set(cacheKey, url);
+  return url;
 }
 
 function renderOverlayPreviewCell(overlay, ch) {
@@ -1450,8 +1496,13 @@ function setLoadStatus(text, { error = false, subtext = "" } = {}) {
 async function getOverlayPreviewUrl(file) {
   // file is overlaySelect.value, loaded via your existing cache
   if (!file) return "";
+  const cacheKey = `${currentThemeId()}|${file}`;
+  const cached = overlayPreviewUrlCache.get(cacheKey);
+  if (cached) return cached;
   const overlay = await getOverlayByFile(file);
-  return drawOverlayPreviewStrip(overlay);
+  const url = drawOverlayPreviewStrip(overlay);
+  overlayPreviewUrlCache.set(cacheKey, url);
+  return url;
 }
 
 
@@ -1815,18 +1866,17 @@ async function loadOverlayIndex() {
     const opt = document.createElement("option");
     opt.value = entry.file;
     opt.textContent = entry.name;
-
-    if (entry.thumb) opt.dataset.thumb = entry.thumb;
     overlayGroup.appendChild(opt);
   }
   if (overlayGroup.children.length) overlaySelect.appendChild(overlayGroup);
 
 
-  buildFontPicker({
+  overlayPickerApi = buildFontPicker({
     selectEl: overlaySelect,
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
-    getPreviewUrl: (value) => getThumbForValue(overlaySelect, value),
+    getPreviewUrl: (value) => getOverlayPreviewUrl(value),
+    lazyMenuPreviews: true,
   });
 
   renderLoadStatusVisual();
@@ -2071,13 +2121,6 @@ async function initBrandTitle() {
    File loading + events
 ------------------------------ */
 
-function getThumbForValue(selectEl, value) {
-  if (!selectEl || !value) return "";
-  const opt = [...selectEl.options].find(o => o.value === value);
-  const rel = opt?.dataset?.thumb;
-  return rel ? `./fonts/${rel}` : "";
-}
-
 async function handleFile(file) {
   const buf = await file.arrayBuffer();
   await handleBuffer(buf, file.name);
@@ -2168,8 +2211,6 @@ async function loadBetaflightDefaults() {
     const opt = document.createElement("option");
     opt.value = entry.file;
     opt.textContent = entry.name;
-
-    if (entry.thumb) opt.dataset.thumb = entry.thumb;
     bfFontSelect.appendChild(opt);
   }
   registerBetaflightSwapSources(list);
@@ -2178,11 +2219,11 @@ async function loadBetaflightDefaults() {
   syncSwapSourceSelect();
 
 
-  buildFontPicker({
+  bfPickerApi = buildFontPicker({
     selectEl: bfFontSelect,
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
-    getPreviewUrl: (value) => getThumbForValue(bfFontSelect, value),
+    getPreviewUrl: (value) => getBetaflightPreviewUrl(value),
   });
 
 
