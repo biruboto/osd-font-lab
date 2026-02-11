@@ -153,7 +153,54 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
+}
+
+.kofi-badge{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--control-h);
+  padding: 0 10px;
+  border: 1px solid var(--bg-3);
+  border-radius: var(--control-radius);
+  background: var(--bg-2);
+  text-decoration: none;
+  color: var(--text-0);
+  transition: border-color 0.15s ease, transform 0.08s ease;
+}
+
+.kofi-badge:visited,
+.kofi-badge:hover,
+.kofi-badge:active{
+  color: var(--text-0);
+}
+
+.kofi-badge:hover{
+  border-color: var(--accent-0);
+}
+
+.kofi-badge:active{
+  transform: translateY(1px);
+}
+
+.kofi-badge-icon{
+  width: 22px;
+  height: 16px;
+  flex: 0 0 22px;
+  display: block;
+  background: transparent;
+  border: 0;
+  box-shadow: none !important;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.kofi-badge-text{
+  font-size: 0.9rem;
+  line-height: 1;
 }
 
 button,

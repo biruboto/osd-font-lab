@@ -71,6 +71,7 @@ const selCount = document.getElementById("selCount");
 const showGridsEl = document.getElementById("showGrids");
 const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
 const servingFontCountEl = document.getElementById("servingFontCount");
+const kofiBadgeIconEl = document.getElementById("kofiBadgeIcon");
 
 const exportMCMBtn = document.getElementById("exportMCM");
 const exportPNG1xBtn = document.getElementById("exportPNG1x");
@@ -157,6 +158,7 @@ let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
 let loadStatusText = "No file loaded.";
 let loadStatusSubtext = "";
 let loadStatusError = false;
+let kofiIconData = null;
 
 // Betaflight OSD glyph labels (from Betaflight docs table)
 const BF_GLYPH_LABELS = (() => {
@@ -308,6 +310,76 @@ function clearDynamicPreviewCaches() {
   bfPreviewUrlCache.clear();
 }
 
+async function loadKofiIconData() {
+  if (kofiIconData) return kofiIconData;
+  const res = await fetch("fonts/data/kofi-icon.json");
+  if (!res.ok) throw new Error(`kofi-icon.json HTTP ${res.status}`);
+  const data = await res.json();
+  if (!data || !Number.isInteger(data.width) || !Number.isInteger(data.height)) {
+    throw new Error("Invalid kofi-icon.json format");
+  }
+
+  let pixels = null;
+  if (Array.isArray(data.rows)) {
+    if (data.rows.length !== data.height || data.rows.some((row) => !Array.isArray(row) || row.length !== data.width)) {
+      throw new Error("kofi-icon.json rows must be a height x width grid");
+    }
+    pixels = data.rows.flat().map((v) => v | 0);
+  } else if (Array.isArray(data.pixels)) {
+    if (data.pixels.length === data.width * data.height) {
+      pixels = data.pixels.map((v) => v | 0);
+    } else if (
+      data.pixels.length === data.height &&
+      data.pixels.every((row) => Array.isArray(row) && row.length === data.width)
+    ) {
+      pixels = data.pixels.flat().map((v) => v | 0);
+    } else {
+      throw new Error(`kofi-icon.json pixel count mismatch (${data.pixels.length} != ${data.width * data.height})`);
+    }
+  } else {
+    throw new Error("kofi-icon.json requires either 'rows' or 'pixels'");
+  }
+
+  kofiIconData = {
+    width: data.width,
+    height: data.height,
+    pixels,
+  };
+  return kofiIconData;
+}
+
+async function renderKofiBadgeIcon() {
+  if (!kofiBadgeIconEl) return;
+  try {
+    const icon = await loadKofiIconData();
+    const c = document.createElement("canvas");
+    c.width = icon.width;
+    c.height = icon.height;
+    const ctx = c.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+    ctx.clearRect(0, 0, icon.width, icon.height);
+
+    const c0 = "rgba(0,0,0,0)";
+    const c1 = cssVar("--osd-3", "#000000");   // black pixels -> themed dark
+    const c2 = cssVar("--text-0", "#e6e1d6");  // white pixels -> default text color
+    const c3 = cssVar("--accent-0", "#62b6a6"); // heart -> accent
+    const palette = [c0, c1, c2, c3];
+
+    for (let y = 0; y < icon.height; y++) {
+      for (let x = 0; x < icon.width; x++) {
+        const v = icon.pixels[y * icon.width + x] | 0;
+        const color = palette[v] || c0;
+        if (v === 0) continue;
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, 1, 1);
+      }
+    }
+    kofiBadgeIconEl.src = c.toDataURL("image/png");
+  } catch (err) {
+    console.warn("Failed to render Ko-fi badge icon", err);
+  }
+}
+
 function initTheme() {
   initThemeControls({
     themeRadios,
@@ -320,6 +392,7 @@ function initTheme() {
       bfPickerApi?.refresh();
       swapTargetPickerApi?.refresh();
       swapSourcePickerApi?.refresh();
+      renderKofiBadgeIcon();
     },
   });
 }
@@ -1939,6 +2012,7 @@ function init() {
   setLoadStatus(loadStatusText);
   initSwapUI();
   initTheme();
+  renderKofiBadgeIcon();
   initEvents();
   loadOverlayIndex();
   loadBetaflightDefaults();
