@@ -7,7 +7,7 @@
 ```
 OSD Font Lab is a web application designed to help people create custom fonts for analog FPV OSDs with a "swap/replace/nudge" workflow. Currently the app allows you to:
 + Load an .MCM file or begin with the included Betaflight defaults
-+ Instantly replace all typable characters with gorgeous bitmap fonts by Damien Guard
++ Instantly replace all typable characters with gorgeous bitmap fonts by Damien Guard, or by importing a .yaff file
 + Nudge the characters around to match baselines and horizontal spacing etc
 + Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small (but growing!) selection of custom OSD FL icons
 + Export to either .MCM or .PNG

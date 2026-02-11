@@ -116,6 +116,7 @@ let swapTargetPickerApi = null;
 let swapSourcePickerApi = null;
 let overlayPickerApi = null;
 let bfPickerApi = null;
+let overlaySelectChangeBound = false;
 
 const selection = createSelectionState(0);
 
@@ -126,10 +127,28 @@ const nudge = {
 
 // Shared overlay cache (used by dropdown + title banner)
 const overlayCache = new Map(); // file -> overlay JSON
-let overlayManifest = null;     // cached manifest list [{file,name,id,...}]
+let overlayManifest = null;     // active library manifest list [{file,name,id,...}]
 let swapCustomManifest = null;  // cached list from fonts/custom.json
 const overlayPreviewUrlCache = new Map(); // `${theme}|${file}` -> dataURL
 const bfPreviewUrlCache = new Map();      // `${theme}|${file}` -> dataURL
+const OVERLAY_LIBRARY_KEY = "osdOverlayLibrary";
+const LIB_SELECT_PREFIX = "__lib:";
+const OVERLAY_LIBRARIES = [
+  {
+    id: "atari",
+    label: "Atari Eight Bit",
+    manifestPath: "fonts/manifest-atari.json",
+    dataDir: "fonts/data/atari",
+  },
+  {
+    id: "dg",
+    label: "Damien Guard",
+    manifestPath: "fonts/manifest-dg.json",
+    dataDir: "fonts/data/dg",
+  },
+];
+const overlayManifestCache = new Map(); // library id -> manifest list
+let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERLAY_LIBRARIES[0].id;
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -1105,39 +1124,60 @@ function safeBaseName() {
 ------------------------------ */
 
 async function loadManifest() {
-  if (overlayManifest) return overlayManifest;
-  const res = await fetch("fonts/manifest.json");
-  if (!res.ok) throw new Error(`manifest.json HTTP ${res.status}`);
+  const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
+  currentOverlayLibraryId = lib.id;
+  if (overlayManifestCache.has(lib.id)) {
+    overlayManifest = overlayManifestCache.get(lib.id);
+    return overlayManifest;
+  }
+  const res = await fetch(lib.manifestPath);
+  if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
   const list = await res.json();
-  if (!Array.isArray(list)) throw new Error("manifest.json did not return an array");
+  if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
+  overlayManifestCache.set(lib.id, list);
   overlayManifest = list;
   return list;
 }
 
-async function getOverlayByFile(file) {
-  if (overlayCache.has(file)) return overlayCache.get(file);
-  const r = await fetch(`fonts/data/${encodeURIComponent(file)}`);
-  if (!r.ok) throw new Error(`overlay fetch HTTP ${r.status} for ${file}`);
-  const j = await r.json();
-  overlayCache.set(file, j);
-  return j;
+function isLibrarySelectValue(value) {
+  return typeof value === "string" && value.startsWith(LIB_SELECT_PREFIX);
 }
 
-async function loadOverlayIndex() {
+function libraryIdFromSelectValue(value) {
+  if (!isLibrarySelectValue(value)) return "";
+  return value.slice(LIB_SELECT_PREFIX.length);
+}
+
+function buildOverlaySelectOptionsBase() {
   if (!overlaySelect) return;
+  overlaySelect.innerHTML = `<option value="">(load library)</option>`;
+  const group = document.createElement("optgroup");
+  group.label = "Libraries";
+  for (const lib of OVERLAY_LIBRARIES) {
+    const opt = document.createElement("option");
+    opt.value = `${LIB_SELECT_PREFIX}${lib.id}`;
+    opt.textContent = lib.label;
+    group.appendChild(opt);
+  }
+  overlaySelect.appendChild(group);
+}
+
+async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "") {
+  if (!overlaySelect) return;
+  buildOverlaySelectOptionsBase();
 
   let list;
   try {
     list = await loadManifest();
   } catch (err) {
-    console.error("Failed to load fonts/manifest.json", err);
-    overlaySelect.innerHTML = `<option value="">(manifest missing)</option>`;
+    const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
+    console.error(`Failed to load ${lib.manifestPath}`, err);
+    overlaySelect.innerHTML = `<option value="">(load library: manifest missing)</option>`;
     return;
   }
 
-  overlaySelect.innerHTML = `<option value="">(none)</option>`;
   const overlayGroup = document.createElement("optgroup");
-  overlayGroup.label = "Fonts by Damien Guard";
+  overlayGroup.label = `${(OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0]).label} Fonts`;
   for (const entry of list) {
     const opt = document.createElement("option");
     opt.value = entry.file;
@@ -1145,39 +1185,85 @@ async function loadOverlayIndex() {
     overlayGroup.appendChild(opt);
   }
   if (overlayGroup.children.length) overlaySelect.appendChild(overlayGroup);
+  if (selectedValue && [...overlaySelect.options].some((o) => o.value === selectedValue)) {
+    overlaySelect.value = selectedValue;
+  } else {
+    overlaySelect.value = "";
+  }
+}
 
+async function getOverlayByFile(file) {
+  const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
+  const cacheKey = `${lib.id}::${file}`;
+  if (overlayCache.has(cacheKey)) return overlayCache.get(cacheKey);
+  const r = await fetch(`${lib.dataDir}/${encodeURIComponent(file)}`);
+  if (!r.ok) throw new Error(`overlay fetch HTTP ${r.status} for ${file}`);
+  const j = await r.json();
+  overlayCache.set(cacheKey, j);
+  return j;
+}
 
+async function loadOverlayIndex() {
+  if (!overlaySelect) return;
+  if (!OVERLAY_LIBRARIES.some((l) => l.id === currentOverlayLibraryId)) {
+    currentOverlayLibraryId = OVERLAY_LIBRARIES[0].id;
+  }
+  // Start with libraries only; fonts are loaded after explicit library selection.
+  buildOverlaySelectOptionsBase();
+
+  
   overlayPickerApi = buildFontPicker({
     selectEl: overlaySelect,
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
-    getPreviewUrl: (value) => getOverlayPreviewUrl(value),
+    getPreviewUrl: (value) => isLibrarySelectValue(value) ? "" : getOverlayPreviewUrl(value),
     lazyMenuPreviews: true,
   });
 
   renderLoadStatusVisual();
 
-  overlaySelect.addEventListener("change", async () => {
-    const file = overlaySelect.value;
+  if (!overlaySelectChangeBound) {
+    overlaySelect.addEventListener("change", async () => {
+      const value = overlaySelect.value;
 
-    if (!file) {
-      currentOverlay = null;
+      if (isLibrarySelectValue(value)) {
+        const nextLib = libraryIdFromSelectValue(value);
+        if (!OVERLAY_LIBRARIES.some((l) => l.id === nextLib)) return;
+        currentOverlayLibraryId = nextLib;
+        localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
+        currentOverlay = null;
+        overlayPreviewUrlCache.clear();
+        await buildOverlayFontOptionsForCurrentLibrary("");
+        overlayPickerApi?.rebuild();
+        overlayPickerApi?.refresh();
+        rebuildResultFont();
+        rerenderAll();
+        setLoadStatus(`Loaded font library: ${(OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0]).label}`);
+        return;
+      }
+
+      const file = value;
+
+      if (!file) {
+        currentOverlay = null;
+        rebuildResultFont();
+        rerenderAll();
+        return;
+      }
+
+      try {
+        currentOverlay = await getOverlayByFile(file);
+      } catch (err) {
+        console.error("Failed to load overlay font:", file, err);
+        currentOverlay = null;
+      }
+
       rebuildResultFont();
       rerenderAll();
-      return;
-    }
-
-    try {
-      currentOverlay = await getOverlayByFile(file);
-    } catch (err) {
-      console.error("Failed to load overlay font:", file, err);
-      currentOverlay = null;
-    }
-
-    rebuildResultFont();
-    rerenderAll();
-    renderLoadStatusVisual();
-  });
+      renderLoadStatusVisual();
+    });
+    overlaySelectChangeBound = true;
+  }
 }
 
 /* -----------------------------
@@ -1193,7 +1279,9 @@ function drawOverlayGlyphToTinyCanvas(ctx, overlay, ch, ink) {
 
   if (ch === " ") return;
 
-  const code = ch.charCodeAt(0);
+  // Force uppercase glyph lookup so branding is stable across mixed-case font mappings.
+  const lookupChar = /[a-z]/i.test(ch) ? ch.toUpperCase() : ch;
+  const code = lookupChar.charCodeAt(0);
   const key = `U+${code.toString(16).padStart(4, "0").toUpperCase()}`;
   const og = overlay?.glyphs?.[key];
   if (!og) return;

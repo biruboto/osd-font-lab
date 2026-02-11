@@ -292,6 +292,7 @@ select{
   width: 100%;
 }
 
+
 /* ---------- drop zone + status ---------- */
 #drop{
   border: 1px dashed var(--bg-3);
