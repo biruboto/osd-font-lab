@@ -73,7 +73,8 @@ const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
 const servingFontCountEl = document.getElementById("servingFontCount");
 
 const exportMCMBtn = document.getElementById("exportMCM");
-const exportPNGBtn = document.getElementById("exportPNG");
+const exportPNG1xBtn = document.getElementById("exportPNG1x");
+const exportPNG3xBtn = document.getElementById("exportPNG3x");
 
 /* -----------------------------
    Constants / State
@@ -324,14 +325,16 @@ function initTheme() {
 }
 
 async function handleBuffer(buf, label = "loaded.mcm") {
+  let decoded;
   try {
-    baseFont = decodeMCM(buf);
+    decoded = decodeMCM(buf);
   } catch (err) {
     console.error("decodeMCM failed for", label, err);
     setLoadStatus(`Failed to load: ${label}`, { error: true });
     throw err;
   }
 
+  baseFont = decoded;
   setSingleSelection(0);
   rebuildResultFont();
   rerenderAll();
@@ -340,6 +343,81 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   syncSwapTargetSelect();
   swapTargetPickerApi?.refresh();
   swapSourcePickerApi?.refresh();
+}
+
+async function decodePngFontSheet(file, {
+  glyphWidth = 12,
+  glyphHeight = 18,
+  cols = 16,
+  rows = 16,
+} = {}) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    img.decoding = "async";
+    img.src = url;
+    await img.decode();
+
+    const unitW = cols * glyphWidth;
+    const unitH = rows * glyphHeight;
+    if (img.width % unitW !== 0 || img.height % unitH !== 0) {
+      throw new Error(
+        `Expected dimensions to be multiples of ${unitW}x${unitH}; got ${img.width}x${img.height}`,
+      );
+    }
+
+    const scaleX = img.width / unitW;
+    const scaleY = img.height / unitH;
+    if (scaleX !== scaleY || scaleX < 1 || !Number.isInteger(scaleX)) {
+      throw new Error(`Expected integer square export scale; got ${scaleX}x${scaleY}`);
+    }
+    const scale = scaleX;
+
+    const c = document.createElement("canvas");
+    c.width = img.width;
+    c.height = img.height;
+    const ctx = c.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(img, 0, 0);
+
+    const pixels = ctx.getImageData(0, 0, c.width, c.height).data;
+    const glyphs = new Array(cols * rows);
+    const sampleOffset = Math.floor(scale / 2);
+
+    for (let idx = 0; idx < cols * rows; idx++) {
+      const gx = idx % cols;
+      const gy = Math.floor(idx / cols);
+      const out = new Uint8Array(glyphWidth * glyphHeight);
+      for (let y = 0; y < glyphHeight; y++) {
+        for (let x = 0; x < glyphWidth; x++) {
+          const sx = gx * glyphWidth * scale + x * scale + sampleOffset;
+          const sy = gy * glyphHeight * scale + y * scale + sampleOffset;
+          const p = ((sy * c.width) + sx) * 4;
+          out[y * glyphWidth + x] = colorToGlyphValue(
+            pixels[p],
+            pixels[p + 1],
+            pixels[p + 2],
+            pixels[p + 3],
+          );
+        }
+      }
+      glyphs[idx] = out;
+    }
+
+    return {
+      width: glyphWidth,
+      height: glyphHeight,
+      format: "png",
+      glyphs,
+      _importMeta: {
+        scale,
+        width: img.width,
+        height: img.height,
+      },
+    };
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 }
 
 
@@ -1567,6 +1645,29 @@ async function handleFile(file) {
     return;
   }
 
+  if (name.endsWith(".png")) {
+    let font;
+    try {
+      font = await decodePngFontSheet(file);
+    } catch (err) {
+      console.error("PNG import failed for", file.name, err);
+      setLoadStatus(`Failed to import PNG: ${file.name}`, { error: true, subtext: err?.message || "" });
+      return;
+    }
+
+    baseFont = font;
+    setSingleSelection(0);
+    rebuildResultFont();
+    rerenderAll();
+    const meta = font._importMeta || {};
+    const subtext = `${meta.width || "?"}x${meta.height || "?"} @${meta.scale || "?"}x`;
+    setLoadStatus(`Loaded PNG font: ${file.name}`, { subtext });
+    syncSwapTargetSelect();
+    swapTargetPickerApi?.refresh();
+    swapSourcePickerApi?.refresh();
+    return;
+  }
+
   const buf = await file.arrayBuffer();
   await handleBuffer(buf, file.name);
 }
@@ -1579,6 +1680,11 @@ function isYaffFile(file) {
 function isMcmFile(file) {
   const name = String(file?.name || "").toLowerCase();
   return name.endsWith(".mcm");
+}
+
+function isPngFile(file) {
+  const name = String(file?.name || "").toLowerCase();
+  return name.endsWith(".png");
 }
 
 async function loadSwapCustomManifest() {
@@ -1732,8 +1838,8 @@ function initEvents() {
   fileInput?.addEventListener("change", () => {
     const f = fileInput.files?.[0];
     if (!f) return;
-    if (!isMcmFile(f)) {
-      setLoadStatus("Please choose a .mcm file here. Use Import .yaff for YAFF files.", { error: true });
+    if (!isMcmFile(f) && !isPngFile(f)) {
+      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff for YAFF files.", { error: true });
       return;
     }
     handleFile(f);
@@ -1757,11 +1863,11 @@ function initEvents() {
     drop.classList.remove("hot");
     const f = e.dataTransfer.files?.[0];
     if (!f) return;
-    if (!isMcmFile(f)) {
+    if (!isMcmFile(f) && !isPngFile(f)) {
       if (isYaffFile(f)) {
         setLoadStatus("Use the Import .yaff button for YAFF overlays.", { error: true });
       } else {
-        setLoadStatus("Unsupported file type. Drop a .mcm file here.", { error: true });
+        setLoadStatus("Unsupported file type. Drop a .mcm or exported .png file here.", { error: true });
       }
       return;
     }
@@ -1781,12 +1887,21 @@ function initEvents() {
     downloadBlob(blob, `${safeBaseName()}.mcm`);
   });
 
-  exportPNGBtn?.addEventListener("click", () => {
+  exportPNG1xBtn?.addEventListener("click", () => {
+    if (!resultFont) return;
+    const sheet = workspaceRenderer.renderFontToSheetCanvas(resultFont, 1);
+    sheet.toBlob((blob) => {
+      if (!blob) return;
+      downloadBlob(blob, `${safeBaseName()}_1x.png`);
+    }, "image/png");
+  });
+
+  exportPNG3xBtn?.addEventListener("click", () => {
     if (!resultFont) return;
     const sheet = workspaceRenderer.renderFontToSheetCanvas(resultFont, 3);
     sheet.toBlob((blob) => {
       if (!blob) return;
-      downloadBlob(blob, `${safeBaseName()}.png`);
+      downloadBlob(blob, `${safeBaseName()}_3x.png`);
     }, "image/png");
   });
 

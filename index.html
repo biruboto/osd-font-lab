@@ -89,7 +89,8 @@
           <div class="topbar-right">
             <div class="exports">
               <button id="exportMCM" type="button">Export .mcm</button>
-              <button id="exportPNG" type="button">Export PNG</button>
+              <button id="exportPNG1x" type="button">Export PNG 1x</button>
+              <button id="exportPNG3x" type="button">Export PNG 3x</button>
             </div>
           </div>
         </header>
@@ -129,9 +130,9 @@
                     class="dropzone dropzone-inline"
                     role="button"
                     tabindex="0"
-                    title="Import a base .mcm font file"
+                    title="Import a base .mcm or exported .png font file"
                   >
-                    Drop .mcm or click
+                    Drop .mcm/.png or click
                   </div>
                 </label>
                 <label class="field field-stack import-inline">
@@ -146,7 +147,7 @@
                   </button>
                 </label>
               </div>
-              <input id="file" type="file" accept=".mcm" hidden>
+              <input id="file" type="file" accept=".mcm,.png" hidden>
               <input id="yaffFile" type="file" accept=".yaff" hidden>
             </div>
             <div class="tools-section-title">- Icons -</div>
