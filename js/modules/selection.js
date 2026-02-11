@@ -9,7 +9,7 @@ export function createSelectionState(initialIndex = 0) {
 
 export function updateSelectionCount(selCountEl, state) {
   if (!selCountEl) return;
-  selCountEl.textContent = `Selected: ${state.selectedSet.size}`;
+  selCountEl.textContent = `Selected glyphs: ${state.selectedSet.size}`;
 }
 
 export function setSingleSelection(state, idx) {

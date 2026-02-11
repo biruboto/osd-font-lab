@@ -175,6 +175,18 @@ canvas{
   accent-color: var(--accent-0);
 }
 
+.font-serving-note{
+  font-size: 0.8rem;
+  opacity: 0.78;
+  text-align: left;
+  margin-top: -2px;
+}
+
+.font-serving-count{
+  color: var(--accent-0);
+  font-weight: 700;
+}
+
 .dpad{
   display: flex;
   flex-wrap: nowrap;

@@ -66,11 +66,11 @@ const swapSourceSelect = document.getElementById("swapSourceSelect");
 const clearSwapTargetBtn = document.getElementById("clearSwapTargetBtn");
 const clearAllSwapsBtn = document.getElementById("clearAllSwapsBtn");
 
-const replNudgeReadout = document.getElementById("replNudgeReadout");
 const selCount = document.getElementById("selCount");
 
 const showGridsEl = document.getElementById("showGrids");
 const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
+const servingFontCountEl = document.getElementById("servingFontCount");
 
 const exportMCMBtn = document.getElementById("exportMCM");
 const exportPNGBtn = document.getElementById("exportPNG");
@@ -457,7 +457,7 @@ function rangeSelect(toIdx) {
 ------------------------------ */
 
 function updateReplReadout() {
-  if (replNudgeReadout) replNudgeReadout.textContent = `x ${nudge.replaced.x}, y ${nudge.replaced.y}`;
+  // Readout removed from UI; keep stub so existing calls remain harmless.
 }
 
 function clearSelectionNudges() {
@@ -1161,6 +1161,18 @@ async function loadAllOverlayManifests() {
   return all;
 }
 
+async function updateServingFontCount() {
+  if (!servingFontCountEl) return;
+  servingFontCountEl.textContent = "...";
+  try {
+    const all = await loadAllOverlayManifests();
+    servingFontCountEl.textContent = String(all.length);
+  } catch (err) {
+    console.warn("Failed to compute serving font count", err);
+    servingFontCountEl.textContent = "?";
+  }
+}
+
 function isLibrarySelectValue(value) {
   return typeof value === "string" && value.startsWith(LIB_SELECT_PREFIX);
 }
@@ -1815,6 +1827,7 @@ function init() {
   initEvents();
   loadOverlayIndex();
   loadBetaflightDefaults();
+  updateServingFontCount();
   initBrandTitle();
 }
 
