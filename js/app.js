@@ -1333,9 +1333,9 @@ function libraryIdFromSelectValue(value) {
   return value.slice(LIB_SELECT_PREFIX.length);
 }
 
-function buildOverlaySelectOptionsBase() {
+function buildOverlaySelectOptionsBase(placeholderText = "(load font library)") {
   if (!overlaySelect) return;
-  overlaySelect.innerHTML = `<option value="">(load library)</option>`;
+  overlaySelect.innerHTML = `<option value="">${placeholderText}</option>`;
   const group = document.createElement("optgroup");
   group.label = "Libraries";
   for (const lib of OVERLAY_LIBRARIES) {
@@ -1347,9 +1347,9 @@ function buildOverlaySelectOptionsBase() {
   overlaySelect.appendChild(group);
 }
 
-async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "") {
+async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "", placeholderText = "(load font library)") {
   if (!overlaySelect) return;
-  buildOverlaySelectOptionsBase();
+  buildOverlaySelectOptionsBase(placeholderText);
 
   let list;
   try {
@@ -1357,7 +1357,7 @@ async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "") {
   } catch (err) {
     const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
     console.error(`Failed to load ${lib.manifestPath}`, err);
-    overlaySelect.innerHTML = `<option value="">(load library: manifest missing)</option>`;
+    overlaySelect.innerHTML = `<option value="">(${placeholderText}: manifest missing)</option>`;
     return;
   }
 
@@ -1418,16 +1418,17 @@ async function loadOverlayIndex() {
       if (isLibrarySelectValue(value)) {
         const nextLib = libraryIdFromSelectValue(value);
         if (!OVERLAY_LIBRARIES.some((l) => l.id === nextLib)) return;
+        const nextLibLabel = (OVERLAY_LIBRARIES.find((l) => l.id === nextLib) || OVERLAY_LIBRARIES[0]).label;
         currentOverlayLibraryId = nextLib;
         localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
         currentOverlay = null;
         overlayPreviewUrlCache.clear();
-        await buildOverlayFontOptionsForCurrentLibrary("");
+        await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel);
         overlayPickerApi?.rebuild();
         overlayPickerApi?.refresh();
         rebuildResultFont();
         rerenderAll();
-        setLoadStatus(`Loaded font library: ${(OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0]).label}`);
+        setLoadStatus(`Loaded font library: ${nextLibLabel}`);
         return;
       }
 

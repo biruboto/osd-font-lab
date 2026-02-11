@@ -17,13 +17,22 @@
 }
 
 .font-select-stack .fontpicker{
+  --fontpicker-w: 300px;
   width: 100%;
+  width: min(var(--fontpicker-w), 100%);
   min-width: 0;
-  max-width: 320px;
+  max-width: var(--fontpicker-w);
+  box-sizing: border-box;
+}
+
+.font-select-stack .fontpicker-btn .fontpicker-thumb{
+  width: 84px;
+  max-width: 84px;
+  object-fit: contain;
 }
 
 .font-select-stack .fontpicker-menu{
-  width: min(320px, calc(100vw - 40px));
+  width: min(var(--fontpicker-w), calc(100vw - 40px));
 }
 
 .fontpicker-btn{
@@ -76,6 +85,7 @@
   width: min(420px, 70vw);
   max-height: 320px;
   overflow: auto;
+  scrollbar-gutter: stable;
   background: var(--bg-1);
   border: 1px solid var(--bg-3);
   border-radius: 12px;
@@ -255,24 +265,28 @@ select{
 
 .panel-base .panel-header-controls{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto clamp(180px, 38%, 220px);
   align-items: flex-start;
   justify-content: stretch;
+  justify-items: stretch;
   column-gap: 10px;
   row-gap: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .font-select-stack{
   display: flex;
   flex-direction: column;
   gap: 8px;
-  align-items: flex-start;
+  align-items: stretch;
   width: 100%;
   min-width: 0;
 }
 
 .font-select-stack .field{
   width: 100%;
+  box-sizing: border-box;
 }
 
 .font-select-stack select{
@@ -297,9 +311,9 @@ select{
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 220px;
-  min-width: 160px;
-  max-width: 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: clamp(180px, 38%, 220px);
   align-items: stretch;
 }
 
