@@ -76,6 +76,7 @@ body{
   transform: scale(2);
   transform-origin: right center;
   display: inline-flex;
+  flex: 0 0 auto;
   flex-wrap: nowrap;
   white-space: nowrap;
   line-height: 1;
@@ -88,6 +89,7 @@ body{
 .brandDrone{
   width: 52px;
   height: 36px;
+  flex: 0 0 auto;
   display: block;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
@@ -230,17 +232,18 @@ body{
     margin: 0;
     padding: 0;
     pointer-events: auto;
-    grid-template-columns: 1fr;
-    justify-items: end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .brandCluster{
-    grid-column: 1;
     justify-self: end;
-    width: 100%;
-    max-width: 100%;
+    width: auto;
+    max-width: none;
     justify-content: flex-end;
     overflow: visible;
+    gap: 10px;
   }
 
   .brandTitle{
@@ -274,7 +277,7 @@ body{
   }
 
   .brandCluster{
-    gap: 8px;
+    gap: 10px;
     justify-content: flex-end;
   }
 
@@ -287,6 +290,7 @@ body{
     width: 36px;
     height: 25px;
     flex: 0 0 auto;
+    margin-left: 2px;
   }
 
   .zoom-canvas{
