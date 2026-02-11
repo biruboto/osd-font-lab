@@ -404,6 +404,7 @@ function initTheme() {
       rerenderAll();
       renderLoadStatusVisual();
       window.__redrawBrandTitle?.();
+      window.__redrawBrandDrone?.();
       overlayPickerApi?.refresh();
       bfPickerApi?.refresh();
       swapTargetPickerApi?.refresh();
@@ -1477,7 +1478,13 @@ async function loadOverlayIndex() {
 ------------------------------ */
 
 const brandEl = document.getElementById("brandTitle");
+const brandDroneEl = document.getElementById("brandDrone");
 const BRAND_TEXT = "OSD Font Lab";
+const DRONE_FRAME_PATHS = ["drone1.png", "drone2.png"];
+let droneSourceFrames = null;
+let droneTintFrames = [];
+let droneFrameIdx = 0;
+let droneTimer = null;
 
 function drawOverlayGlyphToTinyCanvas(ctx, overlay, ch, ink) {
   const cellW = 12, cellH = 18;
@@ -1700,6 +1707,70 @@ async function initBrandTitle() {
   }
 
   requestAnimationFrame(tick);
+}
+
+async function loadDroneSourceFrames() {
+  if (droneSourceFrames) return droneSourceFrames;
+  const frames = [];
+  for (const path of DRONE_FRAME_PATHS) {
+    const img = new Image();
+    img.decoding = "async";
+    img.src = path;
+    await img.decode();
+    frames.push(img);
+  }
+  droneSourceFrames = frames;
+  return frames;
+}
+
+function tintDroneFrameToDataUrl(sourceImg, ink) {
+  const c = document.createElement("canvas");
+  c.width = sourceImg.naturalWidth || sourceImg.width;
+  c.height = sourceImg.naturalHeight || sourceImg.height;
+  const ctx = c.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.clearRect(0, 0, c.width, c.height);
+  ctx.drawImage(sourceImg, 0, 0);
+  // Keep source alpha, replace color with themed ink.
+  ctx.globalCompositeOperation = "source-in";
+  ctx.fillStyle = ink;
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.globalCompositeOperation = "source-over";
+  return c.toDataURL("image/png");
+}
+
+async function renderBrandDroneFrames() {
+  if (!brandDroneEl) return;
+  const frames = await loadDroneSourceFrames();
+  const ink = cssVar("--brand-ink", cssVar("--accent-0", "#ffffff"));
+  droneTintFrames = frames.map((img) => tintDroneFrameToDataUrl(img, ink));
+  if (droneTintFrames.length) {
+    droneFrameIdx = 0;
+    brandDroneEl.src = droneTintFrames[droneFrameIdx];
+  }
+}
+
+async function initBrandDrone() {
+  if (!brandDroneEl) return;
+  try {
+    await renderBrandDroneFrames();
+  } catch (err) {
+    console.warn("Brand drone: failed to initialize.", err);
+    return;
+  }
+
+  if (droneTimer) clearInterval(droneTimer);
+  droneTimer = setInterval(() => {
+    if (!droneTintFrames.length || !brandDroneEl) return;
+    droneFrameIdx = (droneFrameIdx + 1) % droneTintFrames.length;
+    brandDroneEl.src = droneTintFrames[droneFrameIdx];
+  }, 45);
+
+  window.__redrawBrandDrone = () => {
+    renderBrandDroneFrames().catch((err) => {
+      console.warn("Brand drone: failed to redraw.", err);
+    });
+  };
 }
 
 
@@ -2034,6 +2105,7 @@ function init() {
   loadOverlayIndex();
   loadBetaflightDefaults();
   updateServingFontCount();
+  initBrandDrone();
   initBrandTitle();
 }
 
