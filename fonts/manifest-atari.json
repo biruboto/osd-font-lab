@@ -455,19 +455,6 @@
         "hasDigits":  true
     },
     {
-        "id":  "choper1",
-        "file":  "CHOPER1.json",
-        "name":  "CHOPER1",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  128,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
         "id":  "choper5",
         "file":  "CHOPER5.json",
         "name":  "CHOPER5",

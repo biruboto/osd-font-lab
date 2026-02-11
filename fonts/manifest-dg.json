@@ -221,19 +221,6 @@
         "hasDigits":  true
     },
     {
-        "id":  "atlas-uncurved",
-        "file":  "Atlas Uncurved.json",
-        "name":  "Atlas Uncurved",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  266,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
         "id":  "authorized",
         "file":  "Authorized.json",
         "name":  "Authorized",
@@ -775,19 +762,6 @@
                      18
                  ],
         "glyphCount":  266,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
-        "id":  "cinema-bold",
-        "file":  "Cinema Bold.json",
-        "name":  "Cinema Bold",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
         "hasUpper":  true,
         "hasLower":  true,
         "hasDigits":  true
@@ -2028,19 +2002,6 @@
         "hasDigits":  true
     },
     {
-        "id":  "fountain-joined",
-        "file":  "Fountain Joined.json",
-        "name":  "Fountain Joined",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
         "id":  "franopix",
         "file":  "Franopix.json",
         "name":  "Franopix",
@@ -2161,19 +2122,6 @@
         "id":  "gemma",
         "file":  "Gemma.json",
         "name":  "Gemma",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
-        "id":  "gemma-short-lower",
-        "file":  "Gemma Short Lower.json",
-        "name":  "Gemma Short Lower",
         "cell":  [
                      12,
                      18
@@ -3042,19 +2990,6 @@
         "hasDigits":  true
     },
     {
-        "id":  "matinee-smallcaps",
-        "file":  "Matinee Smallcaps.json",
-        "name":  "Matinee Smallcaps",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  266,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
         "id":  "melanie",
         "file":  "Melanie.json",
         "name":  "Melanie",
@@ -3292,19 +3227,6 @@
         "id":  "no-step",
         "file":  "No Step.json",
         "name":  "No Step",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
-        "id":  "no-step-lower",
-        "file":  "No Step Lower.json",
-        "name":  "No Step Lower",
         "cell":  [
                      12,
                      18
@@ -4654,19 +4576,6 @@
         "hasDigits":  true
     },
     {
-        "id":  "scribe-condensed-smaller-lowercase",
-        "file":  "Scribe Condensed Smaller Lowercase.json",
-        "name":  "Scribe Condensed Smaller Lowercase",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
         "id":  "scribe-eire",
         "file":  "Scribe Eire.json",
         "name":  "Scribe Eire",
@@ -4683,19 +4592,6 @@
         "id":  "scribe-hylean",
         "file":  "Scribe Hylean.json",
         "name":  "Scribe Hylean",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
-        "id":  "scribe-smaller-lowercase",
-        "file":  "Scribe Smaller Lowercase.json",
-        "name":  "Scribe Smaller Lowercase",
         "cell":  [
                      12,
                      18
@@ -5434,32 +5330,6 @@
         "hasDigits":  true
     },
     {
-        "id":  "touch-up",
-        "file":  "Touch Up.json",
-        "name":  "Touch Up",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
-        "id":  "track40-lower",
-        "file":  "Track40 Lower.json",
-        "name":  "Track40 Lower",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  266,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
         "id":  "track40-upper",
         "file":  "Track40 Upper.json",
         "name":  "Track40 Upper",
@@ -5944,19 +5814,6 @@
         "id":  "zx-eurostile",
         "file":  "ZX Eurostile.json",
         "name":  "ZX Eurostile",
-        "cell":  [
-                     12,
-                     18
-                 ],
-        "glyphCount":  298,
-        "hasUpper":  true,
-        "hasLower":  true,
-        "hasDigits":  true
-    },
-    {
-        "id":  "zx-eurostile-wider",
-        "file":  "ZX Eurostile Wider.json",
-        "name":  "ZX Eurostile Wider",
         "cell":  [
                      12,
                      18
