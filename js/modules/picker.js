@@ -29,6 +29,7 @@ export function buildFontPicker({
   const btn = document.createElement("button");
   btn.type = "button";
   btn.className = "fontpicker-btn";
+  btn.title = selectEl.getAttribute("title") || "";
 
   const thumb = document.createElement("img");
   thumb.className = "fontpicker-thumb";

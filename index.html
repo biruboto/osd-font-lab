@@ -39,7 +39,8 @@
 
                 <label class="field checkbox">
                   <input id="showGrids" type="checkbox" checked />
-                  <span>Show grids</span>
+                  <span class="toggle-slider" aria-hidden="true"></span>
+                  <span class="checkbox-label">Show grids</span>
                 </label>
 
                 <div class="nudgeRow tiny">
@@ -75,6 +76,7 @@
                   <label><input type="radio" name="siteTheme" value="amber-terminal"></label>
                   <label><input type="radio" name="siteTheme" value="cold-phosphor"></label>
                   <label><input type="radio" name="siteTheme" value="lavender-circuit"></label>
+                  <span id="themeCodeLabel" class="theme-code-label">DUSK</span>
                 </div>
                 <div class="font-serving-note">Currently serving <span id="servingFontCount" class="font-serving-count">0</span> fonts!</div>
               </div>
@@ -107,13 +109,13 @@
               <div class="font-select-stack">
                 <label class="field field-stack bf-inline">
                   <span>Load a default font</span>
-                  <select id="bfFontSelect">
+                  <select id="bfFontSelect" title="Load a Betaflight default">
                     <option value="">(choose default)</option>
                   </select>
                 </label>
                 <label class="field field-stack overlay-inline">
                   <span>Replace with</span>
-                  <select id="overlaySelect"></select>
+                  <select id="overlaySelect" title="Choose a font collection"></select>
                 </label>
               </div>
               <div class="or-select-stack" aria-hidden="true">

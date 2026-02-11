@@ -175,6 +175,16 @@ canvas{
   accent-color: var(--accent-0);
 }
 
+.theme-code-label{
+  margin-left: 4px;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.82;
+  color: var(--accent-0);
+  user-select: none;
+}
+
 .font-serving-note{
   font-size: 0.8rem;
   opacity: 0.78;

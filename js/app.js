@@ -71,6 +71,7 @@ const selCount = document.getElementById("selCount");
 const showGridsEl = document.getElementById("showGrids");
 const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
 const servingFontCountEl = document.getElementById("servingFontCount");
+const themeCodeLabelEl = document.getElementById("themeCodeLabel");
 const kofiBadgeIconEl = document.getElementById("kofiBadgeIcon");
 
 const exportMCMBtn = document.getElementById("exportMCM");
@@ -159,6 +160,19 @@ let loadStatusText = "No file loaded.";
 let loadStatusSubtext = "";
 let loadStatusError = false;
 let kofiIconData = null;
+
+const THEME_SHORT_LABELS = {
+  dusk: "DUSK",
+  crt: "CRT",
+  "amber-terminal": "AMBR",
+  "cold-phosphor": "PHSPHR",
+  "lavender-circuit": "LVNDR",
+};
+
+function updateThemeCodeLabel(themeId) {
+  if (!themeCodeLabelEl) return;
+  themeCodeLabelEl.textContent = THEME_SHORT_LABELS[themeId] || String(themeId || "DUSK").toUpperCase();
+}
 
 // Betaflight OSD glyph labels (from Betaflight docs table)
 const BF_GLYPH_LABELS = (() => {
@@ -384,6 +398,8 @@ function initTheme() {
   initThemeControls({
     themeRadios,
     onThemeChange: () => {
+      const activeTheme = currentThemeId();
+      updateThemeCodeLabel(activeTheme);
       clearDynamicPreviewCaches();
       rerenderAll();
       renderLoadStatusVisual();
