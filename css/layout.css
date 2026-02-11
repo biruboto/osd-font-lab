@@ -231,6 +231,19 @@ body{
     padding: 0;
     pointer-events: auto;
     grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .brandCluster{
+    grid-column: 1;
+    justify-self: center;
+    width: auto;
+    max-width: 100%;
+    justify-content: center;
+  }
+
+  .brandTitle{
+    transform-origin: center;
   }
 
   .panel-result .sidecar{
@@ -258,8 +271,18 @@ body{
     padding: 2px 0;
   }
 
+  .brandCluster{
+    gap: 8px;
+  }
+
   .brandTitle{
-    transform: scale(1.6);
+    transform: scale(1.3);
+    transform-origin: center;
+  }
+
+  .brandDrone{
+    width: 36px;
+    height: 25px;
   }
 
   .brandCluster{
