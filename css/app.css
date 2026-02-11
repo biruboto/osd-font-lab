@@ -609,6 +609,16 @@ canvas{
   margin-bottom: 6px;
 }
 
+.tools-section-title{
+  width: 100%;
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.62;
+  margin: 2px 0 6px;
+}
+
 .swap-controls{
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

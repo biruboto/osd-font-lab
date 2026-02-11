@@ -115,15 +115,15 @@ const BF_GLYPH_LABELS = (() => {
     0x06: { names: ["SYM_VOLT"], note: "" },
     0x07: { names: ["SYM_MAH"], note: "" },
 
-    0x08: { names: ["SYM_STICK_OVERLAY_SPRITE_HIGH"], note: "Stick overlay" },
-    0x09: { names: ["SYM_STICK_OVERLAY_SPRITE_MID"], note: "Stick overlay" },
-    0x0A: { names: ["SYM_STICK_OVERLAY_SPRITE_LOW"], note: "Stick overlay" },
-    0x0B: { names: ["SYM_STICK_OVERLAY_CENTER"], note: "Stick overlay" },
+    0x08: { names: ["SYM_STICK_OVERLAY_SPRITE_HIGH"], note: "" },
+    0x09: { names: ["SYM_STICK_OVERLAY_SPRITE_MID"], note: "" },
+    0x0A: { names: ["SYM_STICK_OVERLAY_SPRITE_LOW"], note: "" },
+    0x0B: { names: ["SYM_STICK_OVERLAY_CENTER"], note: "" },
 
-    0x0C: { names: ["SYM_M"], note: "" },
+    0x0C: { names: ["SYM_M"], note: "Meters" },
     0x0D: { names: ["SYM_F"], note: "Fahrenheit" },
     0x0E: { names: ["SYM_C"], note: "Celsius" },
-    0x0F: { names: ["SYM_FT"], note: "" },
+    0x0F: { names: ["SYM_FT"], note: "Feet" },
 
     0x10: { names: ["SYM_BBLOG"], note: "Black Box Log" },
     0x11: { names: ["SYM_HOMEFLAG"], note: "" },
@@ -131,8 +131,8 @@ const BF_GLYPH_LABELS = (() => {
     0x13: { names: ["SYM_AH_DECORATION"], note: "Horizon Sidebars" },
     0x14: { names: ["SYM_ROLL"], note: "" },
     0x15: { names: ["SYM_PITCH"], note: "" },
-    0x16: { names: ["SYM_STICK_OVERLAY_VERTICAL"], note: "Stick overlay" },
-    0x17: { names: ["SYM_STICK_OVERLAY_HORIZONTAL"], note: "Stick overlay" },
+    0x16: { names: ["SYM_STICK_OVERLAY_VERTICAL"], note: "" },
+    0x17: { names: ["SYM_STICK_OVERLAY_HORIZONTAL"], note: "" },
 
     0x18: { names: ["SYM_HEADING_N"], note: "Compass bar" },
     0x19: { names: ["SYM_HEADING_S"], note: "Compass bar" },
@@ -150,21 +150,21 @@ const BF_GLYPH_LABELS = (() => {
 
     // Arrows 0x60..0x6F
     0x60: { names: ["SYM_ARROW_SOUTH"], note: "Direction to home, crash flip, etc" },
-    0x61: { names: ["SYM_ARROW_2"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x62: { names: ["SYM_ARROW_3"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x63: { names: ["SYM_ARROW_4"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x64: { names: ["SYM_ARROW_EAST"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x65: { names: ["SYM_ARROW_6"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x66: { names: ["SYM_ARROW_7"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x67: { names: ["SYM_ARROW_8"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x68: { names: ["SYM_ARROW_NORTH"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x69: { names: ["SYM_ARROW_10"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x6A: { names: ["SYM_ARROW_11"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x6B: { names: ["SYM_ARROW_12"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x6C: { names: ["SYM_ARROW_WEST"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x6D: { names: ["SYM_ARROW_14"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x6E: { names: ["SYM_ARROW_15"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
-    0x6F: { names: ["SYM_ARROW_16"], note: "Calculated from SYM_ARROW_SOUTH + heading" },
+    0x61: { names: ["SYM_ARROW_2"], note: "" },
+    0x62: { names: ["SYM_ARROW_3"], note: "" },
+    0x63: { names: ["SYM_ARROW_4"], note: "" },
+    0x64: { names: ["SYM_ARROW_EAST"], note: "" },
+    0x65: { names: ["SYM_ARROW_6"], note: "" },
+    0x66: { names: ["SYM_ARROW_7"], note: "" },
+    0x67: { names: ["SYM_ARROW_8"], note: "" },
+    0x68: { names: ["SYM_ARROW_NORTH"], note: "" },
+    0x69: { names: ["SYM_ARROW_10"], note: "" },
+    0x6A: { names: ["SYM_ARROW_11"], note: "" },
+    0x6B: { names: ["SYM_ARROW_12"], note: "" },
+    0x6C: { names: ["SYM_ARROW_WEST"], note: "" },
+    0x6D: { names: ["SYM_ARROW_14"], note: "" },
+    0x6E: { names: ["SYM_ARROW_15"], note: "" },
+    0x6F: { names: ["SYM_ARROW_16"], note: "" },
 
     // 0x70..0x9F
     0x70: { names: ["SYM_SPEED"], note: "" },
@@ -174,17 +174,18 @@ const BF_GLYPH_LABELS = (() => {
     0x74: { names: ["SYM_AH_CENTER_LINE_RIGHT"], note: "Crosshairs" },
 
     0x7A: { names: ["SYM_TEMPERATURE"], note: "" },
+    0x7B: { names: ["SYM_LQ"], note: "Link Quality" },
     0x7F: { names: ["SYM_ALTITUDE"], note: "" },
 
     0x80: { names: ["SYM_AH_BAR9_0"], note: "" },
-    0x81: { names: ["SYM_AH_BAR9_1"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x82: { names: ["SYM_AH_BAR9_2"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x83: { names: ["SYM_AH_BAR9_3"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x84: { names: ["SYM_AH_BAR9_4"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x85: { names: ["SYM_AH_BAR9_5"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x86: { names: ["SYM_AH_BAR9_6"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x87: { names: ["SYM_AH_BAR9_7"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
-    0x88: { names: ["SYM_AH_BAR9_8"], note: "Calculated in AH using SYM_AH_BAR9_0 as base" },
+    0x81: { names: ["SYM_AH_BAR9_1"], note: "" },
+    0x82: { names: ["SYM_AH_BAR9_2"], note: "" },
+    0x83: { names: ["SYM_AH_BAR9_3"], note: "" },
+    0x84: { names: ["SYM_AH_BAR9_4"], note: "" },
+    0x85: { names: ["SYM_AH_BAR9_5"], note: "" },
+    0x86: { names: ["SYM_AH_BAR9_6"], note: "" },
+    0x87: { names: ["SYM_AH_BAR9_7"], note: "" },
+    0x88: { names: ["SYM_AH_BAR9_8"], note: "" },
 
     0x89: { names: ["SYM_LAT"], note: "" },
     0x8A: { names: ["SYM_PB_START"], note: "" },
@@ -194,20 +195,20 @@ const BF_GLYPH_LABELS = (() => {
     0x8E: { names: ["SYM_PB_END"], note: "" },
     0x8F: { names: ["SYM_PB_CLOSE"], note: "" },
 
-    0x90: { names: ["SYM_BATT_FULL"], note: "Calculated from SYM_BATT_EMPTY" },
-    0x91: { names: ["SYM_BATT_5"], note: "Calculated from SYM_BATT_EMPTY" },
-    0x92: { names: ["SYM_BATT_4"], note: "Calculated from SYM_BATT_EMPTY" },
-    0x93: { names: ["SYM_BATT_3"], note: "Calculated from SYM_BATT_EMPTY" },
-    0x94: { names: ["SYM_BATT_2"], note: "Calculated from SYM_BATT_EMPTY" },
-    0x95: { names: ["SYM_BATT_1"], note: "Calculated from SYM_BATT_EMPTY" },
+    0x90: { names: ["SYM_BATT_FULL"], note: "" },
+    0x91: { names: ["SYM_BATT_5"], note: "" },
+    0x92: { names: ["SYM_BATT_4"], note: "" },
+    0x93: { names: ["SYM_BATT_3"], note: "" },
+    0x94: { names: ["SYM_BATT_2"], note: "" },
+    0x95: { names: ["SYM_BATT_1"], note: "" },
     0x96: { names: ["SYM_BATT_EMPTY"], note: "" },
 
     0x97: { names: ["SYM_MAIN_BATT"], note: "" },
     0x98: { names: ["SYM_LON"], note: "" },
     0x99: { names: ["SYM_FTPS"], note: "ft per second (vario)" },
     0x9A: { names: ["SYM_AMP"], note: "" },
-    0x9B: { names: ["SYM_ON_M"], note: "" },
-    0x9C: { names: ["SYM_FLY_M"], note: "" },
+    0x9B: { names: ["SYM_ON_M"], note: "On Timer" },
+    0x9C: { names: ["SYM_FLY_M"], note: "Fly Timer" },
     0x9D: { names: ["SYM_MPH"], note: "" },
     0x9E: { names: ["SYM_KPH"], note: "" },
     0x9F: { names: ["SYM_MPS"], note: "meters per second (vario)" },
@@ -1808,14 +1809,17 @@ async function loadOverlayIndex() {
   }
 
   overlaySelect.innerHTML = `<option value="">(none)</option>`;
+  const overlayGroup = document.createElement("optgroup");
+  overlayGroup.label = "Fonts by Damien Guard";
   for (const entry of list) {
     const opt = document.createElement("option");
     opt.value = entry.file;
     opt.textContent = entry.name;
 
     if (entry.thumb) opt.dataset.thumb = entry.thumb;
-    overlaySelect.appendChild(opt);
+    overlayGroup.appendChild(opt);
   }
+  if (overlayGroup.children.length) overlaySelect.appendChild(overlayGroup);
 
 
   buildFontPicker({
