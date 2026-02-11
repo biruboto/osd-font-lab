@@ -231,15 +231,15 @@ body{
     padding: 0;
     pointer-events: auto;
     grid-template-columns: 1fr;
-    justify-items: center;
+    justify-items: end;
   }
 
   .brandCluster{
     grid-column: 1;
-    justify-self: center;
+    justify-self: end;
     width: 100%;
     max-width: 100%;
-    justify-content: center;
+    justify-content: flex-end;
     overflow: visible;
   }
 
@@ -275,7 +275,7 @@ body{
 
   .brandCluster{
     gap: 8px;
-    justify-content: center;
+    justify-content: flex-end;
   }
 
   .brandTitle{
