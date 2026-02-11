@@ -9,5 +9,5 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Load an .MCM file or begin with the included Betaflight defaults
 + Instantly replace all typable characters with gorgeous bitmap fonts by Damien Guard
 + Nudge the characters around to match baselines and horizontal spacing etc
-+ Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small selection of custom OSD FL icons
++ Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small (but growing!) selection of custom OSD FL icons
 + Export to either .MCM or .PNG

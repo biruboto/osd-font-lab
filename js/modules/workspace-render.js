@@ -16,7 +16,7 @@ export function createWorkspaceRenderer({
     ctx.lineWidth = 1;
 
     for (let c = 0; c <= cols; c++) {
-      const x = c * cellW + 0.5;
+      const x = (c === cols) ? (ctx.canvas.width - 0.5) : (c * cellW + 0.5);
       ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, ctx.canvas.height);
@@ -24,7 +24,7 @@ export function createWorkspaceRenderer({
     }
 
     for (let r = 0; r <= 16; r++) {
-      const y = r * cellH + 0.5;
+      const y = (r === 16) ? (ctx.canvas.height - 0.5) : (r * cellH + 0.5);
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(ctx.canvas.width, y);
@@ -91,7 +91,18 @@ export function createWorkspaceRenderer({
         const sgy = Math.floor(idx / cols);
         const sx = sgx * font.width * scale;
         const sy = sgy * font.height * scale;
-        ctx.strokeRect(sx + 0.5, sy + 0.5, font.width * scale - 1, font.height * scale - 1);
+        const x = sx + 0.5;
+        const y = sy + 0.5;
+        let w = font.width * scale - 1;
+        let h = font.height * scale - 1;
+
+        // Keep outlines fully inside the canvas so edge-cell selection
+        // doesn't appear clipped on the right/bottom at some sizes.
+        const maxW = (canvas.width - 0.5) - x;
+        const maxH = (canvas.height - 0.5) - y;
+        if (w > maxW) w = maxW;
+        if (h > maxH) h = maxH;
+        if (w > 0 && h > 0) ctx.strokeRect(x, y, w, h);
       }
       ctx.restore();
     }
