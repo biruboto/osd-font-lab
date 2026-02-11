@@ -192,7 +192,7 @@ body{
 .topbar{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
 
   padding: 12px 16px;
@@ -685,7 +685,7 @@ canvas{
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   grid-column: 1 / -1;
 }
 
@@ -847,6 +847,36 @@ canvas{
 /* ---------- D-pad / nudging UI ---------- */
 .nudgeBox{ margin: 0; display: block; }
 .nudgeTitle{ opacity: 0.8; font-size: 13px; margin-bottom: 8px; }
+
+.theme-radios{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  border-top: 1px solid var(--bg-3);
+  padding-top: 10px;
+}
+
+.theme-radios-label{
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  margin-right: 4px;
+}
+
+.theme-radios label{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  opacity: 0.92;
+  cursor: pointer;
+}
+
+.theme-radios input[type="radio"]{
+  margin: 0;
+  accent-color: var(--accent-0);
+}
 
 .dpad{
   display: flex;

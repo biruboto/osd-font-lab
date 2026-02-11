@@ -8,7 +8,7 @@ const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
 const loadStatus = document.getElementById("loadStatus");
 
-const themeSelect = document.getElementById("themeSelect");
+const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
 
 const compareToggle = document.getElementById("compareToggle");
 
@@ -275,25 +275,33 @@ function clearDynamicPreviewCaches() {
 }
 
 function initTheme() {
-  if (!themeSelect) return;
+  if (!themeRadios.length) return;
 
   const saved = localStorage.getItem(THEME_KEY) || "dusk";
-  themeSelect.value = saved;
-  applyTheme(saved);
+  const initial = themeRadios.some((r) => r.value === saved) ? saved : themeRadios[0].value;
+  for (const radio of themeRadios) {
+    radio.checked = radio.value === initial;
+  }
 
-  themeSelect.addEventListener("change", () => {
-    const t = themeSelect.value;
-    localStorage.setItem(THEME_KEY, t);
-    applyTheme(t);
-    clearDynamicPreviewCaches();
-    rerenderAll();
-    renderLoadStatusVisual();
-    window.__redrawBrandTitle?.();
-    overlayPickerApi?.refresh();
-    bfPickerApi?.refresh();
-    swapTargetPickerApi?.refresh();
-    swapSourcePickerApi?.refresh();
-  });
+  for (const radio of themeRadios) {
+    radio.addEventListener("change", () => {
+      if (!radio.checked) return;
+      const t = radio.value;
+      localStorage.setItem(THEME_KEY, t);
+      applyTheme(t);
+      clearDynamicPreviewCaches();
+      rerenderAll();
+      renderLoadStatusVisual();
+      window.__redrawBrandTitle?.();
+      overlayPickerApi?.refresh();
+      bfPickerApi?.refresh();
+      swapTargetPickerApi?.refresh();
+      swapSourcePickerApi?.refresh();
+    });
+  }
+
+  localStorage.setItem(THEME_KEY, initial);
+  applyTheme(initial);
 }
 
 function buildFontPicker({
