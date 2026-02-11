@@ -1,5 +1,33 @@
 ﻿// js/app.js
 import { decodeMCM, encodeMCM } from "./mcm.js";
+import { buildFontPicker } from "./modules/picker.js";
+import { currentThemeId, initThemeControls } from "./modules/theme.js";
+import {
+  applyStroke4,
+  drawFontPreviewStrip,
+  drawGlyphPreviewStrip,
+  drawOverlayPreviewStrip,
+} from "./modules/preview.js";
+import {
+  clampInt,
+  cssVar,
+  downloadBlob,
+  escapeHtml,
+  fitCanvasToCSS,
+} from "./modules/dom-utils.js";
+import {
+  createSelectionState,
+  rangeSelect as rangeSelectState,
+  setSingleSelection as setSingleSelectionState,
+  toggleSelection as toggleSelectionState,
+  updateSelectionCount as updateSelectionCountView,
+} from "./modules/selection.js";
+import {
+  registerBetaflightSwapSources,
+  registerCustomSwapSources,
+} from "./modules/swap-registry.js";
+import { initDpadControls } from "./modules/dpad.js";
+import { createWorkspaceRenderer } from "./modules/workspace-render.js";
 
 /* -----------------------------
    DOM
@@ -86,9 +114,7 @@ let swapSourcePickerApi = null;
 let overlayPickerApi = null;
 let bfPickerApi = null;
 
-let selectedIndex = 0;
-let selectedSet = new Set([0]);
-let selectionAnchor = 0;
+const selection = createSelectionState(0);
 
 const nudge = {
   replaced: { x: 0, y: 0 },   // global replacement offset
@@ -254,41 +280,15 @@ const BF_GLYPH_LABELS = (() => {
 /* -----------------------------
    Small helpers
 ------------------------------ */
-const THEME_KEY = "osdFontLabTheme";
-
-function applyTheme(theme) {
-  // Use data-theme on <html>
-  if (!theme || theme === "dusk") {
-    document.documentElement.removeAttribute("data-theme");
-  } else {
-    document.documentElement.setAttribute("data-theme", theme);
-  }
-}
-
-function currentThemeId() {
-  return document.documentElement.getAttribute("data-theme") || "dusk";
-}
-
 function clearDynamicPreviewCaches() {
   overlayPreviewUrlCache.clear();
   bfPreviewUrlCache.clear();
 }
 
 function initTheme() {
-  if (!themeRadios.length) return;
-
-  const saved = localStorage.getItem(THEME_KEY) || "dusk";
-  const initial = themeRadios.some((r) => r.value === saved) ? saved : themeRadios[0].value;
-  for (const radio of themeRadios) {
-    radio.checked = radio.value === initial;
-  }
-
-  for (const radio of themeRadios) {
-    radio.addEventListener("change", () => {
-      if (!radio.checked) return;
-      const t = radio.value;
-      localStorage.setItem(THEME_KEY, t);
-      applyTheme(t);
+  initThemeControls({
+    themeRadios,
+    onThemeChange: () => {
       clearDynamicPreviewCaches();
       rerenderAll();
       renderLoadStatusVisual();
@@ -297,265 +297,8 @@ function initTheme() {
       bfPickerApi?.refresh();
       swapTargetPickerApi?.refresh();
       swapSourcePickerApi?.refresh();
-    });
-  }
-
-  localStorage.setItem(THEME_KEY, initial);
-  applyTheme(initial);
-}
-
-function buildFontPicker({
-  selectEl,
-  getLabel,          // (optionEl) => string
-  getValue,          // (optionEl) => string
-  getPreviewUrl,     // (value) => string URL to png
-  onChange,          // (value) => void
-  lazyMenuPreviews = false,
-}) {
-  if (!selectEl) return;
-
-  if (selectEl.__fontPickerApi) {
-    selectEl.__fontPickerApi.rebuild();
-    selectEl.__fontPickerApi.refresh();
-    return selectEl.__fontPickerApi;
-  }
-
-  // Hide native select (keep it for your existing logic + accessibility fallback)
-  // Visually hide, but keep it in the DOM (so we can drive it with keyboard logic)
-  selectEl.style.position = "absolute";
-  selectEl.style.left = "-9999px";
-  selectEl.style.width = "1px";
-  selectEl.style.height = "1px";
-  selectEl.style.opacity = "0";
-  selectEl.style.pointerEvents = "none";
-
-  const wrap = document.createElement("div");
-  wrap.className = "fontpicker";
-
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "fontpicker-btn";
-
-  const thumb = document.createElement("img");
-  thumb.className = "fontpicker-thumb";
-  thumb.alt = "";
-
-  const name = document.createElement("span");
-  name.className = "fontpicker-name";
-  name.textContent = "(none)";
-
-  const caret = document.createElement("span");
-  caret.className = "fontpicker-caret";
-  caret.textContent = "\u25BE";
-
-  btn.appendChild(thumb);
-  btn.appendChild(name);
-  btn.appendChild(caret);
-
-  const menu = document.createElement("div");
-  menu.className = "fontpicker-menu";
-
-  wrap.appendChild(btn);
-  wrap.appendChild(menu);
-
-  // Insert picker right after the select
-  selectEl.parentNode.insertBefore(wrap, selectEl.nextSibling);
-
-  const previewReq = new WeakMap(); // img -> request id
-
-  function setPreviewImage(imgEl, value) {
-    if (!imgEl) return;
-    if (!value) {
-      imgEl.removeAttribute("src");
-      return;
-    }
-    const reqId = (previewReq.get(imgEl) || 0) + 1;
-    previewReq.set(imgEl, reqId);
-    Promise.resolve(getPreviewUrl(value))
-      .then((url) => {
-        if (previewReq.get(imgEl) !== reqId) return;
-        if (url) imgEl.src = url;
-        else imgEl.removeAttribute("src");
-      })
-      .catch(() => {
-        if (previewReq.get(imgEl) !== reqId) return;
-        imgEl.removeAttribute("src");
-      });
-  }
-
-  function setButtonFromValue(value) {
-    const opt = [...selectEl.options].find(o => o.value === value);
-    name.textContent = opt ? getLabel(opt) : "(none)";
-
-    if (!value) {
-      // Hide the thumbnail completely for the "(none)" option
-      thumb.removeAttribute("src");     // important: avoids broken-image icon
-      thumb.style.display = "none";     // or use visibility, see below
-      return;
-    }
-
-    thumb.style.display = "";          // show again for real options
-    setPreviewImage(thumb, value);
-  }
-
-
-  function ensureMenuBuilt() {
-    if (menu.childElementCount) return;
-
-    const appendOptionRow = (opt) => {
-      const value = getValue(opt);
-      const label = getLabel(opt);
-
-      const row = document.createElement("div");
-      row.className = "fontpicker-item";
-      row.setAttribute("data-value", value);
-
-      // Only add the thumbnail if this is a real font option
-      if (value) {
-        const t = document.createElement("img");
-        t.className = "fontpicker-thumb";
-        t.alt = "";
-        t.setAttribute("data-value", value);
-        if (!lazyMenuPreviews) setPreviewImage(t, value);
-
-        row.appendChild(t);
-      }
-
-      const n = document.createElement("span");
-      n.className = "fontpicker-name";
-      n.textContent = label;
-
-      row.appendChild(n);
-      menu.appendChild(row);
-
-      row.addEventListener("click", () => {
-        selectEl.value = value;
-        selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-        setButtonFromValue(value);
-        onChange?.(value);
-        wrap.classList.remove("open");
-      });
-    };
-
-    for (const child of selectEl.children) {
-      if (child.tagName === "OPTGROUP") {
-        const groupRow = document.createElement("div");
-        groupRow.className = "fontpicker-group";
-        groupRow.textContent = child.label || "";
-        menu.appendChild(groupRow);
-
-        for (const opt of child.children) {
-          if (opt.tagName === "OPTION") appendOptionRow(opt);
-        }
-        continue;
-      }
-      if (child.tagName === "OPTION") {
-        appendOptionRow(child);
-      }
-    }
-  }
-
-  function isRowVisibleInMenu(rowEl) {
-    const rr = rowEl.getBoundingClientRect();
-    const mr = menu.getBoundingClientRect();
-    return rr.bottom >= mr.top && rr.top <= mr.bottom;
-  }
-
-  function refreshMenuPreviews({ all = false } = {}) {
-    for (const row of menu.children) {
-      const img = row.querySelector(".fontpicker-thumb");
-      if (!img) continue;
-      const value = img.getAttribute("data-value") || row.getAttribute("data-value") || "";
-      if (!value) continue;
-      if (!all && lazyMenuPreviews && !isRowVisibleInMenu(row)) continue;
-      setPreviewImage(img, value);
-    }
-  }
-
-  function rebuildMenu() {
-    menu.innerHTML = "";
-  }
-
-
-  function closeOnOutside(e) {
-    if (!wrap.contains(e.target)) wrap.classList.remove("open");
-  }
-
-  btn.addEventListener("click", async () => {
-    ensureMenuBuilt();
-    wrap.classList.toggle("open");
-    if (wrap.classList.contains("open")) {
-      refreshMenuPreviews();
-    }
-  });
-
-  btn.addEventListener("keydown", (e) => {
-    const k = e.key;
-
-    // Open/close like a normal control
-    if (k === "Enter" || k === " ") {
-      e.preventDefault();
-      ensureMenuBuilt();
-      wrap.classList.toggle("open");
-      if (wrap.classList.contains("open")) {
-        refreshMenuPreviews();
-      }
-      return;
-    }
-
-    // Arrow keys: cycle options and preview immediately
-    if (k === "ArrowDown" || k === "ArrowUp") {
-      e.preventDefault();
-
-      const dir = (k === "ArrowDown") ? 1 : -1;
-      const max = selectEl.options.length - 1;
-
-      let i = selectEl.selectedIndex;
-      if (i < 0) i = 0;
-
-      i = Math.max(0, Math.min(max, i + dir));
-      if (i === selectEl.selectedIndex) return;
-
-      selectEl.selectedIndex = i;
-      selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-
-      // Keep the custom button UI synced instantly
-      setButtonFromValue(selectEl.value);
-      onChange?.(selectEl.value);
-      return;
-    }
-
-    // Escape closes menu
-    if (k === "Escape") {
-      wrap.classList.remove("open");
-    }
-  });
-
-  document.addEventListener("mousedown", closeOnOutside);
-  menu.addEventListener("scroll", () => {
-    if (!wrap.classList.contains("open")) return;
-    refreshMenuPreviews();
-  });
-
-  // Keep button in sync if something else changes the select
-  selectEl.addEventListener("change", () => setButtonFromValue(selectEl.value));
-
-  // Initialize
-  setButtonFromValue(selectEl.value);
-
-  const api = {
-    refresh: () => {
-      setButtonFromValue(selectEl.value);
-      if (wrap.classList.contains("open")) refreshMenuPreviews();
     },
-    rebuild: () => {
-      rebuildMenu();
-      setButtonFromValue(selectEl.value);
-    },
-    close: () => wrap.classList.remove("open"),
-  };
-  selectEl.__fontPickerApi = api;
-  return api;
+  });
 }
 
 async function handleBuffer(buf, label = "loaded.mcm") {
@@ -578,36 +321,6 @@ async function handleBuffer(buf, label = "loaded.mcm") {
 }
 
 
-function cssVar(name, fallback) {
-  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  return v || fallback;
-}
-
-function clampInt(v, lo, hi) {
-  v = parseInt(v, 10);
-  if (Number.isNaN(v)) v = 0;
-  return Math.max(lo, Math.min(hi, v));
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;"
-  }[c]));
-}
-
-function fitCanvasToCSS(canvas, ctx) {
-  const dpr = window.devicePixelRatio || 1;
-  const rect = canvas.getBoundingClientRect();
-  const w = Math.max(1, Math.round(rect.width * dpr));
-  const h = Math.max(1, Math.round(rect.height * dpr));
-  if (canvas.width !== w || canvas.height !== h) {
-    canvas.width = w;
-    canvas.height = h;
-  }
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-  return dpr;
-}
-
 function pxColorViewer(v) {
   // Viewer-only theming (does NOT affect MCM/PNG export)
   const c0 = cssVar("--osd-0", "transparent");
@@ -627,14 +340,14 @@ function pxColorViewer(v) {
 }
 
 
-function pxColorExportStrict(v) {
-  // Strict Betaflight sheet rules
-  // 0 = transparent (we skip drawing)
-  if (v === 1) return "#808080"; // mid gray
-  if (v === 2) return "#FFFFFF"; // pure white
-  if (v === 3) return "#000000"; // pure black
-  return "#000000";
-}
+const workspaceRenderer = createWorkspaceRenderer({
+  scale: SCALE,
+  cols: COLS,
+  cssVar,
+  pxColorViewer,
+  fitCanvasToCSS,
+  getAccentColor: () => getComputedStyle(document.documentElement).getPropertyValue("--accent-0"),
+});
 
 function cloneFont(font) {
   return {
@@ -643,70 +356,6 @@ function cloneFont(font) {
     format: font.format,
     glyphs: font.glyphs.map(g => new Uint8Array(g)),
   };
-}
-
-function drawFontPreviewStrip(font, text = "ABC123") {
-  const W = font.width;
-  const H = font.height;
-  const pad = 1;
-
-  const chars = [...text];
-  const cw = W + pad;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = chars.length * cw;
-  canvas.height = H;
-
-  const ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-
-  // Do not fill the canvas; leave it transparent.
-
-  chars.forEach((ch, i) => {
-    const code = ch.charCodeAt(0);
-    const g = font.glyphs[code] || font.glyphs[0];
-
-    const ox = i * cw;
-    for (let y = 0; y < H; y++) {
-      for (let x = 0; x < W; x++) {
-        const v = g[y * W + x];
-
-        // Skip background pixels entirely
-        if (v === 1) continue;
-
-        ctx.fillStyle = pxColorViewer(v);
-        ctx.fillRect(ox + x, y, 1, 1);
-      }
-    }
-  });
-
-  return canvas.toDataURL("image/png");
-}
-
-function drawGlyphPreviewStrip(glyphs, width = 12, height = 18, pad = 1) {
-  const list = (glyphs || []).filter(Boolean);
-  if (!list.length) return "";
-
-  const canvas = document.createElement("canvas");
-  canvas.width = list.length * (width + pad);
-  canvas.height = height;
-
-  const ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-
-  list.forEach((g, gi) => {
-    const ox = gi * (width + pad);
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const v = g[y * width + x];
-        if (v === 1) continue;
-        ctx.fillStyle = pxColorViewer(v);
-        ctx.fillRect(ox + x, y, 1, 1);
-      }
-    }
-  });
-
-  return canvas.toDataURL("image/png");
 }
 
 function previewIndicesForTarget(target) {
@@ -733,6 +382,7 @@ function getSwapTargetPreviewUrl(targetId) {
     baseFont.width || 12,
     baseFont.height || 18,
     previewGapForTarget(target),
+    pxColorViewer,
   );
 }
 
@@ -754,6 +404,7 @@ async function getSwapSourcePreviewUrl(sourceId) {
     sourceFont?.width || 12,
     sourceFont?.height || 18,
     previewGapForTarget(target),
+    pxColorViewer,
   );
 }
 
@@ -764,33 +415,19 @@ async function getSwapSourcePreviewUrl(sourceId) {
 ------------------------------ */
 
 function updateSelectionCount() {
-  if (selCount) selCount.textContent = `Selected: ${selectedSet.size}`;
+  updateSelectionCountView(selCount, selection);
 }
 
 function setSingleSelection(idx) {
-  selectedSet = new Set([idx]);
-  selectionAnchor = idx;
-  selectedIndex = idx;
+  setSingleSelectionState(selection, idx);
 }
 
 function toggleSelection(idx) {
-  if (selectedSet.has(idx)) selectedSet.delete(idx);
-  else selectedSet.add(idx);
-
-  selectedIndex = idx;
-  selectionAnchor = idx;
-
-  if (selectedSet.size === 0) selectedSet.add(idx);
+  toggleSelectionState(selection, idx);
 }
 
 function rangeSelect(toIdx) {
-  const lo = Math.min(selectionAnchor, toIdx);
-  const hi = Math.max(selectionAnchor, toIdx);
-
-  selectedSet = new Set();
-  for (let i = lo; i <= hi; i++) selectedSet.add(i);
-
-  selectedIndex = toIdx;
+  rangeSelectState(selection, toIdx);
 }
 
 /* -----------------------------
@@ -802,7 +439,7 @@ function updateReplReadout() {
 }
 
 function clearSelectionNudges() {
-  for (const idx of selectedSet) nudge.perGlyph.delete(idx);
+  for (const idx of selection.selectedSet) nudge.perGlyph.delete(idx);
   rebuildResultFont();
   rerenderAll();
 }
@@ -1098,9 +735,9 @@ function initSwapUI() {
     const target = swapTargetsById.get(targetId);
     if (!target || !Array.isArray(target.indices) || target.indices.length === 0) return;
 
-    selectedSet = new Set(target.indices);
-    selectionAnchor = target.indices[0];
-    selectedIndex = target.indices[0];
+    selection.selectedSet = new Set(target.indices);
+    selection.selectionAnchor = target.indices[0];
+    selection.selectedIndex = target.indices[0];
     rerenderAll();
   };
 
@@ -1137,7 +774,7 @@ function initSwapUI() {
         return;
       }
       if (out.focusIndex != null) {
-        selectedIndex = out.focusIndex;
+        selection.selectedIndex = out.focusIndex;
         rerenderAll();
       }
       if (out.changed === 0) {
@@ -1196,7 +833,7 @@ function applyReplacedNudge(dx, dy) {
 }
 
 function applySelectionNudge(dx, dy) {
-  for (const idx of selectedSet) {
+  for (const idx of selection.selectedSet) {
     const cur = nudge.perGlyph.get(idx) || { x: 0, y: 0 };
     nudge.perGlyph.set(idx, {
       x: clampInt(cur.x + dx, -6, 6),
@@ -1205,63 +842,6 @@ function applySelectionNudge(dx, dy) {
   }
   rebuildResultFont();
   rerenderAll();
-}
-
-// D-pad click/hold repeat
-// D-pad click/hold repeat
-function initDpads() {
-  // Global guard (prevents double-binding even if init() runs twice)
-  if (window.__dpadsBound) return;
-  window.__dpadsBound = true;
-
-  let holdTimer = null;
-  let holdInterval = null;
-
-  function stopHold() {
-    if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
-    if (holdInterval) { clearInterval(holdInterval); holdInterval = null; }
-  }
-
-  // Bind ONE handler via event delegation (covers both dpads)
-  document.addEventListener("mousedown", (e) => {
-    const btn = e.target.closest(".dpad button");
-    if (!btn) return;
-
-    const dpad = btn.closest(".dpad");
-    const target = dpad?.getAttribute("data-nudge-target");
-    if (!target) return;
-
-    e.preventDefault();
-
-    const action = btn.getAttribute("data-action");
-    const dx = parseInt(btn.getAttribute("data-dx") || "0", 10);
-    const dy = parseInt(btn.getAttribute("data-dy") || "0", 10);
-
-    const fire = () => {
-      if (action === "reset" && target === "replaced") {
-        nudge.replaced.x = 0; nudge.replaced.y = 0;
-        updateReplReadout();
-        rebuildResultFont(); rerenderAll();
-        return;
-      }
-      if (action === "clear" && target === "selection") {
-        clearSelectionNudges();
-        return;
-      }
-      if (dx === 0 && dy === 0) return;
-
-      if (target === "replaced") applyReplacedNudge(dx, dy);
-      if (target === "selection") applySelectionNudge(dx, dy);
-    };
-
-    fire();
-    holdTimer = setTimeout(() => {
-      holdInterval = setInterval(fire, 60);
-    }, 250);
-  });
-
-  window.addEventListener("mouseup", stopHold);
-  window.addEventListener("mouseleave", stopHold);
 }
 
 /* -----------------------------
@@ -1296,29 +876,6 @@ function shiftGlyphPixels(glyph, w, h, dx, dy) {
 /* -----------------------------
    Overlay rendering
 ------------------------------ */
-
-function applyStroke4(cell, w, h) {
-  const out = new Uint8Array(cell);
-  const idx = (x, y) => y * w + x;
-
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      if (cell[idx(x, y)] !== 2) continue;
-
-      const neighbors = [
-        [x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1],
-      ];
-
-      for (const [nx, ny] of neighbors) {
-        if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
-        const n = idx(nx, ny);
-        if (out[n] === 1) out[n] = 3;
-      }
-    }
-  }
-
-  return out;
-}
 
 // Overlay glyph JSON -> 12x18 cell
 function renderOverlayToCell(overlayGlyph, targetIdx) {
@@ -1411,112 +968,9 @@ async function getBetaflightPreviewUrl(file) {
     font = decodeMCM(buf);
     bfPreviewFontCache.set(file, font);
   }
-  const url = drawFontPreviewStrip(font);
+  const url = drawFontPreviewStrip(font, "ABC123", pxColorViewer);
   bfPreviewUrlCache.set(cacheKey, url);
   return url;
-}
-
-function renderOverlayPreviewCell(overlay, ch) {
-  const cellW = 12, cellH = 18;
-  const out = new Uint8Array(cellW * cellH);
-  out.fill(1); // background (ignored later)
-
-  if (!overlay || ch === " ") return out;
-
-  const code = ch.charCodeAt(0);
-  const key = `U+${code.toString(16).padStart(4, "0").toUpperCase()}`;
-  const og = overlay.glyphs?.[key];
-  if (!og) return out;
-
-  const [w, h] = og.size;
-  const [offX, offY] = og.offset;
-
-  // draw fill (value 2)
-  for (let y = 0; y < h; y++) {
-    const row = og.rows[y] >>> 0;
-    for (let x = 0; x < w; x++) {
-      const bit = 1 << (w - 1 - x);
-      if (row & bit) {
-        const cx = offX + x;
-        const cy = offY + y;
-        if (cx >= 0 && cx < cellW && cy >= 0 && cy < cellH) {
-          out[cy * cellW + cx] = 2;
-        }
-      }
-    }
-  }
-
-  // APPLY THE SAME STROKE AS THE REAL PIPELINE
-  return applyStroke4(out, cellW, cellH);
-}
-
-function measureCellInkBounds(cell, cellW, cellH) {
-  let minX = cellW;
-  let maxX = -1;
-  for (let y = 0; y < cellH; y++) {
-    for (let x = 0; x < cellW; x++) {
-      const v = cell[y * cellW + x];
-      if (v === 1) continue; // background
-      if (x < minX) minX = x;
-      if (x > maxX) maxX = x;
-    }
-  }
-
-  if (maxX < minX) return null; // no ink
-  return { minX, maxX, width: maxX - minX + 1 };
-}
-
-function drawOverlayPreviewStrip(overlay, text = "ABC123") {
-  const cellW = 12, cellH = 18;
-  const gap = 2;
-  const chars = [...text];
-
-  const cells = chars.map((ch) => renderOverlayPreviewCell(overlay, ch));
-  const widths = cells.map((cell, i) => {
-    const ch = chars[i];
-    const bounds = measureCellInkBounds(cell, cellW, cellH);
-    if (bounds) return bounds.width;
-    if (ch === " ") return 4;
-    return 2;
-  });
-
-  const totalWidth =
-    widths.reduce((sum, w) => sum + w, 0) + Math.max(0, widths.length - 1) * gap;
-
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, totalWidth);
-  canvas.height = cellH;
-
-  const ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-
-  // transparent background
-
-  let penX = 0;
-  chars.forEach((ch, i) => {
-    const cell = cells[i];
-    const bounds = measureCellInkBounds(cell, cellW, cellH);
-    const drawWidth = widths[i];
-    const srcX = bounds ? bounds.minX : 0;
-
-    for (let y = 0; y < cellH; y++) {
-      for (let x = 0; x < drawWidth; x++) {
-        const sx = srcX + x;
-        if (sx < 0 || sx >= cellW) continue;
-        const vv = cell[y * cellW + sx];
-
-        // skip background
-        if (vv === 1) continue;
-
-        ctx.fillStyle = pxColorViewer(vv); // 2 = white, 3 = black stroke
-        ctx.fillRect(penX + x, y, 1, 1);
-      }
-    }
-
-    penX += drawWidth + (i < chars.length - 1 ? gap : 0);
-  });
-
-  return canvas.toDataURL("image/png");
 }
 
 function renderLoadStatusVisual() {
@@ -1542,7 +996,7 @@ async function getOverlayPreviewUrl(file) {
   const cached = overlayPreviewUrlCache.get(cacheKey);
   if (cached) return cached;
   const overlay = await getOverlayByFile(file);
-  const url = drawOverlayPreviewStrip(overlay);
+  const url = drawOverlayPreviewStrip(overlay, "ABC123", pxColorViewer);
   overlayPreviewUrlCache.set(cacheKey, url);
   return url;
 }
@@ -1552,156 +1006,6 @@ async function getOverlayPreviewUrl(file) {
    Rendering: grid + zoom
 ------------------------------ */
 
-function drawCellGridOverlay(ctx, font) {
-  const cellW = font.width * SCALE;
-  const cellH = font.height * SCALE;
-
-  ctx.save();
-  ctx.strokeStyle = "rgba(255,255,255,0.10)";
-  ctx.lineWidth = 1;
-
-  for (let c = 0; c <= COLS; c++) {
-    const x = c * cellW + 0.5;
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, ctx.canvas.height);
-    ctx.stroke();
-  }
-
-  for (let r = 0; r <= 16; r++) {
-    const y = r * cellH + 0.5;
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(ctx.canvas.width, y);
-    ctx.stroke();
-  }
-
-  ctx.restore();
-}
-
-function renderPlaceholderGrid(ctx, canvas, width = 12, height = 18) {
-  const rows = Math.ceil(256 / COLS);
-  canvas.width = COLS * width * SCALE;
-  canvas.height = rows * height * SCALE;
-
-  const matte = cssVar("--osd-matte", "#1f232b");
-  ctx.fillStyle = matte;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  if (showGrids) {
-    drawCellGridOverlay(ctx, { width, height });
-  }
-}
-
-function reserveGridCanvasSpace(canvas, width = 12, height = 18) {
-  const rows = Math.ceil(256 / COLS);
-  canvas.width = COLS * width * SCALE;
-  canvas.height = rows * height * SCALE;
-}
-
-function renderGrid(ctx, canvas, font) {
-  const { glyphs, width, height } = font;
-  const rows = Math.ceil(glyphs.length / COLS);
-
-  canvas.width = COLS * width * SCALE;
-  canvas.height = rows * height * SCALE;
-
-  const matte = cssVar("--osd-matte", "#1f232b");
-  ctx.fillStyle = matte;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-
-  glyphs.forEach((glyph, i) => {
-    const gx = i % COLS;
-    const gy = Math.floor(i / COLS);
-    const ox = gx * width * SCALE;
-    const oy = gy * height * SCALE;
-
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const v = glyph[y * width + x];
-        ctx.fillStyle = pxColorViewer(v);
-        ctx.fillRect(ox + x * SCALE, oy + y * SCALE, SCALE, SCALE);
-      }
-    }
-  });
-
-  if (showGrids) drawCellGridOverlay(ctx, font);
-
-  // selection boxes
-  ctx.save();
-  ctx.strokeStyle = getComputedStyle(document.documentElement)
-  .getPropertyValue('--accent-0');
-  ctx.lineWidth = 1;
-  for (const idx of selectedSet) {
-    const sgx = idx % COLS;
-    const sgy = Math.floor(idx / COLS);
-    const sx = sgx * font.width * SCALE;
-    const sy = sgy * font.height * SCALE;
-    ctx.strokeRect(sx + 0.5, sy + 0.5, font.width * SCALE - 1, font.height * SCALE - 1);
-  }
-  ctx.restore();
-}
-
-function drawZoomPixelGrid(ctx, cellW, cellH, scale, ox, oy) {
-  ctx.save();
-  ctx.strokeStyle = "rgba(255,255,255,0.12)";
-  ctx.lineWidth = 1;
-
-  for (let x = 0; x <= cellW; x++) {
-    const xx = ox + x * scale + 0.5;
-    ctx.beginPath();
-    ctx.moveTo(xx, oy);
-    ctx.lineTo(xx, oy + cellH * scale);
-    ctx.stroke();
-  }
-
-  for (let y = 0; y <= cellH; y++) {
-    const yy = oy + y * scale + 0.5;
-    ctx.beginPath();
-    ctx.moveTo(ox, yy);
-    ctx.lineTo(ox + cellW * scale, yy);
-    ctx.stroke();
-  }
-
-  ctx.restore();
-}
-
-function snapZoomCanvasToIntegerScale(canvas, font) {
-  if (!canvas || !font) return;
-  const rect = canvas.getBoundingClientRect();
-  const targetW = Math.max(1, Math.floor(rect.width));
-  const cssScale = Math.max(1, Math.floor(targetW / font.width));
-  canvas.style.width = `${cssScale * font.width}px`;
-  canvas.style.height = `${cssScale * font.height}px`;
-}
-
-function renderZoom(ctx, canvas, font, index) {
-  snapZoomCanvasToIntegerScale(canvas, font);
-  fitCanvasToCSS(canvas, ctx);
-
-  const { glyphs, width, height } = font;
-  const glyph = glyphs[index];
-
-  // Fill the whole zoom surface with your themed canvas background (NOT black)
-  const matte = cssVar("--osd-matte", "#1f232b");
-  ctx.fillStyle = matte;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  const scale = Math.max(1, Math.floor(Math.min(canvas.width / width, canvas.height / height)));
-  const ox = Math.floor((canvas.width - width * scale) / 2);
-  const oy = Math.floor((canvas.height - height * scale) / 2);
-
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const v = glyph[y * width + x];
-      ctx.fillStyle = pxColorViewer(v);
-      ctx.fillRect(ox + x * scale, oy + y * scale, scale, scale);
-    }
-  }
-
-  if (showGrids) drawZoomPixelGrid(ctx, width, height, scale, ox, oy);
-}
 
 function formatAscii(index) {
   if (!isReplaceable(index)) return null;
@@ -1754,16 +1058,16 @@ function rerenderAll() {
 
   // Only render base panel when compare is enabled
   if (compareMode) {
-    renderGrid(baseGridCtx, baseGridCanvas, baseFont);
+    workspaceRenderer.renderGrid(baseGridCtx, baseGridCanvas, baseFont, { showGrids, selectedSet: selection.selectedSet });
     if (baseZoomCtx && baseZoomCanvas) {
-      renderZoom(baseZoomCtx, baseZoomCanvas, baseFont, selectedIndex);
+      workspaceRenderer.renderZoom(baseZoomCtx, baseZoomCanvas, baseFont, selection.selectedIndex, { showGrids });
     }
   }
 
-  renderGrid(resultGridCtx, resultGridCanvas, displayFont);
-  renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selectedIndex);
+  workspaceRenderer.renderGrid(resultGridCtx, resultGridCanvas, displayFont, { showGrids, selectedSet: selection.selectedSet });
+  workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selection.selectedIndex, { showGrids });
 
-  updateInfoPanel(selectedIndex);
+  updateInfoPanel(selection.selectedIndex);
   updateSelectionCount();
 }
 
@@ -1771,26 +1075,8 @@ function rerenderAll() {
    Grid click handling
 ------------------------------ */
 
-function gridClickToIndex(e, canvas, font) {
-  const rect = canvas.getBoundingClientRect();
-  const sx = canvas.width / rect.width;
-  const sy = canvas.height / rect.height;
-  const x = (e.clientX - rect.left) * sx;
-  const y = (e.clientY - rect.top) * sy;
-
-  const cellW = font.width * SCALE;
-  const cellH = font.height * SCALE;
-
-  const gx = Math.floor(x / cellW);
-  const gy = Math.floor(y / cellH);
-
-  const idx = gy * COLS + gx;
-  if (idx < 0 || idx >= 256) return null;
-  return idx;
-}
-
 function handleGridClick(e, canvas, font) {
-  const idx = gridClickToIndex(e, canvas, font);
+  const idx = workspaceRenderer.gridClickToIndex(e, canvas, font);
   if (idx == null) return;
 
   if (e.shiftKey) rangeSelect(idx);
@@ -1803,67 +1089,6 @@ function handleGridClick(e, canvas, font) {
 /* -----------------------------
    Export helpers
 ------------------------------ */
-
-function downloadBlob(blob, filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-function renderFontToSheetCanvas(font, scale = 3) {
-  const W = font.width;
-  const H = font.height;
-  const cols = 16, rows = 16;
-
-  const canvas = document.createElement("canvas");
-  canvas.width  = cols * W * scale;
-  canvas.height = rows * H * scale;
-
-  const ctx = canvas.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-
-  // STRICT export palette
-  const GRAY  = "#808080";
-  const WHITE = "#ffffff";
-  const BLACK = "#000000";
-
-  // Always start gray so the PNG is readable
-  ctx.fillStyle = GRAY;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  for (let i = 0; i < 256; i++) {
-    const g = font.glyphs[i];
-    const gx = i % cols;
-    const gy = Math.floor(i / cols);
-    const ox = gx * W * scale;
-    const oy = gy * H * scale;
-
-    for (let y = 0; y < H; y++) {
-      for (let x = 0; x < W; x++) {
-        const v = g[y * W + x];
-
-        // In PNG export:
-        // 1 = gray background (already filled)
-        // 2 = white
-        // 0 or 3 = black (some fonts use 0 for black stroke)
-        if (v === 1) continue;
-
-        if (v === 2) ctx.fillStyle = WHITE;
-        else if (v === 0 || v === 3) ctx.fillStyle = BLACK;
-        else continue;
-
-        ctx.fillRect(ox + x * scale, oy + y * scale, scale, scale);
-      }
-    }
-  }
-
-  return canvas;
-}
 
 function safeBaseName() {
   const overlayName = overlaySelect?.value
@@ -2194,50 +1419,6 @@ async function loadSwapCustomManifest() {
   }
 }
 
-function registerBetaflightSwapSources(list) {
-  for (const entry of list) {
-    const id = `bf:${entry.file}`;
-    swapSourceRegistry.set(id, {
-      id,
-      kind: "bf_mcm",
-      file: entry.file,
-      label: entry.name,
-    });
-  }
-}
-
-function resolveCustomAssetPath(pathLike) {
-  if (!pathLike || typeof pathLike !== "string") return "";
-  if (/^(?:https?:)?\/\//i.test(pathLike) || pathLike.startsWith("/") || pathLike.startsWith("./") || pathLike.startsWith("../")) {
-    return pathLike;
-  }
-  return `fonts/${pathLike}`;
-}
-
-function registerCustomSwapSources(list) {
-  for (const entry of list) {
-    if (!entry?.id || !entry?.name || !entry?.targets || typeof entry.targets !== "object") continue;
-    const normalizedTargets = {};
-    for (const [targetId, cfg] of Object.entries(entry.targets)) {
-      if (!cfg) continue;
-      normalizedTargets[targetId] = {
-        ...cfg,
-        png: resolveCustomAssetPath(cfg.png),
-      };
-    }
-    const id = `custom:${entry.id}`;
-    swapSourceRegistry.set(id, {
-      id,
-      kind: "custom_png",
-      label: entry.name,
-      targets: normalizedTargets,
-      glyphWidth: entry.glyphWidth ?? 12,
-      glyphHeight: entry.glyphHeight ?? 18,
-      gap: entry.gap ?? 0,
-    });
-  }
-}
-
 async function loadBetaflightDefaults() {
   if (!bfFontSelect) return;
 
@@ -2261,9 +1442,9 @@ async function loadBetaflightDefaults() {
     opt.textContent = entry.name;
     bfFontSelect.appendChild(opt);
   }
-  registerBetaflightSwapSources(list);
+  registerBetaflightSwapSources(swapSourceRegistry, list);
   const customList = await loadSwapCustomManifest();
-  registerCustomSwapSources(customList);
+  registerCustomSwapSources(swapSourceRegistry, customList);
   syncSwapSourceSelect();
 
 
@@ -2395,7 +1576,7 @@ function initEvents() {
 
   exportPNGBtn?.addEventListener("click", () => {
     if (!resultFont) return;
-    const sheet = renderFontToSheetCanvas(resultFont, 3);
+    const sheet = workspaceRenderer.renderFontToSheetCanvas(resultFont, 3);
     sheet.toBlob((blob) => {
       if (!blob) return;
       downloadBlob(blob, `${safeBaseName()}.png`);
@@ -2403,7 +1584,24 @@ function initEvents() {
   });
 
   // d-pads
-  initDpads();
+  initDpadControls({
+    onResetReplaced: () => {
+      nudge.replaced.x = 0;
+      nudge.replaced.y = 0;
+      updateReplReadout();
+      rebuildResultFont();
+      rerenderAll();
+    },
+    onClearSelection: () => {
+      clearSelectionNudges();
+    },
+    onNudgeReplaced: (dx, dy) => {
+      applyReplacedNudge(dx, dy);
+    },
+    onNudgeSelection: (dx, dy) => {
+      applySelectionNudge(dx, dy);
+    },
+  });
 }
 
 /* -----------------------------
@@ -2412,8 +1610,8 @@ function initEvents() {
 
 function init() {
   // Keep layout stable before any font is loaded.
-  if (resultGridCanvas) reserveGridCanvasSpace(resultGridCanvas);
-  if (baseGridCanvas) reserveGridCanvasSpace(baseGridCanvas);
+  if (resultGridCanvas) workspaceRenderer.reserveGridCanvasSpace(resultGridCanvas);
+  if (baseGridCanvas) workspaceRenderer.reserveGridCanvasSpace(baseGridCanvas);
 
   updateReplReadout();
   setLoadStatus(loadStatusText);
