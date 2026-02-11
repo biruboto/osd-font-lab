@@ -214,13 +214,6 @@ body{
   flex-wrap: nowrap;
 }
 
-.topbar-left{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
 .topbar-right{
   display: flex;
   align-items: center;
@@ -249,16 +242,6 @@ body{
   background: transparent !important;
   box-shadow: none !important;
   border-radius: 0 !important;
-}
-
-.muted{
-  opacity: 0.6;
-  margin-left: 6px;
-  color: var(--text-muted);
-}
-
-.topbar-left .muted{
-  white-space: nowrap;
 }
 
 .or-sep{
@@ -569,18 +552,6 @@ canvas{
   flex: 0 0 auto;
 }
 
-.panel-title{
-  font-weight: 700;
-  letter-spacing: 0.2px;
-  color: var(--text-0);
-}
-
-.panel-subtitle{
-  opacity: 0.7;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
 /* ---------- drop zone (header status bar) ---------- */
 #drop{
   border: 1px dashed var(--bg-3);
@@ -707,18 +678,6 @@ canvas{
   grid-column: 1 / -1;
 }
 
-.load-status-live{
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 #drop.hot{
   border-color: var(--accent-0);
   color: var(--text-0);
@@ -827,19 +786,6 @@ canvas{
   margin-top: 8px;
 }
 
-/* inspector card */
-.inspector-card{
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: var(--bg-2);
-  border: 1px solid var(--bg-3);
-}
-
-.inspector-title{
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
 .inspector-body{
   color: var(--text-1);
   font-size: 14px;
@@ -857,8 +803,6 @@ canvas{
   gap: 12px;
   min-height: 0;
 }
-
-.sidecar-controls.is-empty{ opacity: 0.6; }
 
 .hold-preview-btn.is-holding{
   border-color: var(--accent-0);
@@ -905,12 +849,6 @@ canvas{
   gap: 6px;
   justify-content: start;
   align-items: center;
-}
-
-.dpad .blank{
-  width: 32px;
-  height: 32px;
-  visibility: hidden;
 }
 
 .dpad button{
