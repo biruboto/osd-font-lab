@@ -1282,7 +1282,9 @@ function handleGridClick(e, canvas, font) {
 
 function safeBaseName() {
   const overlayName = overlaySelect?.value
-    ? overlaySelect.value.replace(/[^a-z0-9._-]+/gi, "_")
+    ? overlaySelect.value
+        .replace(/\.[^.]+$/i, "")
+        .replace(/[^a-z0-9._-]+/gi, "_")
     : "no-overlay";
   return `osd_font_lab_${overlayName}`;
 }
