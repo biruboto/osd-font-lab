@@ -66,6 +66,8 @@ const SWAP_TARGETS = [
   { id: "throttle", label: "Throttle", indices: [4] },
   { id: "volts", label: "Volts", indices: [6] },
   { id: "mah", label: "mAh", indices: [7] },
+  { id: "fahrenheit", label: "° Fahrenheit", indices: [13] },
+  { id: "celsius", label: "° Celsius", indices: [14] },
   { id: "amp", label: "A / Amp", indices: [154] },
   { id: "thermometer", label: "Thermometer", indices: [122] },
   { id: "lq", label: "LQ", indices: [123] },
@@ -562,6 +564,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   rerenderAll();
 
   setLoadStatus(`Loaded: ${label}`, { subtext: `${buf.byteLength} bytes` });
+  syncSwapTargetSelect();
   swapTargetPickerApi?.refresh();
   swapSourcePickerApi?.refresh();
 }
@@ -872,6 +875,12 @@ async function getSwapSourceFont(file) {
 
 function syncSwapSourceSelect() {
   if (!swapSourceSelect) return;
+  if (!baseFont) {
+    swapSourceSelect.innerHTML = `<option value="">(load font first)</option>`;
+    swapSourcePickerApi?.rebuild();
+    swapSourcePickerApi?.refresh();
+    return;
+  }
   const prev = swapSourceSelect.value;
   const targetId = swapTargetSelect?.value || "";
   if (!targetId) {
@@ -923,6 +932,44 @@ function syncSwapSourceSelect() {
   }
   swapSourcePickerApi?.rebuild();
   swapSourcePickerApi?.refresh();
+}
+
+function syncSwapTargetSelect() {
+  if (!swapTargetSelect) return;
+  const prev = swapTargetSelect.value;
+  if (!baseFont) {
+    swapTargetSelect.innerHTML = `<option value="">(load font first)</option>`;
+    swapTargetPickerApi?.rebuild();
+    swapTargetPickerApi?.refresh();
+    syncSwapSourceSelect();
+    return;
+  }
+
+  swapTargetSelect.innerHTML = `<option value="">(choose target)</option>`;
+  const singleGroup = document.createElement("optgroup");
+  singleGroup.label = "Single Glyph";
+  const setGroup = document.createElement("optgroup");
+  setGroup.label = "Glyph Sets";
+
+  for (const target of SWAP_TARGETS) {
+    const opt = document.createElement("option");
+    opt.value = target.id;
+    opt.textContent = target.label;
+    if ((target.indices?.length || 0) > 1) setGroup.appendChild(opt);
+    else singleGroup.appendChild(opt);
+  }
+
+  if (singleGroup.children.length) swapTargetSelect.appendChild(singleGroup);
+  if (setGroup.children.length) swapTargetSelect.appendChild(setGroup);
+
+  if (prev && [...swapTargetSelect.options].some((o) => o.value === prev)) {
+    swapTargetSelect.value = prev;
+  } else {
+    swapTargetSelect.value = "";
+  }
+  swapTargetPickerApi?.rebuild();
+  swapTargetPickerApi?.refresh();
+  syncSwapSourceSelect();
 }
 
 function colorToGlyphValue(r, g, b, a) {
@@ -1022,22 +1069,7 @@ async function getSwapSourceFontForTarget(sourceId, targetId) {
 
 function initSwapUI() {
   if (swapTargetSelect) {
-    swapTargetSelect.innerHTML = `<option value="">(choose target)</option>`;
-    const singleGroup = document.createElement("optgroup");
-    singleGroup.label = "Single Glyph";
-    const setGroup = document.createElement("optgroup");
-    setGroup.label = "Glyph Sets";
-
-    for (const target of SWAP_TARGETS) {
-      const opt = document.createElement("option");
-      opt.value = target.id;
-      opt.textContent = target.label;
-      if ((target.indices?.length || 0) > 1) setGroup.appendChild(opt);
-      else singleGroup.appendChild(opt);
-    }
-
-    if (singleGroup.children.length) swapTargetSelect.appendChild(singleGroup);
-    if (setGroup.children.length) swapTargetSelect.appendChild(setGroup);
+    swapTargetSelect.innerHTML = `<option value="">(load font first)</option>`;
   }
 
   swapTargetPickerApi = buildFontPicker({
@@ -1125,6 +1157,8 @@ function initSwapUI() {
   if (swapTargetSelect?.value) {
     selectTargetInGrid(swapTargetSelect.value);
   }
+
+  syncSwapTargetSelect();
 
   clearSwapTargetBtn?.addEventListener("click", () => {
     holdOriginalPreview = false;
@@ -1549,6 +1583,12 @@ function renderPlaceholderGrid(ctx, canvas, width = 12, height = 18) {
   if (showGrids) {
     drawCellGridOverlay(ctx, { width, height });
   }
+}
+
+function reserveGridCanvasSpace(canvas, width = 12, height = 18) {
+  const rows = Math.ceil(256 / COLS);
+  canvas.width = COLS * width * SCALE;
+  canvas.height = rows * height * SCALE;
 }
 
 function renderGrid(ctx, canvas, font) {
@@ -2364,8 +2404,8 @@ function initEvents() {
 
 function init() {
   // Keep layout stable before any font is loaded.
-  if (resultGridCtx && resultGridCanvas) renderPlaceholderGrid(resultGridCtx, resultGridCanvas);
-  if (baseGridCtx && baseGridCanvas) renderPlaceholderGrid(baseGridCtx, baseGridCanvas);
+  if (resultGridCanvas) reserveGridCanvasSpace(resultGridCanvas);
+  if (baseGridCanvas) reserveGridCanvasSpace(baseGridCanvas);
 
   updateReplReadout();
   setLoadStatus(loadStatusText);
