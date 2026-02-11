@@ -1,4 +1,4 @@
-// js/app.js
+﻿// js/app.js
 import { decodeMCM, encodeMCM } from "./mcm.js";
 
 /* -----------------------------
@@ -71,8 +71,8 @@ const SWAP_TARGETS = [
   { id: "lq", label: "LQ", indices: [123] },
   { id: "on_m", label: "ON m", indices: [155] },
   { id: "fly_m", label: "FLY m", indices: [156] },
-  { id: "battery_set", label: "Battery Set", indices: [144, 145, 146, 147, 148, 149, 150, 151] },
-  { id: "crosshair_set", label: "Crosshair Set", indices: [114, 115, 116] },
+  { id: "battery_set", label: "Batteries", indices: [144, 145, 146, 147, 148, 149, 150, 151] },
+  { id: "crosshair_set", label: "Crosshairs", indices: [114, 115, 116] },
 ];
 
 const swapTargetsById = new Map(SWAP_TARGETS.map((t) => [t.id, t]));
@@ -94,7 +94,7 @@ const nudge = {
 // Shared overlay cache (used by dropdown + title banner)
 const overlayCache = new Map(); // file -> overlay JSON
 let overlayManifest = null;     // cached manifest list [{file,name,id,...}]
-let swapPackManifest = null;    // cached list from fonts/swappacks.json
+let swapCustomManifest = null;  // cached list from fonts/custom.json
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -427,6 +427,9 @@ function buildFontPicker({
   btn.addEventListener("click", async () => {
     ensureMenuBuilt();
     wrap.classList.toggle("open");
+    if (wrap.classList.contains("open")) {
+      refreshMenuPreviews();
+    }
   });
 
   btn.addEventListener("keydown", (e) => {
@@ -437,6 +440,9 @@ function buildFontPicker({
       e.preventDefault();
       ensureMenuBuilt();
       wrap.classList.toggle("open");
+      if (wrap.classList.contains("open")) {
+        refreshMenuPreviews();
+      }
       return;
     }
 
@@ -479,7 +485,6 @@ function buildFontPicker({
   const api = {
     refresh: () => {
       setButtonFromValue(selectEl.value);
-      refreshMenuPreviews();
     },
     rebuild: () => {
       rebuildMenu();
@@ -648,13 +653,24 @@ function previewIndicesForTarget(target) {
   return target.indices || [];
 }
 
+function previewGapForTarget(target) {
+  if (!target) return 1;
+  if (target.id === "crosshair_set") return 0;
+  return 1;
+}
+
 function getSwapTargetPreviewUrl(targetId) {
   if (!targetId || !baseFont?.glyphs) return "";
   const target = swapTargetsById.get(targetId);
   if (!target) return "";
   const idxs = previewIndicesForTarget(target);
   const glyphs = idxs.map((idx) => baseFont.glyphs[idx]).filter(Boolean);
-  return drawGlyphPreviewStrip(glyphs, baseFont.width || 12, baseFont.height || 18, 1);
+  return drawGlyphPreviewStrip(
+    glyphs,
+    baseFont.width || 12,
+    baseFont.height || 18,
+    previewGapForTarget(target),
+  );
 }
 
 async function getSwapSourcePreviewUrl(sourceId) {
@@ -670,7 +686,12 @@ async function getSwapSourcePreviewUrl(sourceId) {
   const target = swapTargetsById.get(targetId);
   const idxs = previewIndicesForTarget(target);
   const glyphs = idxs.map((idx) => sourceFont?.glyphs?.[idx]).filter(Boolean);
-  return drawGlyphPreviewStrip(glyphs, sourceFont?.width || 12, sourceFont?.height || 18, 1);
+  return drawGlyphPreviewStrip(
+    glyphs,
+    sourceFont?.width || 12,
+    sourceFont?.height || 18,
+    previewGapForTarget(target),
+  );
 }
 
 
@@ -800,12 +821,22 @@ async function getSwapSourceFont(file) {
 function syncSwapSourceSelect() {
   if (!swapSourceSelect) return;
   const prev = swapSourceSelect.value;
+  const targetId = swapTargetSelect?.value || "";
   swapSourceSelect.innerHTML = `<option value="">(choose source)</option>`;
 
-  const entries = [...swapSourceRegistry.values()].sort((a, b) => {
+  const entries = [...swapSourceRegistry.values()]
+    .filter((entry) => {
+      // Betaflight defaults are full-font donors; always valid.
+      if (entry.kind === "bf_mcm") return true;
+
+      // Custom sources must explicitly support the selected target.
+      if (!targetId) return true;
+      return !!entry.targets?.[targetId];
+    })
+    .sort((a, b) => {
     if (a.kind !== b.kind) return a.kind.localeCompare(b.kind);
     return a.label.localeCompare(b.label);
-  });
+    });
 
   for (const entry of entries) {
     const opt = document.createElement("option");
@@ -816,6 +847,9 @@ function syncSwapSourceSelect() {
 
   if (prev && swapSourceRegistry.has(prev)) {
     swapSourceSelect.value = prev;
+  }
+  if (!swapSourceSelect.value) {
+    swapSourceSelect.value = "";
   }
   swapSourcePickerApi?.rebuild();
   swapSourcePickerApi?.refresh();
@@ -880,22 +914,22 @@ async function getSwapSourceFontForTarget(sourceId, targetId) {
     return getSwapSourceFont(sourceId);
   }
 
-  if (source.kind === "png_pack") {
-    const packTarget = source.targets?.[targetId];
-    if (!packTarget?.png) {
-      throw new Error(`Pack '${source.label}' has no PNG for target '${targetId}'`);
+  if (source.kind === "custom_png") {
+    const customTarget = source.targets?.[targetId];
+    if (!customTarget?.png) {
+      throw new Error(`Custom source '${source.label}' has no PNG for target '${targetId}'`);
     }
 
     const cacheKey = `${sourceId}::${targetId}`;
     if (swapSourceCache.has(cacheKey)) return swapSourceCache.get(cacheKey);
 
     const glyphsFromPng = await decodePngGlyphStrip(
-      packTarget.png,
+      customTarget.png,
       target.indices.length,
       {
-        glyphWidth: packTarget.glyphWidth ?? source.glyphWidth ?? 12,
-        glyphHeight: packTarget.glyphHeight ?? source.glyphHeight ?? 18,
-        gap: packTarget.gap ?? source.gap ?? 0,
+        glyphWidth: customTarget.glyphWidth ?? source.glyphWidth ?? 12,
+        glyphHeight: customTarget.glyphHeight ?? source.glyphHeight ?? 18,
+        gap: customTarget.gap ?? source.gap ?? 0,
       },
     );
 
@@ -906,7 +940,7 @@ async function getSwapSourceFontForTarget(sourceId, targetId) {
     const font = {
       width: source.glyphWidth ?? 12,
       height: source.glyphHeight ?? 18,
-      format: "png_pack",
+      format: "custom_png",
       glyphs,
     };
     swapSourceCache.set(cacheKey, font);
@@ -987,17 +1021,10 @@ function initSwapUI() {
         selectedIndex = out.focusIndex;
         rerenderAll();
       }
-      const idx = out.focusIndex;
-      const afterGlyph = idx == null ? null : resultFont?.glyphs?.[idx];
-      const sourceGlyph = idx == null ? null : sourceFont?.glyphs?.[idx];
-      const baseGlyph = idx == null ? null : baseFont?.glyphs?.[idx];
-      const beforeDiff = glyphDiffCount(beforeGlyph, sourceGlyph);
-      const afterDiff = glyphDiffCount(afterGlyph, sourceGlyph);
-      const baseDiff = glyphDiffCount(baseGlyph, sourceGlyph);
       if (out.changed === 0) {
         setLoadStatus(`No visible change for ${targetId}; source matches current glyph(s).`);
       } else {
-        setLoadStatus(`Applied swap: ${targetId} from ${sourceLabel} (${out.changed}/${out.total} changed, baseΔ=${baseDiff}, beforeΔ=${beforeDiff}, afterΔ=${afterDiff})`);
+        setLoadStatus(`Applied swap: ${targetId} from ${sourceLabel} (${out.changed}/${out.total} changed)`);
       }
     } catch (err) {
       console.error("Swap apply failed", err);
@@ -1007,8 +1034,7 @@ function initSwapUI() {
 
   swapTargetSelect?.addEventListener("change", () => {
     selectTargetInGrid(swapTargetSelect.value);
-    swapSourcePickerApi?.rebuild();
-    swapSourcePickerApi?.refresh();
+    syncSwapSourceSelect();
     applySwapSelection({ silentIncomplete: true });
   });
 
@@ -2014,23 +2040,23 @@ async function handleFile(file) {
   await handleBuffer(buf, file.name);
 }
 
-async function loadSwapPackManifest() {
-  if (swapPackManifest) return swapPackManifest;
+async function loadSwapCustomManifest() {
+  if (swapCustomManifest) return swapCustomManifest;
   try {
-    const res = await fetch("fonts/swappacks.json");
+    const res = await fetch("fonts/custom.json");
     if (res.status === 404) {
-      swapPackManifest = [];
-      return swapPackManifest;
+      swapCustomManifest = [];
+      return swapCustomManifest;
     }
-    if (!res.ok) throw new Error(`swappacks.json HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`custom.json HTTP ${res.status}`);
     const list = await res.json();
-    if (!Array.isArray(list)) throw new Error("swappacks.json did not return an array");
-    swapPackManifest = list;
+    if (!Array.isArray(list)) throw new Error("custom.json did not return an array");
+    swapCustomManifest = list;
     return list;
   } catch (err) {
-    console.warn("Failed to load swappacks.json; continuing with default MCM sources only.", err);
-    swapPackManifest = [];
-    return swapPackManifest;
+    console.warn("Failed to load custom.json; continuing with default MCM sources only.", err);
+    swapCustomManifest = [];
+    return swapCustomManifest;
   }
 }
 
@@ -2046,7 +2072,7 @@ function registerBetaflightSwapSources(list) {
   }
 }
 
-function resolvePackAssetPath(pathLike) {
+function resolveCustomAssetPath(pathLike) {
   if (!pathLike || typeof pathLike !== "string") return "";
   if (/^(?:https?:)?\/\//i.test(pathLike) || pathLike.startsWith("/") || pathLike.startsWith("./") || pathLike.startsWith("../")) {
     return pathLike;
@@ -2054,7 +2080,7 @@ function resolvePackAssetPath(pathLike) {
   return `fonts/${pathLike}`;
 }
 
-function registerPngPackSwapSources(list) {
+function registerCustomSwapSources(list) {
   for (const entry of list) {
     if (!entry?.id || !entry?.name || !entry?.targets || typeof entry.targets !== "object") continue;
     const normalizedTargets = {};
@@ -2062,13 +2088,13 @@ function registerPngPackSwapSources(list) {
       if (!cfg) continue;
       normalizedTargets[targetId] = {
         ...cfg,
-        png: resolvePackAssetPath(cfg.png),
+        png: resolveCustomAssetPath(cfg.png),
       };
     }
-    const id = `pack:${entry.id}`;
+    const id = `custom:${entry.id}`;
     swapSourceRegistry.set(id, {
       id,
-      kind: "png_pack",
+      kind: "custom_png",
       label: entry.name,
       targets: normalizedTargets,
       glyphWidth: entry.glyphWidth ?? 12,
@@ -2104,8 +2130,8 @@ async function loadBetaflightDefaults() {
     bfFontSelect.appendChild(opt);
   }
   registerBetaflightSwapSources(list);
-  const packList = await loadSwapPackManifest();
-  registerPngPackSwapSources(packList);
+  const customList = await loadSwapCustomManifest();
+  registerCustomSwapSources(customList);
   syncSwapSourceSelect();
 
 
@@ -2268,3 +2294,4 @@ function init() {
 }
 
 init();
+

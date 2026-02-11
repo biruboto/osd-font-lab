@@ -1,0 +1,85 @@
+[
+  {
+    "id": "hearts_battery",
+    "name": "OSDFL Hearts",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "battery_set": { "png": "custom/battery_set/hearts.png" }
+    }
+  },
+  {
+    "id": "crosshair_dk",
+    "name": "OSDFL DK",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/dk.png" }
+    }
+  },
+  {
+    "id": "crosshair_invader",
+    "name": "OSDFL Invader",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/invader.png" }
+    }
+  },
+  {
+    "id": "crosshair_junkfood",
+    "name": "OSDFL Junkfood",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/junkfood.png" }
+    }
+  },
+  {
+    "id": "crosshair_mage",
+    "name": "OSDFL Mage",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/mage.png" }
+    }
+  },
+  {
+    "id": "crosshair_skullhorns",
+    "name": "OSDFL Skullhorns",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/skullhorns.png" }
+    }
+  },
+  {
+    "id": "clock",
+    "name": "OSDFL Clock",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "on_m": { "png": "custom/single/clock.png" },
+      "fly_m": { "png": "custom/single/clock.png" }
+    }
+  },
+  {
+    "id": "rmpocket",
+    "name": "OSDFL RM Pocket",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "rssi": { "png": "custom/single/rmpocket.png" },
+      "lq": { "png": "custom/single/rmpocket.png" },
+      "throttle": { "png": "custom/single/rmpocket.png" }
+    }
+  }
+]
