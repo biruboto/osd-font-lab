@@ -1808,13 +1808,18 @@ async function loadOverlayIndex() {
 ------------------------------ */
 
 const brandEl = document.getElementById("brandTitle");
-const brandDroneEl = document.getElementById("brandDrone");
+const brandDroneCanvas = document.getElementById("brandDrone");
+const brandDroneCtx = brandDroneCanvas?.getContext?.("2d") || null;
+if (brandDroneCtx) brandDroneCtx.imageSmoothingEnabled = false;
 const BRAND_TEXT = "OSD Font Lab";
 const DRONE_FRAME_PATHS = ["drone1.png", "drone2.png"];
 let droneSourceFrames = null;
 let droneTintFrames = [];
 let droneFrameIdx = 0;
-let droneTimer = null;
+let droneAnimRaf = 0;
+let droneAnimLastTs = 0;
+let droneVisibilityBound = false;
+const DRONE_FRAME_INTERVAL_MS = 45;
 
 function drawOverlayGlyphToTinyCanvas(ctx, overlay, ch, ink) {
   const cellW = 12, cellH = 18;
@@ -2067,7 +2072,7 @@ async function loadDroneSourceFrames() {
   return frames;
 }
 
-function tintDroneFrameToDataUrl(sourceImg, ink) {
+function tintDroneFrameToCanvas(sourceImg, ink) {
   const c = document.createElement("canvas");
   c.width = sourceImg.naturalWidth || sourceImg.width;
   c.height = sourceImg.naturalHeight || sourceImg.height;
@@ -2080,22 +2085,60 @@ function tintDroneFrameToDataUrl(sourceImg, ink) {
   ctx.fillStyle = ink;
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.globalCompositeOperation = "source-over";
-  return c.toDataURL("image/png");
+  return c;
+}
+
+function drawBrandDroneFrame(index = 0) {
+  if (!brandDroneCanvas || !brandDroneCtx || !droneTintFrames.length) return;
+  const frame = droneTintFrames[index % droneTintFrames.length];
+  if (!frame) return;
+  if (brandDroneCanvas.width !== frame.width || brandDroneCanvas.height !== frame.height) {
+    brandDroneCanvas.width = frame.width;
+    brandDroneCanvas.height = frame.height;
+    brandDroneCtx.imageSmoothingEnabled = false;
+  }
+  brandDroneCtx.clearRect(0, 0, brandDroneCanvas.width, brandDroneCanvas.height);
+  brandDroneCtx.drawImage(frame, 0, 0);
 }
 
 async function renderBrandDroneFrames() {
-  if (!brandDroneEl) return;
+  if (!brandDroneCanvas || !brandDroneCtx) return;
   const frames = await loadDroneSourceFrames();
   const ink = cssVar("--brand-ink", cssVar("--accent-0", "#ffffff"));
-  droneTintFrames = frames.map((img) => tintDroneFrameToDataUrl(img, ink));
+  const prevIdx = droneFrameIdx;
+  droneTintFrames = frames.map((img) => tintDroneFrameToCanvas(img, ink));
   if (droneTintFrames.length) {
-    droneFrameIdx = 0;
-    brandDroneEl.src = droneTintFrames[droneFrameIdx];
+    droneFrameIdx = Math.min(prevIdx, droneTintFrames.length - 1);
+    drawBrandDroneFrame(droneFrameIdx);
   }
 }
 
+function stopDroneAnimation() {
+  if (!droneAnimRaf) return;
+  cancelAnimationFrame(droneAnimRaf);
+  droneAnimRaf = 0;
+}
+
+function droneTick(now) {
+  droneAnimRaf = 0;
+  if (document.hidden || !droneTintFrames.length) return;
+  if (!droneAnimLastTs) droneAnimLastTs = now;
+  if (now - droneAnimLastTs >= DRONE_FRAME_INTERVAL_MS) {
+    droneAnimLastTs = now;
+    droneFrameIdx = (droneFrameIdx + 1) % droneTintFrames.length;
+    drawBrandDroneFrame(droneFrameIdx);
+  }
+  droneAnimRaf = requestAnimationFrame(droneTick);
+}
+
+function ensureDroneAnimationRunning() {
+  if (droneAnimRaf || document.hidden || !droneTintFrames.length) return;
+  droneAnimLastTs = 0;
+  droneAnimRaf = requestAnimationFrame(droneTick);
+}
+
 async function initBrandDrone() {
-  if (!brandDroneEl) return;
+  if (!brandDroneCanvas || !brandDroneCtx) return;
   try {
     await renderBrandDroneFrames();
   } catch (err) {
@@ -2103,12 +2146,18 @@ async function initBrandDrone() {
     return;
   }
 
-  if (droneTimer) clearInterval(droneTimer);
-  droneTimer = setInterval(() => {
-    if (!droneTintFrames.length || !brandDroneEl) return;
-    droneFrameIdx = (droneFrameIdx + 1) % droneTintFrames.length;
-    brandDroneEl.src = droneTintFrames[droneFrameIdx];
-  }, 45);
+  ensureDroneAnimationRunning();
+
+  if (!droneVisibilityBound) {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopDroneAnimation();
+        return;
+      }
+      ensureDroneAnimationRunning();
+    }, { passive: true });
+    droneVisibilityBound = true;
+  }
 
   window.__redrawBrandDrone = () => {
     renderBrandDroneFrames().catch((err) => {

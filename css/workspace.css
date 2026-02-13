@@ -50,6 +50,16 @@ canvas{
   border-right: 0;
 }
 
+.view-toggle-btn:hover{
+  background: color-mix(in srgb, var(--accent-0) 10%, var(--bg-2));
+  border-color: transparent;
+  border-right-color: var(--bg-3);
+}
+
+.view-toggle-btn:last-child:hover{
+  border-right-color: transparent;
+}
+
 .view-toggle-btn.is-active{
   background: color-mix(in srgb, var(--accent-0) 18%, var(--bg-2));
   color: var(--text-0);

@@ -97,6 +97,7 @@ body{
   animation: droneHover 2.2s ease-in-out infinite;
   background: transparent !important;
   box-shadow: none !important;
+  border-radius: 0 !important;
   border: 0 !important;
 }
 
