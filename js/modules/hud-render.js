@@ -35,9 +35,45 @@ export function createHudRenderer({
 }) {
   const HUD_COLS = 30;
   const HUD_ROWS = 16;
+  const C = String.fromCharCode;
+  const HUD_TEXT_SAMPLES = Object.freeze({
+    rssi: { glyph: `${C(0x01)}99`, fallback: "RSSI 99", col: 1, row: 1 },
+    main_voltage: { glyph: `${C(0x97)}3.87${C(0x06)}`, fallback: "BAT 3.87V", col: 21, row: 1 },
+    throttle: { glyph: `${C(0x04)}52`, fallback: "THR 52", col: 21, row: 2 },
+    link_quality: { glyph: `${C(0x7B)}98`, fallback: "LQ 98", col: 1, row: 2 },
+    current_draw: { glyph: `3.4${C(0x9A)}`, fallback: "3.4A", col: 23, row: 2 },
+    mah_drawn: { glyph: `${C(0x07)}1290`, fallback: "MAH 1290", col: 22, row: 3 },
+    gps_sats: { glyph: `${C(0x1E)}${C(0x1F)}13`, fallback: "SAT 13", col: 1, row: 3 },
+    vtx_channel: { glyph: "R:1:25", fallback: "R:1:25", col: 1, row: 4 },
+    home_distance: { glyph: `${C(0x05)}245${C(0x0C)}`, fallback: "HOME 245M", col: 21, row: 4 },
+    speed: { glyph: `${C(0x70)}57${C(0x9E)}`, fallback: "SPD 57KPH", col: 1, row: 12 },
+    flight_mode: { glyph: "ACRO", fallback: "ACRO", col: 5, row: 1 },
+    flight_time: { glyph: `${C(0x9C)}03:21`, fallback: "FLY 03:21", col: 1, row: 14 },
+    on_time: { glyph: `${C(0x9B)}04:09`, fallback: "ON 04:09", col: 20, row: 14 },
+    warnings: { glyph: "LOW BATT", fallback: "LOW BATT", col: 11, row: 11 },
+  });
   let bgImage = null;
   let bgReady = false;
   let bgTried = false;
+  const reusableElementRects = Object.create(null);
+  const reusableElementOrder = [];
+  const reusableGrid = {
+    cols: HUD_COLS,
+    rows: HUD_ROWS,
+    originX: 0,
+    originY: 0,
+    hudW: 0,
+    hudH: 0,
+    cellW: 0,
+    cellH: 0,
+    rowStep: 0,
+    safeRows: HUD_ROWS,
+    safeTopRows: 0,
+  };
+  let cachedLabelPilotRaw = "";
+  let cachedLabelCraftRaw = "";
+  let cachedLabelPilot = "PILOT";
+  let cachedLabelCraft = "QUADX";
 
   function hudPixelColor(v) {
     // HUD preview should mimic in-goggles output: black/white/transparent only.
@@ -237,8 +273,12 @@ export function createHudRenderer({
     drawImageCover(ctx, canvas, originX, safeY, hudW, safeH);
     ctx.restore();
     const rowStep = cellH * (safeRows / HUD_ROWS);
-    const elementRects = {};
-    const elementOrder = [];
+    for (let i = 0; i < reusableElementOrder.length; i++) {
+      delete reusableElementRects[reusableElementOrder[i]];
+    }
+    reusableElementOrder.length = 0;
+    const elementRects = reusableElementRects;
+    const elementOrder = reusableElementOrder;
     const resolvedLayout = layout || HUD_LAYOUT_DEFAULTS;
     const formatHudLabel = (value, fallback) => {
       const text = String(value ?? "")
@@ -248,8 +288,18 @@ export function createHudRenderer({
         .trim();
       return (text || fallback).slice(0, 12);
     };
-    const pilotLabel = formatHudLabel(labels?.pilot_name, "PILOT");
-    const craftLabel = formatHudLabel(labels?.craft_name, "QUADX");
+    const pilotRaw = String(labels?.pilot_name ?? "");
+    const craftRaw = String(labels?.craft_name ?? "");
+    if (pilotRaw !== cachedLabelPilotRaw) {
+      cachedLabelPilotRaw = pilotRaw;
+      cachedLabelPilot = formatHudLabel(pilotRaw, "PILOT");
+    }
+    if (craftRaw !== cachedLabelCraftRaw) {
+      cachedLabelCraftRaw = craftRaw;
+      cachedLabelCraft = formatHudLabel(craftRaw, "QUADX");
+    }
+    const pilotLabel = cachedLabelPilot;
+    const craftLabel = cachedLabelCraft;
 
     if (showGuides) {
       drawGuides(ctx, hudW, safeH, cellW, cellH, originX, safeY, 0, safeRows);
@@ -283,7 +333,6 @@ export function createHudRenderer({
       elementOrder.push(id);
     };
 
-    const C = String.fromCharCode;
     const drawHUDText = (id, glyphText, fallbackText, fallbackCol, fallbackRow) => {
       if (!has(id)) return;
       const p = pos(id, fallbackCol, fallbackRow);
@@ -295,20 +344,20 @@ export function createHudRenderer({
       }
     };
 
-    drawHUDText("rssi", `${C(0x01)}99`, "RSSI 99", 1, 1);
-    drawHUDText("main_voltage", `${C(0x97)}3.87${C(0x06)}`, "BAT 3.87V", 21, 1);
-    drawHUDText("throttle", `${C(0x04)}52`, "THR 52", 21, 2);
-    drawHUDText("link_quality", `${C(0x7B)}98`, "LQ 98", 1, 2);
-    drawHUDText("current_draw", `3.4${C(0x9A)}`, "3.4A", 23, 2);
-    drawHUDText("mah_drawn", `${C(0x07)}1290`, "MAH 1290", 22, 3);
-    drawHUDText("gps_sats", `${C(0x1E)}${C(0x1F)}13`, "SAT 13", 1, 3);
-    drawHUDText("vtx_channel", "R:1:25", "R:1:25", 1, 4);
-    drawHUDText("home_distance", `${C(0x05)}245${C(0x0C)}`, "HOME 245M", 21, 4);
-    drawHUDText("speed", `${C(0x70)}57${C(0x9E)}`, "SPD 57KPH", 1, 12);
-    drawHUDText("flight_mode", "ACRO", "ACRO", 5, 1);
-    drawHUDText("flight_time", `${C(0x9C)}03:21`, "FLY 03:21", 1, 14);
-    drawHUDText("on_time", `${C(0x9B)}04:09`, "ON 04:09", 20, 14);
-    drawHUDText("warnings", "LOW BATT", "LOW BATT", 11, 11);
+    drawHUDText("rssi", HUD_TEXT_SAMPLES.rssi.glyph, HUD_TEXT_SAMPLES.rssi.fallback, HUD_TEXT_SAMPLES.rssi.col, HUD_TEXT_SAMPLES.rssi.row);
+    drawHUDText("main_voltage", HUD_TEXT_SAMPLES.main_voltage.glyph, HUD_TEXT_SAMPLES.main_voltage.fallback, HUD_TEXT_SAMPLES.main_voltage.col, HUD_TEXT_SAMPLES.main_voltage.row);
+    drawHUDText("throttle", HUD_TEXT_SAMPLES.throttle.glyph, HUD_TEXT_SAMPLES.throttle.fallback, HUD_TEXT_SAMPLES.throttle.col, HUD_TEXT_SAMPLES.throttle.row);
+    drawHUDText("link_quality", HUD_TEXT_SAMPLES.link_quality.glyph, HUD_TEXT_SAMPLES.link_quality.fallback, HUD_TEXT_SAMPLES.link_quality.col, HUD_TEXT_SAMPLES.link_quality.row);
+    drawHUDText("current_draw", HUD_TEXT_SAMPLES.current_draw.glyph, HUD_TEXT_SAMPLES.current_draw.fallback, HUD_TEXT_SAMPLES.current_draw.col, HUD_TEXT_SAMPLES.current_draw.row);
+    drawHUDText("mah_drawn", HUD_TEXT_SAMPLES.mah_drawn.glyph, HUD_TEXT_SAMPLES.mah_drawn.fallback, HUD_TEXT_SAMPLES.mah_drawn.col, HUD_TEXT_SAMPLES.mah_drawn.row);
+    drawHUDText("gps_sats", HUD_TEXT_SAMPLES.gps_sats.glyph, HUD_TEXT_SAMPLES.gps_sats.fallback, HUD_TEXT_SAMPLES.gps_sats.col, HUD_TEXT_SAMPLES.gps_sats.row);
+    drawHUDText("vtx_channel", HUD_TEXT_SAMPLES.vtx_channel.glyph, HUD_TEXT_SAMPLES.vtx_channel.fallback, HUD_TEXT_SAMPLES.vtx_channel.col, HUD_TEXT_SAMPLES.vtx_channel.row);
+    drawHUDText("home_distance", HUD_TEXT_SAMPLES.home_distance.glyph, HUD_TEXT_SAMPLES.home_distance.fallback, HUD_TEXT_SAMPLES.home_distance.col, HUD_TEXT_SAMPLES.home_distance.row);
+    drawHUDText("speed", HUD_TEXT_SAMPLES.speed.glyph, HUD_TEXT_SAMPLES.speed.fallback, HUD_TEXT_SAMPLES.speed.col, HUD_TEXT_SAMPLES.speed.row);
+    drawHUDText("flight_mode", HUD_TEXT_SAMPLES.flight_mode.glyph, HUD_TEXT_SAMPLES.flight_mode.fallback, HUD_TEXT_SAMPLES.flight_mode.col, HUD_TEXT_SAMPLES.flight_mode.row);
+    drawHUDText("flight_time", HUD_TEXT_SAMPLES.flight_time.glyph, HUD_TEXT_SAMPLES.flight_time.fallback, HUD_TEXT_SAMPLES.flight_time.col, HUD_TEXT_SAMPLES.flight_time.row);
+    drawHUDText("on_time", HUD_TEXT_SAMPLES.on_time.glyph, HUD_TEXT_SAMPLES.on_time.fallback, HUD_TEXT_SAMPLES.on_time.col, HUD_TEXT_SAMPLES.on_time.row);
+    drawHUDText("warnings", HUD_TEXT_SAMPLES.warnings.glyph, HUD_TEXT_SAMPLES.warnings.fallback, HUD_TEXT_SAMPLES.warnings.col, HUD_TEXT_SAMPLES.warnings.row);
     drawHUDText("pilot_name", pilotLabel, pilotLabel, 12, 13);
     drawHUDText("craft_name", craftLabel, craftLabel, 12, 14);
 
@@ -336,22 +385,21 @@ export function createHudRenderer({
       }
     }
 
+    reusableGrid.rows = safeRows;
+    reusableGrid.originX = originX;
+    reusableGrid.originY = originY;
+    reusableGrid.hudW = hudW;
+    reusableGrid.hudH = safeH;
+    reusableGrid.cellW = cellW;
+    reusableGrid.cellH = cellH;
+    reusableGrid.rowStep = cellH;
+    reusableGrid.safeRows = safeRows;
+    reusableGrid.safeTopRows = safeTopRows;
+
     return {
       elementOrder,
       elementRects,
-      grid: {
-        cols: HUD_COLS,
-        rows: safeRows,
-        originX,
-        originY,
-        hudW,
-        hudH: safeH,
-        cellW,
-        cellH,
-        rowStep: cellH,
-        safeRows,
-        safeTopRows,
-      },
+      grid: reusableGrid,
     };
   }
 

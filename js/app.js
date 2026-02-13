@@ -231,6 +231,7 @@ const hudDrag = {
   cellsWide: 1,
   cellsHigh: 1,
 };
+let rerenderRafPending = false;
 
 let loadStatusText = "No file loaded.";
 let loadStatusSubtext = "";
@@ -1540,13 +1541,24 @@ function rerenderAll() {
   }
 
   if (displayFont) {
-    workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selection.selectedIndex, { showGrids });
-    updateInfoPanel(selection.selectedIndex);
+    if (viewMode !== VIEW_MODE_HUD) {
+      workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selection.selectedIndex, { showGrids });
+      updateInfoPanel(selection.selectedIndex);
+    }
     updateSelectionCount();
   } else {
     if (glyphInfo) glyphInfo.textContent = "(Load a font, then click a glyph.)";
     updateSelectionCount();
   }
+}
+
+function scheduleRerender() {
+  if (rerenderRafPending) return;
+  rerenderRafPending = true;
+  requestAnimationFrame(() => {
+    rerenderRafPending = false;
+    rerenderAll();
+  });
 }
 
 function hudCanvasPoint(e) {
@@ -1976,8 +1988,11 @@ async function initBrandTitle() {
   const amp = 4;
   const speed = 1.8;
   const t0 = performance.now();
+  let frameHandle = 0;
 
   function tick(now) {
+    frameHandle = 0;
+    if (document.hidden) return;
     const t = (now - t0) / 1000;
     const glitchActive = !!glitchState && now < glitchState.end;
     const ink = getBrandInk();
@@ -2021,10 +2036,21 @@ async function initBrandTitle() {
       nextGlitchAt = now + nextGlitchDelay();
     }
 
-    requestAnimationFrame(tick);
+    frameHandle = requestAnimationFrame(tick);
   }
 
-  requestAnimationFrame(tick);
+  const onVisibilityChange = () => {
+    if (document.hidden) {
+      if (frameHandle) {
+        cancelAnimationFrame(frameHandle);
+        frameHandle = 0;
+      }
+      return;
+    }
+    if (!frameHandle) frameHandle = requestAnimationFrame(tick);
+  };
+  document.addEventListener("visibilitychange", onVisibilityChange, { passive: true });
+  frameHandle = requestAnimationFrame(tick);
 }
 
 async function loadDroneSourceFrames() {
@@ -2378,11 +2404,13 @@ function initEvents() {
       const dyCells = Math.round((p.y - hudDrag.startPointerY) / Math.max(1, grid.rowStep));
       const maxCol = Math.max(0, grid.cols - hudDrag.cellsWide);
       const maxRow = Math.max(0, grid.rows - hudDrag.cellsHigh);
-      hudLayout[hudDrag.id] = {
-        col: clampInt(hudDrag.startCol + dxCells, 0, maxCol),
-        row: clampInt(hudDrag.startRow + dyCells, 0, maxRow),
-      };
-      rerenderAll();
+      const nextCol = clampInt(hudDrag.startCol + dxCells, 0, maxCol);
+      const nextRow = clampInt(hudDrag.startRow + dyCells, 0, maxRow);
+      const cur = hudLayout[hudDrag.id];
+      if (cur && (cur.col !== nextCol || cur.row !== nextRow)) {
+        hudLayout[hudDrag.id] = { col: nextCol, row: nextRow };
+        scheduleRerender();
+      }
       setHudCanvasCursor("move");
       return;
     }
@@ -2449,7 +2477,7 @@ function initEvents() {
   window.addEventListener("dragover", (e) => e.preventDefault());
   window.addEventListener("drop", (e) => e.preventDefault());
 
-  window.addEventListener("resize", () => rerenderAll());
+  window.addEventListener("resize", () => scheduleRerender());
 
   // exports
   exportMCMBtn?.addEventListener("click", () => {
