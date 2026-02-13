@@ -12,7 +12,7 @@
     <div class="tools-brand-row">
       <div class="brandCluster">
         <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
-        <img id="brandDrone" class="brandDrone" alt="" aria-hidden="true" />
+        <canvas id="brandDrone" class="brandDrone" aria-hidden="true"></canvas>
       </div>
     </div>
 
@@ -20,10 +20,13 @@
     <div class="split">
 
       <section class="font-pane">
-        <section class="panel panel-result panel-no-header">
+        <section class="panel panel-result">
           <div class="panel-body">
-            <div class="grid-wrap">
+            <div class="grid-wrap sheet-wrap">
               <canvas id="resultGrid" class="grid-canvas"></canvas>
+            </div>
+            <div class="grid-wrap hud-wrap">
+              <canvas id="resultHud" class="hud-canvas" width="960" height="540"></canvas>
             </div>
 
             <aside class="sidecar">
@@ -85,6 +88,52 @@
               </div>
             </aside>
           </div>
+          <div class="hud-preview-controls">
+            <div class="hud-format-segment" role="group" aria-label="HUD video format">
+              <button id="hudFormatNtscBtn" type="button" class="hud-format-btn">NTSC</button>
+              <button id="hudFormatPalBtn" type="button" class="hud-format-btn">PAL</button>
+            </div>
+            <label class="field checkbox">
+              <input id="hudShowGuides" type="checkbox" checked />
+              <span class="toggle-slider" aria-hidden="true"></span>
+              <span class="checkbox-label">Grid</span>
+            </label>
+            <button id="hudResetDefaultsBtn" type="button">Reset Layout</button>
+          </div>
+        </section>
+
+        <section class="panel panel-hud-tools">
+          <div class="panel-header hud-tools-header">
+            <div class="tools-section-title">- HUD Elements -</div>
+          </div>
+          <div class="panel-body panel-body-single">
+            <div class="hud-tools-grid">
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="crosshair" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Crosshair</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="compass" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Compass Bar</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="rssi" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">RSSI</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="link_quality" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Link Quality</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="main_voltage" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Main Voltage</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="throttle" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Throttle</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="current_draw" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Current Draw</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="mah_drawn" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">mAh Drawn</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="gps_sats" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">GPS Sats</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="vtx_channel" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">VTX Channel</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="home_distance" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Home Distance</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="speed" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Speed</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="flight_mode" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Flight Mode</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="flight_time" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Flight Time</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="on_time" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">On Time</span></label>
+              <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="warnings" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Warnings</span></label>
+              <div class="hud-element-with-input">
+                <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="pilot_name" aria-label="Toggle pilot name" /><span class="toggle-slider" aria-hidden="true"></span></label>
+                <input id="hudPilotNameInput" type="text" maxlength="12" placeholder="PILOT NAME" aria-label="Pilot name text" />
+              </div>
+              <div class="hud-element-with-input">
+                <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="craft_name" aria-label="Toggle craft name" /><span class="toggle-slider" aria-hidden="true"></span></label>
+                <input id="hudCraftNameInput" type="text" maxlength="12" placeholder="CRAFT NAME" aria-label="Craft name text" />
+              </div>
+            </div>
+          </div>
         </section>
       </section>
 
@@ -105,6 +154,12 @@
         </header>
         <section class="panel panel-base">
           <div class="panel-header">
+            <div class="tools-view-toggle">
+              <div class="view-toggle" role="group" aria-label="Preview mode">
+                <button id="viewModeSheet" type="button" class="view-toggle-btn">Glyph Sheet</button>
+                <button id="viewModeHud" type="button" class="view-toggle-btn">HUD View</button>
+              </div>
+            </div>
             <div class="tools-section-title">- Status -</div>
             <div id="loadStatus" class="load-status hint" aria-live="polite">No file loaded.</div>
             <div class="tools-section-title">- ASCII -</div>

@@ -28,6 +28,7 @@ import {
 } from "./modules/swap-registry.js";
 import { initDpadControls } from "./modules/dpad.js";
 import { createWorkspaceRenderer } from "./modules/workspace-render.js";
+import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js";
 import { parseYaffToOverlay } from "./modules/yaff.js";
 
 /* -----------------------------
@@ -41,22 +42,20 @@ const loadStatus = document.getElementById("loadStatus");
 
 const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
 
-const compareToggle = document.getElementById("compareToggle");
-
 const bfFontSelect = document.getElementById("bfFontSelect");
 
 const baseGridCanvas = document.getElementById("baseGrid");
 const resultGridCanvas = document.getElementById("resultGrid");
+const resultHudCanvas = document.getElementById("resultHud");
 const baseGridCtx = baseGridCanvas?.getContext("2d");
 const resultGridCtx = resultGridCanvas?.getContext("2d");
+const resultHudCtx = resultHudCanvas?.getContext("2d");
 if (baseGridCtx) baseGridCtx.imageSmoothingEnabled = false;
 if (resultGridCtx) resultGridCtx.imageSmoothingEnabled = false;
+if (resultHudCtx) resultHudCtx.imageSmoothingEnabled = false;
 
-const baseZoomCanvas = document.getElementById("baseZoom");
 const resultZoomCanvas = document.getElementById("resultZoom");
-const baseZoomCtx = baseZoomCanvas?.getContext("2d");
 const resultZoomCtx = resultZoomCanvas?.getContext("2d");
-if (baseZoomCtx) baseZoomCtx.imageSmoothingEnabled = false;
 if (resultZoomCtx) resultZoomCtx.imageSmoothingEnabled = false;
 
 const glyphInfo = document.getElementById("glyphInfo");
@@ -69,7 +68,16 @@ const clearAllSwapsBtn = document.getElementById("clearAllSwapsBtn");
 const selCount = document.getElementById("selCount");
 
 const showGridsEl = document.getElementById("showGrids");
+const hudShowGuidesEl = document.getElementById("hudShowGuides");
+const hudFormatNtscBtn = document.getElementById("hudFormatNtscBtn");
+const hudFormatPalBtn = document.getElementById("hudFormatPalBtn");
+const hudResetDefaultsBtn = document.getElementById("hudResetDefaultsBtn");
+const hudElementToggles = [...document.querySelectorAll(".hud-element-toggle")];
+const hudPilotNameInput = document.getElementById("hudPilotNameInput");
+const hudCraftNameInput = document.getElementById("hudCraftNameInput");
 const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
+const viewModeSheetBtn = document.getElementById("viewModeSheet");
+const viewModeHudBtn = document.getElementById("viewModeHud");
 const servingFontCountEl = document.getElementById("servingFontCount");
 const themeCodeLabelEl = document.getElementById("themeCodeLabel");
 const kofiBadgeIconEl = document.getElementById("kofiBadgeIcon");
@@ -155,6 +163,75 @@ let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERL
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
+const VIEW_MODE_KEY = "osdViewMode";
+const VIEW_MODE_SHEET = "sheet";
+const VIEW_MODE_HUD = "hud";
+let viewMode = (localStorage.getItem(VIEW_MODE_KEY) === VIEW_MODE_HUD) ? VIEW_MODE_HUD : VIEW_MODE_SHEET;
+const HUD_VIDEO_FORMAT_KEY = "osdHudVideoFormat";
+const HUD_VIDEO_FORMAT_VERSION_KEY = "osdHudVideoFormatVersion";
+const HUD_VIDEO_FORMAT_SCHEMA_VERSION = 2;
+let hudVideoFormat = loadHudVideoFormatFromStorage();
+const HUD_ELEMENTS_KEY = "osdHudElements";
+const HUD_ELEMENTS_VERSION_KEY = "osdHudElementsVersion";
+const HUD_ELEMENTS_SCHEMA_VERSION = 4;
+const HUD_LAYOUT_KEY = "osdHudLayout";
+const HUD_LAYOUT_VERSION_KEY = "osdHudLayoutVersion";
+const HUD_LAYOUT_SCHEMA_VERSION = 1;
+const HUD_LABELS_KEY = "osdHudLabels";
+const HUD_LABELS_VERSION_KEY = "osdHudLabelsVersion";
+const HUD_LABELS_SCHEMA_VERSION = 2;
+const HUD_ELEMENT_IDS = [
+  "crosshair",
+  "compass",
+  "rssi",
+  "link_quality",
+  "main_voltage",
+  "throttle",
+  "current_draw",
+  "mah_drawn",
+  "gps_sats",
+  "vtx_channel",
+  "home_distance",
+  "speed",
+  "flight_mode",
+  "flight_time",
+  "on_time",
+  "warnings",
+  "pilot_name",
+  "craft_name",
+];
+const HUD_DEFAULT_ACTIVE_IDS = [
+  "crosshair",
+  "rssi",
+  "link_quality",
+  "vtx_channel",
+  "flight_mode",
+  "main_voltage",
+  "throttle",
+  "flight_time",
+  "warnings",
+  "craft_name",
+];
+const DEFAULT_HUD_ELEMENT_SET = new Set(HUD_DEFAULT_ACTIVE_IDS);
+const HUD_LABEL_DEFAULTS = Object.freeze({
+  pilot_name: "PILOT",
+  craft_name: "QUADX",
+});
+let enabledHudElements = loadHudElementsFromStorage();
+let hudLayout = loadHudLayoutFromStorage();
+let hudLabels = loadHudLabelsFromStorage();
+let hudRenderState = null;
+const hudDrag = {
+  active: false,
+  id: "",
+  startPointerX: 0,
+  startPointerY: 0,
+  startCol: 0,
+  startRow: 0,
+  cellsWide: 1,
+  cellsHigh: 1,
+};
+let rerenderRafPending = false;
 
 let loadStatusText = "No file loaded.";
 let loadStatusSubtext = "";
@@ -172,6 +249,189 @@ const THEME_SHORT_LABELS = {
 function updateThemeCodeLabel(themeId) {
   if (!themeCodeLabelEl) return;
   themeCodeLabelEl.textContent = THEME_SHORT_LABELS[themeId] || String(themeId || "DUSK").toUpperCase();
+}
+
+function setViewMode(nextMode) {
+  viewMode = nextMode === VIEW_MODE_HUD ? VIEW_MODE_HUD : VIEW_MODE_SHEET;
+  localStorage.setItem(VIEW_MODE_KEY, viewMode);
+  document.documentElement.setAttribute("data-view-mode", viewMode);
+  viewModeSheetBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_SHEET);
+  viewModeHudBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_HUD);
+  if (viewMode !== VIEW_MODE_HUD) setHudCanvasCursor("default");
+  // Repaint once more after layout settles to avoid stale canvas sizing.
+  requestAnimationFrame(() => rerenderAll());
+}
+
+function loadHudElementsFromStorage() {
+  try {
+    const version = Number(localStorage.getItem(HUD_ELEMENTS_VERSION_KEY) || 0);
+    const raw = localStorage.getItem(HUD_ELEMENTS_KEY);
+    if (version !== HUD_ELEMENTS_SCHEMA_VERSION || !raw) {
+      localStorage.setItem(HUD_ELEMENTS_VERSION_KEY, String(HUD_ELEMENTS_SCHEMA_VERSION));
+      localStorage.setItem(HUD_ELEMENTS_KEY, JSON.stringify(HUD_DEFAULT_ACTIVE_IDS));
+      return new Set(DEFAULT_HUD_ELEMENT_SET);
+    }
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      localStorage.setItem(HUD_ELEMENTS_KEY, JSON.stringify(HUD_DEFAULT_ACTIVE_IDS));
+      return new Set(DEFAULT_HUD_ELEMENT_SET);
+    }
+    const filtered = parsed.filter((id) => HUD_ELEMENT_IDS.includes(id));
+    if (!filtered.length) return new Set(DEFAULT_HUD_ELEMENT_SET);
+    return new Set(filtered);
+  } catch {
+    return new Set(DEFAULT_HUD_ELEMENT_SET);
+  }
+}
+
+function saveHudElementsToStorage() {
+  localStorage.setItem(HUD_ELEMENTS_KEY, JSON.stringify([...enabledHudElements]));
+}
+
+function clampHudLayoutEntry(entry) {
+  if (!entry || typeof entry !== "object") return null;
+  const col = clampInt(Number(entry.col), 0, 29);
+  const row = clampInt(Number(entry.row), 0, 15);
+  return { col, row };
+}
+
+function loadHudLayoutFromStorage() {
+  const defaults = cloneHudLayoutDefaults();
+  try {
+    const version = Number(localStorage.getItem(HUD_LAYOUT_VERSION_KEY) || 0);
+    const raw = localStorage.getItem(HUD_LAYOUT_KEY);
+    if (version !== HUD_LAYOUT_SCHEMA_VERSION || !raw) {
+      localStorage.setItem(HUD_LAYOUT_VERSION_KEY, String(HUD_LAYOUT_SCHEMA_VERSION));
+      localStorage.setItem(HUD_LAYOUT_KEY, JSON.stringify(defaults));
+      return defaults;
+    }
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") {
+      localStorage.setItem(HUD_LAYOUT_KEY, JSON.stringify(defaults));
+      return defaults;
+    }
+    for (const id of HUD_ELEMENT_IDS) {
+      const clamped = clampHudLayoutEntry(parsed[id]);
+      if (clamped) defaults[id] = clamped;
+    }
+    return defaults;
+  } catch {
+    return defaults;
+  }
+}
+
+function saveHudLayoutToStorage() {
+  localStorage.setItem(HUD_LAYOUT_KEY, JSON.stringify(hudLayout));
+}
+
+function sanitizeHudLabel(value) {
+  const text = String(value ?? "")
+    .toUpperCase()
+    .replace(/[\r\n\t]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return text.slice(0, 12);
+}
+
+function loadHudLabelsFromStorage() {
+  const defaults = { pilot_name: "", craft_name: "" };
+  try {
+    const version = Number(localStorage.getItem(HUD_LABELS_VERSION_KEY) || 0);
+    const raw = localStorage.getItem(HUD_LABELS_KEY);
+    if (version !== HUD_LABELS_SCHEMA_VERSION || !raw) {
+      localStorage.setItem(HUD_LABELS_VERSION_KEY, String(HUD_LABELS_SCHEMA_VERSION));
+      localStorage.setItem(HUD_LABELS_KEY, JSON.stringify(defaults));
+      return defaults;
+    }
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") {
+      localStorage.setItem(HUD_LABELS_KEY, JSON.stringify(defaults));
+      return defaults;
+    }
+    return {
+      pilot_name: sanitizeHudLabel(parsed.pilot_name),
+      craft_name: sanitizeHudLabel(parsed.craft_name),
+    };
+  } catch {
+    return defaults;
+  }
+}
+
+function saveHudLabelsToStorage() {
+  localStorage.setItem(HUD_LABELS_KEY, JSON.stringify(hudLabels));
+}
+
+function syncHudLabelInputs() {
+  if (hudPilotNameInput) hudPilotNameInput.value = hudLabels.pilot_name;
+  if (hudCraftNameInput) hudCraftNameInput.value = hudLabels.craft_name;
+}
+
+function resetHudDefaults() {
+  enabledHudElements = new Set(DEFAULT_HUD_ELEMENT_SET);
+  saveHudElementsToStorage();
+
+  hudLayout = cloneHudLayoutDefaults();
+  saveHudLayoutToStorage();
+
+  hudLabels = { pilot_name: "", craft_name: "" };
+  saveHudLabelsToStorage();
+  syncHudLabelInputs();
+
+  hudVideoFormat = "NTSC";
+  localStorage.setItem(HUD_VIDEO_FORMAT_KEY, hudVideoFormat);
+  syncHudFormatUI();
+
+  showGrids = true;
+  localStorage.setItem("showGrids", "1");
+  if (showGridsEl) showGridsEl.checked = true;
+  if (hudShowGuidesEl) hudShowGuidesEl.checked = true;
+
+  syncHudElementToggleUI();
+  rerenderAll();
+}
+
+function syncHudFormatUI() {
+  hudFormatNtscBtn?.classList.toggle("is-active", hudVideoFormat === "NTSC");
+  hudFormatPalBtn?.classList.toggle("is-active", hudVideoFormat === "PAL");
+}
+
+function remapHudLayoutRowsForFormatSwitch(fromFormat, toFormat) {
+  if (fromFormat === toFormat) return;
+  const shift = (fromFormat === "NTSC" && toFormat === "PAL") ? 1
+    : (fromFormat === "PAL" && toFormat === "NTSC") ? -1
+      : 0;
+  if (!shift) return;
+  for (const id of HUD_ELEMENT_IDS) {
+    const p = hudLayout[id];
+    if (!p) continue;
+    hudLayout[id] = {
+      col: clampInt(Number(p.col), 0, 29),
+      row: clampInt(Number(p.row) + shift, 0, 15),
+    };
+  }
+}
+
+function loadHudVideoFormatFromStorage() {
+  try {
+    const version = Number(localStorage.getItem(HUD_VIDEO_FORMAT_VERSION_KEY) || 0);
+    const raw = localStorage.getItem(HUD_VIDEO_FORMAT_KEY);
+    if (version !== HUD_VIDEO_FORMAT_SCHEMA_VERSION || (raw !== "PAL" && raw !== "NTSC")) {
+      localStorage.setItem(HUD_VIDEO_FORMAT_VERSION_KEY, String(HUD_VIDEO_FORMAT_SCHEMA_VERSION));
+      localStorage.setItem(HUD_VIDEO_FORMAT_KEY, "NTSC");
+      return "NTSC";
+    }
+    return raw;
+  } catch {
+    return "NTSC";
+  }
+}
+
+function syncHudElementToggleUI() {
+  for (const el of hudElementToggles) {
+    const id = el.getAttribute("data-hud-element");
+    if (!id) continue;
+    el.checked = enabledHudElements.has(id);
+  }
 }
 
 // Betaflight OSD glyph labels (from Betaflight docs table)
@@ -537,6 +797,14 @@ const workspaceRenderer = createWorkspaceRenderer({
   pxColorViewer,
   fitCanvasToCSS,
   getAccentColor: () => getComputedStyle(document.documentElement).getPropertyValue("--accent-0"),
+});
+
+const hudRenderer = createHudRenderer({
+  fitCanvasToCSS,
+  cssVar,
+  pxColorViewer,
+  backgroundImagePath: "fpv.jpg",
+  requestRerender: () => rerenderAll(),
 });
 
 function cloneFont(font) {
@@ -1243,22 +1511,82 @@ function updateInfoPanel(index) {
 }
 
 function rerenderAll() {
-  if (!baseFont || !resultFont) return;
-  const displayFont = holdOriginalPreview ? baseFont : resultFont;
+  const hasBase = !!baseFont;
+  const hasResult = !!resultFont;
+  const displayFont = (hasBase && hasResult)
+    ? (holdOriginalPreview ? baseFont : resultFont)
+    : (resultFont || baseFont || null);
 
-  // Only render base panel when compare is enabled
-  if (compareMode) {
+  if (hasBase && viewMode !== VIEW_MODE_HUD) {
     workspaceRenderer.renderGrid(baseGridCtx, baseGridCanvas, baseFont, { showGrids, selectedSet: selection.selectedSet });
-    if (baseZoomCtx && baseZoomCanvas) {
-      workspaceRenderer.renderZoom(baseZoomCtx, baseZoomCanvas, baseFont, selection.selectedIndex, { showGrids });
+  } else if (baseGridCtx && baseGridCanvas && viewMode !== VIEW_MODE_HUD) {
+    workspaceRenderer.renderPlaceholderGrid(baseGridCtx, baseGridCanvas, 12, 18, { showGrids });
+  }
+
+  if (viewMode === VIEW_MODE_HUD) {
+    hudRenderState = hudRenderer.renderHud(resultHudCtx, resultHudCanvas, displayFont, {
+      showGuides: showGrids,
+      enabledElements: enabledHudElements,
+      videoFormat: hudVideoFormat,
+      layout: hudLayout,
+      labels: hudLabels,
+    });
+  } else {
+    hudRenderState = null;
+    if (displayFont) {
+      workspaceRenderer.renderGrid(resultGridCtx, resultGridCanvas, displayFont, { showGrids, selectedSet: selection.selectedSet });
+    } else if (resultGridCtx && resultGridCanvas) {
+      workspaceRenderer.renderPlaceholderGrid(resultGridCtx, resultGridCanvas, 12, 18, { showGrids });
     }
   }
 
-  workspaceRenderer.renderGrid(resultGridCtx, resultGridCanvas, displayFont, { showGrids, selectedSet: selection.selectedSet });
-  workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selection.selectedIndex, { showGrids });
+  if (displayFont) {
+    if (viewMode !== VIEW_MODE_HUD) {
+      workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selection.selectedIndex, { showGrids });
+      updateInfoPanel(selection.selectedIndex);
+    }
+    updateSelectionCount();
+  } else {
+    if (glyphInfo) glyphInfo.textContent = "(Load a font, then click a glyph.)";
+    updateSelectionCount();
+  }
+}
 
-  updateInfoPanel(selection.selectedIndex);
-  updateSelectionCount();
+function scheduleRerender() {
+  if (rerenderRafPending) return;
+  rerenderRafPending = true;
+  requestAnimationFrame(() => {
+    rerenderRafPending = false;
+    rerenderAll();
+  });
+}
+
+function hudCanvasPoint(e) {
+  if (!resultHudCanvas) return null;
+  const rect = resultHudCanvas.getBoundingClientRect();
+  if (!rect.width || !rect.height) return null;
+  const sx = resultHudCanvas.width / rect.width;
+  const sy = resultHudCanvas.height / rect.height;
+  return {
+    x: (e.clientX - rect.left) * sx,
+    y: (e.clientY - rect.top) * sy,
+  };
+}
+
+function hitTestHudElement(x, y) {
+  if (!hudRenderState?.elementRects || !hudRenderState?.elementOrder?.length) return null;
+  for (let i = hudRenderState.elementOrder.length - 1; i >= 0; i--) {
+    const id = hudRenderState.elementOrder[i];
+    const r = hudRenderState.elementRects[id];
+    if (!r) continue;
+    if (x >= r.x && x <= (r.x + r.w) && y >= r.y && y <= (r.y + r.h)) return { id, rect: r };
+  }
+  return null;
+}
+
+function setHudCanvasCursor(cursor) {
+  if (!resultHudCanvas) return;
+  resultHudCanvas.style.cursor = cursor;
 }
 
 /* -----------------------------
@@ -1480,13 +1808,18 @@ async function loadOverlayIndex() {
 ------------------------------ */
 
 const brandEl = document.getElementById("brandTitle");
-const brandDroneEl = document.getElementById("brandDrone");
+const brandDroneCanvas = document.getElementById("brandDrone");
+const brandDroneCtx = brandDroneCanvas?.getContext?.("2d") || null;
+if (brandDroneCtx) brandDroneCtx.imageSmoothingEnabled = false;
 const BRAND_TEXT = "OSD Font Lab";
 const DRONE_FRAME_PATHS = ["drone1.png", "drone2.png"];
 let droneSourceFrames = null;
 let droneTintFrames = [];
 let droneFrameIdx = 0;
-let droneTimer = null;
+let droneAnimRaf = 0;
+let droneAnimLastTs = 0;
+let droneVisibilityBound = false;
+const DRONE_FRAME_INTERVAL_MS = 45;
 
 function drawOverlayGlyphToTinyCanvas(ctx, overlay, ch, ink) {
   const cellW = 12, cellH = 18;
@@ -1660,8 +1993,11 @@ async function initBrandTitle() {
   const amp = 4;
   const speed = 1.8;
   const t0 = performance.now();
+  let frameHandle = 0;
 
   function tick(now) {
+    frameHandle = 0;
+    if (document.hidden) return;
     const t = (now - t0) / 1000;
     const glitchActive = !!glitchState && now < glitchState.end;
     const ink = getBrandInk();
@@ -1705,10 +2041,21 @@ async function initBrandTitle() {
       nextGlitchAt = now + nextGlitchDelay();
     }
 
-    requestAnimationFrame(tick);
+    frameHandle = requestAnimationFrame(tick);
   }
 
-  requestAnimationFrame(tick);
+  const onVisibilityChange = () => {
+    if (document.hidden) {
+      if (frameHandle) {
+        cancelAnimationFrame(frameHandle);
+        frameHandle = 0;
+      }
+      return;
+    }
+    if (!frameHandle) frameHandle = requestAnimationFrame(tick);
+  };
+  document.addEventListener("visibilitychange", onVisibilityChange, { passive: true });
+  frameHandle = requestAnimationFrame(tick);
 }
 
 async function loadDroneSourceFrames() {
@@ -1725,7 +2072,7 @@ async function loadDroneSourceFrames() {
   return frames;
 }
 
-function tintDroneFrameToDataUrl(sourceImg, ink) {
+function tintDroneFrameToCanvas(sourceImg, ink) {
   const c = document.createElement("canvas");
   c.width = sourceImg.naturalWidth || sourceImg.width;
   c.height = sourceImg.naturalHeight || sourceImg.height;
@@ -1738,22 +2085,60 @@ function tintDroneFrameToDataUrl(sourceImg, ink) {
   ctx.fillStyle = ink;
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.globalCompositeOperation = "source-over";
-  return c.toDataURL("image/png");
+  return c;
+}
+
+function drawBrandDroneFrame(index = 0) {
+  if (!brandDroneCanvas || !brandDroneCtx || !droneTintFrames.length) return;
+  const frame = droneTintFrames[index % droneTintFrames.length];
+  if (!frame) return;
+  if (brandDroneCanvas.width !== frame.width || brandDroneCanvas.height !== frame.height) {
+    brandDroneCanvas.width = frame.width;
+    brandDroneCanvas.height = frame.height;
+    brandDroneCtx.imageSmoothingEnabled = false;
+  }
+  brandDroneCtx.clearRect(0, 0, brandDroneCanvas.width, brandDroneCanvas.height);
+  brandDroneCtx.drawImage(frame, 0, 0);
 }
 
 async function renderBrandDroneFrames() {
-  if (!brandDroneEl) return;
+  if (!brandDroneCanvas || !brandDroneCtx) return;
   const frames = await loadDroneSourceFrames();
   const ink = cssVar("--brand-ink", cssVar("--accent-0", "#ffffff"));
-  droneTintFrames = frames.map((img) => tintDroneFrameToDataUrl(img, ink));
+  const prevIdx = droneFrameIdx;
+  droneTintFrames = frames.map((img) => tintDroneFrameToCanvas(img, ink));
   if (droneTintFrames.length) {
-    droneFrameIdx = 0;
-    brandDroneEl.src = droneTintFrames[droneFrameIdx];
+    droneFrameIdx = Math.min(prevIdx, droneTintFrames.length - 1);
+    drawBrandDroneFrame(droneFrameIdx);
   }
 }
 
+function stopDroneAnimation() {
+  if (!droneAnimRaf) return;
+  cancelAnimationFrame(droneAnimRaf);
+  droneAnimRaf = 0;
+}
+
+function droneTick(now) {
+  droneAnimRaf = 0;
+  if (document.hidden || !droneTintFrames.length) return;
+  if (!droneAnimLastTs) droneAnimLastTs = now;
+  if (now - droneAnimLastTs >= DRONE_FRAME_INTERVAL_MS) {
+    droneAnimLastTs = now;
+    droneFrameIdx = (droneFrameIdx + 1) % droneTintFrames.length;
+    drawBrandDroneFrame(droneFrameIdx);
+  }
+  droneAnimRaf = requestAnimationFrame(droneTick);
+}
+
+function ensureDroneAnimationRunning() {
+  if (droneAnimRaf || document.hidden || !droneTintFrames.length) return;
+  droneAnimLastTs = 0;
+  droneAnimRaf = requestAnimationFrame(droneTick);
+}
+
 async function initBrandDrone() {
-  if (!brandDroneEl) return;
+  if (!brandDroneCanvas || !brandDroneCtx) return;
   try {
     await renderBrandDroneFrames();
   } catch (err) {
@@ -1761,12 +2146,18 @@ async function initBrandDrone() {
     return;
   }
 
-  if (droneTimer) clearInterval(droneTimer);
-  droneTimer = setInterval(() => {
-    if (!droneTintFrames.length || !brandDroneEl) return;
-    droneFrameIdx = (droneFrameIdx + 1) % droneTintFrames.length;
-    brandDroneEl.src = droneTintFrames[droneFrameIdx];
-  }, 45);
+  ensureDroneAnimationRunning();
+
+  if (!droneVisibilityBound) {
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopDroneAnimation();
+        return;
+      }
+      ensureDroneAnimationRunning();
+    }, { passive: true });
+    droneVisibilityBound = true;
+  }
 
   window.__redrawBrandDrone = () => {
     renderBrandDroneFrames().catch((err) => {
@@ -1922,45 +2313,82 @@ async function loadBetaflightDefaults() {
   });
 }
 
-const COMPARE_KEY = "osdFontLabCompare";
-let compareMode = (localStorage.getItem(COMPARE_KEY) ?? "0") === "1";
-
-function applyCompareMode(on) {
-  compareMode = !!on;
-  localStorage.setItem(COMPARE_KEY, compareMode ? "1" : "0");
-
-  if (compareMode) {
-    document.documentElement.setAttribute("data-compare", "1");
-  } else {
-    document.documentElement.removeAttribute("data-compare");
-  }
-
-  rerenderAll();
-}
-
 function initEvents() {
-  // compare toggle
-  if (compareToggle) {
-    compareToggle.checked = compareMode;
-    applyCompareMode(compareMode); // apply on load
+  viewModeSheetBtn?.addEventListener("click", () => {
+    setViewMode(VIEW_MODE_SHEET);
+  });
 
-    compareToggle.addEventListener("change", () => {
-      applyCompareMode(!!compareToggle.checked);
-    });
-  } else {
-    // still apply from storage even if checkbox missing
-    applyCompareMode(compareMode);
-  }
+  viewModeHudBtn?.addEventListener("click", () => {
+    setViewMode(VIEW_MODE_HUD);
+  });
 
   // show grids toggle
   if (showGridsEl) {
     showGridsEl.checked = showGrids;
     showGridsEl.addEventListener("change", () => {
       showGrids = !!showGridsEl.checked;
+      if (hudShowGuidesEl) hudShowGuidesEl.checked = showGrids;
       localStorage.setItem("showGrids", showGrids ? "1" : "0");
       rerenderAll();
     });
   }
+  if (hudShowGuidesEl) {
+    hudShowGuidesEl.checked = showGrids;
+    hudShowGuidesEl.addEventListener("change", () => {
+      showGrids = !!hudShowGuidesEl.checked;
+      if (showGridsEl) showGridsEl.checked = showGrids;
+      localStorage.setItem("showGrids", showGrids ? "1" : "0");
+      rerenderAll();
+    });
+  }
+  syncHudFormatUI();
+  hudFormatNtscBtn?.addEventListener("click", () => {
+    const nextFormat = "NTSC";
+    if (hudVideoFormat === nextFormat) return;
+    remapHudLayoutRowsForFormatSwitch(hudVideoFormat, nextFormat);
+    hudVideoFormat = nextFormat;
+    localStorage.setItem(HUD_VIDEO_FORMAT_KEY, hudVideoFormat);
+    saveHudLayoutToStorage();
+    syncHudFormatUI();
+    rerenderAll();
+  });
+  hudFormatPalBtn?.addEventListener("click", () => {
+    const nextFormat = "PAL";
+    if (hudVideoFormat === nextFormat) return;
+    remapHudLayoutRowsForFormatSwitch(hudVideoFormat, nextFormat);
+    hudVideoFormat = nextFormat;
+    localStorage.setItem(HUD_VIDEO_FORMAT_KEY, hudVideoFormat);
+    saveHudLayoutToStorage();
+    syncHudFormatUI();
+    rerenderAll();
+  });
+  hudResetDefaultsBtn?.addEventListener("click", () => {
+    resetHudDefaults();
+  });
+  syncHudElementToggleUI();
+  for (const el of hudElementToggles) {
+    el.addEventListener("change", () => {
+      const id = el.getAttribute("data-hud-element");
+      if (!id) return;
+      if (el.checked) enabledHudElements.add(id);
+      else enabledHudElements.delete(id);
+      saveHudElementsToStorage();
+      rerenderAll();
+    });
+  }
+  syncHudLabelInputs();
+  hudPilotNameInput?.addEventListener("input", () => {
+    hudLabels.pilot_name = sanitizeHudLabel(hudPilotNameInput.value);
+    hudPilotNameInput.value = hudLabels.pilot_name;
+    saveHudLabelsToStorage();
+    rerenderAll();
+  });
+  hudCraftNameInput?.addEventListener("input", () => {
+    hudLabels.craft_name = sanitizeHudLabel(hudCraftNameInput.value);
+    hudCraftNameInput.value = hudLabels.craft_name;
+    saveHudLabelsToStorage();
+    rerenderAll();
+  });
 
   // Hold-to-preview-original (momentary)
   if (holdOriginalPreviewBtn) {
@@ -1985,13 +2413,71 @@ function initEvents() {
 
   // grids click
   baseGridCanvas?.addEventListener("click", (e) => {
-    if (!baseFont || !compareMode) return;
+    if (!baseFont) return;
     handleGridClick(e, baseGridCanvas, baseFont);
   });
 
   resultGridCanvas?.addEventListener("click", (e) => {
-    if (!resultFont) return;
+    if (!resultFont || viewMode !== VIEW_MODE_SHEET) return;
     handleGridClick(e, resultGridCanvas, resultFont);
+  });
+
+  resultHudCanvas?.addEventListener("mousedown", (e) => {
+    if (viewMode !== VIEW_MODE_HUD) return;
+    const p = hudCanvasPoint(e);
+    if (!p) return;
+    const hit = hitTestHudElement(p.x, p.y);
+    if (!hit) return;
+    const entry = hudLayout[hit.id];
+    if (!entry) return;
+    hudDrag.active = true;
+    hudDrag.id = hit.id;
+    hudDrag.startPointerX = p.x;
+    hudDrag.startPointerY = p.y;
+    hudDrag.startCol = entry.col;
+    hudDrag.startRow = entry.row;
+    hudDrag.cellsWide = Math.max(1, hit.rect.cellsWide || 1);
+    hudDrag.cellsHigh = Math.max(1, hit.rect.cellsHigh || 1);
+    setHudCanvasCursor("move");
+    e.preventDefault();
+  });
+
+  resultHudCanvas?.addEventListener("mousemove", (e) => {
+    if (viewMode !== VIEW_MODE_HUD) return;
+    const p = hudCanvasPoint(e);
+    if (!p) return;
+    if (hudDrag.active) {
+      const grid = hudRenderState?.grid;
+      if (!grid || !hudDrag.id) return;
+      const dxCells = Math.round((p.x - hudDrag.startPointerX) / grid.cellW);
+      const dyCells = Math.round((p.y - hudDrag.startPointerY) / Math.max(1, grid.rowStep));
+      const maxCol = Math.max(0, grid.cols - hudDrag.cellsWide);
+      const maxRow = Math.max(0, grid.rows - hudDrag.cellsHigh);
+      const nextCol = clampInt(hudDrag.startCol + dxCells, 0, maxCol);
+      const nextRow = clampInt(hudDrag.startRow + dyCells, 0, maxRow);
+      const cur = hudLayout[hudDrag.id];
+      if (cur && (cur.col !== nextCol || cur.row !== nextRow)) {
+        hudLayout[hudDrag.id] = { col: nextCol, row: nextRow };
+        scheduleRerender();
+      }
+      setHudCanvasCursor("move");
+      return;
+    }
+    const hit = hitTestHudElement(p.x, p.y);
+    setHudCanvasCursor(hit ? "move" : "default");
+  });
+
+  resultHudCanvas?.addEventListener("mouseleave", () => {
+    if (hudDrag.active) return;
+    setHudCanvasCursor("default");
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!hudDrag.active) return;
+    hudDrag.active = false;
+    if (hudDrag.id) saveHudLayoutToStorage();
+    hudDrag.id = "";
+    setHudCanvasCursor("default");
   });
 
   // drop zone + file picker
@@ -2040,7 +2526,7 @@ function initEvents() {
   window.addEventListener("dragover", (e) => e.preventDefault());
   window.addEventListener("drop", (e) => e.preventDefault());
 
-  window.addEventListener("resize", () => rerenderAll());
+  window.addEventListener("resize", () => scheduleRerender());
 
   // exports
   exportMCMBtn?.addEventListener("click", () => {
@@ -2095,6 +2581,7 @@ function initEvents() {
 
 function init() {
   // Keep layout stable before any font is loaded.
+  setViewMode(viewMode);
   if (resultGridCanvas) workspaceRenderer.reserveGridCanvasSpace(resultGridCanvas);
   if (baseGridCanvas) workspaceRenderer.reserveGridCanvasSpace(baseGridCanvas);
 
