@@ -413,7 +413,8 @@ select{
 }
 
 #drop.dropzone-inline,
-#yaffImportBtn.dropzone-inline{
+#yaffImportBtn.dropzone-inline,
+#bootSplashImportBtn.dropzone-inline{
   width: 100%;
   height: var(--control-h);
   min-width: 0;
@@ -433,7 +434,8 @@ select{
   background: var(--bg-2);
 }
 
-#yaffImportBtn.dropzone-inline{
+#yaffImportBtn.dropzone-inline,
+#bootSplashImportBtn.dropzone-inline{
   border: 1px dashed var(--bg-3);
   color: var(--text-muted);
   font: inherit;
@@ -528,6 +530,32 @@ select{
   flex-wrap: wrap;
   justify-content: center;
   grid-column: 1 / -1;
+}
+
+.boot-splash-preview-wrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+
+.boot-splash-preview{
+  width: min(100%, 360px);
+  height: auto;
+  aspect-ratio: 4 / 1;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bg-2) 88%, transparent);
+  box-shadow: inset 0 0 0 1px var(--canvas-frame);
+}
+
+.boot-splash-import-btn{
+  display: block;
+  margin: 0 auto 8px;
+  width: min(100%, 360px);
+}
+
+#bootSplashImportBtn.dropzone-inline{
+  width: min(100%, 360px);
 }
 
 #drop.hot{

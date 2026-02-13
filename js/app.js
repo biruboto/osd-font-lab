@@ -38,6 +38,8 @@ const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
 const yaffFileInput = document.getElementById("yaffFile");
 const yaffImportBtn = document.getElementById("yaffImportBtn");
+const bootSplashImportBtn = document.getElementById("bootSplashImportBtn");
+const bootSplashFileInput = document.getElementById("bootSplashFile");
 const loadStatus = document.getElementById("loadStatus");
 
 const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
@@ -47,12 +49,15 @@ const bfFontSelect = document.getElementById("bfFontSelect");
 const baseGridCanvas = document.getElementById("baseGrid");
 const resultGridCanvas = document.getElementById("resultGrid");
 const resultHudCanvas = document.getElementById("resultHud");
+const bootSplashPreviewCanvas = document.getElementById("bootSplashPreview");
 const baseGridCtx = baseGridCanvas?.getContext("2d");
 const resultGridCtx = resultGridCanvas?.getContext("2d");
 const resultHudCtx = resultHudCanvas?.getContext("2d");
+const bootSplashPreviewCtx = bootSplashPreviewCanvas?.getContext("2d");
 if (baseGridCtx) baseGridCtx.imageSmoothingEnabled = false;
 if (resultGridCtx) resultGridCtx.imageSmoothingEnabled = false;
 if (resultHudCtx) resultHudCtx.imageSmoothingEnabled = false;
+if (bootSplashPreviewCtx) bootSplashPreviewCtx.imageSmoothingEnabled = false;
 
 const resultZoomCanvas = document.getElementById("resultZoom");
 const resultZoomCtx = resultZoomCanvas?.getContext("2d");
@@ -217,6 +222,12 @@ const HUD_LABEL_DEFAULTS = Object.freeze({
   pilot_name: "PILOT",
   craft_name: "ICARUS",
 });
+const BOOT_SPLASH_START_INDEX = 0xA0;
+const BOOT_SPLASH_GLYPH_COUNT = 96;
+const BOOT_SPLASH_COLS = 24;
+const BOOT_SPLASH_ROWS = BOOT_SPLASH_GLYPH_COUNT / BOOT_SPLASH_COLS;
+const BOOT_SPLASH_PNG_WIDTH = 288;
+const BOOT_SPLASH_PNG_HEIGHT = 72;
 let enabledHudElements = loadHudElementsFromStorage();
 let hudLayout = loadHudLayoutFromStorage();
 let hudLabels = loadHudLabelsFromStorage();
@@ -1089,6 +1100,12 @@ function colorToGlyphValue(r, g, b, a) {
   return 3;
 }
 
+function colorToGlyphValueSplash(r, g, b, a) {
+  if (a < 16) return 1;
+  if (r <= 24 && g >= 232 && b <= 24) return 1; // Betaflight transparent green (#00FF00)
+  return colorToGlyphValue(r, g, b, a);
+}
+
 async function decodePngGlyphStrip(url, glyphCount, {
   glyphWidth = 12,
   glyphHeight = 18,
@@ -1122,6 +1139,88 @@ async function decodePngGlyphStrip(url, glyphCount, {
     glyphs.push(out);
   }
   return glyphs;
+}
+
+async function decodeBootSplashPng(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const img = new Image();
+    img.decoding = "async";
+    img.src = url;
+    await img.decode();
+
+    if (img.width !== BOOT_SPLASH_PNG_WIDTH || img.height !== BOOT_SPLASH_PNG_HEIGHT) {
+      throw new Error(`Expected ${BOOT_SPLASH_PNG_WIDTH}x${BOOT_SPLASH_PNG_HEIGHT}; got ${img.width}x${img.height}`);
+    }
+
+    const glyphWidth = BOOT_SPLASH_PNG_WIDTH / BOOT_SPLASH_COLS;
+    const glyphHeight = BOOT_SPLASH_PNG_HEIGHT / BOOT_SPLASH_ROWS;
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(img, 0, 0);
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+    const glyphs = new Array(BOOT_SPLASH_GLYPH_COUNT);
+    for (let tile = 0; tile < BOOT_SPLASH_GLYPH_COUNT; tile++) {
+      const col = tile % BOOT_SPLASH_COLS;
+      const row = Math.floor(tile / BOOT_SPLASH_COLS);
+      const sx = col * glyphWidth;
+      const sy = row * glyphHeight;
+      const out = new Uint8Array(glyphWidth * glyphHeight);
+      for (let y = 0; y < glyphHeight; y++) {
+        for (let x = 0; x < glyphWidth; x++) {
+          const p = (((sy + y) * canvas.width) + (sx + x)) * 4;
+          out[y * glyphWidth + x] = colorToGlyphValueSplash(
+            pixels[p],
+            pixels[p + 1],
+            pixels[p + 2],
+            pixels[p + 3],
+          );
+        }
+      }
+      glyphs[tile] = out;
+    }
+
+    return glyphs;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+async function applyBootSplashFile(file) {
+  if (!baseFont) {
+    setLoadStatus("Load a base font first.", { error: true });
+    return;
+  }
+  if (!isPngFile(file) && !isBmpFile(file)) {
+    setLoadStatus("Please choose a .png or .bmp file for boot splash import.", { error: true });
+    return;
+  }
+  if ((baseFont.width || 12) !== 12 || (baseFont.height || 18) !== 18) {
+    setLoadStatus("Boot splash import requires a 12x18 font cell size.", { error: true });
+    return;
+  }
+
+  let splashGlyphs;
+  try {
+    splashGlyphs = await decodeBootSplashPng(file);
+  } catch (err) {
+    console.error("Boot splash PNG import failed for", file.name, err);
+    setLoadStatus(`Failed boot splash import: ${file.name}`, { error: true, subtext: err?.message || "" });
+    return;
+  }
+
+  for (let tile = 0; tile < BOOT_SPLASH_GLYPH_COUNT; tile++) {
+    swapOverrides.set(BOOT_SPLASH_START_INDEX + tile, splashGlyphs[tile]);
+  }
+  holdOriginalPreview = false;
+  holdOriginalPreviewBtn?.classList.remove("is-holding");
+  rebuildResultFont();
+  rerenderAll();
+  setLoadStatus(`Loaded boot splash image: ${file.name}`, { subtext: `${BOOT_SPLASH_GLYPH_COUNT} glyphs` });
 }
 
 async function getSwapSourceFontForTarget(sourceId, targetId) {
@@ -1512,6 +1611,40 @@ function updateInfoPanel(index) {
   `;
 }
 
+function renderBootSplashPreview(font) {
+  if (!bootSplashPreviewCanvas || !bootSplashPreviewCtx) return;
+
+  const glyphWidth = Math.max(1, font?.width || 12);
+  const glyphHeight = Math.max(1, font?.height || 18);
+  const canvasWidth = BOOT_SPLASH_COLS * glyphWidth;
+  const canvasHeight = BOOT_SPLASH_ROWS * glyphHeight;
+
+  if (bootSplashPreviewCanvas.width !== canvasWidth) bootSplashPreviewCanvas.width = canvasWidth;
+  if (bootSplashPreviewCanvas.height !== canvasHeight) bootSplashPreviewCanvas.height = canvasHeight;
+  bootSplashPreviewCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  if (!font?.glyphs) return;
+
+  for (let tile = 0; tile < BOOT_SPLASH_GLYPH_COUNT; tile++) {
+    const glyph = font.glyphs[BOOT_SPLASH_START_INDEX + tile];
+    if (!glyph) continue;
+
+    const col = tile % BOOT_SPLASH_COLS;
+    const row = Math.floor(tile / BOOT_SPLASH_COLS);
+    const ox = col * glyphWidth;
+    const oy = row * glyphHeight;
+
+    for (let y = 0; y < glyphHeight; y++) {
+      for (let x = 0; x < glyphWidth; x++) {
+        const v = glyph[y * glyphWidth + x];
+        if (v === 1) continue;
+        bootSplashPreviewCtx.fillStyle = pxColorViewer(v);
+        bootSplashPreviewCtx.fillRect(ox + x, oy + y, 1, 1);
+      }
+    }
+  }
+}
+
 function rerenderAll() {
   const hasBase = !!baseFont;
   const hasResult = !!resultFont;
@@ -1552,6 +1685,8 @@ function rerenderAll() {
     if (glyphInfo) glyphInfo.textContent = "(Load a font, then click a glyph.)";
     updateSelectionCount();
   }
+
+  renderBootSplashPreview(resultFont || baseFont || null);
 }
 
 function scheduleRerender() {
@@ -2243,6 +2378,11 @@ function isPngFile(file) {
   return name.endsWith(".png");
 }
 
+function isBmpFile(file) {
+  const name = String(file?.name || "").toLowerCase();
+  return name.endsWith(".bmp");
+}
+
 async function loadSwapCustomManifest() {
   if (swapCustomManifest) return swapCustomManifest;
   try {
@@ -2486,6 +2626,7 @@ function initEvents() {
   // drop zone + file picker
   drop?.addEventListener("click", () => fileInput?.click());
   yaffImportBtn?.addEventListener("click", () => yaffFileInput?.click());
+  bootSplashImportBtn?.addEventListener("click", () => bootSplashFileInput?.click());
 
   fileInput?.addEventListener("change", () => {
     const f = fileInput.files?.[0];
@@ -2505,6 +2646,13 @@ function initEvents() {
       return;
     }
     handleFile(f);
+  });
+
+  bootSplashFileInput?.addEventListener("change", () => {
+    const f = bootSplashFileInput.files?.[0];
+    if (!f) return;
+    applyBootSplashFile(f);
+    bootSplashFileInput.value = "";
   });
 
   drop?.addEventListener("dragenter", (e) => { e.preventDefault(); drop.classList.add("hot"); });
