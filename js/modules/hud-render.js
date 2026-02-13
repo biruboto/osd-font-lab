@@ -1,24 +1,24 @@
 // js/modules/hud-render.js
 export const HUD_LAYOUT_DEFAULTS = Object.freeze({
-  // BETAFPV Air75 CLI defaults (Betaflight 4.5.0-rc3, decoded from osd_*_pos).
-  crosshair: { col: 13, row: 6 },
+  // User-defined default HUD layout.
+  crosshair: { col: 14, row: 6 },
   compass: { col: 10, row: 7 },
-  rssi: { col: 2, row: 7 },
-  link_quality: { col: 1, row: 9 },
-  main_voltage: { col: 1, row: 10 },
-  throttle: { col: 22, row: 10 },
+  rssi: { col: 1, row: 11 },
+  link_quality: { col: 1, row: 12 },
+  main_voltage: { col: 23, row: 11 },
+  throttle: { col: 26, row: 10 },
   current_draw: { col: 0, row: 11 },
   mah_drawn: { col: 2, row: 12 },
   gps_sats: { col: 10, row: 7 },
-  vtx_channel: { col: 1, row: 1 },
+  vtx_channel: { col: 1, row: 0 },
   home_distance: { col: 2, row: 3 },
   speed: { col: 10, row: 7 },
-  flight_mode: { col: 5, row: 1 },
-  flight_time: { col: 2, row: 12 },
+  flight_mode: { col: 25, row: 0 },
+  flight_time: { col: 23, row: 12 },
   on_time: { col: 22, row: 12 },
-  warnings: { col: 10, row: 10 },
+  warnings: { col: 11, row: 10 },
   pilot_name: { col: 10, row: 7 },
-  craft_name: { col: 11, row: 12 },
+  craft_name: { col: 12, row: 12 },
 });
 
 export function cloneHudLayoutDefaults() {

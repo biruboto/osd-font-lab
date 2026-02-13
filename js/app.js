@@ -202,13 +202,13 @@ const HUD_ELEMENT_IDS = [
 ];
 const HUD_DEFAULT_ACTIVE_IDS = [
   "crosshair",
+  "rssi",
   "link_quality",
+  "vtx_channel",
+  "flight_mode",
   "main_voltage",
   "throttle",
-  "current_draw",
-  "mah_drawn",
-  "vtx_channel",
-  "on_time",
+  "flight_time",
   "warnings",
   "craft_name",
 ];
