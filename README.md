@@ -13,3 +13,4 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Export to either .MCM or .PNG (1x and 3x)
 + New HUD VIEW! Preview your OSD in an in-goggles style overlay on a flight background. Toggle common elements on/off, drag elements to your layout, switch NTSC/PAL safe areas, and compare changes live against the glyph sheet.
 + New boot splash logo support! Import a 288x72px BMP or PNG and inject it into your font.
++ New pixel editor! Ability to manually edit single glyphs pixel-by-pixel.
