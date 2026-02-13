@@ -73,7 +73,7 @@ export function createHudRenderer({
   let cachedLabelPilotRaw = "";
   let cachedLabelCraftRaw = "";
   let cachedLabelPilot = "PILOT";
-  let cachedLabelCraft = "QUADX";
+  let cachedLabelCraft = "ICARUS";
 
   function hudPixelColor(v) {
     // HUD preview should mimic in-goggles output: black/white/transparent only.
@@ -296,7 +296,7 @@ export function createHudRenderer({
     }
     if (craftRaw !== cachedLabelCraftRaw) {
       cachedLabelCraftRaw = craftRaw;
-      cachedLabelCraft = formatHudLabel(craftRaw, "QUADX");
+      cachedLabelCraft = formatHudLabel(craftRaw, "ICARUS");
     }
     const pilotLabel = cachedLabelPilot;
     const craftLabel = cachedLabelCraft;

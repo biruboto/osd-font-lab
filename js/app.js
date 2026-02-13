@@ -215,7 +215,7 @@ const HUD_DEFAULT_ACTIVE_IDS = [
 const DEFAULT_HUD_ELEMENT_SET = new Set(HUD_DEFAULT_ACTIVE_IDS);
 const HUD_LABEL_DEFAULTS = Object.freeze({
   pilot_name: "PILOT",
-  craft_name: "QUADX",
+  craft_name: "ICARUS",
 });
 let enabledHudElements = loadHudElementsFromStorage();
 let hudLayout = loadHudLayoutFromStorage();
