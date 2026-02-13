@@ -31,10 +31,27 @@
 
             <aside class="sidecar">
               <div class="zoom-wrap">
-                <div class="zoom-label">Glyph Inspector</div>
+                <div class="zoom-mode-toggle" role="group" aria-label="Zoom panel mode">
+                  <button id="zoomModeInspector" type="button" class="zoom-mode-btn">Inspector</button>
+                  <button id="zoomModeEditor" type="button" class="zoom-mode-btn">Editor</button>
+                </div>
                 <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
                 <div id="glyphInfo" class="inspector-body glyph-info-inline">
                   (Load a font, then click a glyph.)
+                </div>
+                <div id="editorPalette" class="editor-palette" hidden>
+                  <button type="button" class="editor-color-btn" data-editor-color="3" aria-label="Black">
+                    <span class="editor-color-swatch editor-color-black" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="editor-color-btn" data-editor-color="2" aria-label="White">
+                    <span class="editor-color-swatch editor-color-white" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="editor-color-btn" data-editor-color="1" aria-label="Mid gray / transparent">
+                    <span class="editor-color-swatch editor-color-gray" aria-hidden="true"></span>
+                  </button>
+                  <button id="editorUndoBtn" type="button" class="editor-color-btn editor-undo-btn" aria-label="Undo last stroke">
+                    <span class="editor-undo-glyph" aria-hidden="true">&#10226;</span>
+                  </button>
                 </div>
               </div>
 

@@ -38,12 +38,16 @@ canvas{
 
 .view-toggle-btn{
   flex: 1 1 50%;
-  min-height: 34px;
+  min-height: 28px;
   border: 0;
   border-right: 1px solid var(--bg-3);
   border-radius: 0;
   background: var(--bg-2);
   color: var(--text-1);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .view-toggle-btn:last-child{
@@ -192,13 +196,17 @@ canvas{
 }
 
 .hud-format-btn{
-  min-height: 30px;
-  padding: 0 12px;
+  min-height: 28px;
+  padding: 0 10px;
   border: 0;
   border-right: 1px solid var(--bg-3);
   border-radius: 0;
   background: var(--bg-2);
   color: var(--text-1);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
 .hud-format-btn:last-child{
@@ -273,6 +281,48 @@ canvas{
   margin-bottom: 6px;
 }
 
+.zoom-mode-toggle{
+  display: flex;
+  width: min(220px, 100%);
+  margin: 0 auto 6px;
+  border: 1px solid var(--bg-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.zoom-mode-btn{
+  flex: 1 1 50%;
+  min-height: 28px;
+  border: 0;
+  border-right: 1px solid var(--bg-3);
+  border-radius: 0;
+  background: var(--bg-2);
+  color: var(--text-1);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.zoom-mode-btn:last-child{
+  border-right: 0;
+}
+
+.zoom-mode-btn:hover{
+  background: color-mix(in srgb, var(--accent-0) 10%, var(--bg-2));
+  border-color: transparent;
+  border-right-color: var(--bg-3);
+}
+
+.zoom-mode-btn:last-child:hover{
+  border-right-color: transparent;
+}
+
+.zoom-mode-btn.is-active{
+  background: color-mix(in srgb, var(--accent-0) 18%, var(--bg-2));
+  color: var(--text-0);
+}
+
 .zoom-canvas{
   width: 100%;
   max-width: 264px;
@@ -286,8 +336,67 @@ canvas{
   image-rendering: crisp-edges;
 }
 
+.zoom-canvas.is-editor{
+  cursor: crosshair;
+}
+
 .glyph-info-inline{
   margin-top: 8px;
+}
+
+.editor-palette{
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.editor-palette[hidden]{
+  display: none !important;
+}
+
+.editor-color-btn{
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bg-3);
+  border-radius: 8px;
+  background: var(--bg-2);
+}
+
+.editor-color-btn.is-active{
+  border-color: var(--accent-0);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-0) 30%, transparent);
+}
+
+.editor-undo-btn{
+  color: var(--text-0);
+}
+
+.editor-undo-glyph{
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.editor-color-swatch{
+  width: 18px;
+  height: 18px;
+  border: 1px solid color-mix(in srgb, var(--bg-3) 70%, #000);
+}
+
+.editor-color-black{
+  background: var(--osd-3);
+}
+
+.editor-color-white{
+  background: var(--osd-2);
+}
+
+.editor-color-gray{
+  background: var(--osd-1);
 }
 
 .inspector-body{
