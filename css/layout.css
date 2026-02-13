@@ -2,13 +2,17 @@
 
 /* ---------- base reset ---------- */
 *{ box-sizing: border-box; }
-html, body{ height: 100%; }
+html, body{
+  height: 100%;
+  scrollbar-gutter: stable;
+}
 
 body{
   margin: 0;
   background: var(--bg-0);
   color: var(--text-0);
   font-family: system-ui, sans-serif;
+  overflow-y: scroll;
 }
 
 /* ---------- app shell ---------- */

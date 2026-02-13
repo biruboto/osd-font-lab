@@ -64,6 +64,11 @@ const resultZoomCtx = resultZoomCanvas?.getContext("2d");
 if (resultZoomCtx) resultZoomCtx.imageSmoothingEnabled = false;
 
 const glyphInfo = document.getElementById("glyphInfo");
+const editorPalette = document.getElementById("editorPalette");
+const editorColorButtons = [...document.querySelectorAll(".editor-color-btn")];
+const editorUndoBtn = document.getElementById("editorUndoBtn");
+const zoomModeInspectorBtn = document.getElementById("zoomModeInspector");
+const zoomModeEditorBtn = document.getElementById("zoomModeEditor");
 const overlaySelect = document.getElementById("overlaySelect");
 const swapTargetSelect = document.getElementById("swapTargetSelect");
 const swapSourceSelect = document.getElementById("swapSourceSelect");
@@ -171,7 +176,11 @@ let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
 const VIEW_MODE_KEY = "osdViewMode";
 const VIEW_MODE_SHEET = "sheet";
 const VIEW_MODE_HUD = "hud";
+const ZOOM_MODE_INSPECTOR = "inspector";
+const ZOOM_MODE_EDITOR = "editor";
 let viewMode = (localStorage.getItem(VIEW_MODE_KEY) === VIEW_MODE_HUD) ? VIEW_MODE_HUD : VIEW_MODE_SHEET;
+let zoomMode = ZOOM_MODE_INSPECTOR;
+let editorColorValue = 3;
 const HUD_VIDEO_FORMAT_KEY = "osdHudVideoFormat";
 const HUD_VIDEO_FORMAT_VERSION_KEY = "osdHudVideoFormatVersion";
 const HUD_VIDEO_FORMAT_SCHEMA_VERSION = 2;
@@ -242,6 +251,17 @@ const hudDrag = {
   cellsWide: 1,
   cellsHigh: 1,
 };
+const zoomPaint = {
+  active: false,
+  dirty: false,
+  startGlyph: null,
+  startIndex: -1,
+};
+const editorUndo = {
+  glyph: null,
+  index: -1,
+};
+const editorOverrideIndices = new Set();
 let rerenderRafPending = false;
 
 let loadStatusText = "No file loaded.";
@@ -269,8 +289,43 @@ function setViewMode(nextMode) {
   viewModeSheetBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_SHEET);
   viewModeHudBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_HUD);
   if (viewMode !== VIEW_MODE_HUD) setHudCanvasCursor("default");
+  syncZoomModeUI();
   // Repaint once more after layout settles to avoid stale canvas sizing.
   requestAnimationFrame(() => rerenderAll());
+}
+
+function syncZoomModeUI() {
+  const isInspector = zoomMode === ZOOM_MODE_INSPECTOR;
+  zoomModeInspectorBtn?.classList.toggle("is-active", isInspector);
+  zoomModeEditorBtn?.classList.toggle("is-active", !isInspector);
+  if (glyphInfo) glyphInfo.hidden = !isInspector;
+  if (editorPalette) editorPalette.hidden = isInspector;
+  if (resultZoomCanvas) resultZoomCanvas.classList.toggle("is-editor", !isInspector && viewMode === VIEW_MODE_SHEET);
+}
+
+function setZoomMode(nextMode) {
+  zoomMode = nextMode === ZOOM_MODE_EDITOR ? ZOOM_MODE_EDITOR : ZOOM_MODE_INSPECTOR;
+  syncZoomModeUI();
+  rerenderAll();
+}
+
+function setEditorColor(nextValue) {
+  const v = Number(nextValue);
+  if (v !== 1 && v !== 2 && v !== 3) return;
+  editorColorValue = v;
+  for (const btn of editorColorButtons) {
+    btn.classList.toggle("is-active", Number(btn.getAttribute("data-editor-color")) === editorColorValue);
+  }
+}
+
+function clearEditorPixelOverrides() {
+  if (!editorOverrideIndices.size) return;
+  for (const idx of editorOverrideIndices) {
+    swapOverrides.delete(idx);
+  }
+  editorOverrideIndices.clear();
+  editorUndo.glyph = null;
+  editorUndo.index = -1;
 }
 
 function loadHudElementsFromStorage() {
@@ -696,6 +751,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   }
 
   baseFont = decoded;
+  clearEditorPixelOverrides();
   setSingleSelection(0);
   rebuildResultFont();
   rerenderAll();
@@ -1494,6 +1550,17 @@ function rebuildResultFont() {
     resultFont.glyphs[idx] = new Uint8Array(glyph);
   }
 
+  // Apply "Nudge replaced" to ASCII glyphs edited in pixel editor so they
+  // continue behaving like replaced characters.
+  const replacedDx = nudge.replaced.x | 0;
+  const replacedDy = nudge.replaced.y | 0;
+  if ((replacedDx !== 0 || replacedDy !== 0) && editorOverrideIndices.size) {
+    for (const idx of editorOverrideIndices) {
+      if (idx < 0 || idx > 255 || !isReplaceable(idx)) continue;
+      resultFont.glyphs[idx] = shiftGlyphPixels(resultFont.glyphs[idx], resultFont.width, resultFont.height, replacedDx, replacedDy);
+    }
+  }
+
   // Apply per-glyph nudges as pixel shifts to ANY glyph (icons included)
   const w = resultFont.width;
   const h = resultFont.height;
@@ -1741,6 +1808,80 @@ function handleGridClick(e, canvas, font) {
   rerenderAll();
 }
 
+function zoomEventToPixel(e, canvas, font) {
+  if (!canvas || !font) return null;
+  const rect = canvas.getBoundingClientRect();
+  if (!rect.width || !rect.height) return null;
+  const sx = canvas.width / rect.width;
+  const sy = canvas.height / rect.height;
+  const x = (e.clientX - rect.left) * sx;
+  const y = (e.clientY - rect.top) * sy;
+
+  const zoomScale = Math.max(1, Math.floor(Math.min(canvas.width / font.width, canvas.height / font.height)));
+  const ox = Math.floor((canvas.width - font.width * zoomScale) / 2);
+  const oy = Math.floor((canvas.height - font.height * zoomScale) / 2);
+  if (x < ox || y < oy) return null;
+  if (x >= ox + font.width * zoomScale || y >= oy + font.height * zoomScale) return null;
+
+  const px = Math.floor((x - ox) / zoomScale);
+  const py = Math.floor((y - oy) / zoomScale);
+  if (px < 0 || py < 0 || px >= font.width || py >= font.height) return null;
+  return { x: px, y: py };
+}
+
+function applyEditorPixel(e) {
+  if (viewMode !== VIEW_MODE_SHEET || zoomMode !== ZOOM_MODE_EDITOR) return;
+  if (!baseFont || !resultFont) return;
+  const idx = selection.selectedIndex;
+  if (idx == null || idx < 0 || idx > 255) return;
+  const p = zoomEventToPixel(e, resultZoomCanvas, resultFont);
+  if (!p) return;
+
+  const src = resultFont.glyphs?.[idx];
+  if (!src) return;
+  const next = new Uint8Array(src);
+  const pos = p.y * resultFont.width + p.x;
+  const value = editorColorValue | 0;
+  if (next[pos] === value) return;
+  next[pos] = value;
+
+  holdOriginalPreview = false;
+  holdOriginalPreviewBtn?.classList.remove("is-holding");
+  swapOverrides.set(idx, next);
+  editorOverrideIndices.add(idx);
+  resultFont.glyphs[idx] = next;
+  workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, resultFont, selection.selectedIndex, { showGrids });
+  zoomPaint.dirty = true;
+}
+
+function commitZoomPaintIfNeeded() {
+  if (zoomPaint.dirty && zoomPaint.startGlyph && zoomPaint.startIndex >= 0) {
+    editorUndo.glyph = new Uint8Array(zoomPaint.startGlyph);
+    editorUndo.index = zoomPaint.startIndex;
+  }
+  zoomPaint.active = false;
+  zoomPaint.dirty = false;
+  zoomPaint.startGlyph = null;
+  zoomPaint.startIndex = -1;
+  rerenderAll();
+}
+
+function applyEditorUndo() {
+  if (!baseFont || !resultFont) return;
+  if (!editorUndo.glyph || editorUndo.index < 0 || editorUndo.index > 255) return;
+
+  holdOriginalPreview = false;
+  holdOriginalPreviewBtn?.classList.remove("is-holding");
+  swapOverrides.set(editorUndo.index, new Uint8Array(editorUndo.glyph));
+  editorOverrideIndices.add(editorUndo.index);
+  resultFont.glyphs[editorUndo.index] = new Uint8Array(editorUndo.glyph);
+  setSingleSelection(editorUndo.index);
+  rerenderAll();
+
+  editorUndo.glyph = null;
+  editorUndo.index = -1;
+}
+
 /* -----------------------------
    Export helpers
 ------------------------------ */
@@ -1906,6 +2047,7 @@ async function loadOverlayIndex() {
         currentOverlayLibraryId = nextLib;
         localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
         currentOverlay = null;
+        clearEditorPixelOverrides();
         overlayPreviewUrlCache.clear();
         await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel);
         overlayPickerApi?.rebuild();
@@ -1920,6 +2062,7 @@ async function loadOverlayIndex() {
 
       if (!file) {
         currentOverlay = null;
+        clearEditorPixelOverrides();
         rebuildResultFont();
         rerenderAll();
         return;
@@ -1932,6 +2075,7 @@ async function loadOverlayIndex() {
         currentOverlay = null;
       }
 
+      clearEditorPixelOverrides();
       rebuildResultFont();
       rerenderAll();
       renderLoadStatusVisual();
@@ -2325,6 +2469,7 @@ async function handleFile(file) {
       return;
     }
     currentOverlay = overlay;
+    clearEditorPixelOverrides();
     if (overlaySelect) overlaySelect.value = "";
     rebuildResultFont();
     rerenderAll();
@@ -2347,6 +2492,7 @@ async function handleFile(file) {
     }
 
     baseFont = font;
+    clearEditorPixelOverrides();
     setSingleSelection(0);
     rebuildResultFont();
     rerenderAll();
@@ -2457,6 +2603,17 @@ async function loadBetaflightDefaults() {
 }
 
 function initEvents() {
+  setEditorColor(editorColorValue);
+  setZoomMode(ZOOM_MODE_INSPECTOR);
+  zoomModeInspectorBtn?.addEventListener("click", () => setZoomMode(ZOOM_MODE_INSPECTOR));
+  zoomModeEditorBtn?.addEventListener("click", () => setZoomMode(ZOOM_MODE_EDITOR));
+  for (const btn of editorColorButtons) {
+    btn.addEventListener("click", () => setEditorColor(btn.getAttribute("data-editor-color")));
+  }
+  editorUndoBtn?.addEventListener("click", () => {
+    applyEditorUndo();
+  });
+
   viewModeSheetBtn?.addEventListener("click", () => {
     setViewMode(VIEW_MODE_SHEET);
   });
@@ -2563,6 +2720,35 @@ function initEvents() {
   resultGridCanvas?.addEventListener("click", (e) => {
     if (!resultFont || viewMode !== VIEW_MODE_SHEET) return;
     handleGridClick(e, resultGridCanvas, resultFont);
+  });
+  resultZoomCanvas?.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0) return;
+    if (viewMode !== VIEW_MODE_SHEET || zoomMode !== ZOOM_MODE_EDITOR || !resultFont) return;
+    const idx = selection.selectedIndex;
+    const glyph = resultFont.glyphs?.[idx];
+    if (!glyph || idx == null || idx < 0 || idx > 255) return;
+    zoomPaint.active = true;
+    zoomPaint.dirty = false;
+    zoomPaint.startGlyph = new Uint8Array(glyph);
+    zoomPaint.startIndex = idx;
+    applyEditorPixel(e);
+    e.preventDefault();
+  });
+  resultZoomCanvas?.addEventListener("pointermove", (e) => {
+    if (!zoomPaint.active) return;
+    applyEditorPixel(e);
+  });
+  resultZoomCanvas?.addEventListener("pointerup", () => {
+    if (!zoomPaint.active) return;
+    commitZoomPaintIfNeeded();
+  });
+  resultZoomCanvas?.addEventListener("pointerleave", () => {
+    if (!zoomPaint.active) return;
+    commitZoomPaintIfNeeded();
+  });
+  resultZoomCanvas?.addEventListener("pointercancel", () => {
+    if (!zoomPaint.active) return;
+    commitZoomPaintIfNeeded();
   });
 
   resultHudCanvas?.addEventListener("mousedown", (e) => {
