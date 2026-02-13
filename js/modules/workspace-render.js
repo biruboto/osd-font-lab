@@ -136,6 +136,9 @@ export function createWorkspaceRenderer({
     if (!canvas || !font) return;
     const rect = canvas.getBoundingClientRect();
     const targetW = Math.max(1, Math.floor(rect.width));
+    // Ignore hidden/unstable layout passes (e.g. switching from HUD mode)
+    // so we don't lock the inspector to 1x.
+    if (targetW <= font.width) return;
     const cssScale = Math.max(1, Math.floor(targetW / font.width));
     canvas.style.width = `${cssScale * font.width}px`;
     canvas.style.height = `${cssScale * font.height}px`;
