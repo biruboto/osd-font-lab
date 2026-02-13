@@ -1180,6 +1180,7 @@ function initSwapUI() {
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
     getPreviewUrl: (value) => getSwapTargetPreviewUrl(value),
+    lazyMenuPreviews: true,
   });
 
   swapSourcePickerApi = buildFontPicker({
@@ -1187,6 +1188,7 @@ function initSwapUI() {
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
     getPreviewUrl: (value) => getSwapSourcePreviewUrl(value),
+    lazyMenuPreviews: true,
   });
 
   const selectTargetInGrid = (targetId) => {
@@ -2295,6 +2297,7 @@ async function loadBetaflightDefaults() {
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
     getPreviewUrl: (value) => getBetaflightPreviewUrl(value),
+    lazyMenuPreviews: true,
   });
 
 
