@@ -330,7 +330,7 @@ function sanitizeHudLabel(value) {
     .replace(/[\r\n\t]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  return text.slice(0, 12);
+  return text.slice(0, 16);
 }
 
 function loadHudLabelsFromStorage() {

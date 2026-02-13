@@ -286,7 +286,7 @@ export function createHudRenderer({
         .replace(/[\r\n\t]+/g, " ")
         .replace(/\s+/g, " ")
         .trim();
-      return (text || fallback).slice(0, 12);
+      return (text || fallback).slice(0, 16);
     };
     const pilotRaw = String(labels?.pilot_name ?? "");
     const craftRaw = String(labels?.craft_name ?? "");
