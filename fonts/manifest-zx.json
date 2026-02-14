@@ -1,0 +1,717 @@
+﻿[
+    {
+        "id":  "80colps",
+        "file":  "80colPS.json",
+        "name":  "80colPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "adventura32",
+        "file":  "Adventura32.json",
+        "name":  "Adventura32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "alien32",
+        "file":  "Alien32.json",
+        "name":  "Alien32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "alt40",
+        "file":  "Alt40.json",
+        "name":  "Alt40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "amstrad32",
+        "file":  "Amstrad32.json",
+        "name":  "Amstrad32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "arcadian32",
+        "file":  "Arcadian32.json",
+        "name":  "Arcadian32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "atari32",
+        "file":  "Atari32.json",
+        "name":  "Atari32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "attica32",
+        "file":  "Attica32.json",
+        "name":  "Attica32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bbc1",
+        "file":  "BBC1.json",
+        "name":  "BBC1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bbc7",
+        "file":  "BBC7.json",
+        "name":  "BBC7",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "braggadocio32",
+        "file":  "Braggadocio32.json",
+        "name":  "Braggadocio32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cbm32",
+        "file":  "CBM32.json",
+        "name":  "CBM32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "chunky32",
+        "file":  "Chunky32.json",
+        "name":  "Chunky32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "clairsys",
+        "file":  "Clairsys.json",
+        "name":  "Clairsys",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "clairsys-b",
+        "file":  "Clairsys-B.json",
+        "name":  "Clairsys-B",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "compact40",
+        "file":  "Compact40.json",
+        "name":  "Compact40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "crusoe32",
+        "file":  "Crusoe32.json",
+        "name":  "Crusoe32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dutchps",
+        "file":  "DutchPS.json",
+        "name":  "DutchPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "esmeralda32",
+        "file":  "Esmeralda32.json",
+        "name":  "Esmeralda32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fatboy",
+        "file":  "FatBoy.json",
+        "name":  "FatBoy",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "future32",
+        "file":  "Future32.json",
+        "name":  "Future32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gameboy32",
+        "file":  "GameBoy32.json",
+        "name":  "GameBoy32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gothika32",
+        "file":  "GothikA32.json",
+        "name":  "GothikA32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gothikb32",
+        "file":  "GothikB32.json",
+        "name":  "GothikB32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm32",
+        "file":  "IBM32.json",
+        "name":  "IBM32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "inferno32",
+        "file":  "Inferno32.json",
+        "name":  "Inferno32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-a",
+        "file":  "INVD-A.json",
+        "name":  "INVD-A",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-b",
+        "file":  "INVD-B.json",
+        "name":  "INVD-B",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-c",
+        "file":  "INVD-C.json",
+        "name":  "INVD-C",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-d",
+        "file":  "INVD-D.json",
+        "name":  "INVD-D",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-e",
+        "file":  "INVD-E.json",
+        "name":  "INVD-E",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-f",
+        "file":  "INVD-F.json",
+        "name":  "INVD-F",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-g",
+        "file":  "INVD-G.json",
+        "name":  "INVD-G",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-i",
+        "file":  "INVD-I.json",
+        "name":  "INVD-I",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-j",
+        "file":  "INVD-J.json",
+        "name":  "INVD-J",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-k",
+        "file":  "INVD-K.json",
+        "name":  "INVD-K",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-l",
+        "file":  "INVD-L.json",
+        "name":  "INVD-L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "invd-m",
+        "file":  "INVD-M.json",
+        "name":  "INVD-M",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "kombat32",
+        "file":  "Kombat32.json",
+        "name":  "Kombat32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "minimalps",
+        "file":  "MinimalPS.json",
+        "name":  "MinimalPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "miniset32",
+        "file":  "Miniset32.json",
+        "name":  "Miniset32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "monaco40",
+        "file":  "Monaco40.json",
+        "name":  "Monaco40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "oldenglish32",
+        "file":  "OldEnglish32.json",
+        "name":  "OldEnglish32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "oric32",
+        "file":  "Oric32.json",
+        "name":  "Oric32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "perfect64-32",
+        "file":  "Perfect64-32.json",
+        "name":  "Perfect64-32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "prefect64",
+        "file":  "Prefect64.json",
+        "name":  "Prefect64",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "prefectps",
+        "file":  "PrefectPS.json",
+        "name":  "PrefectPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rathboneps",
+        "file":  "RathbonePS.json",
+        "name":  "RathbonePS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sinclair32",
+        "file":  "Sinclair32.json",
+        "name":  "Sinclair32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sinclair40",
+        "file":  "Sinclair40.json",
+        "name":  "Sinclair40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "skeleton32",
+        "file":  "Skeleton32.json",
+        "name":  "Skeleton32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "swissps",
+        "file":  "SwissPS.json",
+        "name":  "SwissPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trader32",
+        "file":  "Trader32.json",
+        "name":  "Trader32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zaibatsu32",
+        "file":  "Zaibatsu32.json",
+        "name":  "Zaibatsu32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zaibatsups",
+        "file":  "ZaibatsuPS.json",
+        "name":  "ZaibatsuPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    }
+]

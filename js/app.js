@@ -168,6 +168,12 @@ const OVERLAY_LIBRARIES = [
     dataDir: "fonts/data/cpc",
   },
   {
+    id: "zx",
+    label: "ZX Spectrum",
+    manifestPath: "fonts/manifest-zx.json",
+    dataDir: "fonts/data/zx",
+  },
+  {
     id: "dg",
     label: "Damien Guard",
     manifestPath: "fonts/manifest-dg.json",
