@@ -1,0 +1,57 @@
+{
+  "cell": [
+    12,
+    18
+  ],
+  "glyphs": {
+    "U+00A3": {
+      "offset": [
+        2,
+        5
+      ],
+      "rows": [
+        28,
+        54,
+        48,
+        124,
+        48,
+        48,
+        126,
+        0
+      ],
+      "size": [
+        8,
+        8
+      ]
+    },
+    "U+00A4": {
+      "offset": [
+        2,
+        5
+      ],
+      "rows": [
+        62,
+        99,
+        248,
+        96,
+        248,
+        99,
+        62,
+        0
+      ],
+      "size": [
+        8,
+        8
+      ]
+    }
+  },
+  "name": "Euro",
+  "source": {
+    "bytes": 20,
+    "file": "Euro.vdu",
+    "format": "bbc-vdu",
+    "malformedPackets": 0,
+    "packetCount": 2,
+    "packetSize": 10
+  }
+}

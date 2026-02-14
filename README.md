@@ -20,3 +20,4 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 02.14.2026
 + New Amstrad CPC font library (44 new fonts)
 + New ZX Spectrum font library (55 new fonts)
++ New BBC Micro font libtary (89 new fonts)

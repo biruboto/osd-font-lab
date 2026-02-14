@@ -174,6 +174,12 @@ const OVERLAY_LIBRARIES = [
     dataDir: "fonts/data/zx",
   },
   {
+    id: "bbc",
+    label: "BBC Micro",
+    manifestPath: "fonts/manifest-bbc.json",
+    dataDir: "fonts/data/bbc",
+  },
+  {
     id: "dg",
     label: "Damien Guard",
     manifestPath: "fonts/manifest-dg.json",
@@ -181,6 +187,7 @@ const OVERLAY_LIBRARIES = [
   },
 ];
 const overlayManifestCache = new Map(); // library id -> manifest list
+const overlayLibraryCounts = new Map(); // library id -> entry count
 let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERLAY_LIBRARIES[0].id;
 
 // showGrids persisted
@@ -1634,9 +1641,42 @@ async function getOverlayPreviewUrl(file) {
   const cached = overlayPreviewUrlCache.get(cacheKey);
   if (cached) return cached;
   const overlay = await getOverlayByFile(file);
-  const url = drawOverlayPreviewStrip(overlay, "ABC123", pxColorViewer);
+  const url = drawOverlayPreviewStrip(overlay, overlayPreviewText(overlay), pxColorViewer);
   overlayPreviewUrlCache.set(cacheKey, url);
   return url;
+}
+
+function overlayPreviewText(overlay) {
+  const preferred = "ABC123";
+  const glyphs = overlay?.glyphs;
+  if (!glyphs || typeof glyphs !== "object") return preferred;
+
+  const hasGlyph = (cp) => Object.prototype.hasOwnProperty.call(glyphs, `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`);
+  if ([...preferred].every((ch) => hasGlyph(ch.charCodeAt(0)))) return preferred;
+
+  const cps = Object.keys(glyphs)
+    .map((k) => {
+      const m = /^U\+([0-9A-Fa-f]{4,6})$/.exec(k);
+      if (!m) return null;
+      const cp = parseInt(m[1], 16);
+      return Number.isFinite(cp) ? cp : null;
+    })
+    .filter((cp) => cp != null && cp >= 0x20 && cp <= 0xFFFF && cp !== 0x7F)
+    .sort((a, b) => a - b);
+
+  const sample = [];
+  for (const cp of cps) {
+    try {
+      const ch = String.fromCodePoint(cp);
+      if (!ch.trim() && cp !== 0x20) continue;
+      sample.push(ch);
+      if (sample.length >= 6) break;
+    } catch {
+      // skip invalid codepoints
+    }
+  }
+
+  return sample.length ? sample.join("") : preferred;
 }
 
 
@@ -1978,10 +2018,32 @@ function buildOverlaySelectOptionsBase(placeholderText = "(load font library)") 
   for (const lib of OVERLAY_LIBRARIES) {
     const opt = document.createElement("option");
     opt.value = `${LIB_SELECT_PREFIX}${lib.id}`;
-    opt.textContent = lib.label;
+    const count = overlayLibraryCounts.get(lib.id);
+    opt.textContent = Number.isInteger(count) ? `${lib.label} (${count})` : lib.label;
     group.appendChild(opt);
   }
   overlaySelect.appendChild(group);
+}
+
+async function preloadOverlayLibraryCounts() {
+  await Promise.all(
+    OVERLAY_LIBRARIES.map(async (lib) => {
+      try {
+        let list = overlayManifestCache.get(lib.id);
+        if (!list) {
+          const res = await fetch(lib.manifestPath);
+          if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
+          list = await res.json();
+          if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
+          overlayManifestCache.set(lib.id, list);
+        }
+        overlayLibraryCounts.set(lib.id, list.length);
+      } catch (err) {
+        console.warn(`Overlay library count unavailable for ${lib.id}`, err);
+        overlayLibraryCounts.set(lib.id, 0);
+      }
+    }),
+  );
 }
 
 async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "", placeholderText = "(load font library)") {
@@ -2034,6 +2096,7 @@ async function loadOverlayIndex() {
   if (!OVERLAY_LIBRARIES.some((l) => l.id === currentOverlayLibraryId)) {
     currentOverlayLibraryId = OVERLAY_LIBRARIES[0].id;
   }
+  await preloadOverlayLibraryCounts();
   // Start with libraries only; fonts are loaded after explicit library selection.
   buildOverlaySelectOptionsBase();
 
