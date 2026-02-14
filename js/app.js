@@ -162,6 +162,12 @@ const OVERLAY_LIBRARIES = [
     dataDir: "fonts/data/atari",
   },
   {
+    id: "cpc",
+    label: "Amstrad CPC",
+    manifestPath: "fonts/manifest-cpc.json",
+    dataDir: "fonts/data/cpc",
+  },
+  {
     id: "dg",
     label: "Damien Guard",
     manifestPath: "fonts/manifest-dg.json",

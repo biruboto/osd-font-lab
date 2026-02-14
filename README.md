@@ -11,6 +11,11 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Nudge the characters around to match baselines and horizontal spacing etc
 + Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small (but growing!) selection of custom OSDFL icons
 + Export to either .MCM or .PNG (1x and 3x)
+
+02.13.2026
 + New HUD VIEW! Preview your OSD in an in-goggles style overlay on a flight background. Toggle common elements on/off, drag elements to your layout, switch NTSC/PAL safe areas, and compare changes live against the glyph sheet.
 + New boot splash logo support! Import a 288x72px BMP or PNG and inject it into your font.
 + New pixel editor! Ability to manually edit single glyphs pixel-by-pixel.
+
+02.14.2026
++ New Amstrad CPC font library (44 new fonts)

@@ -1,0 +1,574 @@
+﻿[
+    {
+        "id":  "alarm8x5",
+        "file":  "alarm8x5.json",
+        "name":  "alarm8x5",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "alarm8x8",
+        "file":  "alarm8x8.json",
+        "name":  "alarm8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "army",
+        "file":  "army.json",
+        "name":  "army",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "arty",
+        "file":  "arty.json",
+        "name":  "arty",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bold",
+        "file":  "bold.json",
+        "name":  "bold",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bold2",
+        "file":  "bold2.json",
+        "name":  "bold2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "capitals",
+        "file":  "capitals.json",
+        "name":  "capitals",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "charset1",
+        "file":  "charset1.json",
+        "name":  "charset1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "charset2",
+        "file":  "charset2.json",
+        "name":  "charset2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "charset3",
+        "file":  "charset3.json",
+        "name":  "charset3",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "chunkee",
+        "file":  "chunkee.json",
+        "name":  "chunkee",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "chunkee2",
+        "file":  "chunkee2.json",
+        "name":  "chunkee2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "data1",
+        "file":  "data1.json",
+        "name":  "data1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "data2",
+        "file":  "data2.json",
+        "name":  "data2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fatty",
+        "file":  "fatty.json",
+        "name":  "fatty",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  128,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "feniceb",
+        "file":  "feniceb.json",
+        "name":  "feniceb",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fin",
+        "file":  "fin.json",
+        "name":  "fin",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fletcher",
+        "file":  "fletcher.json",
+        "name":  "fletcher",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gothic",
+        "file":  "gothic.json",
+        "name":  "gothic",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gras",
+        "file":  "gras.json",
+        "name":  "gras",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gsanspcw",
+        "file":  "gsanspcw.json",
+        "name":  "gsanspcw",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "handy2",
+        "file":  "handy2.json",
+        "name":  "handy2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm",
+        "file":  "ibm.json",
+        "name":  "ibm",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "italic",
+        "file":  "italic.json",
+        "name":  "italic",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "joindup",
+        "file":  "joindup.json",
+        "name":  "joindup",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "lawson",
+        "file":  "lawson.json",
+        "name":  "lawson",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "lcd",
+        "file":  "lcd.json",
+        "name":  "lcd",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "neat1",
+        "file":  "neat1.json",
+        "name":  "neat1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "neat2",
+        "file":  "neat2.json",
+        "name":  "neat2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "newchars",
+        "file":  "newchars.json",
+        "name":  "newchars",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pcw8x5",
+        "file":  "pcw8x5.json",
+        "name":  "pcw8x5",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pcw8x8",
+        "file":  "pcw8x8.json",
+        "name":  "pcw8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rounded",
+        "file":  "rounded.json",
+        "name":  "rounded",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sanserif",
+        "file":  "sanserif.json",
+        "name":  "sanserif",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "serif",
+        "file":  "serif.json",
+        "name":  "serif",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "small1",
+        "file":  "small1.json",
+        "name":  "small1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "small2",
+        "file":  "small2.json",
+        "name":  "small2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "square",
+        "file":  "square.json",
+        "name":  "square",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "square1",
+        "file":  "square1.json",
+        "name":  "square1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "square2",
+        "file":  "square2.json",
+        "name":  "square2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tidymk2",
+        "file":  "tidymk2.json",
+        "name":  "tidymk2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tiny",
+        "file":  "tiny.json",
+        "name":  "tiny",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tsanspcw",
+        "file":  "tsanspcw.json",
+        "name":  "tsanspcw",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "udgfin",
+        "file":  "udgfin.json",
+        "name":  "udgfin",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    }
+]
