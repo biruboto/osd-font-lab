@@ -1,0 +1,2121 @@
+﻿[
+    {
+        "id":  "acer-vga-8x8",
+        "file":  "Acer_VGA_8x8.json",
+        "name":  "Acer_VGA_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "acer710-cga",
+        "file":  "Acer710_CGA.json",
+        "name":  "Acer710_CGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "acer710-mono",
+        "file":  "Acer710_Mono.json",
+        "name":  "Acer710_Mono",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "acm-vga-8x14",
+        "file":  "ACM_VGA_8x14.json",
+        "name":  "ACM_VGA_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "acm-vga-8x16",
+        "file":  "ACM_VGA_8x16.json",
+        "name":  "ACM_VGA_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "acm-vga-8x8",
+        "file":  "ACM_VGA_8x8.json",
+        "name":  "ACM_VGA_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ami-ega-8x14",
+        "file":  "AMI_EGA_8x14.json",
+        "name":  "AMI_EGA_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ami-ega-8x8",
+        "file":  "AMI_EGA_8x8.json",
+        "name":  "AMI_EGA_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ami-ega-9x14",
+        "file":  "AMI_EGA_9x14.json",
+        "name":  "AMI_EGA_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "amstrad-pc",
+        "file":  "Amstrad_PC.json",
+        "name":  "Amstrad_PC",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "apricot-200l",
+        "file":  "Apricot_200L.json",
+        "name":  "Apricot_200L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "apricot-256l",
+        "file":  "Apricot_256L.json",
+        "name":  "Apricot_256L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "apricot-mono",
+        "file":  "Apricot_Mono.json",
+        "name":  "Apricot_Mono",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "apricotportable",
+        "file":  "ApricotPortable.json",
+        "name":  "ApricotPortable",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "apricotxenc",
+        "file":  "ApricotXenC.json",
+        "name":  "ApricotXenC",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ati-8x14",
+        "file":  "ATI_8x14.json",
+        "name":  "ATI_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ati-8x16",
+        "file":  "ATI_8x16.json",
+        "name":  "ATI_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ati-8x8",
+        "file":  "ATI_8x8.json",
+        "name":  "ATI_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ati-9x14",
+        "file":  "ATI_9x14.json",
+        "name":  "ATI_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ati-9x16",
+        "file":  "ATI_9x16.json",
+        "name":  "ATI_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ati-smallw-6x8",
+        "file":  "ATI_SmallW_6x8.json",
+        "name":  "ATI_SmallW_6x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "att-pc6300",
+        "file":  "ATT_PC6300.json",
+        "name":  "ATT_PC6300",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cl-eagleii-8x16",
+        "file":  "CL_EagleII_8x16.json",
+        "name":  "CL_EagleII_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cl-eagleii-9x16",
+        "file":  "CL_EagleII_9x16.json",
+        "name":  "CL_EagleII_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cl-eagleiii-8x16",
+        "file":  "CL_EagleIII_8x16.json",
+        "name":  "CL_EagleIII_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cl-eagleiii-9x16",
+        "file":  "CL_EagleIII_9x16.json",
+        "name":  "CL_EagleIII_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "compaq-port3",
+        "file":  "Compaq_Port3.json",
+        "name":  "Compaq_Port3",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "compaqthin-8x14",
+        "file":  "CompaqThin_8x14.json",
+        "name":  "CompaqThin_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "compaqthin-8x16",
+        "file":  "CompaqThin_8x16.json",
+        "name":  "CompaqThin_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "compaqthin-8x8",
+        "file":  "CompaqThin_8x8.json",
+        "name":  "CompaqThin_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "compis",
+        "file":  "Compis.json",
+        "name":  "Compis",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "copam-bios",
+        "file":  "Copam_BIOS.json",
+        "name":  "Copam_BIOS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dg-one",
+        "file":  "DG_One.json",
+        "name":  "DG_One",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dos-v-re-ank16",
+        "file":  "DOS-V_re_ANK16.json",
+        "name":  "DOS-V_re_ANK16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dos-v-re-jpn12",
+        "file":  "DOS-V_re_JPN12.json",
+        "name":  "DOS-V_re_JPN12",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dos-v-re-jpn16",
+        "file":  "DOS-V_re_JPN16.json",
+        "name":  "DOS-V_re_JPN16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dos-v-re-prc16",
+        "file":  "DOS-V_re_PRC16.json",
+        "name":  "DOS-V_re_PRC16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dos-v-twn16",
+        "file":  "DOS-V_TWN16.json",
+        "name":  "DOS-V_TWN16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dtk-bios",
+        "file":  "DTK_BIOS.json",
+        "name":  "DTK_BIOS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "eaglespcga-alt1",
+        "file":  "EagleSpCGA_Alt1.json",
+        "name":  "EagleSpCGA_Alt1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "eaglespcga-alt2",
+        "file":  "EagleSpCGA_Alt2.json",
+        "name":  "EagleSpCGA_Alt2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "eaglespcga-alt3",
+        "file":  "EagleSpCGA_Alt3.json",
+        "name":  "EagleSpCGA_Alt3",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "epsonmga",
+        "file":  "EpsonMGA.json",
+        "name":  "EpsonMGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "epsonmga-alt",
+        "file":  "EpsonMGA_Alt.json",
+        "name":  "EpsonMGA_Alt",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "epsonmga-mono",
+        "file":  "EpsonMGA_Mono.json",
+        "name":  "EpsonMGA_Mono",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "europc-cga",
+        "file":  "EuroPC_CGA.json",
+        "name":  "EuroPC_CGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "everexme-5x8",
+        "file":  "EverexME_5x8.json",
+        "name":  "EverexME_5x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "everexme-7x8",
+        "file":  "EverexME_7x8.json",
+        "name":  "EverexME_7x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "everexme-8x16",
+        "file":  "EverexME_8x16.json",
+        "name":  "EverexME_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fmtowns-re-8x16",
+        "file":  "FMTowns_re_8x16.json",
+        "name":  "FMTowns_re_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fmtowns-re-8x8",
+        "file":  "FMTowns_re_8x8.json",
+        "name":  "FMTowns_re_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hp-100lx-10x11",
+        "file":  "HP_100LX_10x11.json",
+        "name":  "HP_100LX_10x11",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hp-100lx-6x8",
+        "file":  "HP_100LX_6x8.json",
+        "name":  "HP_100LX_6x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hp-100lx-8x8",
+        "file":  "HP_100LX_8x8.json",
+        "name":  "HP_100LX_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-3270pc",
+        "file":  "IBM_3270pc.json",
+        "name":  "IBM_3270pc",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-bios",
+        "file":  "IBM_BIOS.json",
+        "name":  "IBM_BIOS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-cgathin",
+        "file":  "IBM_CGAthin.json",
+        "name":  "IBM_CGAthin",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-conv",
+        "file":  "IBM_Conv.json",
+        "name":  "IBM_Conv",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-dos-iso8",
+        "file":  "IBM_DOS_ISO8.json",
+        "name":  "IBM_DOS_ISO8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-dos-iso9",
+        "file":  "IBM_DOS_ISO9.json",
+        "name":  "IBM_DOS_ISO9",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-mda",
+        "file":  "IBM_MDA.json",
+        "name":  "IBM_MDA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-model30r0",
+        "file":  "IBM_Model30r0.json",
+        "name":  "IBM_Model30r0",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-model3x-alt1",
+        "file":  "IBM_Model3x_Alt1.json",
+        "name":  "IBM_Model3x_Alt1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-model3x-alt2",
+        "file":  "IBM_Model3x_Alt2.json",
+        "name":  "IBM_Model3x_Alt2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-model3x-alt3",
+        "file":  "IBM_Model3x_Alt3.json",
+        "name":  "IBM_Model3x_Alt3",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-model3x-alt4",
+        "file":  "IBM_Model3x_Alt4.json",
+        "name":  "IBM_Model3x_Alt4",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-pgc",
+        "file":  "IBM_PGC.json",
+        "name":  "IBM_PGC",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-vga-8x14",
+        "file":  "IBM_VGA_8x14.json",
+        "name":  "IBM_VGA_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-vga-8x16",
+        "file":  "IBM_VGA_8x16.json",
+        "name":  "IBM_VGA_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-vga-9x14",
+        "file":  "IBM_VGA_9x14.json",
+        "name":  "IBM_VGA_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-vga-9x16",
+        "file":  "IBM_VGA_9x16.json",
+        "name":  "IBM_VGA_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-vga-9x8",
+        "file":  "IBM_VGA_9x8.json",
+        "name":  "IBM_VGA_9x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ibm-xga-ai-7x15",
+        "file":  "IBM_XGA-AI_7x15.json",
+        "name":  "IBM_XGA-AI_7x15",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "igs-vga-8x16",
+        "file":  "IGS_VGA_8x16.json",
+        "name":  "IGS_VGA_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "igs-vga-9x16",
+        "file":  "IGS_VGA_9x16.json",
+        "name":  "IGS_VGA_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "itt-xtra",
+        "file":  "ITT_Xtra.json",
+        "name":  "ITT_Xtra",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "kaypro2k-g",
+        "file":  "Kaypro2K_G.json",
+        "name":  "Kaypro2K_G",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "le-model-d-cga",
+        "file":  "LE_Model_D_CGA.json",
+        "name":  "LE_Model_D_CGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "le-model-d-mono",
+        "file":  "LE_Model_D_Mono.json",
+        "name":  "LE_Model_D_Mono",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "master-512",
+        "file":  "Master_512.json",
+        "name":  "Master_512",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mbytepc230-8x16",
+        "file":  "MBytePC230_8x16.json",
+        "name":  "MBytePC230_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mbytepc230-cga",
+        "file":  "MBytePC230_CGA.json",
+        "name":  "MBytePC230_CGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mbytepc230-ega",
+        "file":  "MBytePC230_EGA.json",
+        "name":  "MBytePC230_EGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mbytepc230-mono",
+        "file":  "MBytePC230_Mono.json",
+        "name":  "MBytePC230_Mono",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mindset",
+        "file":  "Mindset.json",
+        "name":  "Mindset",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nec-apc3-8x16",
+        "file":  "NEC_APC3_8x16.json",
+        "name":  "NEC_APC3_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nec-apc3-8x8",
+        "file":  "NEC_APC3_8x8.json",
+        "name":  "NEC_APC3_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nec-multispeed",
+        "file":  "NEC_MultiSpeed.json",
+        "name":  "NEC_MultiSpeed",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nix8810-m15",
+        "file":  "Nix8810_M15.json",
+        "name":  "Nix8810_M15",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nix8810-m16",
+        "file":  "Nix8810_M16.json",
+        "name":  "Nix8810_M16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nix8810-m35",
+        "file":  "Nix8810_M35.json",
+        "name":  "Nix8810_M35",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "olivetti-m15",
+        "file":  "Olivetti_M15.json",
+        "name":  "Olivetti_M15",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "olivettithin-8x14",
+        "file":  "OlivettiThin_8x14.json",
+        "name":  "OlivettiThin_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "olivettithin-8x16",
+        "file":  "OlivettiThin_8x16.json",
+        "name":  "OlivettiThin_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "olivettithin-9x14",
+        "file":  "OlivettiThin_9x14.json",
+        "name":  "OlivettiThin_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "olivettithin-9x16",
+        "file":  "OlivettiThin_9x16.json",
+        "name":  "OlivettiThin_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "paradise132-7x16",
+        "file":  "Paradise132_7x16.json",
+        "name":  "Paradise132_7x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "paradise132-7x9",
+        "file":  "Paradise132_7x9.json",
+        "name":  "Paradise132_7x9",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "philips-yes-g",
+        "file":  "Philips_YES_G.json",
+        "name":  "Philips_YES_G",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "philips-yes-t",
+        "file":  "Philips_YES_T.json",
+        "name":  "Philips_YES_T",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenix-bios",
+        "file":  "Phoenix_BIOS.json",
+        "name":  "Phoenix_BIOS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixega-8x14",
+        "file":  "PhoenixEGA_8x14.json",
+        "name":  "PhoenixEGA_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixega-8x16",
+        "file":  "PhoenixEGA_8x16.json",
+        "name":  "PhoenixEGA_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixega-8x8",
+        "file":  "PhoenixEGA_8x8.json",
+        "name":  "PhoenixEGA_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixega-9x14",
+        "file":  "PhoenixEGA_9x14.json",
+        "name":  "PhoenixEGA_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixvga-8x14",
+        "file":  "PhoenixVGA_8x14.json",
+        "name":  "PhoenixVGA_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixvga-8x16",
+        "file":  "PhoenixVGA_8x16.json",
+        "name":  "PhoenixVGA_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "phoenixvga-8x8",
+        "file":  "PhoenixVGA_8x8.json",
+        "name":  "PhoenixVGA_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "portfolio-6x8",
+        "file":  "Portfolio_6x8.json",
+        "name":  "Portfolio_6x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rainbow100-re-40",
+        "file":  "Rainbow100_re_40.json",
+        "name":  "Rainbow100_re_40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rm-nimbus",
+        "file":  "RM_Nimbus.json",
+        "name":  "RM_Nimbus",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "robotron-a7100",
+        "file":  "Robotron_A7100.json",
+        "name":  "Robotron_A7100",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sanyombc16",
+        "file":  "SanyoMBC16.json",
+        "name":  "SanyoMBC16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sanyombc55x",
+        "file":  "SanyoMBC55x.json",
+        "name":  "SanyoMBC55x",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sanyombc775",
+        "file":  "SanyoMBC775.json",
+        "name":  "SanyoMBC775",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "seequacm",
+        "file":  "SeequaCm.json",
+        "name":  "SeequaCm",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sharp-pc3k",
+        "file":  "Sharp_PC3K.json",
+        "name":  "Sharp_PC3K",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sharp-pc3k-alt",
+        "file":  "Sharp_PC3K_Alt.json",
+        "name":  "Sharp_PC3K_Alt",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "siemens-pc-d",
+        "file":  "Siemens_PC-D.json",
+        "name":  "Siemens_PC-D",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sigma-rm-9x14",
+        "file":  "Sigma_RM_9x14.json",
+        "name":  "Sigma_RM_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sigma-rm-9x16",
+        "file":  "Sigma_RM_9x16.json",
+        "name":  "Sigma_RM_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sperrypc-8x16",
+        "file":  "SperryPC_8x16.json",
+        "name":  "SperryPC_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sperrypc-cga",
+        "file":  "SperryPC_CGA.json",
+        "name":  "SperryPC_CGA",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "stb-autoega-8x14",
+        "file":  "STB_AutoEGA_8x14.json",
+        "name":  "STB_AutoEGA_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "stb-autoega-9x14",
+        "file":  "STB_AutoEGA_9x14.json",
+        "name":  "STB_AutoEGA_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy1k-i-200l",
+        "file":  "Tandy1K-I_200L.json",
+        "name":  "Tandy1K-I_200L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy1k-i-225l",
+        "file":  "Tandy1K-I_225L.json",
+        "name":  "Tandy1K-I_225L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy1k-ii-200l",
+        "file":  "Tandy1K-II_200L.json",
+        "name":  "Tandy1K-II_200L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy1k-ii-225l",
+        "file":  "Tandy1K-II_225L.json",
+        "name":  "Tandy1K-II_225L",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy1k-ii-mono",
+        "file":  "Tandy1K-II_Mono.json",
+        "name":  "Tandy1K-II_Mono",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy2k",
+        "file":  "Tandy2K.json",
+        "name":  "Tandy2K",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy2k-g",
+        "file":  "Tandy2K_G.json",
+        "name":  "Tandy2K_G",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tandy2k-g-tv",
+        "file":  "Tandy2K_G-TV.json",
+        "name":  "Tandy2K_G-TV",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "telepc",
+        "file":  "TelePC.json",
+        "name":  "TelePC",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ti-pro",
+        "file":  "TI_Pro.json",
+        "name":  "TI_Pro",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibasat-8x14",
+        "file":  "ToshibaSat_8x14.json",
+        "name":  "ToshibaSat_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibasat-8x16",
+        "file":  "ToshibaSat_8x16.json",
+        "name":  "ToshibaSat_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibasat-8x8",
+        "file":  "ToshibaSat_8x8.json",
+        "name":  "ToshibaSat_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibat300-8x16",
+        "file":  "ToshibaT300_8x16.json",
+        "name":  "ToshibaT300_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibat300-8x8",
+        "file":  "ToshibaT300_8x8.json",
+        "name":  "ToshibaT300_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibatxl1-8x16",
+        "file":  "ToshibaTxL1_8x16.json",
+        "name":  "ToshibaTxL1_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibatxl1-8x8",
+        "file":  "ToshibaTxL1_8x8.json",
+        "name":  "ToshibaTxL1_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibatxl2-8x16",
+        "file":  "ToshibaTxL2_8x16.json",
+        "name":  "ToshibaTxL2_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "toshibatxl2-8x8",
+        "file":  "ToshibaTxL2_8x8.json",
+        "name":  "ToshibaTxL2_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trident-8x11",
+        "file":  "Trident_8x11.json",
+        "name":  "Trident_8x11",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trident-8x14",
+        "file":  "Trident_8x14.json",
+        "name":  "Trident_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trident-8x16",
+        "file":  "Trident_8x16.json",
+        "name":  "Trident_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trident-8x8",
+        "file":  "Trident_8x8.json",
+        "name":  "Trident_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trident-9x14",
+        "file":  "Trident_9x14.json",
+        "name":  "Trident_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "trident-9x16",
+        "file":  "Trident_9x16.json",
+        "name":  "Trident_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tridentearly-8x11",
+        "file":  "TridentEarly_8x11.json",
+        "name":  "TridentEarly_8x11",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tridentearly-8x14",
+        "file":  "TridentEarly_8x14.json",
+        "name":  "TridentEarly_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tridentearly-8x16",
+        "file":  "TridentEarly_8x16.json",
+        "name":  "TridentEarly_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tridentearly-8x8",
+        "file":  "TridentEarly_8x8.json",
+        "name":  "TridentEarly_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tridentearly-9x14",
+        "file":  "TridentEarly_9x14.json",
+        "name":  "TridentEarly_9x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tridentearly-9x16",
+        "file":  "TridentEarly_9x16.json",
+        "name":  "TridentEarly_9x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tsengeva-132-6x14",
+        "file":  "TsengEVA_132_6x14.json",
+        "name":  "TsengEVA_132_6x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tsengeva-132-6x8",
+        "file":  "TsengEVA_132_6x8.json",
+        "name":  "TsengEVA_132_6x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "verite-8x14",
+        "file":  "Verite_8x14.json",
+        "name":  "Verite_8x14",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "verite-8x16",
+        "file":  "Verite_8x16.json",
+        "name":  "Verite_8x16",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "verite-8x8",
+        "file":  "Verite_8x8.json",
+        "name":  "Verite_8x8",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "vtech-bios",
+        "file":  "VTech_BIOS.json",
+        "name":  "VTech_BIOS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "wang-pro-color",
+        "file":  "Wang_Pro_Color.json",
+        "name":  "Wang_Pro_Color",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  256,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    }
+]

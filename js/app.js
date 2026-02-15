@@ -185,10 +185,17 @@ const OVERLAY_LIBRARIES = [
     manifestPath: "fonts/manifest-dg.json",
     dataDir: "fonts/data/dg",
   },
+  {
+    id: "oldschool-pc",
+    label: "Oldschool PC",
+    manifestPath: "fonts/manifest-oldschool-pc.json",
+    dataDir: "fonts/data/oldschool-pc",
+  },
 ];
 const overlayManifestCache = new Map(); // library id -> manifest list
 const overlayLibraryCounts = new Map(); // library id -> entry count
 let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERLAY_LIBRARIES[0].id;
+if (currentOverlayLibraryId === "pcfon") currentOverlayLibraryId = "oldschool-pc";
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -2015,7 +2022,10 @@ function buildOverlaySelectOptionsBase(placeholderText = "(load font library)") 
   overlaySelect.innerHTML = `<option value="">${placeholderText}</option>`;
   const group = document.createElement("optgroup");
   group.label = "Libraries";
-  for (const lib of OVERLAY_LIBRARIES) {
+  const libsSorted = [...OVERLAY_LIBRARIES].sort((a, b) =>
+    String(a.label || "").localeCompare(String(b.label || ""), undefined, { sensitivity: "base" }),
+  );
+  for (const lib of libsSorted) {
     const opt = document.createElement("option");
     opt.value = `${LIB_SELECT_PREFIX}${lib.id}`;
     const count = overlayLibraryCounts.get(lib.id);
