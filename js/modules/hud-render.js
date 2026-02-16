@@ -284,8 +284,7 @@ export function createHudRenderer({
       const text = String(value ?? "")
         .toUpperCase()
         .replace(/[\r\n\t]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
+        .replace(/\s+/g, " ");
       return (text || fallback).slice(0, 16);
     };
     const pilotRaw = String(labels?.pilot_name ?? "");

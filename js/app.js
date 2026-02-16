@@ -432,8 +432,7 @@ function sanitizeHudLabel(value) {
   const text = String(value ?? "")
     .toUpperCase()
     .replace(/[\r\n\t]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/\s+/g, " ");
   return text.slice(0, 16);
 }
 
