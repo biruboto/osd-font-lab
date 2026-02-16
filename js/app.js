@@ -2948,18 +2948,29 @@ function initEvents() {
   });
 
   // drop zone + file picker
-  drop?.addEventListener("click", () => fileInput?.click());
+  drop?.addEventListener("click", () => {
+    if (fileInput) fileInput.value = "";
+    fileInput?.click();
+  });
   yaffImportBtn?.addEventListener("click", () => yaffFileInput?.click());
   bootSplashImportBtn?.addEventListener("click", () => bootSplashFileInput?.click());
 
-  fileInput?.addEventListener("change", () => {
+  fileInput?.addEventListener("change", async () => {
     const f = fileInput.files?.[0];
     if (!f) return;
     if (!isMcmFile(f) && !isPngFile(f)) {
       setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff for YAFF files.", { error: true });
+      fileInput.value = "";
       return;
     }
-    handleFile(f);
+    try {
+      await handleFile(f);
+    } catch (err) {
+      console.error("Local file import failed:", err);
+      setLoadStatus(`Failed to load: ${f.name}`, { error: true, subtext: err?.message || "" });
+    } finally {
+      fileInput.value = "";
+    }
   });
 
   yaffFileInput?.addEventListener("change", () => {
