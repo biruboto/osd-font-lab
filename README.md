@@ -25,3 +25,6 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 
 02.15.2026
 + New NFG's Arcade Font Engine library (170 fonts)
+
+02.16.2026
++ Added 8-neighbor stroke style option for slightly heavier outlines

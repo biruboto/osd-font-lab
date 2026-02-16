@@ -22,6 +22,30 @@ export function applyStroke4(cell, w, h) {
   return out;
 }
 
+export function applyStroke8(cell, w, h) {
+  const out = new Uint8Array(cell);
+  const idx = (x, y) => y * w + x;
+
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (cell[idx(x, y)] !== 2) continue;
+
+      for (let dy = -1; dy <= 1; dy++) {
+        for (let dx = -1; dx <= 1; dx++) {
+          if (dx === 0 && dy === 0) continue;
+          const nx = x + dx;
+          const ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
+          const n = idx(nx, ny);
+          if (out[n] === 1) out[n] = 3;
+        }
+      }
+    }
+  }
+
+  return out;
+}
+
 export function drawFontPreviewStrip(font, text = "ABC123", pxColor) {
   if (!font?.glyphs) return "";
 
@@ -88,7 +112,7 @@ export function drawGlyphPreviewStrip(
   return canvas.toDataURL("image/png");
 }
 
-function renderOverlayPreviewCell(overlay, ch) {
+function renderOverlayPreviewCell(overlay, ch, strokeMode = "4") {
   const cellW = 12;
   const cellH = 18;
   const out = new Uint8Array(cellW * cellH);
@@ -117,7 +141,9 @@ function renderOverlayPreviewCell(overlay, ch) {
     }
   }
 
-  return applyStroke4(out, cellW, cellH);
+  return (strokeMode === "8")
+    ? applyStroke8(out, cellW, cellH)
+    : applyStroke4(out, cellW, cellH);
 }
 
 function measureCellInkBounds(cell, cellW, cellH) {
@@ -137,13 +163,13 @@ function measureCellInkBounds(cell, cellW, cellH) {
   return { minX, maxX, width: maxX - minX + 1 };
 }
 
-export function drawOverlayPreviewStrip(overlay, text = "ABC123", pxColor) {
+export function drawOverlayPreviewStrip(overlay, text = "ABC123", pxColor, strokeMode = "4") {
   const cellW = 12;
   const cellH = 18;
   const gap = 2;
   const chars = [...text];
 
-  const cells = chars.map((ch) => renderOverlayPreviewCell(overlay, ch));
+  const cells = chars.map((ch) => renderOverlayPreviewCell(overlay, ch, strokeMode));
   const widths = cells.map((cell, i) => {
     const ch = chars[i];
     const bounds = measureCellInkBounds(cell, cellW, cellH);

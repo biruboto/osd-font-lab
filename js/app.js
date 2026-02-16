@@ -4,6 +4,7 @@ import { buildFontPicker } from "./modules/picker.js";
 import { currentThemeId, initThemeControls } from "./modules/theme.js";
 import {
   applyStroke4,
+  applyStroke8,
   drawFontPreviewStrip,
   drawGlyphPreviewStrip,
   drawOverlayPreviewStrip,
@@ -70,6 +71,8 @@ const editorUndoBtn = document.getElementById("editorUndoBtn");
 const zoomModeInspectorBtn = document.getElementById("zoomModeInspector");
 const zoomModeEditorBtn = document.getElementById("zoomModeEditor");
 const overlaySelect = document.getElementById("overlaySelect");
+const strokeStyle4Btn = document.getElementById("strokeStyle4Btn");
+const strokeStyle8Btn = document.getElementById("strokeStyle8Btn");
 const swapTargetSelect = document.getElementById("swapTargetSelect");
 const swapSourceSelect = document.getElementById("swapSourceSelect");
 const clearSwapTargetBtn = document.getElementById("clearSwapTargetBtn");
@@ -154,6 +157,7 @@ let swapCustomManifest = null;  // cached list from fonts/custom.json
 const overlayPreviewUrlCache = new Map(); // `${theme}|${file}` -> dataURL
 const bfPreviewUrlCache = new Map();      // `${theme}|${file}` -> dataURL
 const OVERLAY_LIBRARY_KEY = "osdOverlayLibrary";
+const OVERLAY_STROKE_STYLE_KEY = "osdOverlayStrokeStyle";
 const LIB_SELECT_PREFIX = "__lib:";
 const OVERLAY_LIBRARIES = [
   {
@@ -203,6 +207,7 @@ const overlayManifestCache = new Map(); // library id -> manifest list
 const overlayLibraryCounts = new Map(); // library id -> entry count
 let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERLAY_LIBRARIES[0].id;
 if (currentOverlayLibraryId === "pcfon") currentOverlayLibraryId = "oldschool-pc";
+let overlayStrokeStyle = (localStorage.getItem(OVERLAY_STROKE_STYLE_KEY) === "8") ? "8" : "4";
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -1359,6 +1364,10 @@ async function getSwapSourceFontForTarget(sourceId, targetId) {
 }
 
 function initSwapUI() {
+  syncOverlayStrokeStyleUI();
+  strokeStyle4Btn?.addEventListener("click", () => setOverlayStrokeStyle("4"));
+  strokeStyle8Btn?.addEventListener("click", () => setOverlayStrokeStyle("8"));
+
   if (swapTargetSelect) {
     swapTargetSelect.innerHTML = `<option value="">(load font first)</option>`;
   }
@@ -1553,7 +1562,9 @@ function renderOverlayToCell(overlayGlyph, targetIdx) {
     }
   }
 
-  return applyStroke4(out, cellW, cellH);
+  return overlayStrokeStyle === "8"
+    ? applyStroke8(out, cellW, cellH)
+    : applyStroke4(out, cellW, cellH);
 }
 
 function overlayGlyphHasInk(overlayGlyph) {
@@ -1670,11 +1681,11 @@ function setLoadStatus(text, { error = false, subtext = "" } = {}) {
 async function getOverlayPreviewUrl(file) {
   // file is overlaySelect.value, loaded via your existing cache
   if (!file) return "";
-  const cacheKey = `${currentThemeId()}|${file}`;
+  const cacheKey = `${currentThemeId()}|${overlayStrokeStyle}|${file}`;
   const cached = overlayPreviewUrlCache.get(cacheKey);
   if (cached) return cached;
   const overlay = await getOverlayByFile(file);
-  const url = drawOverlayPreviewStrip(overlay, overlayPreviewText(overlay), pxColorViewer);
+  const url = drawOverlayPreviewStrip(overlay, overlayPreviewText(overlay), pxColorViewer, overlayStrokeStyle);
   overlayPreviewUrlCache.set(cacheKey, url);
   return url;
 }
@@ -1710,6 +1721,23 @@ function overlayPreviewText(overlay) {
   }
 
   return sample.length ? sample.join("") : preferred;
+}
+
+function syncOverlayStrokeStyleUI() {
+  strokeStyle4Btn?.classList.toggle("is-active", overlayStrokeStyle === "4");
+  strokeStyle8Btn?.classList.toggle("is-active", overlayStrokeStyle === "8");
+}
+
+function setOverlayStrokeStyle(nextStyle) {
+  const style = nextStyle === "8" ? "8" : "4";
+  if (overlayStrokeStyle === style) return;
+  overlayStrokeStyle = style;
+  localStorage.setItem(OVERLAY_STROKE_STYLE_KEY, overlayStrokeStyle);
+  syncOverlayStrokeStyleUI();
+  clearDynamicPreviewCaches();
+  rebuildResultFont();
+  rerenderAll();
+  overlayPickerApi?.refresh();
 }
 
 

@@ -446,6 +446,66 @@ select{
   align-self: center;
 }
 
+.stroke-style-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.panel-base .stroke-style-row{
+  flex: 1 0 100%;
+  width: 100%;
+}
+
+.stroke-style-label{
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stroke-style-segment{
+  display: inline-flex;
+  border: 1px solid var(--bg-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.stroke-style-btn{
+  min-height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-right: 1px solid var(--bg-3);
+  border-radius: 0;
+  background: var(--bg-2);
+  color: var(--text-1);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.stroke-style-btn:last-child{
+  border-right: 0;
+}
+
+.stroke-style-btn:hover{
+  background: color-mix(in srgb, var(--accent-0) 10%, var(--bg-2));
+  border-color: transparent;
+  border-right-color: var(--bg-3);
+}
+
+.stroke-style-btn:last-child:hover{
+  border-right-color: transparent;
+}
+
+.stroke-style-btn.is-active{
+  background: color-mix(in srgb, var(--accent-0) 18%, var(--bg-2));
+  color: var(--text-0);
+}
+
 .load-status{
   margin-top: 4px;
   min-height: 1.2em;
