@@ -1,0 +1,2212 @@
+﻿[
+    {
+        "id":  "1943-capcom",
+        "file":  "1943 (Capcom).json",
+        "name":  "1943 (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "acrobat-mission-upl",
+        "file":  "Acrobat Mission (UPL).json",
+        "name":  "Acrobat Mission (UPL)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "aero-fighters-kaneko",
+        "file":  "Aero Fighters (Kaneko).json",
+        "name":  "Aero Fighters (Kaneko)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "afterburner-sega",
+        "file":  "Afterburner (Sega).json",
+        "name":  "Afterburner (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "air-assault-irem",
+        "file":  "Air Assault (IREM).json",
+        "name":  "Air Assault (IREM)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "air-buster-kaneko",
+        "file":  "Air Buster (Kaneko).json",
+        "name":  "Air Buster (Kaneko)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "arabian-magic-capcom",
+        "file":  "Arabian Magic (Capcom).json",
+        "name":  "Arabian Magic (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "arcade-classic",
+        "file":  "Arcade Classic.json",
+        "name":  "Arcade Classic",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "armed-police-batrider-raizing",
+        "file":  "Armed Police Batrider (Raizing).json",
+        "name":  "Armed Police Batrider (Raizing)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "armoredwarriors-capcom",
+        "file":  "ArmoredWarriors (Capcom).json",
+        "name":  "ArmoredWarriors (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "art-of-fighting-2-snk",
+        "file":  "Art of Fighting 2 (SNK).json",
+        "name":  "Art of Fighting 2 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "assault-namco",
+        "file":  "Assault (Namco).json",
+        "name":  "Assault (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "asterix-konami",
+        "file":  "Asterix (Konami).json",
+        "name":  "Asterix (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "aurail-sega",
+        "file":  "Aurail (Sega).json",
+        "name":  "Aurail (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "batsugun-toaplan",
+        "file":  "Batsugun (Toaplan).json",
+        "name":  "Batsugun (Toaplan)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "battle-garegga-raizing",
+        "file":  "Battle Garegga (Raizing).json",
+        "name":  "Battle Garegga (Raizing)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "battlecircuit-capcom",
+        "file":  "BattleCircuit (Capcom).json",
+        "name":  "BattleCircuit (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bay-route-sega",
+        "file":  "Bay Route (Sega).json",
+        "name":  "Bay Route (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "black-tiger-capcom",
+        "file":  "Black Tiger (Capcom).json",
+        "name":  "Black Tiger (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "blazing-star-yumekobo",
+        "file":  "Blazing Star (Yumekobo).json",
+        "name":  "Blazing Star (Yumekobo)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "blood-warrior-kaneko",
+        "file":  "Blood Warrior (Kaneko).json",
+        "name":  "Blood Warrior (Kaneko)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bonanza-bros-sega",
+        "file":  "Bonanza Bros (Sega).json",
+        "name":  "Bonanza Bros (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "boogie-wings-data-east",
+        "file":  "Boogie Wings (Data East).json",
+        "name":  "Boogie Wings (Data East)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bubble-memories-alien-taito",
+        "file":  "Bubble Memories Alien (Taito).json",
+        "name":  "Bubble Memories Alien (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bubble-symphony-taito",
+        "file":  "Bubble Symphony (Taito).json",
+        "name":  "Bubble Symphony (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cameltry-taito",
+        "file":  "Cameltry (Taito).json",
+        "name":  "Cameltry (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "captain-sky-hawk-rare",
+        "file":  "Captain Sky Hawk (RARE).json",
+        "name":  "Captain Sky Hawk (RARE)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "chiki-chiki-boys-capcom",
+        "file":  "Chiki Chiki Boys (Capcom).json",
+        "name":  "Chiki Chiki Boys (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cliffhanger-edward-randy-dataeast",
+        "file":  "Cliffhanger - Edward Randy (DataEast).json",
+        "name":  "Cliffhanger - Edward Randy (DataEast)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "commando-special-capcom",
+        "file":  "Commando-Special (Capcom).json",
+        "name":  "Commando-Special (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cotton-sega-success",
+        "file":  "Cotton (Sega + Success).json",
+        "name":  "Cotton (Sega + Success)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "cybattler-jaleco",
+        "file":  "Cybattler (Jaleco).json",
+        "name":  "Cybattler (Jaleco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "d-d-crew-sega",
+        "file":  "D D Crew (Sega).json",
+        "name":  "D D Crew (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dance-dance-revolution-konami",
+        "file":  "Dance Dance Revolution (Konami).json",
+        "name":  "Dance Dance Revolution (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dangerous-seed-namco",
+        "file":  "Dangerous Seed (Namco).json",
+        "name":  "Dangerous Seed (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "detana-twinbee-konami",
+        "file":  "Detana Twinbee (Konami).json",
+        "name":  "Detana Twinbee (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dimahoo-raizing",
+        "file":  "Dimahoo (Raizing).json",
+        "name":  "Dimahoo (Raizing)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dodonpachi-cave",
+        "file":  "DoDonPachi (Cave).json",
+        "name":  "DoDonPachi (Cave)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "don-doko-don-taito",
+        "file":  "Don Doko Don (Taito).json",
+        "name":  "Don Doko Don (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dragon-breed-irem",
+        "file":  "Dragon Breed (Irem).json",
+        "name":  "Dragon Breed (Irem)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dragon-saber-namco",
+        "file":  "Dragon Saber (Namco).json",
+        "name":  "Dragon Saber (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dragon-spirit-namco",
+        "file":  "Dragon Spirit (Namco).json",
+        "name":  "Dragon Spirit (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dynamite-dux-sega",
+        "file":  "Dynamite Dux (Sega).json",
+        "name":  "Dynamite Dux (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "f1-dream-capcom",
+        "file":  "F1 Dream (Capcom).json",
+        "name":  "F1 Dream (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fantasy-zone-sega",
+        "file":  "Fantasy Zone (Sega).json",
+        "name":  "Fantasy Zone (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fighting-hawk-taito",
+        "file":  "Fighting Hawk (Taito).json",
+        "name":  "Fighting Hawk (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "final-star-force-tecmo",
+        "file":  "Final Star Force (Tecmo).json",
+        "name":  "Final Star Force (Tecmo)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "flak-attack-konami",
+        "file":  "Flak Attack (Konami).json",
+        "name":  "Flak Attack (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "flying-shark-taito",
+        "file":  "Flying Shark (Taito).json",
+        "name":  "Flying Shark (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gaiapolis-konami",
+        "file":  "Gaiapolis (Konami).json",
+        "name":  "Gaiapolis (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gain-ground-sega",
+        "file":  "Gain Ground (Sega).json",
+        "name":  "Gain Ground (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "garou-densetsu-snk",
+        "file":  "Garou Densetsu (SNK).json",
+        "name":  "Garou Densetsu (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ghosts-n-goblins-capcom",
+        "file":  "Ghosts n Goblins (Capcom).json",
+        "name":  "Ghosts n Goblins (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "godzilla-banpresto",
+        "file":  "Godzilla (Banpresto).json",
+        "name":  "Godzilla (Banpresto)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gondomania-data-east",
+        "file":  "Gondomania (Data East).json",
+        "name":  "Gondomania (Data East)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gradius-2-konami",
+        "file":  "Gradius 2 (Konami).json",
+        "name":  "Gradius 2 (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gradius-3-konami",
+        "file":  "Gradius 3 (Konami).json",
+        "name":  "Gradius 3 (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gradius-4-konami",
+        "file":  "Gradius 4 (Konami).json",
+        "name":  "Gradius 4 (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gradius",
+        "file":  "Gradius.json",
+        "name":  "Gradius",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "guardians-banpresto",
+        "file":  "Guardians (Banpresto).json",
+        "name":  "Guardians (Banpresto)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gun-smoke-capcom",
+        "file":  "Gun.Smoke (Capcom).json",
+        "name":  "Gun.Smoke (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gunbuster-taito",
+        "file":  "GunBuster (Taito).json",
+        "name":  "GunBuster (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gunnail-nmk",
+        "file":  "GunNail (NMK).json",
+        "name":  "GunNail (NMK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gyruss-konami",
+        "file":  "Gyruss (Konami).json",
+        "name":  "Gyruss (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hacha-mecha-fighter-nmk",
+        "file":  "Hacha Mecha Fighter (NMK).json",
+        "name":  "Hacha Mecha Fighter (NMK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hat-trick-hero-95-taito",
+        "file":  "Hat Trick Hero 95 (Taito).json",
+        "name":  "Hat Trick Hero 95 (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hyper-crash-konami",
+        "file":  "Hyper Crash (Konami).json",
+        "name":  "Hyper Crash (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "image-fight-irem",
+        "file":  "Image Fight (IREM).json",
+        "name":  "Image Fight (IREM)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "joe-and-mac-data-east",
+        "file":  "Joe and Mac (Data East).json",
+        "name":  "Joe and Mac (Data East)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "kaiser-knuckle-taito",
+        "file":  "Kaiser Knuckle (Taito).json",
+        "name":  "Kaiser Knuckle (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "kiki-kaikai-taito",
+        "file":  "Kiki Kaikai (Taito).json",
+        "name":  "Kiki Kaikai (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king-of-fighters-2000-snk",
+        "file":  "King of Fighters 2000 (SNK).json",
+        "name":  "King of Fighters 2000 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king-of-fighters-2001-snk",
+        "file":  "King of Fighters 2001 (SNK).json",
+        "name":  "King of Fighters 2001 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king-of-fighters-2002-snk",
+        "file":  "King of Fighters 2002 (SNK).json",
+        "name":  "King of Fighters 2002 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king-of-fighters-2003-snk",
+        "file":  "King of Fighters 2003 (SNK).json",
+        "name":  "King of Fighters 2003 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king-of-fighters-97-snk",
+        "file":  "King of Fighters 97 (SNK).json",
+        "name":  "King of Fighters 97 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king-of-fighters-97-italic-snk",
+        "file":  "King of Fighters 97 Italic (SNK).json",
+        "name":  "King of Fighters 97 Italic (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "kirameki-star-road-taito",
+        "file":  "Kirameki Star Road (Taito).json",
+        "name":  "Kirameki Star Road (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "klax-atari",
+        "file":  "Klax (Atari).json",
+        "name":  "Klax (Atari)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "klax-alternate-atari",
+        "file":  "Klax Alternate (Atari).json",
+        "name":  "Klax Alternate (Atari)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "last-blade-2-snk",
+        "file":  "Last Blade 2 (SNK).json",
+        "name":  "Last Blade 2 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "last-duel-capcom",
+        "file":  "Last Duel (Capcom).json",
+        "name":  "Last Duel (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "last-resort-snk",
+        "file":  "Last Resort (SNK).json",
+        "name":  "Last Resort (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "legendary-wings-capcom",
+        "file":  "Legendary Wings (Capcom).json",
+        "name":  "Legendary Wings (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "light-bringer-capcom",
+        "file":  "Light Bringer (Capcom).json",
+        "name":  "Light Bringer (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "major-title-irem",
+        "file":  "Major Title (IREM).json",
+        "name":  "Major Title (IREM)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mars-matrix-capcom",
+        "file":  "Mars Matrix (Capcom).json",
+        "name":  "Mars Matrix (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "metal-gear-solid-konami",
+        "file":  "Metal Gear Solid (Konami).json",
+        "name":  "Metal Gear Solid (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "metal-warriors-konami",
+        "file":  "Metal Warriors (Konami).json",
+        "name":  "Metal Warriors (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "michael-jackson-moonwalker",
+        "file":  "Michael Jackson Moonwalker.json",
+        "name":  "Michael Jackson Moonwalker",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "monster-mauler-konami",
+        "file":  "Monster Mauler (Konami).json",
+        "name":  "Monster Mauler (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mutant-night-upl",
+        "file":  "Mutant Night (UPL).json",
+        "name":  "Mutant Night (UPL)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "namco-classic-gradient",
+        "file":  "Namco Classic Gradient.json",
+        "name":  "Namco Classic Gradient",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "nebulas-ray-namco",
+        "file":  "Nebulas Ray (Namco).json",
+        "name":  "Nebulas Ray (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "night-striker-taito",
+        "file":  "Night Striker (Taito).json",
+        "name":  "Night Striker (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ninja-gaiden-tecmo",
+        "file":  "Ninja Gaiden (Tecmo).json",
+        "name":  "Ninja Gaiden (Tecmo)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ninja-kids-taito",
+        "file":  "Ninja Kids (Taito).json",
+        "name":  "Ninja Kids (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ninja-masters-adk",
+        "file":  "Ninja Masters (ADK).json",
+        "name":  "Ninja Masters (ADK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ninja-spirit-irem",
+        "file":  "Ninja Spirit (IREM).json",
+        "name":  "Ninja Spirit (IREM)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "ordyne-png-namco",
+        "file":  "Ordyne.png (Namco).json",
+        "name":  "Ordyne.png (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "outfoxies-namco",
+        "file":  "Outfoxies (Namco).json",
+        "name":  "Outfoxies (Namco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pachinko-sexy-reaction-2-sammy",
+        "file":  "Pachinko Sexy Reaction 2 (Sammy).json",
+        "name":  "Pachinko Sexy Reaction 2 (Sammy)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "panic-bomber-hudson",
+        "file":  "Panic Bomber (Hudson).json",
+        "name":  "Panic Bomber (Hudson)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "parodius-konami",
+        "file":  "Parodius (Konami).json",
+        "name":  "Parodius (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "parodius-da-konami",
+        "file":  "Parodius DA! (Konami).json",
+        "name":  "Parodius DA! (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pickford-brothers",
+        "file":  "Pickford Brothers.json",
+        "name":  "Pickford Brothers",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pulstar-aicom",
+        "file":  "Pulstar (Aicom).json",
+        "name":  "Pulstar (Aicom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "puzzle-bobble-taito",
+        "file":  "Puzzle Bobble (Taito).json",
+        "name":  "Puzzle Bobble (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "quake-id",
+        "file":  "Quake (id).json",
+        "name":  "Quake (id)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "quartet-2-sega",
+        "file":  "Quartet 2 (Sega).json",
+        "name":  "Quartet 2 (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "r-type-irem",
+        "file":  "R Type (Irem).json",
+        "name":  "R Type (Irem)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "r-type-leo-irem",
+        "file":  "R Type LEO (Irem).json",
+        "name":  "R Type LEO (Irem)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rapid-hero-mtc",
+        "file":  "Rapid Hero (MTC).json",
+        "name":  "Rapid Hero (MTC)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rayforce-taito",
+        "file":  "RayForce (Taito).json",
+        "name":  "RayForce (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rezon-allumer",
+        "file":  "Rezon (Allumer).json",
+        "name":  "Rezon (Allumer)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "riding-fight-taito",
+        "file":  "Riding Fight (Taito).json",
+        "name":  "Riding Fight (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "riot-city-sega",
+        "file":  "Riot City (Sega).json",
+        "name":  "Riot City (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "road-riot-atari",
+        "file":  "Road Riot (Atari).json",
+        "name":  "Road Riot (Atari)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "robocop-data-east",
+        "file":  "Robocop (Data East).json",
+        "name":  "Robocop (Data East)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "robocop-2-data-east",
+        "file":  "Robocop 2 (Data East).json",
+        "name":  "Robocop 2 (Data East)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "robotron-williams",
+        "file":  "Robotron (Williams).json",
+        "name":  "Robotron (Williams)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rumba-lumber-taito",
+        "file":  "Rumba Lumber (Taito).json",
+        "name":  "Rumba Lumber (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "saboten-bombers-nmk",
+        "file":  "Saboten Bombers (NMK).json",
+        "name":  "Saboten Bombers (NMK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "salamander-2-konami",
+        "file":  "Salamander 2 (Konami).json",
+        "name":  "Salamander 2 (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "samurai-shodown-2-snk",
+        "file":  "Samurai Shodown 2 (SNK).json",
+        "name":  "Samurai Shodown 2 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "samurai-shodown-3-snk",
+        "file":  "Samurai Shodown 3 (SNK).json",
+        "name":  "Samurai Shodown 3 (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sdi-sega",
+        "file":  "SDI (Sega).json",
+        "name":  "SDI (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "search-and-rescue-snk",
+        "file":  "Search and Rescue (SNK).json",
+        "name":  "Search and Rescue (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "shadowdancer-sega",
+        "file":  "ShadowDancer (Sega).json",
+        "name":  "ShadowDancer (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "shinobi-sega",
+        "file":  "Shinobi (Sega).json",
+        "name":  "Shinobi (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "silk-worm-tecmo",
+        "file":  "Silk Worm (Tecmo).json",
+        "name":  "Silk Worm (Tecmo)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sky-soldier-snk",
+        "file":  "Sky Soldier (SNK).json",
+        "name":  "Sky Soldier (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "snow-bros-toaplan",
+        "file":  "Snow Bros (Toaplan).json",
+        "name":  "Snow Bros (Toaplan)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "solar-warrior-technos",
+        "file":  "Solar Warrior (Technos).json",
+        "name":  "Solar Warrior (Technos)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "soldam-jaleco",
+        "file":  "Soldam (Jaleco).json",
+        "name":  "Soldam (Jaleco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "solomons-key-tecmo",
+        "file":  "Solomons Key (Tecmo).json",
+        "name":  "Solomons Key (Tecmo)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sonic-boom-sega",
+        "file":  "Sonic Boom (Sega).json",
+        "name":  "Sonic Boom (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sorcer-striker-raizing",
+        "file":  "Sorcer Striker (Raizing).json",
+        "name":  "Sorcer Striker (Raizing)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "space-invaders-95-taito",
+        "file":  "Space Invaders 95 (Taito).json",
+        "name":  "Space Invaders 95 (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "speed-rumbler-capcom",
+        "file":  "Speed Rumbler (Capcom).json",
+        "name":  "Speed Rumbler (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "street-fighter-ii-capcom",
+        "file":  "Street Fighter II (Capcom).json",
+        "name":  "Street Fighter II (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "street-fighter-iii-capcom",
+        "file":  "Street Fighter III (Capcom).json",
+        "name":  "Street Fighter III (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "street-fighter-iii-3rd-strike-capcom",
+        "file":  "Street Fighter III 3rd Strike (Capcom).json",
+        "name":  "Street Fighter III 3rd Strike (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "street-fighter-zero-3-capcom",
+        "file":  "Street Fighter Zero 3 (Capcom).json",
+        "name":  "Street Fighter Zero 3 (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "super-gt-24-jaleco",
+        "file":  "Super GT 24 (Jaleco).json",
+        "name":  "Super GT 24 (Jaleco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "super-mario-bros-3-nintendo",
+        "file":  "Super Mario Bros 3 (Nintendo).json",
+        "name":  "Super Mario Bros 3 (Nintendo)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "super-street-fighter-2-capcom",
+        "file":  "Super Street Fighter 2 (Capcom).json",
+        "name":  "Super Street Fighter 2 (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "takeda-shingen-jaleco",
+        "file":  "Takeda Shingen (Jaleco).json",
+        "name":  "Takeda Shingen (Jaleco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "terra-force-nichibutsu",
+        "file":  "Terra Force (Nichibutsu).json",
+        "name":  "Terra Force (Nichibutsu)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "tetris-sega",
+        "file":  "Tetris (Sega).json",
+        "name":  "Tetris (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "the-simpsons-konami",
+        "file":  "The Simpsons (Konami).json",
+        "name":  "The Simpsons (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "thunder-dragon-nmk",
+        "file":  "Thunder Dragon (NMK).json",
+        "name":  "Thunder Dragon (NMK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "time-pilot-84-konami",
+        "file":  "Time Pilot 84 (Konami).json",
+        "name":  "Time Pilot 84 (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "time-soldiers-adk",
+        "file":  "Time Soldiers (ADK).json",
+        "name":  "Time Soldiers (ADK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "t-mek-atari",
+        "file":  "T-Mek (Atari).json",
+        "name":  "T-Mek (Atari)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "top-ranking-stars-taito",
+        "file":  "Top Ranking Stars (Taito).json",
+        "name":  "Top Ranking Stars (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "truxton-toaplan",
+        "file":  "Truxton (Toaplan).json",
+        "name":  "Truxton (Toaplan)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "twin-cobra-toaplan",
+        "file":  "Twin Cobra (Toaplan).json",
+        "name":  "Twin Cobra (Toaplan)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "twin-cobra-ii-taito",
+        "file":  "Twin Cobra II (Taito).json",
+        "name":  "Twin Cobra II (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "twin-qix-taito",
+        "file":  "Twin Qix (Taito).json",
+        "name":  "Twin Qix (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "twinbee-konami",
+        "file":  "Twinbee (Konami).json",
+        "name":  "Twinbee (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "typhoon-konami",
+        "file":  "Typhoon (Konami).json",
+        "name":  "Typhoon (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "un-squadron-capcom",
+        "file":  "UN Squadron (Capcom).json",
+        "name":  "UN Squadron (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "victory-road-snk",
+        "file":  "Victory Road (SNK).json",
+        "name":  "Victory Road (SNK)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "wild-pilot-jaleco",
+        "file":  "Wild Pilot (Jaleco).json",
+        "name":  "Wild Pilot (Jaleco)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "willow-capcom",
+        "file":  "Willow (Capcom).json",
+        "name":  "Willow (Capcom)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "wolf-fang-taito",
+        "file":  "Wolf Fang (Taito).json",
+        "name":  "Wolf Fang (Taito)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "wonder-boy-sega",
+        "file":  "Wonder Boy (Sega).json",
+        "name":  "Wonder Boy (Sega)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "xexex-konami",
+        "file":  "Xexex (Konami).json",
+        "name":  "Xexex (Konami)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zero-wing-toaplan",
+        "file":  "Zero Wing (Toaplan).json",
+        "name":  "Zero Wing (Toaplan)",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  95,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    }
+]

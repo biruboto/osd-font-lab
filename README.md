@@ -22,3 +22,6 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + New ZX Spectrum font library (55 new fonts)
 + New BBC Micro font library (89 new fonts)
 + New Oldschool PC font library (163 fonts)
+
+02.15.2026
++ New NFG's Arcade Font Engine library (170 fonts)

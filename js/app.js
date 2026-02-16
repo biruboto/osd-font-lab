@@ -145,6 +145,7 @@ const nudge = {
   replaced: { x: 0, y: 0 },   // global replacement offset
   perGlyph: new Map(),        // idx -> {x,y}
 };
+const replacedOverlayIndices = new Set(); // indices actually replaced by current overlay
 
 // Shared overlay cache (used by dropdown + title banner)
 const overlayCache = new Map(); // file -> overlay JSON
@@ -190,6 +191,12 @@ const OVERLAY_LIBRARIES = [
     label: "Oldschool PC",
     manifestPath: "fonts/manifest-oldschool-pc.json",
     dataDir: "fonts/data/oldschool-pc",
+  },
+  {
+    id: "arcade-font-engine",
+    label: "NFG's Arcade Font Engine",
+    manifestPath: "fonts/manifest-arcade-font-engine.json",
+    dataDir: "fonts/data/arcade-font-engine",
   },
 ];
 const overlayManifestCache = new Map(); // library id -> manifest list
@@ -1549,6 +1556,20 @@ function renderOverlayToCell(overlayGlyph, targetIdx) {
   return applyStroke4(out, cellW, cellH);
 }
 
+function overlayGlyphHasInk(overlayGlyph) {
+  if (!overlayGlyph || !Array.isArray(overlayGlyph.size) || !Array.isArray(overlayGlyph.rows)) {
+    return false;
+  }
+  const w = overlayGlyph.size[0] | 0;
+  const h = overlayGlyph.size[1] | 0;
+  if (w <= 0 || h <= 0) return false;
+  for (let y = 0; y < h; y++) {
+    const row = (overlayGlyph.rows[y] >>> 0);
+    if (row !== 0) return true;
+  }
+  return false;
+}
+
 /* -----------------------------
    Rebuild result font
 ------------------------------ */
@@ -1557,6 +1578,7 @@ function rebuildResultFont() {
   if (!baseFont) return;
 
   resultFont = cloneFont(baseFont);
+  replacedOverlayIndices.clear();
 
   if (currentOverlay) {
     for (let i = 0; i < 256; i++) {
@@ -1565,8 +1587,12 @@ function rebuildResultFont() {
       const key = `U+${i.toString(16).padStart(4, "0").toUpperCase()}`;
       const og = currentOverlay.glyphs?.[key];
       if (!og) continue;
+      // Keep base/default glyph when overlay slot is blank (common in arcade sets),
+      // but allow U+0020 space to remain blank by design.
+      if (i !== 0x20 && !overlayGlyphHasInk(og)) continue;
 
       resultFont.glyphs[i] = renderOverlayToCell(og, i);
+      replacedOverlayIndices.add(i);
     }
   }
 
@@ -1582,7 +1608,7 @@ function rebuildResultFont() {
   const replacedDy = nudge.replaced.y | 0;
   if ((replacedDx !== 0 || replacedDy !== 0) && editorOverrideIndices.size) {
     for (const idx of editorOverrideIndices) {
-      if (idx < 0 || idx > 255 || !isReplaceable(idx)) continue;
+      if (idx < 0 || idx > 255 || !replacedOverlayIndices.has(idx)) continue;
       resultFont.glyphs[idx] = shiftGlyphPixels(resultFont.glyphs[idx], resultFont.width, resultFont.height, replacedDx, replacedDy);
     }
   }
