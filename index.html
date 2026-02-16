@@ -183,13 +183,13 @@
             <div class="panel-header-controls">
               <div class="font-select-stack">
                 <label class="field field-stack bf-inline">
-                  <span>Load a default font</span>
+                  <span class="or-label">Load a default font</span>
                   <select id="bfFontSelect" title="Load a Betaflight default">
                     <option value="">(choose default)</option>
                   </select>
                 </label>
                 <label class="field field-stack overlay-inline">
-                  <span>Replace with</span>
+                  <span class="or-label">Replace with</span>
                   <select id="overlaySelect" title="Choose a font collection"></select>
                 </label>
               </div>
@@ -232,7 +232,7 @@
               <input id="yaffFile" type="file" accept=".yaff" hidden>
             </div>
             <div class="stroke-style-row">
-              <span class="stroke-style-label">Stroke Style</span>
+              <span class="stroke-style-label"><span>Stroke</span><span>Style</span></span>
               <div class="stroke-style-segment" role="group" aria-label="Overlay stroke style">
                 <button id="strokeStyle4Btn" type="button" class="stroke-style-btn" title="4-neighbor stroke (up/down/left/right)">4-way</button>
                 <button id="strokeStyle8Btn" type="button" class="stroke-style-btn" title="8-neighbor stroke (includes diagonals)">8-way</button>
@@ -241,11 +241,11 @@
             <div class="tools-section-title">- Icons -</div>
             <div class="swap-controls">
               <label class="field field-stack">
-                <span>Swap target</span>
+                <span class="or-label">Swap target</span>
                 <select id="swapTargetSelect"></select>
               </label>
               <label class="field field-stack">
-                <span>Swap source</span>
+                <span class="or-label">Swap source</span>
                 <select id="swapSourceSelect">
                   <option value="">(choose source)</option>
                 </select>

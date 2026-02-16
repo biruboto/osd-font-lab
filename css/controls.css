@@ -446,6 +446,15 @@ select{
   align-self: center;
 }
 
+.or-label{
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  opacity: 0.5;
+  text-transform: uppercase;
+  user-select: none;
+  padding: 0 2px;
+}
+
 .stroke-style-row{
   display: flex;
   align-items: center;
@@ -460,10 +469,20 @@ select{
 }
 
 .stroke-style-label{
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 28px;
+  line-height: 1;
+  font-size: 0.60rem;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.stroke-style-label > span{
+  display: block;
 }
 
 .stroke-style-segment{
