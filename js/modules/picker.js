@@ -55,11 +55,13 @@ export function buildFontPicker({
   selectEl.parentNode.insertBefore(wrap, selectEl.nextSibling);
 
   const previewReq = new WeakMap(); // img -> request id
+  let menuPreviewRaf = 0;
 
   function setPreviewImage(imgEl, value) {
     if (!imgEl) return;
     if (!value) {
       imgEl.removeAttribute("src");
+      imgEl.removeAttribute("data-loaded");
       return;
     }
     const reqId = (previewReq.get(imgEl) || 0) + 1;
@@ -67,12 +69,18 @@ export function buildFontPicker({
     Promise.resolve(getPreviewUrl(value))
       .then((url) => {
         if (previewReq.get(imgEl) !== reqId) return;
-        if (url) imgEl.src = url;
-        else imgEl.removeAttribute("src");
+        if (url) {
+          imgEl.src = url;
+          imgEl.setAttribute("data-loaded", value);
+        } else {
+          imgEl.removeAttribute("src");
+          imgEl.removeAttribute("data-loaded");
+        }
       })
       .catch(() => {
         if (previewReq.get(imgEl) !== reqId) return;
         imgEl.removeAttribute("src");
+        imgEl.removeAttribute("data-loaded");
       });
   }
 
@@ -142,20 +150,34 @@ export function buildFontPicker({
   }
 
   function isRowVisibleInMenu(rowEl) {
-    const rr = rowEl.getBoundingClientRect();
-    const mr = menu.getBoundingClientRect();
-    return rr.bottom >= mr.top && rr.top <= mr.bottom;
+    const top = menu.scrollTop;
+    const bottom = top + menu.clientHeight;
+    const rowTop = rowEl.offsetTop;
+    const rowBottom = rowTop + rowEl.offsetHeight;
+    return rowBottom >= (top - 24) && rowTop <= (bottom + 24);
   }
 
-  function refreshMenuPreviews({ all = false } = {}) {
+  function refreshMenuPreviews({ all = false, maxLazy = 40 } = {}) {
+    let loaded = 0;
     for (const row of menu.children) {
       const img = row.querySelector(".fontpicker-thumb");
       if (!img) continue;
       const value = img.getAttribute("data-value") || row.getAttribute("data-value") || "";
       if (!value) continue;
       if (!all && lazyMenuPreviews && !isRowVisibleInMenu(row)) continue;
+      if (!all && lazyMenuPreviews && loaded >= maxLazy) break;
+      if (img.getAttribute("data-loaded") === value && img.src) continue;
       setPreviewImage(img, value);
+      loaded++;
     }
+  }
+
+  function scheduleMenuPreviewsRefresh() {
+    if (menuPreviewRaf) return;
+    menuPreviewRaf = requestAnimationFrame(() => {
+      menuPreviewRaf = 0;
+      refreshMenuPreviews();
+    });
   }
 
   function rebuildMenu() {
@@ -204,7 +226,7 @@ export function buildFontPicker({
   document.addEventListener("mousedown", closeOnOutside);
   menu.addEventListener("scroll", () => {
     if (!wrap.classList.contains("open")) return;
-    refreshMenuPreviews();
+    scheduleMenuPreviewsRefresh();
   });
   selectEl.addEventListener("change", () => setButtonFromValue(selectEl.value));
 

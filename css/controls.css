@@ -737,13 +737,15 @@ select{
 }
 
 .special-emoji-thumb{
-  width: 56px;
-  height: 18px;
+  width: auto;
+  height: 22px;
+  max-width: 44px;
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   display: none;
-  background: transparent;
+  background: color-mix(in srgb, var(--bg-2) 78%, transparent);
+  border-radius: 4px;
   box-shadow: none;
 }
 
