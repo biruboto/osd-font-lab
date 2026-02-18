@@ -134,7 +134,7 @@ body{
 .tools-pane{
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   min-height: 0;
   min-width: 0;
 }
@@ -154,8 +154,8 @@ body{
 .panel{
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 10px;
-  padding: 12px;
+  gap: 8px;
+  padding: 10px;
   border-radius: 14px;
   background: var(--bg-1);
   border: 1px solid var(--bg-3);
@@ -170,13 +170,14 @@ body{
 .panel-header{
   display: flex;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
 }
 
 /* Base panel has a 2-row control stack */
 .panel-base .panel-header{
+  gap: 6px 10px;
   align-items: flex-start;
 }
 
@@ -208,8 +209,14 @@ body{
     justify-items: center;
   }
 
-  .swap-controls .field{
+  .swap-controls .field,
+  .special-char-controls .field{
     width: min(320px, 100%);
+  }
+
+  .special-char-controls{
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
 }
 

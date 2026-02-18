@@ -77,6 +77,14 @@ const swapTargetSelect = document.getElementById("swapTargetSelect");
 const swapSourceSelect = document.getElementById("swapSourceSelect");
 const clearSwapTargetBtn = document.getElementById("clearSwapTargetBtn");
 const clearAllSwapsBtn = document.getElementById("clearAllSwapsBtn");
+const specialEmojiPicker = document.getElementById("specialEmojiPicker");
+const specialEmojiBtn = document.getElementById("specialEmojiBtn");
+const specialEmojiThumb = document.getElementById("specialEmojiThumb");
+const specialEmojiLabel = document.getElementById("specialEmojiLabel");
+const specialEmojiMenu = document.getElementById("specialEmojiMenu");
+const clearSpecialCharBtn = document.getElementById("clearSpecialCharBtn");
+const specialSafeOnBtn = document.getElementById("specialSafeOnBtn");
+const specialSafeOffBtn = document.getElementById("specialSafeOffBtn");
 
 const selCount = document.getElementById("selCount");
 
@@ -107,6 +115,12 @@ const exportPNG3xBtn = document.getElementById("exportPNG3x");
 const REPLACE_CHARS = ` !"#%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`;
 const REPLACE_SET = new Set([...REPLACE_CHARS].map(c => c.charCodeAt(0)));
 const isReplaceable = (idx) => REPLACE_SET.has(idx);
+const SPECIAL_EMOJI_MANIFEST_PATH = "fonts/manifest-emoji-pixels.json";
+const SPECIAL_EMOJI_DATA_DIR = "fonts/data/emoji-pixels";
+const SPECIAL_EMOJI_ORDER_PATH = "fonts/emoji-order-firstcp.json";
+const SPECIAL_SAFE_MODE_KEY = "osdSpecialSafeMode";
+const SPECIAL_SAFE_CHARS = `!"#%&',;=?`;
+const SPECIAL_SAFE_SET = new Set([...SPECIAL_SAFE_CHARS].map((c) => c.charCodeAt(0)));
 
 const SCALE = 3; // grid sheet scale
 const COLS = 16;
@@ -141,6 +155,17 @@ let swapSourcePickerApi = null;
 let overlayPickerApi = null;
 let bfPickerApi = null;
 let overlaySelectChangeBound = false;
+let specialEmojiManifest = [];
+let selectedSpecialEmojiFile = "";
+let specialEmojiOrderByFirstCodepoint = null;
+let specialEmojiNameByFirstCodepoint = null;
+const specialEmojiPreviewUrlCache = new Map();
+const specialEmojiGlyphCache = new Map();
+let specialEmojiMenuBuilt = false;
+const specialEmojiPreviewPending = new Set();
+let specialEmojiVisiblePreloadRaf = 0;
+const specialCharEmojiAssignments = new Map(); // idx -> emoji file
+let specialSafeMode = localStorage.getItem(SPECIAL_SAFE_MODE_KEY) !== "off";
 
 const selection = createSelectionState(0);
 
@@ -685,6 +710,7 @@ const BF_GLYPH_LABELS = (() => {
 function clearDynamicPreviewCaches() {
   overlayPreviewUrlCache.clear();
   bfPreviewUrlCache.clear();
+  specialEmojiPreviewUrlCache.clear();
 }
 
 async function loadKofiIconData() {
@@ -764,6 +790,7 @@ function initTheme() {
       const activeTheme = currentThemeId();
       updateThemeCodeLabel(activeTheme);
       clearDynamicPreviewCaches();
+      invalidateSpecialEmojiMenuPreviews();
       rerenderAll();
       renderLoadStatusVisual();
       window.__redrawBrandTitle?.();
@@ -772,6 +799,7 @@ function initTheme() {
       bfPickerApi?.refresh();
       swapTargetPickerApi?.refresh();
       swapSourcePickerApi?.refresh();
+      syncSpecialEmojiButton();
       renderKofiBadgeIcon();
     },
   });
@@ -1049,6 +1077,7 @@ function clearSwapTarget(targetId) {
 
 function clearAllSwaps() {
   swapOverrides.clear();
+  specialCharEmojiAssignments.clear();
   rebuildResultFont();
   rerenderAll();
 }
@@ -1177,6 +1206,457 @@ function syncSwapTargetSelect() {
   swapTargetPickerApi?.rebuild();
   swapTargetPickerApi?.refresh();
   syncSwapSourceSelect();
+}
+
+function firstCodepointFromEmojiEntry(entry) {
+  const rawId = String(entry?.id || "");
+  const rawFile = String(entry?.file || "");
+  const src = rawId || rawFile;
+  const m = src.match(/u([0-9a-f]{4,6})/i);
+  return m ? parseInt(m[1], 16) : Number.NaN;
+}
+
+function getSpecialEmojiCategoryRanges(list) {
+  const robotCp = 0x1F916; // 🤖
+  const waveCp = 0x1F44B;  // 👋
+  const flexCp = 0x1F4AA;  // 💪
+
+  let robotIdx = -1;
+  let waveIdx = -1;
+  let flexIdx = -1;
+
+  for (let i = 0; i < list.length; i++) {
+    const cp = firstCodepointFromEmojiEntry(list[i]);
+    if (!Number.isFinite(cp)) continue;
+    if (cp === robotCp && robotIdx < 0) robotIdx = i;
+    if (cp === waveCp && waveIdx < 0) waveIdx = i;
+    if (cp === flexCp && flexIdx < 0) flexIdx = i;
+  }
+
+  return { robotIdx, waveIdx, flexIdx };
+}
+
+function categoryForSpecialEmojiIndex(i, ranges) {
+  const { robotIdx, waveIdx, flexIdx } = ranges;
+  if (waveIdx >= 0 && flexIdx >= waveIdx && i >= waveIdx && i <= flexIdx) {
+    return "HANDS";
+  }
+  if (flexIdx >= 0 && i > flexIdx) {
+    return "ANIMALS AND NATURE";
+  }
+  if (robotIdx >= 0 && i <= robotIdx) {
+    return "SMILEYS";
+  }
+  return "SMILEYS";
+}
+
+function getSpecialCharTargetIndex() {
+  const idx = selection?.selectedIndex;
+  if (!Number.isInteger(idx) || idx < 0 || idx > 255) return null;
+  return idx;
+}
+
+function isSpecialSafeTarget(idx) {
+  return SPECIAL_SAFE_SET.has(idx);
+}
+
+function syncSpecialSafeModeUi() {
+  specialSafeOnBtn?.classList.toggle("is-active", !!specialSafeMode);
+  specialSafeOffBtn?.classList.toggle("is-active", !specialSafeMode);
+}
+
+async function getSpecialEmojiPreviewUrl(file) {
+  if (!file) return "";
+  const cacheKey = `${currentThemeId()}|${overlayStrokeStyle}|${file}`;
+  const cached = specialEmojiPreviewUrlCache.get(cacheKey);
+  if (cached) return cached;
+  const data = await getSpecialEmojiGlyphByFile(file);
+  const rendered = renderSpecialEmojiGlyph(data.glyph, data.width, data.height);
+  const url = drawGlyphPreviewStrip([rendered], data.width, data.height, 0, pxColorViewer);
+  specialEmojiPreviewUrlCache.set(cacheKey, url);
+  return url;
+}
+
+function syncSpecialEmojiMenuActive() {
+  if (!specialEmojiMenu) return;
+  for (const el of specialEmojiMenu.querySelectorAll(".special-emoji-option")) {
+    const isActive = el.getAttribute("data-file") === selectedSpecialEmojiFile;
+    el.classList.toggle("is-active", isActive);
+  }
+}
+
+function invalidateSpecialEmojiMenuPreviews() {
+  if (!specialEmojiMenu) return;
+  specialEmojiPreviewPending.clear();
+  for (const img of specialEmojiMenu.querySelectorAll(".special-emoji-option-thumb")) {
+    img.removeAttribute("src");
+  }
+}
+
+function queueSpecialEmojiPreview(img) {
+  if (!img || img.src) return;
+  const file = img.getAttribute("data-file");
+  if (!file || specialEmojiPreviewPending.has(file)) return;
+  specialEmojiPreviewPending.add(file);
+  Promise.resolve(getSpecialEmojiPreviewUrl(file))
+    .then((url) => {
+      if (url) img.src = url;
+    })
+    .catch(() => {})
+    .finally(() => {
+      specialEmojiPreviewPending.delete(file);
+    });
+}
+
+function preloadVisibleSpecialEmojiThumbs({ margin = 72, max = 64 } = {}) {
+  if (!specialEmojiMenu || !specialEmojiPicker?.classList.contains("open")) return;
+  const menuRect = specialEmojiMenu.getBoundingClientRect();
+  const thumbs = [...specialEmojiMenu.querySelectorAll(".special-emoji-option-thumb")];
+  let loaded = 0;
+  for (const img of thumbs) {
+    if (img.src) continue;
+    const rect = img.getBoundingClientRect();
+    const inView = rect.bottom >= (menuRect.top - margin) && rect.top <= (menuRect.bottom + margin);
+    if (!inView) continue;
+    queueSpecialEmojiPreview(img);
+    loaded++;
+    if (loaded >= max) break;
+  }
+}
+
+function scheduleVisibleSpecialEmojiPreload() {
+  if (specialEmojiVisiblePreloadRaf) return;
+  specialEmojiVisiblePreloadRaf = requestAnimationFrame(() => {
+    specialEmojiVisiblePreloadRaf = 0;
+    preloadVisibleSpecialEmojiThumbs();
+  });
+}
+
+async function syncSpecialEmojiButton() {
+  if (!specialEmojiLabel || !specialEmojiThumb) return;
+  if (!selectedSpecialEmojiFile) {
+    specialEmojiLabel.textContent = "(choose emoji)";
+    specialEmojiThumb.removeAttribute("src");
+    specialEmojiThumb.style.display = "none";
+    syncSpecialEmojiMenuActive();
+    return;
+  }
+  const meta = specialEmojiManifest.find((entry) => entry.file === selectedSpecialEmojiFile);
+  specialEmojiLabel.textContent = meta?.name || selectedSpecialEmojiFile;
+  try {
+    const url = await getSpecialEmojiPreviewUrl(selectedSpecialEmojiFile);
+    if (!url) throw new Error("preview unavailable");
+    specialEmojiThumb.src = url;
+    specialEmojiThumb.style.display = "";
+  } catch {
+    specialEmojiThumb.removeAttribute("src");
+    specialEmojiThumb.style.display = "none";
+  }
+  syncSpecialEmojiMenuActive();
+}
+
+async function loadSpecialEmojiManifest() {
+  try {
+    specialEmojiGlyphCache.clear();
+    specialEmojiPreviewUrlCache.clear();
+    specialEmojiMenuBuilt = false;
+    const res = await fetch(SPECIAL_EMOJI_MANIFEST_PATH);
+    if (!res.ok) throw new Error(`${SPECIAL_EMOJI_MANIFEST_PATH} HTTP ${res.status}`);
+    const list = await res.json();
+    if (!Array.isArray(list)) throw new Error(`${SPECIAL_EMOJI_MANIFEST_PATH} did not return an array`);
+    specialEmojiManifest = Array.isArray(list) ? [...list] : [];
+    try {
+      const orderRes = await fetch(SPECIAL_EMOJI_ORDER_PATH);
+      if (orderRes.ok) {
+        const orderDoc = await orderRes.json();
+        const orderObj = orderDoc?.orderByFirstCodepoint && typeof orderDoc.orderByFirstCodepoint === "object"
+          ? orderDoc.orderByFirstCodepoint
+          : (orderDoc && typeof orderDoc === "object" ? orderDoc : null);
+        const nameObj = orderDoc?.nameByFirstCodepoint && typeof orderDoc.nameByFirstCodepoint === "object"
+          ? orderDoc.nameByFirstCodepoint
+          : null;
+        specialEmojiOrderByFirstCodepoint = orderObj;
+        specialEmojiNameByFirstCodepoint = nameObj;
+      }
+    } catch {
+      specialEmojiOrderByFirstCodepoint = null;
+      specialEmojiNameByFirstCodepoint = null;
+    }
+    const cpFromEntry = (entry) => {
+      const rawId = String(entry?.id || "");
+      const rawFile = String(entry?.file || "");
+      const src = rawId || rawFile;
+      const m = src.match(/u([0-9a-f]{4,6})/i);
+      return m ? parseInt(m[1], 16) : Number.POSITIVE_INFINITY;
+    };
+    const rankFromEntry = (entry) => {
+      if (!specialEmojiOrderByFirstCodepoint) return Number.POSITIVE_INFINITY;
+      const cp = cpFromEntry(entry);
+      if (!Number.isFinite(cp)) return Number.POSITIVE_INFINITY;
+      const key = cp.toString(16).toLowerCase();
+      const rankRaw = specialEmojiOrderByFirstCodepoint[key];
+      const rank = Number(rankRaw);
+      return Number.isFinite(rank) ? rank : Number.POSITIVE_INFINITY;
+    };
+    const normalizeName = (entry) => {
+      const rawName = String(entry?.name || "").trim();
+      const placeholder = rawName === "" || /^emoji[ _]\d+$/i.test(rawName);
+      if (!placeholder || !specialEmojiNameByFirstCodepoint) return rawName;
+      const cp = cpFromEntry(entry);
+      if (!Number.isFinite(cp)) return rawName;
+      const key = cp.toString(16).toLowerCase();
+      const canonical = String(specialEmojiNameByFirstCodepoint[key] || "").trim();
+      return canonical || rawName;
+    };
+    specialEmojiManifest = specialEmojiManifest.map((entry) => ({
+      ...entry,
+      name: normalizeName(entry),
+    }));
+    specialEmojiManifest.sort((a, b) => {
+      const ra = rankFromEntry(a);
+      const rb = rankFromEntry(b);
+      if (ra !== rb) return ra - rb;
+      const ca = cpFromEntry(a);
+      const cb = cpFromEntry(b);
+      if (ca !== cb) return ca - cb;
+      return String(a?.name || "").localeCompare(String(b?.name || ""), undefined, { sensitivity: "base" });
+    });
+  } catch (err) {
+    console.warn("Failed to load emoji manifest", err);
+    specialEmojiManifest = [];
+    specialEmojiMenuBuilt = false;
+  }
+}
+
+async function getSpecialEmojiGlyphByFile(file) {
+  if (!file) throw new Error("Missing emoji file");
+  if (specialEmojiGlyphCache.has(file)) return specialEmojiGlyphCache.get(file);
+  const res = await fetch(`${SPECIAL_EMOJI_DATA_DIR}/${encodeURIComponent(file)}`);
+  if (!res.ok) throw new Error(`special emoji fetch HTTP ${res.status} for ${file}`);
+  const j = await res.json();
+  const width = Number(j?.width);
+  const height = Number(j?.height);
+  const glyphRaw = Array.isArray(j?.glyph) ? j.glyph : null;
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {
+    throw new Error(`Invalid dimensions in ${file}`);
+  }
+  if (!glyphRaw || glyphRaw.length !== width * height) {
+    throw new Error(`Invalid glyph payload in ${file}`);
+  }
+  const glyph = new Uint8Array(glyphRaw.map((v) => {
+    const n = Number(v) | 0;
+    if (n === 1 || n === 2 || n === 3) return n;
+    return 1;
+  }));
+  const data = { width, height, glyph };
+  specialEmojiGlyphCache.set(file, data);
+  return data;
+}
+
+function renderSpecialEmojiGlyph(sourceGlyph, w, h) {
+  const fillMask = new Uint8Array(w * h);
+  fillMask.fill(1);
+  for (let i = 0; i < fillMask.length; i++) {
+    const p = sourceGlyph[i] | 0;
+    if (p === 2 || p === 3) fillMask[i] = 2;
+  }
+
+  const stroked = overlayStrokeStyle === "8"
+    ? applyStroke8(fillMask, w, h)
+    : applyStroke4(fillMask, w, h);
+
+  // Preserve intended fill details after stroke pass, including internal black pools.
+  for (let i = 0; i < stroked.length; i++) {
+    const p = sourceGlyph[i] | 0;
+    if (p === 2) stroked[i] = 2;
+    else if (p === 3) stroked[i] = 3;
+  }
+  return stroked;
+}
+
+async function refreshSpecialCharEmojiAssignments() {
+  if (!baseFont || specialCharEmojiAssignments.size === 0) return;
+  let changed = false;
+  for (const [targetIdx, file] of specialCharEmojiAssignments.entries()) {
+    if (!Number.isInteger(targetIdx) || targetIdx < 0 || targetIdx > 255 || !file) continue;
+    try {
+      const data = await getSpecialEmojiGlyphByFile(file);
+      if (data.width !== baseFont.width || data.height !== baseFont.height) continue;
+      swapOverrides.set(targetIdx, renderSpecialEmojiGlyph(data.glyph, data.width, data.height));
+      changed = true;
+    } catch (err) {
+      console.warn("Failed to refresh special emoji assignment", targetIdx, file, err);
+    }
+  }
+  if (changed) {
+    rebuildResultFont();
+    rerenderAll();
+  }
+}
+
+async function buildSpecialEmojiMenu() {
+  if (!specialEmojiMenu) return;
+  if (specialEmojiMenuBuilt) {
+    syncSpecialEmojiMenuActive();
+    return;
+  }
+  specialEmojiMenu.innerHTML = "";
+
+  if (!specialEmojiManifest.length) {
+    const empty = document.createElement("div");
+    empty.className = "fontpicker-group";
+    empty.textContent = "No emoji loaded";
+    specialEmojiMenu.appendChild(empty);
+    return;
+  }
+
+  const ranges = getSpecialEmojiCategoryRanges(specialEmojiManifest);
+  let lastCategory = "";
+
+  for (let i = 0; i < specialEmojiManifest.length; i++) {
+    const entry = specialEmojiManifest[i];
+    const category = categoryForSpecialEmojiIndex(i, ranges);
+    if (category !== lastCategory) {
+      const group = document.createElement("div");
+      group.className = "fontpicker-group";
+      group.textContent = category;
+      specialEmojiMenu.appendChild(group);
+      lastCategory = category;
+    }
+
+    const file = entry?.file;
+    if (!file) continue;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "special-emoji-option";
+    btn.setAttribute("data-file", file);
+    btn.title = entry?.name || file;
+
+    const img = document.createElement("img");
+    img.className = "special-emoji-option-thumb";
+    img.alt = "";
+    img.setAttribute("data-file", file);
+    btn.appendChild(img);
+
+    specialEmojiMenu.appendChild(btn);
+
+    const ensurePreview = () => queueSpecialEmojiPreview(img);
+    btn.addEventListener("mouseenter", ensurePreview);
+    btn.addEventListener("focus", ensurePreview);
+
+    btn.addEventListener("click", async () => {
+      selectedSpecialEmojiFile = file;
+      specialEmojiPicker?.classList.remove("open");
+      specialEmojiBtn?.setAttribute("aria-expanded", "false");
+      await syncSpecialEmojiButton();
+      await applySpecialCharSelection({ silentIncomplete: true });
+    });
+  }
+
+  syncSpecialEmojiMenuActive();
+  specialEmojiMenuBuilt = true;
+}
+
+async function applySpecialCharSelection({ silentIncomplete = false } = {}) {
+  const targetIdx = getSpecialCharTargetIndex();
+  if (!baseFont) {
+    if (!silentIncomplete) setLoadStatus("Load a base font first.", { error: true });
+    return;
+  }
+  if (targetIdx == null || !selectedSpecialEmojiFile) {
+    if (!silentIncomplete) setLoadStatus("Select a glyph in preview + emoji first.");
+    return;
+  }
+  if (specialSafeMode && !isSpecialSafeTarget(targetIdx)) {
+    const ch = String.fromCharCode(targetIdx);
+    const cp = `U+${targetIdx.toString(16).toUpperCase().padStart(4, "0")}`;
+    setLoadStatus(`Safe mode is ON. ${ch} (${cp}) is not in the safe set (! " # % & ' , ; = ?).`, { error: true });
+    return;
+  }
+
+  try {
+    const data = await getSpecialEmojiGlyphByFile(selectedSpecialEmojiFile);
+    if (data.width !== baseFont.width || data.height !== baseFont.height) {
+      setLoadStatus(
+        `Emoji size ${data.width}x${data.height} does not match base font ${baseFont.width}x${baseFont.height}.`,
+        { error: true },
+      );
+      return;
+    }
+    const renderedGlyph = renderSpecialEmojiGlyph(data.glyph, data.width, data.height);
+    swapOverrides.set(targetIdx, renderedGlyph);
+    specialCharEmojiAssignments.set(targetIdx, selectedSpecialEmojiFile);
+    selection.selectedSet = new Set([targetIdx]);
+    selection.selectionAnchor = targetIdx;
+    selection.selectedIndex = targetIdx;
+    holdOriginalPreview = false;
+    holdOriginalPreviewBtn?.classList.remove("is-holding");
+    rebuildResultFont();
+    rerenderAll();
+    const targetChar = String.fromCharCode(targetIdx);
+    const sourceMeta = specialEmojiManifest.find((entry) => entry.file === selectedSpecialEmojiFile);
+    setLoadStatus(`Applied special character: ${targetChar} from ${sourceMeta?.name || selectedSpecialEmojiFile}`);
+  } catch (err) {
+    console.error("Special character apply failed", err);
+    setLoadStatus("Failed to apply special character.", { error: true });
+  }
+}
+
+async function initSpecialCharUI() {
+  if (!specialEmojiBtn || !specialEmojiMenu) return;
+
+  await loadSpecialEmojiManifest();
+  await syncSpecialEmojiButton();
+  syncSpecialSafeModeUi();
+
+  specialEmojiBtn.addEventListener("click", async () => {
+    const opening = !specialEmojiPicker.classList.contains("open");
+    if (opening) {
+      await buildSpecialEmojiMenu();
+    }
+    specialEmojiPicker.classList.toggle("open", opening);
+    specialEmojiBtn.setAttribute("aria-expanded", opening ? "true" : "false");
+    if (opening) {
+      scheduleVisibleSpecialEmojiPreload();
+      setTimeout(() => scheduleVisibleSpecialEmojiPreload(), 80);
+    }
+  });
+
+  specialEmojiMenu.addEventListener("scroll", scheduleVisibleSpecialEmojiPreload, { passive: true });
+  window.addEventListener("resize", scheduleVisibleSpecialEmojiPreload);
+
+  document.addEventListener("mousedown", (event) => {
+    if (!specialEmojiPicker?.contains(event.target)) {
+      specialEmojiPicker?.classList.remove("open");
+      specialEmojiBtn?.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  clearSpecialCharBtn?.addEventListener("click", () => {
+    const targetIdx = getSpecialCharTargetIndex();
+    if (targetIdx == null) return;
+    swapOverrides.delete(targetIdx);
+    specialCharEmojiAssignments.delete(targetIdx);
+    rebuildResultFont();
+    rerenderAll();
+    const targetChar = String.fromCharCode(targetIdx);
+    setLoadStatus(`Cleared special character: ${targetChar}`);
+  });
+
+  specialSafeOnBtn?.addEventListener("click", () => {
+    if (specialSafeMode) return;
+    specialSafeMode = true;
+    localStorage.setItem(SPECIAL_SAFE_MODE_KEY, "on");
+    syncSpecialSafeModeUi();
+    setLoadStatus("Safe mode: ON (only safe characters: ! \" # % & ' , ; = ?)");
+  });
+  specialSafeOffBtn?.addEventListener("click", () => {
+    if (!specialSafeMode) return;
+    specialSafeMode = false;
+    localStorage.setItem(SPECIAL_SAFE_MODE_KEY, "off");
+    syncSpecialSafeModeUi();
+    setLoadStatus("Safe mode: OFF (any character can be replaced)");
+  });
 }
 
 function colorToGlyphValue(r, g, b, a) {
@@ -1734,9 +2214,13 @@ function setOverlayStrokeStyle(nextStyle) {
   localStorage.setItem(OVERLAY_STROKE_STYLE_KEY, overlayStrokeStyle);
   syncOverlayStrokeStyleUI();
   clearDynamicPreviewCaches();
+  invalidateSpecialEmojiMenuPreviews();
   rebuildResultFont();
   rerenderAll();
   overlayPickerApi?.refresh();
+  syncSpecialEmojiButton();
+  refreshSpecialCharEmojiAssignments();
+  setLoadStatus(`Stroke style: ${style === "8" ? "8-way" : "4-way"}`);
 }
 
 
@@ -1864,7 +2348,6 @@ function rerenderAll() {
     if (glyphInfo) glyphInfo.textContent = "(Load a font, then click a glyph.)";
     updateSelectionCount();
   }
-
   renderBootSplashPreview(resultFont || baseFont || null);
 }
 
@@ -2024,6 +2507,20 @@ async function loadManifest() {
   if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
   overlayManifestCache.set(lib.id, list);
   overlayManifest = list;
+  return list;
+}
+
+async function loadManifestForLibrary(libraryId) {
+  const lib = OVERLAY_LIBRARIES.find((l) => l.id === libraryId);
+  if (!lib) return [];
+  if (overlayManifestCache.has(lib.id)) {
+    return overlayManifestCache.get(lib.id);
+  }
+  const res = await fetch(lib.manifestPath);
+  if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
+  const list = await res.json();
+  if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
+  overlayManifestCache.set(lib.id, list);
   return list;
 }
 
@@ -3074,6 +3571,7 @@ function init() {
   updateReplReadout();
   setLoadStatus(loadStatusText);
   initSwapUI();
+  initSpecialCharUI();
   initTheme();
   renderKofiBadgeIcon();
   initEvents();
