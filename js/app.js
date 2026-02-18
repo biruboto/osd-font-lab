@@ -118,6 +118,7 @@ const isReplaceable = (idx) => REPLACE_SET.has(idx);
 const SPECIAL_EMOJI_MANIFEST_PATH = "fonts/manifest-emoji-pixels.json";
 const SPECIAL_EMOJI_DATA_DIR = "fonts/data/emoji-pixels";
 const SPECIAL_EMOJI_ORDER_PATH = "fonts/emoji-order-firstcp.json";
+const SPECIAL_EMOJI_SYMBOLS_PATH = "fonts/emoji-symbol-codepoints.json";
 const SPECIAL_SAFE_MODE_KEY = "osdSpecialSafeMode";
 const SPECIAL_SAFE_CHARS = `!"#%&',;=?`;
 const SPECIAL_SAFE_SET = new Set([...SPECIAL_SAFE_CHARS].map((c) => c.charCodeAt(0)));
@@ -159,6 +160,7 @@ let specialEmojiManifest = [];
 let selectedSpecialEmojiFile = "";
 let specialEmojiOrderByFirstCodepoint = null;
 let specialEmojiNameByFirstCodepoint = null;
+let specialEmojiSymbolCodepoints = null;
 const specialEmojiPreviewUrlCache = new Map();
 const specialEmojiGlyphCache = new Map();
 let specialEmojiMenuBuilt = false;
@@ -1216,6 +1218,12 @@ function firstCodepointFromEmojiEntry(entry) {
   return m ? parseInt(m[1], 16) : Number.NaN;
 }
 
+function firstCodepointHexFromEmojiEntry(entry) {
+  const cp = firstCodepointFromEmojiEntry(entry);
+  if (!Number.isFinite(cp)) return "";
+  return cp.toString(16).toLowerCase();
+}
+
 function getSpecialEmojiCategoryRanges(list) {
   const robotCp = 0x1F916; // 🤖
   const waveCp = 0x1F44B;  // 👋
@@ -1382,6 +1390,20 @@ async function loadSpecialEmojiManifest() {
       specialEmojiOrderByFirstCodepoint = null;
       specialEmojiNameByFirstCodepoint = null;
     }
+    try {
+      const symbolsRes = await fetch(SPECIAL_EMOJI_SYMBOLS_PATH);
+      if (symbolsRes.ok) {
+        const symbolsDoc = await symbolsRes.json();
+        const list = Array.isArray(symbolsDoc?.codepoints) ? symbolsDoc.codepoints : [];
+        specialEmojiSymbolCodepoints = new Set(
+          list.map((v) => String(v || "").toLowerCase()).filter(Boolean),
+        );
+      } else {
+        specialEmojiSymbolCodepoints = null;
+      }
+    } catch {
+      specialEmojiSymbolCodepoints = null;
+    }
     const cpFromEntry = (entry) => {
       const rawId = String(entry?.id || "");
       const rawFile = String(entry?.file || "");
@@ -1510,22 +1532,24 @@ async function buildSpecialEmojiMenu() {
     return;
   }
 
-  const ranges = getSpecialEmojiCategoryRanges(specialEmojiManifest);
-  let lastCategory = "";
+  const regularEntries = [];
+  const symbolEntries = [];
+  for (const entry of specialEmojiManifest) {
+    const cpHex = firstCodepointHexFromEmojiEntry(entry);
+    if (cpHex && specialEmojiSymbolCodepoints?.has(cpHex)) symbolEntries.push(entry);
+    else regularEntries.push(entry);
+  }
 
-  for (let i = 0; i < specialEmojiManifest.length; i++) {
-    const entry = specialEmojiManifest[i];
-    const category = categoryForSpecialEmojiIndex(i, ranges);
-    if (category !== lastCategory) {
-      const group = document.createElement("div");
-      group.className = "fontpicker-group";
-      group.textContent = category;
-      specialEmojiMenu.appendChild(group);
-      lastCategory = category;
-    }
+  const appendGroupHeader = (text) => {
+    const group = document.createElement("div");
+    group.className = "fontpicker-group";
+    group.textContent = text;
+    specialEmojiMenu.appendChild(group);
+  };
 
+  const appendEntry = (entry) => {
     const file = entry?.file;
-    if (!file) continue;
+    if (!file) return;
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "special-emoji-option";
@@ -1551,6 +1575,27 @@ async function buildSpecialEmojiMenu() {
       await syncSpecialEmojiButton();
       await applySpecialCharSelection({ silentIncomplete: true });
     });
+  };
+
+  if (regularEntries.length) {
+    const ranges = getSpecialEmojiCategoryRanges(regularEntries);
+    let lastCategory = "";
+    for (let i = 0; i < regularEntries.length; i++) {
+      const entry = regularEntries[i];
+      const category = categoryForSpecialEmojiIndex(i, ranges);
+      if (category !== lastCategory) {
+        appendGroupHeader(category);
+        lastCategory = category;
+      }
+      appendEntry(entry);
+    }
+  }
+
+  if (symbolEntries.length) {
+    appendGroupHeader("SYMBOLS");
+    for (const entry of symbolEntries) {
+      appendEntry(entry);
+    }
   }
 
   syncSpecialEmojiMenuActive();
