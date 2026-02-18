@@ -1468,12 +1468,28 @@ async function syncSpecialEmojiButton() {
   const meta = specialEmojiManifest.find((entry) => entry.file === selectedSpecialEmojiFile);
   specialEmojiLabel.textContent = meta?.name || selectedSpecialEmojiFile;
   const fileAtRequest = selectedSpecialEmojiFile;
+
+  // Instant visual continuity: reuse menu thumb if it is already rendered.
+  let menuThumb = null;
+  if (specialEmojiMenu) {
+    for (const img of specialEmojiMenu.querySelectorAll(".special-emoji-option-thumb")) {
+      if (img.getAttribute("data-file") === fileAtRequest) {
+        menuThumb = img;
+        break;
+      }
+    }
+  }
+  if (menuThumb?.src) {
+    specialEmojiThumb.src = menuThumb.src;
+    specialEmojiThumb.style.display = "block";
+  }
+
   try {
     const url = await getSpecialEmojiPreviewUrl(fileAtRequest);
     if (reqId !== specialEmojiButtonSyncReqId || fileAtRequest !== selectedSpecialEmojiFile) return;
     if (!url) throw new Error("preview unavailable");
     specialEmojiThumb.src = url;
-    specialEmojiThumb.style.display = "";
+    specialEmojiThumb.style.display = "block";
   } catch {
     if (reqId !== specialEmojiButtonSyncReqId || fileAtRequest !== selectedSpecialEmojiFile) return;
     specialEmojiThumb.removeAttribute("src");
