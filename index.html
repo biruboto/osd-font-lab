@@ -121,7 +121,7 @@
 
         <section class="panel panel-hud-tools">
           <div class="panel-header hud-tools-header">
-            <div class="tools-section-title">- HUD Elements -</div>
+            <div class="tools-section-title">HUD Elements</div>
           </div>
           <div class="panel-body panel-body-single">
             <div class="hud-tools-grid">
@@ -177,9 +177,9 @@
                 <button id="viewModeHud" type="button" class="view-toggle-btn">HUD View</button>
               </div>
             </div>
-            <div class="tools-section-title">- Status -</div>
+            <div class="tools-section-title">Status</div>
             <div id="loadStatus" class="load-status hint" aria-live="polite">No file loaded.</div>
-            <div class="tools-section-title">- ASCII -</div>
+            <div class="tools-section-title">ASCII</div>
             <div class="panel-header-controls">
               <div class="font-select-stack">
                 <label class="field field-stack bf-inline">
@@ -238,7 +238,7 @@
                 <button id="strokeStyle8Btn" type="button" class="stroke-style-btn" title="8-neighbor stroke (includes diagonals)">8-way</button>
               </div>
             </div>
-            <div class="tools-section-title">- Icons -</div>
+            <div class="tools-section-title">Icons</div>
             <div class="swap-controls">
               <label class="field field-stack">
                 <span class="or-label">Swap target</span>
@@ -255,7 +255,31 @@
                 <button id="clearAllSwapsBtn" type="button">Clear all swaps</button>
               </div>
             </div>
-            <div class="tools-section-title">- Boot Splash -</div>
+            <div class="tools-section-title">Special Characters</div>
+            <div class="special-char-controls">
+              <div class="field field-stack special-emoji-stack">
+                <span class="or-label">Emoji source</span>
+                <div id="specialEmojiPicker" class="special-emoji-picker">
+                  <button id="specialEmojiBtn" type="button" class="special-emoji-btn" aria-haspopup="true" aria-expanded="false">
+                    <img id="specialEmojiThumb" class="special-emoji-thumb" alt="" />
+                    <span id="specialEmojiLabel" class="special-emoji-label">(choose emoji)</span>
+                    <span class="special-emoji-caret" aria-hidden="true">&#9662;</span>
+                  </button>
+                  <div id="specialEmojiMenu" class="special-emoji-menu"></div>
+                </div>
+              </div>
+              <div class="swap-actions">
+                <button id="clearSpecialCharBtn" type="button">Clear character</button>
+                <div class="stroke-style-row special-safe-inline" title="Safe Mode: ON limits emoji replacement to safe characters (! &quot; # % &amp; ' , ; = ?). OFF allows replacing any character.">
+                  <span class="stroke-style-label"><span>Safe</span><span>Mode</span></span>
+                  <div class="stroke-style-segment" role="group" aria-label="Special character safe mode">
+                    <button id="specialSafeOnBtn" type="button" class="stroke-style-btn" title="ON: replace only safe characters">ON</button>
+                    <button id="specialSafeOffBtn" type="button" class="stroke-style-btn" title="OFF: replace any character">OFF</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tools-section-title">Boot Splash</div>
             <div class="boot-splash-preview-wrap">
               <canvas id="bootSplashPreview" class="boot-splash-preview" width="288" height="72" aria-label="Boot splash logo preview"></canvas>
             </div>

@@ -70,6 +70,26 @@
     }
   },
   {
+    "id": "crosshair_osdflwhoop",
+    "name": "OSDFL Whoop",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/osdflwhoop.png" }
+    }
+  },
+  {
+    "id": "crosshair_sendit",
+    "name": "Sendit",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/sendit.png" }
+    }
+  },
+  {
     "id": "crosshair_skullhorns",
     "name": "Skullhorns",
     "glyphWidth": 12,

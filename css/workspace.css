@@ -14,7 +14,7 @@ canvas{
 .panel-body{
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
-  gap: 12px;
+  gap: 10px;
   min-height: 0;
   min-width: 0;
 }
@@ -106,7 +106,7 @@ canvas{
   flex-wrap: nowrap;
   justify-content: center;
   align-items: start;
-  gap: 14px;
+  gap: 12px;
 }
 
 .panel-result .sidecar{
@@ -118,7 +118,7 @@ canvas{
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 :root[data-view-mode="hud"] .panel-result .sidecar{
@@ -172,9 +172,9 @@ canvas{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-top: 10px;
-  padding-top: 2px;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 1px;
 }
 
 .hud-tools-header{
@@ -231,7 +231,7 @@ canvas{
 .hud-tools-grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 8px 14px;
+  gap: 6px 12px;
   width: 100%;
 }
 
@@ -260,7 +260,7 @@ canvas{
 .sidecar{
   display: grid;
   grid-template-rows: auto auto 1fr;
-  gap: 12px;
+  gap: 10px;
   min-height: 0;
 }
 
@@ -268,7 +268,7 @@ canvas{
   border-radius: 12px;
   background: var(--bg-2);
   border: 1px solid var(--bg-3);
-  padding: 10px;
+  padding: 8px;
 }
 
 .zoom-label{
@@ -278,13 +278,13 @@ canvas{
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.62;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .zoom-mode-toggle{
   display: flex;
   width: min(220px, 100%);
-  margin: 0 auto 6px;
+  margin: 0 auto 4px;
   border: 1px solid var(--bg-3);
   border-radius: 10px;
   overflow: hidden;
@@ -341,13 +341,13 @@ canvas{
 }
 
 .glyph-info-inline{
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .editor-palette{
-  margin-top: 8px;
+  margin-top: 6px;
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
 }
 
@@ -407,13 +407,13 @@ canvas{
 
 /* controls under zoom/inspector */
 .sidecar-controls{
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: 12px;
   background: var(--bg-2);
   border: 1px solid var(--bg-3);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   min-height: 0;
 }
 
@@ -431,16 +431,16 @@ canvas{
 .nudgeTitle{
   opacity: 0.8;
   font-size: 13px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .theme-radios{
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 10px;
+  gap: 6px 8px;
   border-top: 1px solid var(--bg-3);
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .theme-radios-label{
@@ -489,7 +489,7 @@ canvas{
 .dpad{
   display: flex;
   flex-wrap: nowrap;
-  gap: 6px;
+  gap: 5px;
   justify-content: start;
   align-items: center;
 }
@@ -511,9 +511,9 @@ canvas{
 
 .nudgeRow{
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .tiny{

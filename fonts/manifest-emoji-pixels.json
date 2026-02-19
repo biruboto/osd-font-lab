@@ -1,0 +1,6593 @@
+[
+  {
+    "id": "u002a_keycap",
+    "file": "u002a_keycap.json",
+    "name": "keycap",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0030_keycap_0",
+    "file": "u0030_keycap_0.json",
+    "name": "keycap 0",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0031_keycap_1",
+    "file": "u0031_keycap_1.json",
+    "name": "keycap 1",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0032_keycap_2",
+    "file": "u0032_keycap_2.json",
+    "name": "keycap 2",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0033_keycap_3",
+    "file": "u0033_keycap_3.json",
+    "name": "keycap 3",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0034_keycap_4",
+    "file": "u0034_keycap_4.json",
+    "name": "keycap 4",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0035_keycap_5",
+    "file": "u0035_keycap_5.json",
+    "name": "keycap 5",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0036_keycap_6",
+    "file": "u0036_keycap_6.json",
+    "name": "keycap 6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0037_keycap_7",
+    "file": "u0037_keycap_7.json",
+    "name": "keycap 7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0038_keycap_8",
+    "file": "u0038_keycap_8.json",
+    "name": "keycap 8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u0039_keycap_9",
+    "file": "u0039_keycap_9.json",
+    "name": "keycap 9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u00a9_copyright",
+    "file": "u00a9_copyright.json",
+    "name": "copyright",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u00ae_registered",
+    "file": "u00ae_registered.json",
+    "name": "registered",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f170_a_button_blood_type",
+    "file": "u1f170_a_button_blood_type.json",
+    "name": "a button blood type",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f171_b_button_blood_type",
+    "file": "u1f171_b_button_blood_type.json",
+    "name": "b button blood type",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f17e_o_button_blood_type",
+    "file": "u1f17e_o_button_blood_type.json",
+    "name": "o button blood type",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f17f_p_button",
+    "file": "u1f17f_p_button.json",
+    "name": "p button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f18e_ab_button_blood_type",
+    "file": "u1f18e_ab_button_blood_type.json",
+    "name": "ab button blood type",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f191_cl_button",
+    "file": "u1f191_cl_button.json",
+    "name": "cl button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f192_cool_button",
+    "file": "u1f192_cool_button.json",
+    "name": "cool button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f193_free_button",
+    "file": "u1f193_free_button.json",
+    "name": "free button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f194_id_button",
+    "file": "u1f194_id_button.json",
+    "name": "id button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f195_new_button",
+    "file": "u1f195_new_button.json",
+    "name": "new button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f196_ng_button",
+    "file": "u1f196_ng_button.json",
+    "name": "ng button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f197_ok_button",
+    "file": "u1f197_ok_button.json",
+    "name": "ok button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f198_sos_button",
+    "file": "u1f198_sos_button.json",
+    "name": "sos button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f199_up_button",
+    "file": "u1f199_up_button.json",
+    "name": "up button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f19a_vs_button",
+    "file": "u1f19a_vs_button.json",
+    "name": "vs button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f202_japanese_service_charge_button",
+    "file": "u1f202_japanese_service_charge_button.json",
+    "name": "japanese service charge button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f21a_japanese_free_of_charge_button",
+    "file": "u1f21a_japanese_free_of_charge_button.json",
+    "name": "japanese free of charge button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f22f_japanese_reserved_button",
+    "file": "u1f22f_japanese_reserved_button.json",
+    "name": "japanese reserved button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f232_japanese_prohibited_button",
+    "file": "u1f232_japanese_prohibited_button.json",
+    "name": "japanese prohibited button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f233_japanese_vacancy_button",
+    "file": "u1f233_japanese_vacancy_button.json",
+    "name": "japanese vacancy button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f234_japanese_passing_grade_button",
+    "file": "u1f234_japanese_passing_grade_button.json",
+    "name": "japanese passing grade button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f235_japanese_no_vacancy_button",
+    "file": "u1f235_japanese_no_vacancy_button.json",
+    "name": "japanese no vacancy button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f236_japanese_not_free_of_charge_button",
+    "file": "u1f236_japanese_not_free_of_charge_button.json",
+    "name": "japanese not free of charge button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f237_japanese_monthly_amount_button",
+    "file": "u1f237_japanese_monthly_amount_button.json",
+    "name": "japanese monthly amount button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f238_japanese_application_button",
+    "file": "u1f238_japanese_application_button.json",
+    "name": "japanese application button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f239_japanese_discount_button",
+    "file": "u1f239_japanese_discount_button.json",
+    "name": "japanese discount button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f23a_japanese_open_for_business_button",
+    "file": "u1f23a_japanese_open_for_business_button.json",
+    "name": "japanese open for business button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f250_japanese_bargain_button",
+    "file": "u1f250_japanese_bargain_button.json",
+    "name": "japanese bargain button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f251_japanese_acceptable_button",
+    "file": "u1f251_japanese_acceptable_button.json",
+    "name": "japanese acceptable button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f300_cyclone",
+    "file": "u1f300_cyclone.json",
+    "name": "cyclone",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f308_rainbow",
+    "file": "u1f308_rainbow.json",
+    "name": "rainbow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f311_new_moon",
+    "file": "u1f311_new_moon.json",
+    "name": "new moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f312_waxing_crescent_moon",
+    "file": "u1f312_waxing_crescent_moon.json",
+    "name": "waxing crescent moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f313_first_quarter_moon",
+    "file": "u1f313_first_quarter_moon.json",
+    "name": "first quarter moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f314_waxing_gibbous_moon",
+    "file": "u1f314_waxing_gibbous_moon.json",
+    "name": "waxing gibbous moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f315_full_moon",
+    "file": "u1f315_full_moon.json",
+    "name": "full moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f316_waning_gibbous_moon",
+    "file": "u1f316_waning_gibbous_moon.json",
+    "name": "waning gibbous moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f317_last_quarter_moon",
+    "file": "u1f317_last_quarter_moon.json",
+    "name": "last quarter moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f318_waning_crescent_moon",
+    "file": "u1f318_waning_crescent_moon.json",
+    "name": "waning crescent moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f319_crescent_moon",
+    "file": "u1f319_crescent_moon.json",
+    "name": "crescent moon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f31b_first_quarter_moon_face",
+    "file": "u1f31b_first_quarter_moon_face.json",
+    "name": "first quarter moon face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f31c_last_quarter_moon_face",
+    "file": "u1f31c_last_quarter_moon_face.json",
+    "name": "last quarter moon face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f31f_glowing_star",
+    "file": "u1f31f_glowing_star.json",
+    "name": "glowing star",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f320_shooting_star",
+    "file": "u1f320_shooting_star.json",
+    "name": "shooting star",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f324_sun_behind_small_cloud",
+    "file": "u1f324_sun_behind_small_cloud.json",
+    "name": "sun behind small cloud",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f325_sun_behind_large_cloud",
+    "file": "u1f325_sun_behind_large_cloud.json",
+    "name": "sun behind large cloud",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f326_sun_behind_rain_cloud",
+    "file": "u1f326_sun_behind_rain_cloud.json",
+    "name": "sun behind rain cloud",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f327_cloud_with_rain",
+    "file": "u1f327_cloud_with_rain.json",
+    "name": "cloud with rain",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f328_cloud_with_snow",
+    "file": "u1f328_cloud_with_snow.json",
+    "name": "cloud with snow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f329_cloud_with_lightning",
+    "file": "u1f329_cloud_with_lightning.json",
+    "name": "cloud with lightning",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f32a_tornado",
+    "file": "u1f32a_tornado.json",
+    "name": "tornado",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f32c_wind_face",
+    "file": "u1f32c_wind_face.json",
+    "name": "wind face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f331_seedling",
+    "file": "u1f331_seedling.json",
+    "name": "seedling",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f332_evergreen_tree",
+    "file": "u1f332_evergreen_tree.json",
+    "name": "evergreen tree",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f333_deciduous_tree",
+    "file": "u1f333_deciduous_tree.json",
+    "name": "deciduous tree",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f334_palm_tree",
+    "file": "u1f334_palm_tree.json",
+    "name": "palm tree",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f335_cactus",
+    "file": "u1f335_cactus.json",
+    "name": "cactus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f33e_sheaf_of_rice",
+    "file": "u1f33e_sheaf_of_rice.json",
+    "name": "sheaf of rice",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f33f_herb",
+    "file": "u1f33f_herb.json",
+    "name": "herb",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f340_four_leaf_clover",
+    "file": "u1f340_four_leaf_clover.json",
+    "name": "four leaf clover",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f341_maple_leaf",
+    "file": "u1f341_maple_leaf.json",
+    "name": "maple leaf",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f342_fallen_leaf",
+    "file": "u1f342_fallen_leaf.json",
+    "name": "fallen leaf",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f343_leaf_fluttering_in_wind",
+    "file": "u1f343_leaf_fluttering_in_wind.json",
+    "name": "leaf fluttering in wind",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f344_mushroom",
+    "file": "u1f344_mushroom.json",
+    "name": "mushroom",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f3b5_musical_note",
+    "file": "u1f3b5_musical_note.json",
+    "name": "musical note",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f3b6_musical_notes",
+    "file": "u1f3b6_musical_notes.json",
+    "name": "musical notes",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f3e7_atm_sign",
+    "file": "u1f3e7_atm_sign.json",
+    "name": "atm sign",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f400_rat",
+    "file": "u1f400_rat.json",
+    "name": "rat",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f401_mouse",
+    "file": "u1f401_mouse.json",
+    "name": "mouse",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f405_tiger",
+    "file": "u1f405_tiger.json",
+    "name": "tiger",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f406_leopard",
+    "file": "u1f406_leopard.json",
+    "name": "leopard",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f407_rabbit",
+    "file": "u1f407_rabbit.json",
+    "name": "rabbit",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f408_black_cat",
+    "file": "u1f408_black_cat.json",
+    "name": "black cat",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f408_cat",
+    "file": "u1f408_cat.json",
+    "name": "cat",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f409_dragon",
+    "file": "u1f409_dragon.json",
+    "name": "dragon",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f40a_crocodile",
+    "file": "u1f40a_crocodile.json",
+    "name": "crocodile",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f40b_whale",
+    "file": "u1f40b_whale.json",
+    "name": "whale",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f40c_snail",
+    "file": "u1f40c_snail.json",
+    "name": "snail",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f40d_snake",
+    "file": "u1f40d_snake.json",
+    "name": "snake",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f412_monkey",
+    "file": "u1f412_monkey.json",
+    "name": "monkey",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f414_chicken",
+    "file": "u1f414_chicken.json",
+    "name": "chicken",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f415_dog",
+    "file": "u1f415_dog.json",
+    "name": "dog",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f415_service_dog",
+    "file": "u1f415_service_dog.json",
+    "name": "service dog",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f417_boar",
+    "file": "u1f417_boar.json",
+    "name": "boar",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f419_octopus",
+    "file": "u1f419_octopus.json",
+    "name": "octopus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f41a_spiral_shell",
+    "file": "u1f41a_spiral_shell.json",
+    "name": "spiral shell",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f41b_bug",
+    "file": "u1f41b_bug.json",
+    "name": "bug",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f41c_ant",
+    "file": "u1f41c_ant.json",
+    "name": "ant",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f41d_honeybee",
+    "file": "u1f41d_honeybee.json",
+    "name": "honeybee",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f41e_lady_beetle",
+    "file": "u1f41e_lady_beetle.json",
+    "name": "lady beetle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f41f_fish",
+    "file": "u1f41f_fish.json",
+    "name": "fish",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f420_tropical_fish",
+    "file": "u1f420_tropical_fish.json",
+    "name": "tropical fish",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f421_blowfish",
+    "file": "u1f421_blowfish.json",
+    "name": "blowfish",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f422_turtle",
+    "file": "u1f422_turtle.json",
+    "name": "turtle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f423_hatching_chick",
+    "file": "u1f423_hatching_chick.json",
+    "name": "hatching chick",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f424_baby_chick",
+    "file": "u1f424_baby_chick.json",
+    "name": "baby chick",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f425_front_facing_baby_chick",
+    "file": "u1f425_front_facing_baby_chick.json",
+    "name": "front facing baby chick",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f426_phoenix",
+    "file": "u1f426_phoenix.json",
+    "name": "phoenix",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f428_koala",
+    "file": "u1f428_koala.json",
+    "name": "koala",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f429_poodle",
+    "file": "u1f429_poodle.json",
+    "name": "poodle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f42a_camel",
+    "file": "u1f42a_camel.json",
+    "name": "camel",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f42b_two_hump_camel",
+    "file": "u1f42b_two_hump_camel.json",
+    "name": "two hump camel",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f42c_dolphin",
+    "file": "u1f42c_dolphin.json",
+    "name": "dolphin",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f42d_mouse_face",
+    "file": "u1f42d_mouse_face.json",
+    "name": "mouse face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f42e_cow_face",
+    "file": "u1f42e_cow_face.json",
+    "name": "cow face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f42f_tiger_face",
+    "file": "u1f42f_tiger_face.json",
+    "name": "tiger face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f430_rabbit_face",
+    "file": "u1f430_rabbit_face.json",
+    "name": "rabbit face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f431_cat_face",
+    "file": "u1f431_cat_face.json",
+    "name": "cat face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f432_dragon_face",
+    "file": "u1f432_dragon_face.json",
+    "name": "dragon face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f433_spouting_whale",
+    "file": "u1f433_spouting_whale.json",
+    "name": "spouting whale",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f434_horse_face",
+    "file": "u1f434_horse_face.json",
+    "name": "horse face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f436_dog_face",
+    "file": "u1f436_dog_face.json",
+    "name": "dog face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f437_pig_face",
+    "file": "u1f437_pig_face.json",
+    "name": "pig face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f438_frog",
+    "file": "u1f438_frog.json",
+    "name": "frog",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f43a_wolf",
+    "file": "u1f43a_wolf.json",
+    "name": "wolf",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f43b_bear",
+    "file": "u1f43b_bear.json",
+    "name": "bear",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f43b_polar_bear",
+    "file": "u1f43b_polar_bear.json",
+    "name": "polar bear",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f43c_panda",
+    "file": "u1f43c_panda.json",
+    "name": "panda",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f43d_pig_nose",
+    "file": "u1f43d_pig_nose.json",
+    "name": "pig nose",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f43e_paw_prints",
+    "file": "u1f43e_paw_prints.json",
+    "name": "paw prints",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f446_backhand_index_pointing_up",
+    "file": "u1f446_backhand_index_pointing_up.json",
+    "name": "backhand index pointing up",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f447_backhand_index_pointing_down",
+    "file": "u1f447_backhand_index_pointing_down.json",
+    "name": "backhand index pointing down",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f448_backhand_index_pointing_left",
+    "file": "u1f448_backhand_index_pointing_left.json",
+    "name": "backhand index pointing left",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f449_backhand_index_pointing_right",
+    "file": "u1f449_backhand_index_pointing_right.json",
+    "name": "backhand index pointing right",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f44a_oncoming_fist",
+    "file": "u1f44a_oncoming_fist.json",
+    "name": "oncoming fist",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f44b_waving_hand",
+    "file": "u1f44b_waving_hand.json",
+    "name": "waving hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f44c_ok_hand",
+    "file": "u1f44c_ok_hand.json",
+    "name": "ok hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f44d_thumbs_up",
+    "file": "u1f44d_thumbs_up.json",
+    "name": "thumbs up",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f44e_thumbs_down",
+    "file": "u1f44e_thumbs_down.json",
+    "name": "thumbs down",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f44f_clapping_hands",
+    "file": "u1f44f_clapping_hands.json",
+    "name": "clapping hands",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f450_open_hands",
+    "file": "u1f450_open_hands.json",
+    "name": "open hands",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f479_ogre",
+    "file": "u1f479_ogre.json",
+    "name": "ogre",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f47a_goblin",
+    "file": "u1f47a_goblin.json",
+    "name": "goblin",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f47b_ghost",
+    "file": "u1f47b_ghost.json",
+    "name": "ghost",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f47d_alien",
+    "file": "u1f47d_alien.json",
+    "name": "alien",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f47e_alien_monster",
+    "file": "u1f47e_alien_monster.json",
+    "name": "alien monster",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f47f_angry_face_with_horns",
+    "file": "u1f47f_angry_face_with_horns.json",
+    "name": "angry face with horns",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f480_skull",
+    "file": "u1f480_skull.json",
+    "name": "skull",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f490_bouquet",
+    "file": "u1f490_bouquet.json",
+    "name": "bouquet",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f493_beating_heart",
+    "file": "u1f493_beating_heart.json",
+    "name": "beating heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f494_broken_heart",
+    "file": "u1f494_broken_heart.json",
+    "name": "broken heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f495_two_hearts",
+    "file": "u1f495_two_hearts.json",
+    "name": "two hearts",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f496_sparkling_heart",
+    "file": "u1f496_sparkling_heart.json",
+    "name": "sparkling heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f497_growing_heart",
+    "file": "u1f497_growing_heart.json",
+    "name": "growing heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f498_heart_with_arrow",
+    "file": "u1f498_heart_with_arrow.json",
+    "name": "heart with arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f49e_revolving_hearts",
+    "file": "u1f49e_revolving_hearts.json",
+    "name": "revolving hearts",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f49f_heart_decoration",
+    "file": "u1f49f_heart_decoration.json",
+    "name": "heart decoration",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4a4_zzz",
+    "file": "u1f4a4_zzz.json",
+    "name": "zzz",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4a7_droplet",
+    "file": "u1f4a7_droplet.json",
+    "name": "droplet",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4a9_pile_of_poo",
+    "file": "u1f4a9_pile_of_poo.json",
+    "name": "pile of poo",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4aa_flexed_biceps",
+    "file": "u1f4aa_flexed_biceps.json",
+    "name": "flexed biceps",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4af_hundred_points",
+    "file": "u1f4af_hundred_points.json",
+    "name": "hundred points",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4b1_currency_exchange",
+    "file": "u1f4b1_currency_exchange.json",
+    "name": "currency exchange",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4b2_heavy_dollar_sign",
+    "file": "u1f4b2_heavy_dollar_sign.json",
+    "name": "heavy dollar sign",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4db_name_badge",
+    "file": "u1f4db_name_badge.json",
+    "name": "name badge",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4e2_loudspeaker",
+    "file": "u1f4e2_loudspeaker.json",
+    "name": "loudspeaker",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4e3_megaphone",
+    "file": "u1f4e3_megaphone.json",
+    "name": "megaphone",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4f3_vibration_mode",
+    "file": "u1f4f3_vibration_mode.json",
+    "name": "vibration mode",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4f4_mobile_phone_off",
+    "file": "u1f4f4_mobile_phone_off.json",
+    "name": "mobile phone off",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4f5_no_mobile_phones",
+    "file": "u1f4f5_no_mobile_phones.json",
+    "name": "no mobile phones",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f4f6_antenna_bars",
+    "file": "u1f4f6_antenna_bars.json",
+    "name": "antenna bars",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f500_shuffle_tracks_button",
+    "file": "u1f500_shuffle_tracks_button.json",
+    "name": "shuffle tracks button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f501_repeat_button",
+    "file": "u1f501_repeat_button.json",
+    "name": "repeat button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f502_repeat_single_button",
+    "file": "u1f502_repeat_single_button.json",
+    "name": "repeat single button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f503_clockwise_vertical_arrows",
+    "file": "u1f503_clockwise_vertical_arrows.json",
+    "name": "clockwise vertical arrows",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f504_counterclockwise_arrows_button",
+    "file": "u1f504_counterclockwise_arrows_button.json",
+    "name": "counterclockwise arrows button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f505_dim_button",
+    "file": "u1f505_dim_button.json",
+    "name": "dim button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f506_bright_button",
+    "file": "u1f506_bright_button.json",
+    "name": "bright button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f507_muted_speaker",
+    "file": "u1f507_muted_speaker.json",
+    "name": "muted speaker",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f508_speaker_low_volume",
+    "file": "u1f508_speaker_low_volume.json",
+    "name": "speaker low volume",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f509_speaker_medium_volume",
+    "file": "u1f509_speaker_medium_volume.json",
+    "name": "speaker medium volume",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f50a_speaker_high_volume",
+    "file": "u1f50a_speaker_high_volume.json",
+    "name": "speaker high volume",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f514_bell",
+    "file": "u1f514_bell.json",
+    "name": "bell",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f515_bell_with_slash",
+    "file": "u1f515_bell_with_slash.json",
+    "name": "bell with slash",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f519_back_arrow",
+    "file": "u1f519_back_arrow.json",
+    "name": "back arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f51a_end_arrow",
+    "file": "u1f51a_end_arrow.json",
+    "name": "end arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f51b_on_arrow",
+    "file": "u1f51b_on_arrow.json",
+    "name": "on arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f51c_soon_arrow",
+    "file": "u1f51c_soon_arrow.json",
+    "name": "soon arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f51d_top_arrow",
+    "file": "u1f51d_top_arrow.json",
+    "name": "top arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f51e_no_one_under_eighteen",
+    "file": "u1f51e_no_one_under_eighteen.json",
+    "name": "no one under eighteen",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f51f_keycap_10",
+    "file": "u1f51f_keycap_10.json",
+    "name": "keycap 10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f520_input_latin_uppercase",
+    "file": "u1f520_input_latin_uppercase.json",
+    "name": "input latin uppercase",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f521_input_latin_lowercase",
+    "file": "u1f521_input_latin_lowercase.json",
+    "name": "input latin lowercase",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f522_input_numbers",
+    "file": "u1f522_input_numbers.json",
+    "name": "input numbers",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f523_input_symbols",
+    "file": "u1f523_input_symbols.json",
+    "name": "input symbols",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f524_input_latin_letters",
+    "file": "u1f524_input_latin_letters.json",
+    "name": "input latin letters",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f525_fire",
+    "file": "u1f525_fire.json",
+    "name": "fire",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f530_japanese_symbol_for_beginner",
+    "file": "u1f530_japanese_symbol_for_beginner.json",
+    "name": "japanese symbol for beginner",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f531_trident_emblem",
+    "file": "u1f531_trident_emblem.json",
+    "name": "trident emblem",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f534_red_circle",
+    "file": "u1f534_red_circle.json",
+    "name": "red circle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f536_large_orange_diamond",
+    "file": "u1f536_large_orange_diamond.json",
+    "name": "large orange diamond",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f537_large_blue_diamond",
+    "file": "u1f537_large_blue_diamond.json",
+    "name": "large blue diamond",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f538_small_orange_diamond",
+    "file": "u1f538_small_orange_diamond.json",
+    "name": "small orange diamond",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f539_small_blue_diamond",
+    "file": "u1f539_small_blue_diamond.json",
+    "name": "small blue diamond",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f53a_red_triangle_pointed_up",
+    "file": "u1f53a_red_triangle_pointed_up.json",
+    "name": "red triangle pointed up",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f53b_red_triangle_pointed_down",
+    "file": "u1f53b_red_triangle_pointed_down.json",
+    "name": "red triangle pointed down",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f53c_upwards_button",
+    "file": "u1f53c_upwards_button.json",
+    "name": "upwards button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f53d_downwards_button",
+    "file": "u1f53d_downwards_button.json",
+    "name": "downwards button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f549_om",
+    "file": "u1f549_om.json",
+    "name": "om",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f54a_dove",
+    "file": "u1f54a_dove.json",
+    "name": "dove",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f54e_menorah",
+    "file": "u1f54e_menorah.json",
+    "name": "menorah",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f550_one_o_clock",
+    "file": "u1f550_one_o_clock.json",
+    "name": "one o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f551_two_o_clock",
+    "file": "u1f551_two_o_clock.json",
+    "name": "two o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f552_three_o_clock",
+    "file": "u1f552_three_o_clock.json",
+    "name": "three o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f553_four_o_clock",
+    "file": "u1f553_four_o_clock.json",
+    "name": "four o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f554_five_o_clock",
+    "file": "u1f554_five_o_clock.json",
+    "name": "five o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f555_six_o_clock",
+    "file": "u1f555_six_o_clock.json",
+    "name": "six o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f556_seven_o_clock",
+    "file": "u1f556_seven_o_clock.json",
+    "name": "seven o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f557_eight_o_clock",
+    "file": "u1f557_eight_o_clock.json",
+    "name": "eight o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f558_nine_o_clock",
+    "file": "u1f558_nine_o_clock.json",
+    "name": "nine o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f559_ten_o_clock",
+    "file": "u1f559_ten_o_clock.json",
+    "name": "ten o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f55a_eleven_o_clock",
+    "file": "u1f55a_eleven_o_clock.json",
+    "name": "eleven o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f55b_twelve_o_clock",
+    "file": "u1f55b_twelve_o_clock.json",
+    "name": "twelve o clock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f55c_one_thirty",
+    "file": "u1f55c_one_thirty.json",
+    "name": "one thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f55d_two_thirty",
+    "file": "u1f55d_two_thirty.json",
+    "name": "two thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f55e_three_thirty",
+    "file": "u1f55e_three_thirty.json",
+    "name": "three thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f55f_four_thirty",
+    "file": "u1f55f_four_thirty.json",
+    "name": "four thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f560_five_thirty",
+    "file": "u1f560_five_thirty.json",
+    "name": "five thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f561_six_thirty",
+    "file": "u1f561_six_thirty.json",
+    "name": "six thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f562_seven_thirty",
+    "file": "u1f562_seven_thirty.json",
+    "name": "seven thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f563_eight_thirty",
+    "file": "u1f563_eight_thirty.json",
+    "name": "eight thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f564_nine_thirty",
+    "file": "u1f564_nine_thirty.json",
+    "name": "nine thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f565_ten_thirty",
+    "file": "u1f565_ten_thirty.json",
+    "name": "ten thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f566_eleven_thirty",
+    "file": "u1f566_eleven_thirty.json",
+    "name": "eleven thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f567_twelve_thirty",
+    "file": "u1f567_twelve_thirty.json",
+    "name": "twelve thirty",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f577_spider",
+    "file": "u1f577_spider.json",
+    "name": "spider",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f578_spider_web",
+    "file": "u1f578_spider_web.json",
+    "name": "spider web",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f590_hand_with_fingers_splayed",
+    "file": "u1f590_hand_with_fingers_splayed.json",
+    "name": "hand with fingers splayed",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f596_vulcan_salute",
+    "file": "u1f596_vulcan_salute.json",
+    "name": "vulcan salute",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f5a4_black_heart",
+    "file": "u1f5a4_black_heart.json",
+    "name": "black heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f600_grinning_face",
+    "file": "u1f600_grinning_face.json",
+    "name": "emoji 000",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f601_beaming_face_with_smiling_eyes",
+    "file": "u1f601_beaming_face_with_smiling_eyes.json",
+    "name": "emoji 003",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f602_face_with_tears_of_joy",
+    "file": "u1f602_face_with_tears_of_joy.json",
+    "name": "face with tears of joy",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f603_grinning_face_with_big_eyes",
+    "file": "u1f603_grinning_face_with_big_eyes.json",
+    "name": "emoji 001",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f604_grinning_face_with_smiling_eyes",
+    "file": "u1f604_grinning_face_with_smiling_eyes.json",
+    "name": "emoji 002",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f605_grinning_face_with_sweat",
+    "file": "u1f605_grinning_face_with_sweat.json",
+    "name": "grinning face with sweat",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f606_grinning_squinting_face",
+    "file": "u1f606_grinning_squinting_face.json",
+    "name": "emoji 004",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f607_smiling_face_with_halo",
+    "file": "u1f607_smiling_face_with_halo.json",
+    "name": "smiling face with halo",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f608_smiling_face_with_horns",
+    "file": "u1f608_smiling_face_with_horns.json",
+    "name": "smiling face with horns",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f609_emoji_015",
+    "file": "u1f609_emoji_015.json",
+    "name": "emoji 015",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f60a_smiling_face_with_smiling_eyes",
+    "file": "u1f60a_smiling_face_with_smiling_eyes.json",
+    "name": "smiling face with smiling eyes",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f60e_smiling_face_with_sunglasses",
+    "file": "u1f60e_smiling_face_with_sunglasses.json",
+    "name": "smiling face with sunglasses",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f60f_smirking_face",
+    "file": "u1f60f_smirking_face.json",
+    "name": "smirking face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f610_neutral_face",
+    "file": "u1f610_neutral_face.json",
+    "name": "neutral face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f611_expressionless_face",
+    "file": "u1f611_expressionless_face.json",
+    "name": "expressionless face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f612_unamused_face",
+    "file": "u1f612_unamused_face.json",
+    "name": "unamused face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f613_downcast_face_with_sweat",
+    "file": "u1f613_downcast_face_with_sweat.json",
+    "name": "downcast face with sweat",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f615_confused_face",
+    "file": "u1f615_confused_face.json",
+    "name": "confused face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f616_confounded_face",
+    "file": "u1f616_confounded_face.json",
+    "name": "confounded face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f618_face_blowing_a_kiss",
+    "file": "u1f618_face_blowing_a_kiss.json",
+    "name": "face blowing a kiss",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f61c_winking_face_with_tongue",
+    "file": "u1f61c_winking_face_with_tongue.json",
+    "name": "winking face with tongue",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f61d_squinting_face_with_tongue",
+    "file": "u1f61d_squinting_face_with_tongue.json",
+    "name": "squinting face with tongue",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f61f_worried_face",
+    "file": "u1f61f_worried_face.json",
+    "name": "worried face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f620_angry_face",
+    "file": "u1f620_angry_face.json",
+    "name": "angry face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f621_enraged_face",
+    "file": "u1f621_enraged_face.json",
+    "name": "enraged face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f622_crying_face",
+    "file": "u1f622_crying_face.json",
+    "name": "crying face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f623_persevering_face",
+    "file": "u1f623_persevering_face.json",
+    "name": "persevering face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f624_face_with_steam_from_nose",
+    "file": "u1f624_face_with_steam_from_nose.json",
+    "name": "face with steam from nose",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f629_weary_face",
+    "file": "u1f629_weary_face.json",
+    "name": "weary face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f62a_sleepy_face",
+    "file": "u1f62a_sleepy_face.json",
+    "name": "sleepy face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f62b_tired_face",
+    "file": "u1f62b_tired_face.json",
+    "name": "tired face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f62c_grimacing_face",
+    "file": "u1f62c_grimacing_face.json",
+    "name": "grimacing face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f62d_loudly_crying_face",
+    "file": "u1f62d_loudly_crying_face.json",
+    "name": "loudly crying face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f62e_face_exhaling",
+    "file": "u1f62e_face_exhaling.json",
+    "name": "face exhaling",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f62e_face_with_open_mouth",
+    "file": "u1f62e_face_with_open_mouth.json",
+    "name": "face with open mouth",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f631_face_screaming_in_fear",
+    "file": "u1f631_face_screaming_in_fear.json",
+    "name": "face screaming in fear",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f632_astonished_face",
+    "file": "u1f632_astonished_face.json",
+    "name": "astonished face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f634_sleeping_face",
+    "file": "u1f634_sleeping_face.json",
+    "name": "sleeping face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f635_face_with_crossed_out_eyes",
+    "file": "u1f635_face_with_crossed_out_eyes.json",
+    "name": "face with crossed out eyes",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f635_face_with_spiral_eyes",
+    "file": "u1f635_face_with_spiral_eyes.json",
+    "name": "face with spiral eyes",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f636_face_in_clouds",
+    "file": "u1f636_face_in_clouds.json",
+    "name": "face in clouds",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f636_face_without_mouth",
+    "file": "u1f636_face_without_mouth.json",
+    "name": "face without mouth",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f641_slightly_frowning_face",
+    "file": "u1f641_slightly_frowning_face.json",
+    "name": "slightly frowning face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f642_slightly_smiling_face",
+    "file": "u1f642_slightly_smiling_face.json",
+    "name": "slightly smiling face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f643_emoji_014",
+    "file": "u1f643_emoji_014.json",
+    "name": "emoji 014",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f64c_raising_hands",
+    "file": "u1f64c_raising_hands.json",
+    "name": "raising hands",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6ab_prohibited",
+    "file": "u1f6ab_prohibited.json",
+    "name": "prohibited",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6ad_no_smoking",
+    "file": "u1f6ad_no_smoking.json",
+    "name": "no smoking",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6ae_litter_in_bin_sign",
+    "file": "u1f6ae_litter_in_bin_sign.json",
+    "name": "litter in bin sign",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6af_no_littering",
+    "file": "u1f6af_no_littering.json",
+    "name": "no littering",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6b1_non_potable_water",
+    "file": "u1f6b1_non_potable_water.json",
+    "name": "non potable water",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6b3_no_bicycles",
+    "file": "u1f6b3_no_bicycles.json",
+    "name": "no bicycles",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6b7_no_pedestrians",
+    "file": "u1f6b7_no_pedestrians.json",
+    "name": "no pedestrians",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6b8_children_crossing",
+    "file": "u1f6b8_children_crossing.json",
+    "name": "children crossing",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6b9_men_s_room",
+    "file": "u1f6b9_men_s_room.json",
+    "name": "men s room",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6ba_women_s_room",
+    "file": "u1f6ba_women_s_room.json",
+    "name": "women s room",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6bb_restroom",
+    "file": "u1f6bb_restroom.json",
+    "name": "restroom",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6bc_baby_symbol",
+    "file": "u1f6bc_baby_symbol.json",
+    "name": "baby symbol",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6be_water_closet",
+    "file": "u1f6be_water_closet.json",
+    "name": "water closet",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6c2_passport_control",
+    "file": "u1f6c2_passport_control.json",
+    "name": "passport control",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6c3_customs",
+    "file": "u1f6c3_customs.json",
+    "name": "customs",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6c4_baggage_claim",
+    "file": "u1f6c4_baggage_claim.json",
+    "name": "baggage claim",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6c5_left_luggage",
+    "file": "u1f6c5_left_luggage.json",
+    "name": "left luggage",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f6d0_place_of_worship",
+    "file": "u1f6d0_place_of_worship.json",
+    "name": "place of worship",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f7f0_heavy_equals_sign",
+    "file": "u1f7f0_heavy_equals_sign.json",
+    "name": "heavy equals sign",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f90c_pinched_fingers",
+    "file": "u1f90c_pinched_fingers.json",
+    "name": "pinched fingers",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f90f_pinching_hand",
+    "file": "u1f90f_pinching_hand.json",
+    "name": "pinching hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f910_zipper_mouth_face",
+    "file": "u1f910_zipper_mouth_face.json",
+    "name": "zipper mouth face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f912_face_with_thermometer",
+    "file": "u1f912_face_with_thermometer.json",
+    "name": "face with thermometer",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f913_nerd_face",
+    "file": "u1f913_nerd_face.json",
+    "name": "nerd face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f914_thinking_face",
+    "file": "u1f914_thinking_face.json",
+    "name": "thinking face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f916_robot",
+    "file": "u1f916_robot.json",
+    "name": "robot",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f917_smiling_face_with_open_hands",
+    "file": "u1f917_smiling_face_with_open_hands.json",
+    "name": "smiling face with open hands",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f918_sign_of_the_horns",
+    "file": "u1f918_sign_of_the_horns.json",
+    "name": "sign of the horns",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f919_call_me_hand",
+    "file": "u1f919_call_me_hand.json",
+    "name": "call me hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f91a_raised_back_of_hand",
+    "file": "u1f91a_raised_back_of_hand.json",
+    "name": "raised back of hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f91b_left_facing_fist",
+    "file": "u1f91b_left_facing_fist.json",
+    "name": "left facing fist",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f91c_right_facing_fist",
+    "file": "u1f91c_right_facing_fist.json",
+    "name": "right facing fist",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f91d_handshake",
+    "file": "u1f91d_handshake.json",
+    "name": "handshake",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f91e_crossed_fingers",
+    "file": "u1f91e_crossed_fingers.json",
+    "name": "crossed fingers",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f91f_love_you_gesture",
+    "file": "u1f91f_love_you_gesture.json",
+    "name": "love you gesture",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f920_cowboy_hat_face",
+    "file": "u1f920_cowboy_hat_face.json",
+    "name": "cowboy hat face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f922_nauseated_face",
+    "file": "u1f922_nauseated_face.json",
+    "name": "nauseated face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f923_rolling_on_the_floor_laughing",
+    "file": "u1f923_rolling_on_the_floor_laughing.json",
+    "name": "emoji 008",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f925_lying_face",
+    "file": "u1f925_lying_face.json",
+    "name": "lying face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f927_sneezing_face",
+    "file": "u1f927_sneezing_face.json",
+    "name": "sneezing face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f928_face_with_raised_eyebrow",
+    "file": "u1f928_face_with_raised_eyebrow.json",
+    "name": "face with raised eyebrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f92a_zany_face",
+    "file": "u1f92a_zany_face.json",
+    "name": "zany face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f92b_shushing_face",
+    "file": "u1f92b_shushing_face.json",
+    "name": "shushing face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f92c_face_with_symbols_on_mouth",
+    "file": "u1f92c_face_with_symbols_on_mouth.json",
+    "name": "face with symbols on mouth",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f92d_face_with_hand_over_mouth",
+    "file": "u1f92d_face_with_hand_over_mouth.json",
+    "name": "face with hand over mouth",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f92e_face_vomiting",
+    "file": "u1f92e_face_vomiting.json",
+    "name": "face vomiting",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f92f_exploding_head",
+    "file": "u1f92f_exploding_head.json",
+    "name": "exploding head",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f932_palms_up_together",
+    "file": "u1f932_palms_up_together.json",
+    "name": "palms up together",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f940_wilted_flower",
+    "file": "u1f940_wilted_flower.json",
+    "name": "wilted flower",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f970_smiling_face_with_hearts",
+    "file": "u1f970_smiling_face_with_hearts.json",
+    "name": "smiling face with hearts",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f971_yawning_face",
+    "file": "u1f971_yawning_face.json",
+    "name": "yawning face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f973_partying_face",
+    "file": "u1f973_partying_face.json",
+    "name": "partying face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f975_hot_face",
+    "file": "u1f975_hot_face.json",
+    "name": "hot face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f976_cold_face",
+    "file": "u1f976_cold_face.json",
+    "name": "cold face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f978_disguised_face",
+    "file": "u1f978_disguised_face.json",
+    "name": "disguised face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f979_face_holding_back_tears",
+    "file": "u1f979_face_holding_back_tears.json",
+    "name": "face holding back tears",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f97a_pleading_face",
+    "file": "u1f97a_pleading_face.json",
+    "name": "pleading face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f980_crab",
+    "file": "u1f980_crab.json",
+    "name": "crab",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f981_lion",
+    "file": "u1f981_lion.json",
+    "name": "lion",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f982_scorpion",
+    "file": "u1f982_scorpion.json",
+    "name": "scorpion",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f984_unicorn",
+    "file": "u1f984_unicorn.json",
+    "name": "unicorn",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f985_eagle",
+    "file": "u1f985_eagle.json",
+    "name": "eagle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f986_duck",
+    "file": "u1f986_duck.json",
+    "name": "duck",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f988_shark",
+    "file": "u1f988_shark.json",
+    "name": "shark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f989_owl",
+    "file": "u1f989_owl.json",
+    "name": "owl",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f98a_fox",
+    "file": "u1f98a_fox.json",
+    "name": "fox",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f98b_butterfly",
+    "file": "u1f98b_butterfly.json",
+    "name": "butterfly",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f98c_deer",
+    "file": "u1f98c_deer.json",
+    "name": "deer",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f98d_gorilla",
+    "file": "u1f98d_gorilla.json",
+    "name": "gorilla",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f98e_lizard",
+    "file": "u1f98e_lizard.json",
+    "name": "lizard",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f991_squid",
+    "file": "u1f991_squid.json",
+    "name": "squid",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f992_giraffe",
+    "file": "u1f992_giraffe.json",
+    "name": "giraffe",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f993_zebra",
+    "file": "u1f993_zebra.json",
+    "name": "zebra",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f994_hedgehog",
+    "file": "u1f994_hedgehog.json",
+    "name": "hedgehog",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f995_sauropod",
+    "file": "u1f995_sauropod.json",
+    "name": "sauropod",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f996_t_rex",
+    "file": "u1f996_t_rex.json",
+    "name": "t rex",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f997_cricket",
+    "file": "u1f997_cricket.json",
+    "name": "cricket",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f998_kangaroo",
+    "file": "u1f998_kangaroo.json",
+    "name": "kangaroo",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f99b_hippopotamus",
+    "file": "u1f99b_hippopotamus.json",
+    "name": "hippopotamus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f99c_parrot",
+    "file": "u1f99c_parrot.json",
+    "name": "parrot",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f99e_lobster",
+    "file": "u1f99e_lobster.json",
+    "name": "lobster",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f99f_mosquito",
+    "file": "u1f99f_mosquito.json",
+    "name": "mosquito",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9a2_swan",
+    "file": "u1f9a2_swan.json",
+    "name": "swan",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9a5_sloth",
+    "file": "u1f9a5_sloth.json",
+    "name": "sloth",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9a6_otter",
+    "file": "u1f9a6_otter.json",
+    "name": "otter",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9a7_orangutan",
+    "file": "u1f9a7_orangutan.json",
+    "name": "orangutan",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9a8_skunk",
+    "file": "u1f9a8_skunk.json",
+    "name": "skunk",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9a9_flamingo",
+    "file": "u1f9a9_flamingo.json",
+    "name": "flamingo",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9ab_beaver",
+    "file": "u1f9ab_beaver.json",
+    "name": "beaver",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9ad_seal",
+    "file": "u1f9ad_seal.json",
+    "name": "seal",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9ae_guide_dog",
+    "file": "u1f9ae_guide_dog.json",
+    "name": "guide dog",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1f9d0_face_with_monocle",
+    "file": "u1f9d0_face_with_monocle.json",
+    "name": "face with monocle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fa90_ringed_planet",
+    "file": "u1fa90_ringed_planet.json",
+    "name": "ringed planet",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab0_fly",
+    "file": "u1fab0_fly.json",
+    "name": "fly",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab1_worm",
+    "file": "u1fab1_worm.json",
+    "name": "worm",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab2_beetle",
+    "file": "u1fab2_beetle.json",
+    "name": "beetle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab3_cockroach",
+    "file": "u1fab3_cockroach.json",
+    "name": "cockroach",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab4_potted_plant",
+    "file": "u1fab4_potted_plant.json",
+    "name": "potted plant",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab6_feather",
+    "file": "u1fab6_feather.json",
+    "name": "feather",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fab8_coral",
+    "file": "u1fab8_coral.json",
+    "name": "coral",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fae1_saluting_face",
+    "file": "u1fae1_saluting_face.json",
+    "name": "saluting face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fae3_face_with_peeking_eye",
+    "file": "u1fae3_face_with_peeking_eye.json",
+    "name": "face with peeking eye",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1fae5_dotted_line_face",
+    "file": "u1fae5_dotted_line_face.json",
+    "name": "dotted line face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1faf0_hand_with_index_finger_and_thumb_crossed",
+    "file": "u1faf0_hand_with_index_finger_and_thumb_crossed.json",
+    "name": "hand with index finger and thumb crossed",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1faf1_rightwards_hand",
+    "file": "u1faf1_rightwards_hand.json",
+    "name": "rightwards hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1faf2_leftwards_hand",
+    "file": "u1faf2_leftwards_hand.json",
+    "name": "leftwards hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1faf3_palm_down_hand",
+    "file": "u1faf3_palm_down_hand.json",
+    "name": "palm down hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1faf4_palm_up_hand",
+    "file": "u1faf4_palm_up_hand.json",
+    "name": "palm up hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u1faf6_heart_hands",
+    "file": "u1faf6_heart_hands.json",
+    "name": "heart hands",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u203c_double_exclamation_mark",
+    "file": "u203c_double_exclamation_mark.json",
+    "name": "double exclamation mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2049_exclamation_question_mark",
+    "file": "u2049_exclamation_question_mark.json",
+    "name": "exclamation question mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2122_trade_mark",
+    "file": "u2122_trade_mark.json",
+    "name": "trade mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2139_information",
+    "file": "u2139_information.json",
+    "name": "information",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2194_left_right_arrow",
+    "file": "u2194_left_right_arrow.json",
+    "name": "left right arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2195_up_down_arrow",
+    "file": "u2195_up_down_arrow.json",
+    "name": "up down arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2196_up_left_arrow",
+    "file": "u2196_up_left_arrow.json",
+    "name": "up left arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2197_up_right_arrow",
+    "file": "u2197_up_right_arrow.json",
+    "name": "up right arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2198_down_right_arrow",
+    "file": "u2198_down_right_arrow.json",
+    "name": "down right arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2199_down_left_arrow",
+    "file": "u2199_down_left_arrow.json",
+    "name": "down left arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u21a9_right_arrow_curving_left",
+    "file": "u21a9_right_arrow_curving_left.json",
+    "name": "right arrow curving left",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u21aa_left_arrow_curving_right",
+    "file": "u21aa_left_arrow_curving_right.json",
+    "name": "left arrow curving right",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23cf_eject_button",
+    "file": "u23cf_eject_button.json",
+    "name": "eject button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23e9_fast_forward_button",
+    "file": "u23e9_fast_forward_button.json",
+    "name": "fast forward button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23ea_fast_reverse_button",
+    "file": "u23ea_fast_reverse_button.json",
+    "name": "fast reverse button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23eb_fast_up_button",
+    "file": "u23eb_fast_up_button.json",
+    "name": "fast up button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23ec_fast_down_button",
+    "file": "u23ec_fast_down_button.json",
+    "name": "fast down button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23ed_next_track_button",
+    "file": "u23ed_next_track_button.json",
+    "name": "next track button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23ee_last_track_button",
+    "file": "u23ee_last_track_button.json",
+    "name": "last track button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23ef_play_or_pause_button",
+    "file": "u23ef_play_or_pause_button.json",
+    "name": "play or pause button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23f8_pause_button",
+    "file": "u23f8_pause_button.json",
+    "name": "pause button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23f9_stop_button",
+    "file": "u23f9_stop_button.json",
+    "name": "stop button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u23fa_record_button",
+    "file": "u23fa_record_button.json",
+    "name": "record button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u25ab_white_small_square",
+    "file": "u25ab_white_small_square.json",
+    "name": "white small square",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u25b6_play_button",
+    "file": "u25b6_play_button.json",
+    "name": "play button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u25c0_reverse_button",
+    "file": "u25c0_reverse_button.json",
+    "name": "reverse button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u25fb_white_medium_square",
+    "file": "u25fb_white_medium_square.json",
+    "name": "white medium square",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2600_sun",
+    "file": "u2600_sun.json",
+    "name": "sun",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2601_cloud",
+    "file": "u2601_cloud.json",
+    "name": "cloud",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2603_snowman",
+    "file": "u2603_snowman.json",
+    "name": "snowman",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2604_comet",
+    "file": "u2604_comet.json",
+    "name": "comet",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2618_shamrock",
+    "file": "u2618_shamrock.json",
+    "name": "shamrock",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u261d_index_pointing_up",
+    "file": "u261d_index_pointing_up.json",
+    "name": "index pointing up",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2620_skull_and_crossbones",
+    "file": "u2620_skull_and_crossbones.json",
+    "name": "skull and crossbones",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2622_radioactive",
+    "file": "u2622_radioactive.json",
+    "name": "radioactive",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2623_biohazard",
+    "file": "u2623_biohazard.json",
+    "name": "biohazard",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2626_orthodox_cross",
+    "file": "u2626_orthodox_cross.json",
+    "name": "orthodox cross",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u262a_star_and_crescent",
+    "file": "u262a_star_and_crescent.json",
+    "name": "star and crescent",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u262e_peace_symbol",
+    "file": "u262e_peace_symbol.json",
+    "name": "peace symbol",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u262f_yin_yang",
+    "file": "u262f_yin_yang.json",
+    "name": "yin yang",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2638_wheel_of_dharma",
+    "file": "u2638_wheel_of_dharma.json",
+    "name": "wheel of dharma",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2639_frowning_face",
+    "file": "u2639_frowning_face.json",
+    "name": "frowning face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u263a_smiling_face",
+    "file": "u263a_smiling_face.json",
+    "name": "smiling face",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2648_aries",
+    "file": "u2648_aries.json",
+    "name": "aries",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2649_taurus",
+    "file": "u2649_taurus.json",
+    "name": "taurus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u264a_gemini",
+    "file": "u264a_gemini.json",
+    "name": "gemini",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u264b_cancer",
+    "file": "u264b_cancer.json",
+    "name": "cancer",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u264c_leo",
+    "file": "u264c_leo.json",
+    "name": "leo",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u264d_virgo",
+    "file": "u264d_virgo.json",
+    "name": "virgo",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u264e_libra",
+    "file": "u264e_libra.json",
+    "name": "libra",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u264f_scorpio",
+    "file": "u264f_scorpio.json",
+    "name": "scorpio",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2650_sagittarius",
+    "file": "u2650_sagittarius.json",
+    "name": "sagittarius",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2651_capricorn",
+    "file": "u2651_capricorn.json",
+    "name": "capricorn",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2652_aquarius",
+    "file": "u2652_aquarius.json",
+    "name": "aquarius",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2653_pisces",
+    "file": "u2653_pisces.json",
+    "name": "pisces",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2660_spade_suit",
+    "file": "u2660_spade_suit.json",
+    "name": "spade suit",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2663_club_suit",
+    "file": "u2663_club_suit.json",
+    "name": "club suit",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2665_heart_suit",
+    "file": "u2665_heart_suit.json",
+    "name": "heart suit",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2666_diamond_suit",
+    "file": "u2666_diamond_suit.json",
+    "name": "diamond suit",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u267b_recycling_symbol",
+    "file": "u267b_recycling_symbol.json",
+    "name": "recycling symbol",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u267e_infinity",
+    "file": "u267e_infinity.json",
+    "name": "infinity",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u267f_wheelchair_symbol",
+    "file": "u267f_wheelchair_symbol.json",
+    "name": "wheelchair symbol",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u269c_fleur_de_lis",
+    "file": "u269c_fleur_de_lis.json",
+    "name": "fleur de lis",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26a0_warning",
+    "file": "u26a0_warning.json",
+    "name": "warning",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26a1_high_voltage",
+    "file": "u26a1_high_voltage.json",
+    "name": "high voltage",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26a7_transgender_symbol",
+    "file": "u26a7_transgender_symbol.json",
+    "name": "transgender symbol",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26c4_snowman_without_snow",
+    "file": "u26c4_snowman_without_snow.json",
+    "name": "snowman without snow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26c5_sun_behind_cloud",
+    "file": "u26c5_sun_behind_cloud.json",
+    "name": "sun behind cloud",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26ce_ophiuchus",
+    "file": "u26ce_ophiuchus.json",
+    "name": "ophiuchus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u26d4_no_entry",
+    "file": "u26d4_no_entry.json",
+    "name": "no entry",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2705_check_mark_button",
+    "file": "u2705_check_mark_button.json",
+    "name": "check mark button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u270a_raised_fist",
+    "file": "u270a_raised_fist.json",
+    "name": "raised fist",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u270b_raised_hand",
+    "file": "u270b_raised_hand.json",
+    "name": "raised hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u270c_victory_hand",
+    "file": "u270c_victory_hand.json",
+    "name": "victory hand",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2714_check_mark",
+    "file": "u2714_check_mark.json",
+    "name": "check mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2716_multiply",
+    "file": "u2716_multiply.json",
+    "name": "multiply",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u271d_latin_cross",
+    "file": "u271d_latin_cross.json",
+    "name": "latin cross",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2733_eight_spoked_asterisk",
+    "file": "u2733_eight_spoked_asterisk.json",
+    "name": "eight spoked asterisk",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2734_eight_pointed_star",
+    "file": "u2734_eight_pointed_star.json",
+    "name": "eight pointed star",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2744_snowflake",
+    "file": "u2744_snowflake.json",
+    "name": "snowflake",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2747_sparkle",
+    "file": "u2747_sparkle.json",
+    "name": "sparkle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u274c_cross_mark",
+    "file": "u274c_cross_mark.json",
+    "name": "cross mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u274e_cross_mark_button",
+    "file": "u274e_cross_mark_button.json",
+    "name": "cross mark button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2753_red_question_mark",
+    "file": "u2753_red_question_mark.json",
+    "name": "red question mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2754_white_question_mark",
+    "file": "u2754_white_question_mark.json",
+    "name": "white question mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2755_white_exclamation_mark",
+    "file": "u2755_white_exclamation_mark.json",
+    "name": "white exclamation mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2757_red_exclamation_mark",
+    "file": "u2757_red_exclamation_mark.json",
+    "name": "red exclamation mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2763_heart_exclamation",
+    "file": "u2763_heart_exclamation.json",
+    "name": "heart exclamation",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2764_heart_on_fire",
+    "file": "u2764_heart_on_fire.json",
+    "name": "heart on fire",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2764_mending_heart",
+    "file": "u2764_mending_heart.json",
+    "name": "mending heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2764_red_heart",
+    "file": "u2764_red_heart.json",
+    "name": "red heart",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2795_plus",
+    "file": "u2795_plus.json",
+    "name": "plus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2796_minus",
+    "file": "u2796_minus.json",
+    "name": "minus",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2797_divide",
+    "file": "u2797_divide.json",
+    "name": "divide",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u27a1_right_arrow",
+    "file": "u27a1_right_arrow.json",
+    "name": "right arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u27b0_curly_loop",
+    "file": "u27b0_curly_loop.json",
+    "name": "curly loop",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u27bf_double_curly_loop",
+    "file": "u27bf_double_curly_loop.json",
+    "name": "double curly loop",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2934_right_arrow_curving_up",
+    "file": "u2934_right_arrow_curving_up.json",
+    "name": "right arrow curving up",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2935_right_arrow_curving_down",
+    "file": "u2935_right_arrow_curving_down.json",
+    "name": "right arrow curving down",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2b05_left_arrow",
+    "file": "u2b05_left_arrow.json",
+    "name": "left arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2b06_up_arrow",
+    "file": "u2b06_up_arrow.json",
+    "name": "up arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2b07_down_arrow",
+    "file": "u2b07_down_arrow.json",
+    "name": "down arrow",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2b1c_white_large_square",
+    "file": "u2b1c_white_large_square.json",
+    "name": "white large square",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2b50_star",
+    "file": "u2b50_star.json",
+    "name": "star",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u2b55_hollow_red_circle",
+    "file": "u2b55_hollow_red_circle.json",
+    "name": "hollow red circle",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u3030_wavy_dash",
+    "file": "u3030_wavy_dash.json",
+    "name": "wavy dash",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u303d_part_alternation_mark",
+    "file": "u303d_part_alternation_mark.json",
+    "name": "part alternation mark",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u3297_japanese_congratulations_button",
+    "file": "u3297_japanese_congratulations_button.json",
+    "name": "japanese congratulations button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  },
+  {
+    "id": "u3299_japanese_secret_button",
+    "file": "u3299_japanese_secret_button.json",
+    "name": "japanese secret button",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 1,
+    "hasUpper": false,
+    "hasLower": false,
+    "hasDigits": false
+  }
+]

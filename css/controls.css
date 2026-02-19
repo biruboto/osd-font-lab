@@ -113,11 +113,39 @@
 
 .fontpicker-group{
   padding: 6px 10px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   text-align: center;
   font-size: 0.78rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   opacity: 0.62;
+  white-space: nowrap;
+}
+
+.fontpicker-group::before,
+.fontpicker-group::after{
+  content: "";
+  flex: 1 1 auto;
+  min-width: 14px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--bg-3) 70%, transparent),
+    color-mix(in srgb, var(--accent-0) 25%, transparent)
+  );
+  opacity: 0.75;
+}
+
+.fontpicker-group::after{
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--bg-3) 70%, transparent),
+    color-mix(in srgb, var(--accent-0) 25%, transparent)
+  );
 }
 
 .fontpicker-item .fontpicker-name{
@@ -137,7 +165,7 @@
 /* ---------- form controls ---------- */
 .field{
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
 }
 
@@ -213,7 +241,7 @@
 
 .exports{
   display: flex;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -309,7 +337,7 @@ select{
 .panel-header-controls{
   display: flex;
   align-items: flex-end;
-  gap: 10px;
+  gap: 8px;
   flex: 1 1 auto;
   min-width: 0;
   justify-content: flex-end;
@@ -321,7 +349,7 @@ select{
   align-items: flex-start;
   justify-content: stretch;
   justify-items: stretch;
-  column-gap: 10px;
+  column-gap: 8px;
   row-gap: 0;
   width: 100%;
   max-width: 100%;
@@ -330,7 +358,7 @@ select{
 .font-select-stack{
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   align-items: stretch;
   width: 100%;
   min-width: 0;
@@ -355,14 +383,14 @@ select{
 .or-select-stack{
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   align-items: stretch;
 }
 
 .import-select-stack{
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   min-width: 0;
   max-width: clamp(180px, 38%, 220px);
@@ -380,9 +408,11 @@ select{
 .or-spacer{
   visibility: hidden;
   display: block;
-  font-size: 0.9rem;
-  line-height: 1.2;
-  min-height: 1.2em;
+  font-size: 0.75rem;
+  line-height: 1;
+  min-height: 1em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   user-select: none;
   pointer-events: none;
 }
@@ -395,6 +425,10 @@ select{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.panel-base .field-stack{
+  gap: 6px;
 }
 
 .import-select-stack .import-inline{
@@ -447,20 +481,55 @@ select{
 }
 
 .or-label{
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  opacity: 0.5;
+  display: block;
+  font-size: 0.75rem;
+  line-height: 1;
+  min-height: 1em;
+  letter-spacing: 0.08em;
+  opacity: 0.62;
   text-transform: uppercase;
   user-select: none;
-  padding: 0 2px;
+  padding: 0;
+}
+
+.field .or-label{
+  font-size: 0.75rem;
+  line-height: 1;
+  min-height: 1em;
 }
 
 .stroke-style-row{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.special-safe-inline{
+  margin-top: 0;
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.special-char-controls .swap-actions{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  gap: 6px;
+}
+
+.special-char-controls #clearSpecialCharBtn{
+  white-space: nowrap;
+}
+
+.panel-base .stroke-style-row.special-safe-inline{
+  flex: 0 0 auto;
+  width: auto;
 }
 
 .panel-base .stroke-style-row{
@@ -526,7 +595,7 @@ select{
 }
 
 .load-status{
-  margin-top: 4px;
+  margin-top: 2px;
   min-height: 1.2em;
   border: 1px dashed color-mix(in srgb, var(--accent-0) 28%, var(--bg-3));
   background: linear-gradient(
@@ -536,7 +605,7 @@ select{
   );
   border-radius: 6px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  padding: 6px 10px;
+  padding: 5px 8px;
   font-size: 0.84rem;
   line-height: 1.25;
   color: var(--text-muted);
@@ -547,7 +616,7 @@ select{
   display: block;
   width: 100%;
   text-align: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .panel-base .load-status:not(.is-error){
@@ -568,21 +637,49 @@ select{
 
 .tools-section-title{
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   text-align: center;
   font-size: 0.75rem;
+  line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.62;
-  margin: 2px 0 6px;
+  margin: 2px 0 4px;
+  white-space: nowrap;
+}
+
+.tools-section-title::before,
+.tools-section-title::after{
+  content: "";
+  flex: 1 1 auto;
+  min-width: 18px;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--bg-3) 70%, transparent),
+    color-mix(in srgb, var(--accent-0) 25%, transparent)
+  );
+  opacity: 0.75;
+}
+
+.tools-section-title::after{
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--bg-3) 70%, transparent),
+    color-mix(in srgb, var(--accent-0) 25%, transparent)
+  );
 }
 
 .swap-controls{
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   align-items: end;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .swap-controls select{
@@ -605,10 +702,121 @@ select{
 
 .swap-actions{
   display: flex;
-  gap: 6px;
+  gap: 5px;
   flex-wrap: wrap;
   justify-content: center;
   grid-column: 1 / -1;
+}
+
+.special-char-controls{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  width: 100%;
+  align-items: end;
+  margin-bottom: 6px;
+}
+
+.special-emoji-stack{
+  width: 100%;
+}
+
+.special-emoji-picker{
+  position: relative;
+  width: 100%;
+}
+
+.special-emoji-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0 var(--control-px);
+  text-align: left;
+}
+
+.special-emoji-thumb{
+  width: auto;
+  height: 22px;
+  max-width: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: none;
+  background: color-mix(in srgb, var(--bg-2) 78%, transparent);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+.special-emoji-label{
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.95;
+}
+
+.special-emoji-caret{
+  opacity: 0.6;
+}
+
+.special-emoji-menu{
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  z-index: 60;
+  width: min(520px, 100%);
+  display: none;
+  max-height: 320px;
+  overflow: auto;
+  background: var(--bg-1);
+  border: 1px solid var(--bg-3);
+  border-radius: 10px;
+  padding: 6px;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.special-emoji-picker.open .special-emoji-menu{
+  display: grid;
+}
+
+.special-emoji-menu .fontpicker-group{
+  grid-column: 1 / -1;
+  margin: 2px 0 0;
+}
+
+.special-emoji-option{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 2px;
+  border-radius: 6px;
+  border: 0;
+  background: transparent;
+}
+
+.special-emoji-option:hover{
+  background: color-mix(in srgb, var(--accent-0) 10%, transparent);
+}
+
+.special-emoji-option.is-active{
+  background: color-mix(in srgb, var(--accent-0) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-0) 55%, transparent);
+}
+
+.special-emoji-option-thumb{
+  width: 24px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+  background: transparent;
+  box-shadow: none;
 }
 
 .boot-splash-preview-wrap{
