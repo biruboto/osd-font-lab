@@ -1231,6 +1231,18 @@ function firstCodepointHexFromEmojiEntry(entry) {
   return cp.toString(16).toLowerCase();
 }
 
+function titleCaseEmojiName(raw) {
+  const s = String(raw || "").trim();
+  if (!s) return s;
+  return s
+    .split(/\s+/)
+    .map((word) => {
+      if (!word) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
+}
+
 function getSpecialEmojiCategoryRanges(list) {
   const robotCp = 0x1F916; // 🤖
   const waveCp = 0x1F44B;  // 👋
@@ -1568,7 +1580,7 @@ async function loadSpecialEmojiManifest() {
     };
     specialEmojiManifest = specialEmojiManifest.map((entry) => ({
       ...entry,
-      name: normalizeName(entry),
+      name: titleCaseEmojiName(normalizeName(entry)),
     }));
     specialEmojiManifest.sort((a, b) => {
       const ra = rankFromEntry(a);

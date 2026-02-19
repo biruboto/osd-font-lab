@@ -3159,8 +3159,8 @@
     "hasDigits": false
   },
   {
-    "id": "u1f600_emoji_000",
-    "file": "u1f600_emoji_000.json",
+    "id": "u1f600_grinning_face",
+    "file": "u1f600_grinning_face.json",
     "name": "emoji 000",
     "cell": [
       12,
@@ -3172,8 +3172,8 @@
     "hasDigits": false
   },
   {
-    "id": "u1f601_emoji_003",
-    "file": "u1f601_emoji_003.json",
+    "id": "u1f601_beaming_face_with_smiling_eyes",
+    "file": "u1f601_beaming_face_with_smiling_eyes.json",
     "name": "emoji 003",
     "cell": [
       12,
@@ -3198,8 +3198,8 @@
     "hasDigits": false
   },
   {
-    "id": "u1f603_emoji_001",
-    "file": "u1f603_emoji_001.json",
+    "id": "u1f603_grinning_face_with_big_eyes",
+    "file": "u1f603_grinning_face_with_big_eyes.json",
     "name": "emoji 001",
     "cell": [
       12,
@@ -3211,8 +3211,8 @@
     "hasDigits": false
   },
   {
-    "id": "u1f604_emoji_002",
-    "file": "u1f604_emoji_002.json",
+    "id": "u1f604_grinning_face_with_smiling_eyes",
+    "file": "u1f604_grinning_face_with_smiling_eyes.json",
     "name": "emoji 002",
     "cell": [
       12,
@@ -3237,8 +3237,8 @@
     "hasDigits": false
   },
   {
-    "id": "u1f606_emoji_004",
-    "file": "u1f606_emoji_004.json",
+    "id": "u1f606_grinning_squinting_face",
+    "file": "u1f606_grinning_squinting_face.json",
     "name": "emoji 004",
     "cell": [
       12,
@@ -4238,8 +4238,8 @@
     "hasDigits": false
   },
   {
-    "id": "u1f923_emoji_008",
-    "file": "u1f923_emoji_008.json",
+    "id": "u1f923_rolling_on_the_floor_laughing",
+    "file": "u1f923_rolling_on_the_floor_laughing.json",
     "name": "emoji 008",
     "cell": [
       12,
