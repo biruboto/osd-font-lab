@@ -168,7 +168,7 @@ const specialEmojiPreviewPending = new Set();
 let specialEmojiVisiblePreloadRaf = 0;
 let specialEmojiButtonSyncReqId = 0;
 let specialEmojiMenuEventsBound = false;
-const SPECIAL_EMOJI_PREVIEW_CONCURRENCY = 2;
+const SPECIAL_EMOJI_PREVIEW_CONCURRENCY = 4;
 let specialEmojiPreviewInFlight = 0;
 let specialEmojiPreviewDrainRaf = 0;
 const specialEmojiPreviewTasks = [];
@@ -1326,7 +1326,7 @@ function invalidateSpecialEmojiMenuPreviews() {
   }
 }
 
-function queueSpecialEmojiPreview(img) {
+function queueSpecialEmojiPreview(img, { priority = false } = {}) {
   if (!img || img.src) return;
   const file = img.getAttribute("data-file");
   if (!file || specialEmojiPreviewPending.has(file)) return;
@@ -1336,8 +1336,13 @@ function queueSpecialEmojiPreview(img) {
     return;
   }
   specialEmojiPreviewPending.add(file);
-  specialEmojiPreviewTasks.push({ img, file });
-  scheduleSpecialEmojiPreviewDrain();
+  if (priority) {
+    specialEmojiPreviewTasks.unshift({ img, file });
+    drainSpecialEmojiPreviewQueue();
+  } else {
+    specialEmojiPreviewTasks.push({ img, file });
+    scheduleSpecialEmojiPreviewDrain();
+  }
 }
 
 function scheduleSpecialEmojiPreviewDrain() {
@@ -1415,7 +1420,7 @@ function preloadVisibleSpecialEmojiThumbs({ margin = 24, max = null } = {}) {
     const rect = img.getBoundingClientRect();
     const inView = rect.bottom >= (menuRect.top - margin) && rect.top <= (menuRect.bottom + margin);
     if (!inView) continue;
-    queueSpecialEmojiPreview(img);
+    queueSpecialEmojiPreview(img, { priority: true });
     loaded++;
     if (loaded >= limit) break;
   }
