@@ -1,5 +1,18 @@
 ﻿[
     {
+        "id":  "2001",
+        "file":  "2001.json",
+        "name":  "2001",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "80colps",
         "file":  "80colPS.json",
         "name":  "80colPS",
@@ -16,6 +29,19 @@
         "id":  "adventura32",
         "file":  "Adventura32.json",
         "name":  "Adventura32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "alaska",
+        "file":  "alaska.json",
+        "name":  "alaska",
         "cell":  [
                      12,
                      18
@@ -52,6 +78,19 @@
         "hasDigits":  true
     },
     {
+        "id":  "american",
+        "file":  "american.json",
+        "name":  "american",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "amstrad32",
         "file":  "Amstrad32.json",
         "name":  "Amstrad32",
@@ -68,6 +107,19 @@
         "id":  "arcadian32",
         "file":  "Arcadian32.json",
         "name":  "Arcadian32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "arte",
+        "file":  "arte.json",
+        "name":  "arte",
         "cell":  [
                      12,
                      18
@@ -104,6 +156,19 @@
         "hasDigits":  true
     },
     {
+        "id":  "battle",
+        "file":  "battle.json",
+        "name":  "battle",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "bbc1",
         "file":  "BBC1.json",
         "name":  "BBC1",
@@ -130,9 +195,61 @@
         "hasDigits":  true
     },
     {
+        "id":  "bozy",
+        "file":  "bozy.json",
+        "name":  "bozy",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "braggadocio32",
         "file":  "Braggadocio32.json",
         "name":  "Braggadocio32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "bug",
+        "file":  "bug.json",
+        "name":  "bug",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "burger",
+        "file":  "burger.json",
+        "name":  "burger",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "caravan",
+        "file":  "caravan.json",
+        "name":  "caravan",
         "cell":  [
                      12,
                      18
@@ -156,9 +273,35 @@
         "hasDigits":  true
     },
     {
+        "id":  "chato",
+        "file":  "chato.json",
+        "name":  "chato",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "chunky32",
         "file":  "Chunky32.json",
         "name":  "Chunky32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "circus",
+        "file":  "circus.json",
+        "name":  "circus",
         "cell":  [
                      12,
                      18
@@ -195,9 +338,61 @@
         "hasDigits":  true
     },
     {
+        "id":  "classic",
+        "file":  "classic.json",
+        "name":  "classic",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "compact40",
         "file":  "Compact40.json",
         "name":  "Compact40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "company",
+        "file":  "company.json",
+        "name":  "company",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "countdown",
+        "file":  "countdown.json",
+        "name":  "countdown",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "crepusculo",
+        "file":  "crepusculo.json",
+        "name":  "crepusculo",
         "cell":  [
                      12,
                      18
@@ -221,9 +416,74 @@
         "hasDigits":  true
     },
     {
+        "id":  "data70",
+        "file":  "data70.json",
+        "name":  "data70",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "desdemona",
+        "file":  "desdemona.json",
+        "name":  "desdemona",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "design",
+        "file":  "design.json",
+        "name":  "design",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "dragon",
+        "file":  "dragon.json",
+        "name":  "dragon",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "dutchps",
         "file":  "DutchPS.json",
         "name":  "DutchPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "epsilon",
+        "file":  "epsilon.json",
+        "name":  "epsilon",
         "cell":  [
                      12,
                      18
@@ -247,9 +507,87 @@
         "hasDigits":  true
     },
     {
+        "id":  "esparta",
+        "file":  "esparta.json",
+        "name":  "esparta",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "fatboy",
         "file":  "FatBoy.json",
         "name":  "FatBoy",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "flagship",
+        "file":  "flagship.json",
+        "name":  "flagship",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "france",
+        "file":  "france.json",
+        "name":  "france",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "free",
+        "file":  "free.json",
+        "name":  "free",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "fripp",
+        "file":  "fripp.json",
+        "name":  "fripp",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "future",
+        "file":  "future.json",
+        "name":  "future",
         "cell":  [
                      12,
                      18
@@ -286,6 +624,45 @@
         "hasDigits":  true
     },
     {
+        "id":  "gaules",
+        "file":  "gaules.json",
+        "name":  "gaules",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "glaser",
+        "file":  "glaser.json",
+        "name":  "glaser",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "gothic",
+        "file":  "gothic.json",
+        "name":  "gothic",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "gothika32",
         "file":  "GothikA32.json",
         "name":  "GothikA32",
@@ -312,9 +689,74 @@
         "hasDigits":  true
     },
     {
+        "id":  "grosso",
+        "file":  "grosso.json",
+        "name":  "grosso",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "hot",
+        "file":  "hot.json",
+        "name":  "hot",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "ibm32",
         "file":  "IBM32.json",
         "name":  "IBM32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "iching",
+        "file":  "iching.json",
+        "name":  "iching",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "imperial",
+        "file":  "imperial.json",
+        "name":  "imperial",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "inf",
+        "file":  "inf.json",
+        "name":  "inf",
         "cell":  [
                      12,
                      18
@@ -494,9 +936,191 @@
         "hasDigits":  true
     },
     {
+        "id":  "kew",
+        "file":  "kew.json",
+        "name":  "kew",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "khyber",
+        "file":  "khyber.json",
+        "name":  "khyber",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "king",
+        "file":  "king.json",
+        "name":  "king",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "kombat32",
         "file":  "Kombat32.json",
         "name":  "Kombat32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "kron",
+        "file":  "kron.json",
+        "name":  "kron",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "lauriol",
+        "file":  "lauriol.json",
+        "name":  "lauriol",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "legend",
+        "file":  "legend.json",
+        "name":  "legend",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "lenda",
+        "file":  "lenda.json",
+        "name":  "lenda",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "lindsay",
+        "file":  "lindsay.json",
+        "name":  "lindsay",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "lisk",
+        "file":  "lisk.json",
+        "name":  "lisk",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "maluco",
+        "file":  "maluco.json",
+        "name":  "maluco",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mao",
+        "file":  "mao.json",
+        "name":  "mao",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mega1",
+        "file":  "mega1.json",
+        "name":  "mega1",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "mega2",
+        "file":  "mega2.json",
+        "name":  "mega2",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "memo",
+        "file":  "memo.json",
+        "name":  "memo",
         "cell":  [
                      12,
                      18
@@ -533,9 +1157,35 @@
         "hasDigits":  true
     },
     {
+        "id":  "mobile",
+        "file":  "mobile.json",
+        "name":  "mobile",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "monaco40",
         "file":  "Monaco40.json",
         "name":  "Monaco40",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "moon",
+        "file":  "moon.json",
+        "name":  "moon",
         "cell":  [
                      12,
                      18
@@ -559,6 +1209,19 @@
         "hasDigits":  true
     },
     {
+        "id":  "omicron",
+        "file":  "omicron.json",
+        "name":  "omicron",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "oric32",
         "file":  "Oric32.json",
         "name":  "Oric32",
@@ -572,9 +1235,126 @@
         "hasDigits":  true
     },
     {
+        "id":  "oxford",
+        "file":  "oxford.json",
+        "name":  "oxford",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "painter",
+        "file":  "painter.json",
+        "name":  "painter",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "parsons",
+        "file":  "parsons.json",
+        "name":  "parsons",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pch",
+        "file":  "pch.json",
+        "name":  "pch",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "perfect64-32",
         "file":  "Perfect64-32.json",
         "name":  "Perfect64-32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "perfil",
+        "file":  "perfil.json",
+        "name":  "perfil",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pi",
+        "file":  "pi.json",
+        "name":  "pi",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pilot",
+        "file":  "pilot.json",
+        "name":  "pilot",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pioneer",
+        "file":  "pioneer.json",
+        "name":  "pioneer",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "plaza",
+        "file":  "plaza.json",
+        "name":  "plaza",
         "cell":  [
                      12,
                      18
@@ -611,9 +1391,165 @@
         "hasDigits":  true
     },
     {
+        "id":  "premier",
+        "file":  "premier.json",
+        "name":  "premier",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "pro",
+        "file":  "pro.json",
+        "name":  "pro",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "quad",
+        "file":  "quad.json",
+        "name":  "quad",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rama",
+        "file":  "rama.json",
+        "name":  "rama",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "rathboneps",
         "file":  "RathbonePS.json",
         "name":  "RathbonePS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "revus",
+        "file":  "revus.json",
+        "name":  "revus",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "robot",
+        "file":  "robot.json",
+        "name":  "robot",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "rom",
+        "file":  "rom.json",
+        "name":  "rom",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "roteiro",
+        "file":  "roteiro.json",
+        "name":  "roteiro",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sampa",
+        "file":  "sampa.json",
+        "name":  "sampa",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "scan",
+        "file":  "scan.json",
+        "name":  "scan",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "shadow",
+        "file":  "shadow.json",
+        "name":  "shadow",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sherlock",
+        "file":  "sherlock.json",
+        "name":  "sherlock",
         "cell":  [
                      12,
                      18
@@ -650,9 +1586,126 @@
         "hasDigits":  true
     },
     {
+        "id":  "sinergia",
+        "file":  "sinergia.json",
+        "name":  "sinergia",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "skeleton32",
         "file":  "Skeleton32.json",
         "name":  "Skeleton32",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "snake",
+        "file":  "snake.json",
+        "name":  "snake",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "snell",
+        "file":  "snell.json",
+        "name":  "snell",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "soft",
+        "file":  "soft.json",
+        "name":  "soft",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "sonda",
+        "file":  "sonda.json",
+        "name":  "sonda",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "spec",
+        "file":  "spec.json",
+        "name":  "spec",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "speed",
+        "file":  "speed.json",
+        "name":  "speed",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "spot",
+        "file":  "spot.json",
+        "name":  "spot",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "spy",
+        "file":  "spy.json",
+        "name":  "spy",
         "cell":  [
                      12,
                      18
@@ -689,6 +1742,71 @@
         "hasDigits":  true
     },
     {
+        "id":  "trilogy",
+        "file":  "trilogy.json",
+        "name":  "trilogy",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "typewriter",
+        "file":  "typewriter.json",
+        "name":  "typewriter",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "university",
+        "file":  "university.json",
+        "name":  "university",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "usp",
+        "file":  "usp.json",
+        "name":  "usp",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "vazio",
+        "file":  "vazio.json",
+        "name":  "vazio",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
         "id":  "zaibatsu32",
         "file":  "Zaibatsu32.json",
         "name":  "Zaibatsu32",
@@ -705,6 +1823,84 @@
         "id":  "zaibatsups",
         "file":  "ZaibatsuPS.json",
         "name":  "ZaibatsuPS",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zeus",
+        "file":  "zeus.json",
+        "name":  "zeus",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zxbold",
+        "file":  "zxbold.json",
+        "name":  "zxbold",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zxfutura",
+        "file":  "zxfutura.json",
+        "name":  "zxfutura",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zxms",
+        "file":  "zxms.json",
+        "name":  "zxms",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zxnew",
+        "file":  "zxnew.json",
+        "name":  "zxnew",
+        "cell":  [
+                     12,
+                     18
+                 ],
+        "glyphCount":  96,
+        "hasUpper":  true,
+        "hasLower":  true,
+        "hasDigits":  true
+    },
+    {
+        "id":  "zxsmall",
+        "file":  "zxsmall.json",
+        "name":  "zxsmall",
         "cell":  [
                      12,
                      18

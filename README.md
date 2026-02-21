@@ -31,3 +31,6 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 
 02.28.2026
 + New emoji support! Replace safe characters with emoji for use in PILOT NAME or CRAFT NAME, etc, or turn safe mode off and replace any glyph with an emoji. 500+ emoji from pixel artist Idan Rooze. Also lots of performance tweaks
+
+02.21.2026
++ 92 new fonts in the ZX library! New crosshair sprites: gbpanda, meowth, and ryuhiko.

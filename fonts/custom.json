@@ -70,6 +70,26 @@
     }
   },
   {
+    "id": "crosshair_gbpanda",
+    "name": "GBPanda",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/gbpanda.png" }
+    }
+  },
+  {
+    "id": "crosshair_meowth",
+    "name": "Meowth",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/meowth.png" }
+    }
+  },
+  {
     "id": "crosshair_osdflwhoop",
     "name": "OSDFL Whoop",
     "glyphWidth": 12,
@@ -87,6 +107,16 @@
     "gap": 0,
     "targets": {
       "crosshair_set": { "png": "custom/crosshair_set/sendit.png" }
+    }
+  },
+  {
+    "id": "crosshair_ryuhiko",
+    "name": "Ryuhiko",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": { "png": "custom/crosshair_set/ryuhiko.png" }
     }
   },
   {
