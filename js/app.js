@@ -74,6 +74,8 @@ const editorUndoBtn = document.getElementById("editorUndoBtn");
 const zoomModeInspectorBtn = document.getElementById("zoomModeInspector");
 const zoomModeEditorBtn = document.getElementById("zoomModeEditor");
 const overlaySelect = document.getElementById("overlaySelect");
+const caseUpperBtn = document.getElementById("caseUpperBtn");
+const caseLowerBtn = document.getElementById("caseLowerBtn");
 const strokeStyle4Btn = document.getElementById("strokeStyle4Btn");
 const strokeStyle8Btn = document.getElementById("strokeStyle8Btn");
 const swapTargetSelect = document.getElementById("swapTargetSelect");
@@ -116,6 +118,8 @@ const exportPNG3xBtn = document.getElementById("exportPNG3x");
 
 // Replaceable ASCII characters (exact mcmedit list)
 const REPLACE_CHARS = ` !"#%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`;
+const REPLACE_ALPHA_LOWER = "abcdefghijklmnopqrstuvwxyz";
+const TTF_IMPORT_CHARS = `${REPLACE_CHARS}${REPLACE_ALPHA_LOWER}`;
 const REPLACE_SET = new Set([...REPLACE_CHARS].map(c => c.charCodeAt(0)));
 const isReplaceable = (idx) => REPLACE_SET.has(idx);
 const SPECIAL_EMOJI_MANIFEST_PATH = "fonts/manifest-emoji-pixels.json";
@@ -203,6 +207,7 @@ const overlayPreviewUrlCache = new Map(); // `${theme}|${file}` -> dataURL
 const bfPreviewUrlCache = new Map();      // `${theme}|${file}` -> dataURL
 const OVERLAY_LIBRARY_KEY = "osdOverlayLibrary";
 const OVERLAY_STROKE_STYLE_KEY = "osdOverlayStrokeStyle";
+const OVERLAY_CASE_KEY = "osdOverlayCase";
 const LIB_SELECT_PREFIX = "__lib:";
 const OVERLAY_LIBRARIES = [
   {
@@ -253,6 +258,7 @@ const overlayLibraryCounts = new Map(); // library id -> entry count
 let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERLAY_LIBRARIES[0].id;
 if (currentOverlayLibraryId === "pcfon") currentOverlayLibraryId = "oldschool-pc";
 let overlayStrokeStyle = (localStorage.getItem(OVERLAY_STROKE_STYLE_KEY) === "8") ? "8" : "4";
+let overlayLetterCase = (localStorage.getItem(OVERLAY_CASE_KEY) === "lower") ? "lower" : "upper";
 
 // showGrids persisted
 let showGrids = (localStorage.getItem("showGrids") ?? "1") === "1";
@@ -2238,6 +2244,9 @@ async function getSwapSourceFontForTarget(sourceId, targetId) {
 }
 
 function initSwapUI() {
+  syncOverlayCaseUI();
+  caseUpperBtn?.addEventListener("click", () => setOverlayLetterCase("upper"));
+  caseLowerBtn?.addEventListener("click", () => setOverlayLetterCase("lower"));
   syncOverlayStrokeStyleUI();
   strokeStyle4Btn?.addEventListener("click", () => setOverlayStrokeStyle("4"));
   strokeStyle8Btn?.addEventListener("click", () => setOverlayStrokeStyle("8"));
@@ -2469,8 +2478,10 @@ function rebuildResultFont() {
     for (let i = 0; i < 256; i++) {
       if (!isReplaceable(i)) continue;
 
-      const key = `U+${i.toString(16).padStart(4, "0").toUpperCase()}`;
-      const og = currentOverlay.glyphs?.[key];
+      const mappedCp = overlayLookupCodepointForTarget(i);
+      const mappedKey = `U+${mappedCp.toString(16).padStart(4, "0").toUpperCase()}`;
+      const fallbackKey = `U+${i.toString(16).padStart(4, "0").toUpperCase()}`;
+      const og = currentOverlay.glyphs?.[mappedKey] || currentOverlay.glyphs?.[fallbackKey];
       if (!og) continue;
       // Keep base/default glyph when overlay slot is blank (common in arcade sets),
       // but allow U+0020 space to remain blank by design.
@@ -2602,6 +2613,22 @@ function syncOverlayStrokeStyleUI() {
   strokeStyle8Btn?.classList.toggle("is-active", overlayStrokeStyle === "8");
 }
 
+function syncOverlayCaseUI() {
+  caseUpperBtn?.classList.toggle("is-active", overlayLetterCase === "upper");
+  caseLowerBtn?.classList.toggle("is-active", overlayLetterCase === "lower");
+}
+
+function setOverlayLetterCase(nextCase) {
+  const mode = nextCase === "lower" ? "lower" : "upper";
+  if (overlayLetterCase === mode) return;
+  overlayLetterCase = mode;
+  localStorage.setItem(OVERLAY_CASE_KEY, overlayLetterCase);
+  syncOverlayCaseUI();
+  rebuildResultFont();
+  rerenderAll();
+  setLoadStatus(`Case: ${overlayLetterCase}`);
+}
+
 function setOverlayStrokeStyle(nextStyle) {
   const style = nextStyle === "8" ? "8" : "4";
   if (overlayStrokeStyle === style) return;
@@ -2624,6 +2651,17 @@ function setOverlayStrokeStyle(nextStyle) {
     rerenderAll();
   }
   setLoadStatus(`Stroke style: ${style === "8" ? "8-way" : "4-way"}`);
+}
+
+function overlayLookupCodepointForTarget(targetCp) {
+  if (
+    overlayLetterCase === "lower"
+    && targetCp >= 0x41
+    && targetCp <= 0x5a
+  ) {
+    return targetCp + 0x20;
+  }
+  return targetCp;
 }
 
 
@@ -3545,7 +3583,7 @@ async function handleFile(file) {
         cellH: 18,
         strokeMargin: 1,
         sizePx,
-        charset: REPLACE_CHARS,
+        charset: TTF_IMPORT_CHARS,
       });
     } catch (err) {
       console.error("TTF import failed for", file.name, err);
@@ -3659,7 +3697,7 @@ async function rerasterizeCurrentTtfOverlay() {
       cellH: 18,
       strokeMargin: 1,
       sizePx,
-      charset: REPLACE_CHARS,
+      charset: TTF_IMPORT_CHARS,
     });
     if (reqId !== ttfRerasterReqId) return;
     const count = Object.keys(overlay?.glyphs || {}).length;

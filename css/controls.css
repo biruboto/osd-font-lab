@@ -454,10 +454,10 @@ select{
 
 .ttf-stroke-row{
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content max-content max-content;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   margin-top: 4px;
   width: 100%;
   min-width: 0;
@@ -471,9 +471,9 @@ select{
 
 .ttf-size-control-inline{
   display: grid;
-  grid-template-columns: 44px minmax(80px, 1fr) 24px;
+  grid-template-columns: 38px minmax(64px, 92px) 20px;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: auto;
   min-width: 0;
   max-width: none;
@@ -482,8 +482,8 @@ select{
 
 .ttf-size-control-inline input[type="range"]{
   width: 100%;
-  min-width: 80px;
-  max-width: none;
+  min-width: 64px;
+  max-width: 92px;
 }
 
 #ttfSizeRange{
@@ -547,9 +547,9 @@ select{
 
 .stroke-style-group{
   display: grid;
-  grid-template-columns: 58px max-content;
+  grid-template-columns: 46px max-content;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
   justify-self: end;
 }
@@ -559,14 +559,19 @@ select{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  min-width: 52px;
+  width: 40px;
+  min-width: 40px;
   min-height: 24px;
   font-size: 0.56rem;
   letter-spacing: 0.06em;
   line-height: 0.95;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.ttf-stroke-row .stroke-style-btn{
+  min-height: 26px;
+  padding: 0 7px;
 }
 
 .ttf-stroke-mini-label > span{
