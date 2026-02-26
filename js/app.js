@@ -31,6 +31,7 @@ import { initDpadControls } from "./modules/dpad.js";
 import { createWorkspaceRenderer } from "./modules/workspace-render.js";
 import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js";
 import { parseYaffToOverlay } from "./modules/yaff.js";
+import { parseTtfToOverlay } from "./modules/ttf-overlay.js";
 
 /* -----------------------------
    DOM
@@ -39,6 +40,8 @@ const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
 const yaffFileInput = document.getElementById("yaffFile");
 const yaffImportBtn = document.getElementById("yaffImportBtn");
+const ttfSizeRangeEl = document.getElementById("ttfSizeRange");
+const ttfSizeValueEl = document.getElementById("ttfSizeValue");
 const bootSplashImportBtn = document.getElementById("bootSplashImportBtn");
 const bootSplashFileInput = document.getElementById("bootSplashFile");
 const loadStatus = document.getElementById("loadStatus");
@@ -125,11 +128,19 @@ const SPECIAL_SAFE_SET = new Set([...SPECIAL_SAFE_CHARS].map((c) => c.charCodeAt
 
 const SCALE = 3; // grid sheet scale
 const COLS = 16;
+const TTF_DEFAULT_SIZE = 12;
+const TTF_SIZE_MIN = 6;
+const TTF_SIZE_MAX = 24;
+const TTF_RERASTER_DEBOUNCE_MS = 120;
 
 let baseFont = null;     // decoded MCM
 let resultFont = null;   // base + overlay + nudges
 let currentOverlay = null;
 let holdOriginalPreview = false;
+let currentOverlayFromTtf = false;
+let currentTtfSourceFile = null;
+let ttfRerasterTimer = 0;
+let ttfRerasterReqId = 0;
 
 const SWAP_TARGETS = [
   { id: "rssi", label: "RSSI", indices: [1] },
@@ -3077,6 +3088,8 @@ async function loadOverlayIndex() {
         currentOverlayLibraryId = nextLib;
         localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
         currentOverlay = null;
+        currentOverlayFromTtf = false;
+        currentTtfSourceFile = null;
         clearEditorPixelOverrides();
         overlayPreviewUrlCache.clear();
         await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel);
@@ -3092,6 +3105,8 @@ async function loadOverlayIndex() {
 
       if (!file) {
         currentOverlay = null;
+        currentOverlayFromTtf = false;
+        currentTtfSourceFile = null;
         clearEditorPixelOverrides();
         rebuildResultFont();
         rerenderAll();
@@ -3100,9 +3115,13 @@ async function loadOverlayIndex() {
 
       try {
         currentOverlay = await getOverlayByFile(file);
+        currentOverlayFromTtf = false;
+        currentTtfSourceFile = null;
       } catch (err) {
         console.error("Failed to load overlay font:", file, err);
         currentOverlay = null;
+        currentOverlayFromTtf = false;
+        currentTtfSourceFile = null;
       }
 
       clearEditorPixelOverrides();
@@ -3499,6 +3518,8 @@ async function handleFile(file) {
       return;
     }
     currentOverlay = overlay;
+    currentOverlayFromTtf = false;
+    currentTtfSourceFile = null;
     clearEditorPixelOverrides();
     if (overlaySelect) overlaySelect.value = "";
     rebuildResultFont();
@@ -3508,6 +3529,49 @@ async function handleFile(file) {
     if (stats.oversizeSkipped) diag.push(`${stats.oversizeSkipped} oversize skipped`);
     if (stats.labelsUnsupported) diag.push(`${stats.labelsUnsupported} unsupported labels`);
     setLoadStatus(`Loaded YAFF overlay: ${file.name}`, { subtext: diag.join(", ") });
+    return;
+  }
+
+  if (name.endsWith(".ttf") || name.endsWith(".otf")) {
+    let overlay;
+    try {
+      const sizePx = Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE));
+      overlay = await parseTtfToOverlay(file, {
+        cellW: 12,
+        cellH: 18,
+        strokeMargin: 1,
+        sizePx,
+        charset: REPLACE_CHARS,
+      });
+    } catch (err) {
+      console.error("TTF import failed for", file.name, err);
+      setLoadStatus(`TTF import failed: ${file.name}`, { error: true, subtext: err?.message || "" });
+      return;
+    }
+
+    const count = Object.keys(overlay?.glyphs || {}).length;
+    const stats = overlay?._importStats || {};
+    if (!count) {
+      setLoadStatus(`TTF import failed: no usable glyphs in ${file.name}`, {
+        error: true,
+        subtext: `size ${stats.sizePx || "?"}`,
+      });
+      return;
+    }
+
+    currentOverlay = overlay;
+    currentOverlayFromTtf = true;
+    currentTtfSourceFile = file;
+    clearEditorPixelOverrides();
+    if (overlaySelect) overlaySelect.value = "";
+    rebuildResultFont();
+    rerenderAll();
+    const diag = [];
+    diag.push(`${count} glyphs`);
+    if (Number.isInteger(stats.empty) && stats.empty > 0) diag.push(`${stats.empty} empty`);
+    diag.push(`size ${stats.sizePx || "?"}`);
+    setLoadStatus(`Loaded TTF overlay: ${file.name}`, { subtext: diag.join(", ") });
+    scheduleHudSettleRerender();
     return;
   }
 
@@ -3536,12 +3600,19 @@ async function handleFile(file) {
   }
 
   const buf = await file.arrayBuffer();
+  currentOverlayFromTtf = false;
+  currentTtfSourceFile = null;
   await handleBuffer(buf, file.name);
 }
 
 function isYaffFile(file) {
   const name = String(file?.name || "").toLowerCase();
   return name.endsWith(".yaff");
+}
+
+function isTtfFile(file) {
+  const name = String(file?.name || "").toLowerCase();
+  return name.endsWith(".ttf") || name.endsWith(".otf");
 }
 
 function isMcmFile(file) {
@@ -3557,6 +3628,61 @@ function isPngFile(file) {
 function isBmpFile(file) {
   const name = String(file?.name || "").toLowerCase();
   return name.endsWith(".bmp");
+}
+
+function syncTtfSizeLabel() {
+  if (!ttfSizeValueEl) return;
+  const n = Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE));
+  ttfSizeValueEl.textContent = String(n);
+}
+
+function scheduleHudSettleRerender() {
+  if (viewMode !== VIEW_MODE_HUD) return;
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      rerenderAll();
+    });
+  });
+}
+
+async function rerasterizeCurrentTtfOverlay() {
+  if (!currentOverlayFromTtf || !currentTtfSourceFile) return;
+  const reqId = ++ttfRerasterReqId;
+  try {
+    const sizePx = Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE));
+    const overlay = await parseTtfToOverlay(currentTtfSourceFile, {
+      cellW: 12,
+      cellH: 18,
+      strokeMargin: 1,
+      sizePx,
+      charset: REPLACE_CHARS,
+    });
+    if (reqId !== ttfRerasterReqId) return;
+    const count = Object.keys(overlay?.glyphs || {}).length;
+    if (!count) return;
+    currentOverlay = overlay;
+    rebuildResultFont();
+    rerenderAll();
+    setLoadStatus(`Updated TTF overlay: ${currentTtfSourceFile.name}`, {
+      subtext: `${count} glyphs, size ${sizePx}`,
+    });
+    scheduleHudSettleRerender();
+  } catch (err) {
+    console.error("TTF reraster failed:", err);
+    if (reqId !== ttfRerasterReqId) return;
+    setLoadStatus(`TTF update failed: ${currentTtfSourceFile?.name || "overlay"}`, {
+      error: true,
+      subtext: err?.message || "",
+    });
+  }
+}
+
+function scheduleTtfRerasterize() {
+  if (ttfRerasterTimer) clearTimeout(ttfRerasterTimer);
+  ttfRerasterTimer = setTimeout(() => {
+    ttfRerasterTimer = 0;
+    rerasterizeCurrentTtfOverlay();
+  }, TTF_RERASTER_DEBOUNCE_MS);
 }
 
 async function loadSwapCustomManifest() {
@@ -3844,14 +3970,22 @@ function initEvents() {
     if (fileInput) fileInput.value = "";
     fileInput?.click();
   });
-  yaffImportBtn?.addEventListener("click", () => yaffFileInput?.click());
+  yaffImportBtn?.addEventListener("click", () => {
+    if (yaffFileInput) yaffFileInput.value = "";
+    yaffFileInput?.click();
+  });
   bootSplashImportBtn?.addEventListener("click", () => bootSplashFileInput?.click());
+  syncTtfSizeLabel();
+  ttfSizeRangeEl?.addEventListener("input", () => {
+    syncTtfSizeLabel();
+    scheduleTtfRerasterize();
+  });
 
   fileInput?.addEventListener("change", async () => {
     const f = fileInput.files?.[0];
     if (!f) return;
     if (!isMcmFile(f) && !isPngFile(f)) {
-      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff for YAFF files.", { error: true });
+      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff/.ttf for overlay fonts.", { error: true });
       fileInput.value = "";
       return;
     }
@@ -3865,14 +3999,19 @@ function initEvents() {
     }
   });
 
-  yaffFileInput?.addEventListener("change", () => {
+  yaffFileInput?.addEventListener("change", async () => {
     const f = yaffFileInput.files?.[0];
     if (!f) return;
-    if (!isYaffFile(f)) {
-      setLoadStatus("Please choose a .yaff file.", { error: true });
+    if (!isYaffFile(f) && !isTtfFile(f)) {
+      setLoadStatus("Please choose a .yaff, .ttf, or .otf file.", { error: true });
       return;
     }
-    handleFile(f);
+    try {
+      await handleFile(f);
+    } catch (err) {
+      console.error("Overlay import failed:", err);
+      setLoadStatus(`Failed to import: ${f.name}`, { error: true, subtext: err?.message || "" });
+    }
   });
 
   bootSplashFileInput?.addEventListener("change", () => {
@@ -3891,8 +4030,8 @@ function initEvents() {
     const f = e.dataTransfer.files?.[0];
     if (!f) return;
     if (!isMcmFile(f) && !isPngFile(f)) {
-      if (isYaffFile(f)) {
-        setLoadStatus("Use the Import .yaff button for YAFF overlays.", { error: true });
+      if (isYaffFile(f) || isTtfFile(f)) {
+        setLoadStatus("Use the Import .yaff/.ttf button for YAFF and TTF overlays.", { error: true });
       } else {
         setLoadStatus("Unsupported file type. Drop a .mcm or exported .png file here.", { error: true });
       }
