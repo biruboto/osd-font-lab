@@ -2888,11 +2888,15 @@ function applyEditorUndo() {
 ------------------------------ */
 
 function safeBaseName() {
-  const overlayName = overlaySelect?.value
-    ? overlaySelect.value
-        .replace(/\.[^.]+$/i, "")
-        .replace(/[^a-z0-9._-]+/gi, "_")
-    : "no-overlay";
+  const sanitize = (name) => String(name || "")
+    .replace(/\.[^.]+$/i, "")
+    .replace(/[^a-z0-9._-]+/gi, "_")
+    .replace(/^_+|_+$/g, "");
+
+  const overlayName = currentOverlayFromTtf && currentTtfSourceFile?.name
+    ? sanitize(currentTtfSourceFile.name)
+    : (overlaySelect?.value ? sanitize(overlaySelect.value) : "no-overlay");
+
   return `osd_font_lab_${overlayName}`;
 }
 
