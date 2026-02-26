@@ -12,10 +12,24 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small (but growing!) selection of custom OSDFL icons
 + Export to either .MCM or .PNG (1x and 3x)
 
-02.13.2026
-+ New HUD VIEW! Preview your OSD in an in-goggles style overlay on a flight background. Toggle common elements on/off, drag elements to your layout, switch NTSC/PAL safe areas, and compare changes live against the glyph sheet.
-+ New boot splash logo support! Import a 288x72px BMP or PNG and inject it into your font.
-+ New pixel editor! Ability to manually edit single glyphs pixel-by-pixel.
+02.26.2026
++ Added OSD | BOOT toggle in HUD view so custom boot splash can now be previewed in that view.
+
+02.25.2026
++ New *experimental* TTF import support! There are plenty of reasons why importing a modern TTF font into such a limited bitmap space isn't as straightforward as you may think, but TTF support is generally the first question I get about Font Lab from people, so here it is! Results will vary wildly in quality, because of the nature of proportional fonts, hinting, ascenders/descenders, etc, but in my own testing I got surprisingly usable results out of a lot of fonts. Play around with it and see for yourself. Have fun!
++ Added lowercase support. Don't want all caps? Flip the "case" toggle to L for lowercase A-Z. *Note that not all fonts HAVE lowercase letters.*
+
+02.21.2026
++ 92 new fonts in the ZX library! New crosshair sprites: gbpanda, meowth, and ryuhiko.
+
+02.18.2026
++ New emoji support! Replace safe characters with emoji for use in PILOT NAME or CRAFT NAME, etc, or turn safe mode off and replace any glyph with an emoji. 500+ emoji from pixel artist Idan Rooze. Also lots of performance tweaks
+
+02.16.2026
++ Added 8-neighbor stroke style option for slightly heavier outlines
+
+02.15.2026
++ New NFG's Arcade Font Engine library (170 fonts)
 
 02.14.2026
 + New Amstrad CPC font library (44 new fonts)
@@ -23,18 +37,7 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + New BBC Micro font library (89 new fonts)
 + New Oldschool PC font library (163 fonts)
 
-02.15.2026
-+ New NFG's Arcade Font Engine library (170 fonts)
-
-02.16.2026
-+ Added 8-neighbor stroke style option for slightly heavier outlines
-
-02.18.2026
-+ New emoji support! Replace safe characters with emoji for use in PILOT NAME or CRAFT NAME, etc, or turn safe mode off and replace any glyph with an emoji. 500+ emoji from pixel artist Idan Rooze. Also lots of performance tweaks
-
-02.21.2026
-+ 92 new fonts in the ZX library! New crosshair sprites: gbpanda, meowth, and ryuhiko.
-
-02.25.2026
-+ New *experimental* TTF import support! There are plenty of reasons why importing a modern TTF font into such a limited bitmap space isn't as straightforward as you may think, but TTF support is generally the first question I get about Font Lab from people, so here it is! Results will vary wildly in quality, because of the nature of proportional fonts, hinting, ascenders/descenders, etc, but in my own testing I got surprisingly usable results out of a lot of fonts. Play around with it and see for yourself. Have fun!
-+ Added lowercase support. Don't want all caps? Flip the "case" toggle to L for lowercase A-Z. *Note that not all fonts HAVE lowercase letters.*
+02.13.2026
++ New HUD VIEW! Preview your OSD in an in-goggles style overlay on a flight background. Toggle common elements on/off, drag elements to your layout, switch NTSC/PAL safe areas, and compare changes live against the glyph sheet.
++ New boot splash logo support! Import a 288x72px BMP or PNG and inject it into your font.
++ New pixel editor! Ability to manually edit single glyphs pixel-by-pixel.

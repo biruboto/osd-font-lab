@@ -97,6 +97,8 @@ const showGridsEl = document.getElementById("showGrids");
 const hudShowGuidesEl = document.getElementById("hudShowGuides");
 const hudFormatNtscBtn = document.getElementById("hudFormatNtscBtn");
 const hudFormatPalBtn = document.getElementById("hudFormatPalBtn");
+const hudPreviewHudBtn = document.getElementById("hudPreviewHudBtn");
+const hudPreviewBootBtn = document.getElementById("hudPreviewBootBtn");
 const hudResetDefaultsBtn = document.getElementById("hudResetDefaultsBtn");
 const hudElementToggles = [...document.querySelectorAll(".hud-element-toggle")];
 const hudPilotNameInput = document.getElementById("hudPilotNameInput");
@@ -274,6 +276,12 @@ const HUD_VIDEO_FORMAT_KEY = "osdHudVideoFormat";
 const HUD_VIDEO_FORMAT_VERSION_KEY = "osdHudVideoFormatVersion";
 const HUD_VIDEO_FORMAT_SCHEMA_VERSION = 2;
 let hudVideoFormat = loadHudVideoFormatFromStorage();
+const HUD_PREVIEW_MODE_KEY = "osdHudPreviewMode";
+const HUD_PREVIEW_MODE_HUD = "hud";
+const HUD_PREVIEW_MODE_BOOT = "boot";
+let hudPreviewMode = (localStorage.getItem(HUD_PREVIEW_MODE_KEY) === HUD_PREVIEW_MODE_BOOT)
+  ? HUD_PREVIEW_MODE_BOOT
+  : HUD_PREVIEW_MODE_HUD;
 const HUD_ELEMENTS_KEY = "osdHudElements";
 const HUD_ELEMENTS_VERSION_KEY = "osdHudElementsVersion";
 const HUD_ELEMENTS_SCHEMA_VERSION = 4;
@@ -357,6 +365,9 @@ let loadStatusText = "No file loaded.";
 let loadStatusSubtext = "";
 let loadStatusError = false;
 let kofiIconData = null;
+let hudBootBgImage = null;
+let hudBootBgReady = false;
+let hudBootBgTried = false;
 
 const THEME_SHORT_LABELS = {
   dusk: "DUSK",
@@ -640,6 +651,11 @@ function resetHudDefaults() {
 function syncHudFormatUI() {
   hudFormatNtscBtn?.classList.toggle("is-active", hudVideoFormat === "NTSC");
   hudFormatPalBtn?.classList.toggle("is-active", hudVideoFormat === "PAL");
+}
+
+function syncHudPreviewModeUI() {
+  hudPreviewHudBtn?.classList.toggle("is-active", hudPreviewMode === HUD_PREVIEW_MODE_HUD);
+  hudPreviewBootBtn?.classList.toggle("is-active", hudPreviewMode === HUD_PREVIEW_MODE_BOOT);
 }
 
 function remapHudLayoutRowsForFormatSwitch(fromFormat, toFormat) {
@@ -2749,6 +2765,154 @@ function renderBootSplashPreview(font) {
   }
 }
 
+function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
+  if (!ctx || !canvas) return;
+  fitCanvasToCSS(canvas, ctx);
+  ctx.imageSmoothingEnabled = false;
+
+  const ensureHudBootBackground = () => {
+    if (hudBootBgTried) return;
+    hudBootBgTried = true;
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => {
+      hudBootBgImage = img;
+      hudBootBgReady = true;
+      scheduleRerender();
+    };
+    img.onerror = () => {
+      hudBootBgImage = null;
+      hudBootBgReady = false;
+    };
+    img.src = "fpv.jpg";
+  };
+
+  const drawHudBootBackdrop = (x, y, w, h) => {
+    if (hudBootBgReady && hudBootBgImage) {
+      const iw = hudBootBgImage.naturalWidth || hudBootBgImage.width;
+      const ih = hudBootBgImage.naturalHeight || hudBootBgImage.height;
+      if (iw > 0 && ih > 0) {
+        const scale = Math.max(w / iw, h / ih);
+        const dw = Math.round(iw * scale);
+        const dh = Math.round(ih * scale);
+        const dx = Math.floor(x + (w - dw) / 2);
+        const dy = Math.floor(y + (h - dh) / 2);
+        ctx.drawImage(hudBootBgImage, dx, dy, dw, dh);
+        return;
+      }
+    }
+    const grad = ctx.createLinearGradient(0, y, 0, y + h);
+    grad.addColorStop(0, cssVar("--bg-0", "#122235"));
+    grad.addColorStop(0.62, cssVar("--bg-2", "#304d6a"));
+    grad.addColorStop(0.621, cssVar("--bg-3", "#3a2a20"));
+    grad.addColorStop(1, cssVar("--bg-1", "#1f1f1f"));
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, w, h);
+  };
+
+  const drawBootGlyph = (glyphIndex, x, y, scale) => {
+    const glyph = font?.glyphs?.[glyphIndex];
+    if (!glyph) return;
+    const w = font.width || 12;
+    const h = font.height || 18;
+    for (let gy = 0; gy < h; gy++) {
+      for (let gx = 0; gx < w; gx++) {
+        const v = glyph[gy * w + gx];
+        if (v === 1) continue;
+        const c = (v === 2) ? "#ffffff" : "#000000";
+        ctx.fillStyle = c;
+        ctx.fillRect(x + gx * scale, y + gy * scale, scale, scale);
+      }
+    }
+  };
+
+  const drawBootText = (text, col, row, scale, originX, originY, safeTopRows, rowToGrid) => {
+    if (!text) return;
+    const glyphW = (font?.width || 12) * scale;
+    const glyphH = (font?.height || 18) * scale;
+    const baseX = originX + col * glyphW;
+    const mappedRow = rowToGrid(row);
+    const baseY = originY + (safeTopRows + mappedRow) * glyphH;
+
+    if (font?.glyphs) {
+      for (let i = 0; i < text.length; i++) {
+        const cp = text.charCodeAt(i) & 0xff;
+        drawBootGlyph(cp, baseX + i * glyphW, baseY, scale);
+      }
+      return;
+    }
+
+    const fs = Math.max(10, Math.floor(glyphH * 0.5));
+    ctx.save();
+    ctx.font = `bold ${fs}px monospace`;
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "rgba(0,0,0,0.55)";
+    ctx.fillText(text, baseX + 1, baseY + 1);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(text, baseX, baseY);
+    ctx.restore();
+  };
+
+  ensureHudBootBackground();
+
+  const HUD_COLS = 30;
+  const HUD_ROWS = 16;
+  const safeRows = videoFormat === "NTSC" ? 13 : 16;
+  const safeTopRows = videoFormat === "NTSC" ? 1 : 0;
+  const rowToGrid = (row) => Math.max(0, Math.min(safeRows - 1, Math.round(row)));
+  const glyphW = Math.max(1, font?.width || 12);
+  const glyphH = Math.max(1, font?.height || 18);
+  const scale = Math.min(
+    canvas.width / (HUD_COLS * glyphW),
+    canvas.height / (HUD_ROWS * glyphH),
+  );
+  const cellW = glyphW * scale;
+  const cellH = glyphH * scale;
+  const hudW = HUD_COLS * cellW;
+  const hudH = HUD_ROWS * cellH;
+  const ox = Math.floor((canvas.width - hudW) / 2);
+  const oy = Math.floor((canvas.height - hudH) / 2);
+  const safeY = oy + safeTopRows * cellH;
+  const safeH = safeRows * cellH;
+
+  ctx.fillStyle = cssVar("--osd-matte", "#1f232b");
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(ox, safeY, hudW, safeH);
+  ctx.clip();
+  drawHudBootBackdrop(ox, safeY, hudW, safeH);
+  ctx.restore();
+
+  const splashGlyphW = Math.max(1, font?.width || 12);
+  const splashGlyphH = Math.max(1, font?.height || 18);
+  const splashScale = scale; // Use same HUD scale so splash obeys OSD cell rules.
+  const splashStartCol = Math.floor((HUD_COLS - BOOT_SPLASH_COLS) / 2);
+  const splashStartRow = videoFormat === "NTSC" ? 1 : 2;
+  const sx0 = ox + splashStartCol * glyphW * splashScale;
+  const sy0 = oy + (safeTopRows + splashStartRow) * glyphH * splashScale;
+
+  if (font?.glyphs) {
+    for (let tile = 0; tile < BOOT_SPLASH_GLYPH_COUNT; tile++) {
+      const tc = tile % BOOT_SPLASH_COLS;
+      const tr = Math.floor(tile / BOOT_SPLASH_COLS);
+      const gx = sx0 + tc * splashGlyphW * splashScale;
+      const gy = sy0 + tr * splashGlyphH * splashScale;
+      drawBootGlyph(BOOT_SPLASH_START_INDEX + tile, gx, gy, splashScale);
+    }
+  }
+
+  // Boot message region under logo, drawn with current OSD font.
+  const bootTextScale = scale;
+  const fwRowBase = splashStartRow + BOOT_SPLASH_ROWS + 4;
+  const verCol = 19; // previous col (11) shifted right by 8
+  const verRow = fwRowBase - 2; // move up 2 cells
+  drawBootText("V4.5.0", verCol + 1, verRow - 1, bootTextScale, ox, oy, safeTopRows, rowToGrid);
+  drawBootText("MENU:THR MID", verCol - 12, verRow + 2, bootTextScale, ox, oy, safeTopRows, rowToGrid);
+  drawBootText("+ YAW LEFT", verCol - 8, verRow + 3, bootTextScale, ox, oy, safeTopRows, rowToGrid);
+  drawBootText("+ PITCH UP", verCol - 8, verRow + 4, bootTextScale, ox, oy, safeTopRows, rowToGrid);
+}
+
 function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
   const hasBase = !!baseFont;
   const hasResult = !!resultFont;
@@ -2763,13 +2927,18 @@ function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
   }
 
   if (viewMode === VIEW_MODE_HUD) {
-    hudRenderState = hudRenderer.renderHud(resultHudCtx, resultHudCanvas, displayFont, {
-      showGuides: showGrids,
-      enabledElements: enabledHudElements,
-      videoFormat: hudVideoFormat,
-      layout: hudLayout,
-      labels: hudLabels,
-    });
+    if (hudPreviewMode === HUD_PREVIEW_MODE_BOOT) {
+      renderHudBootMock(resultHudCtx, resultHudCanvas, displayFont, { videoFormat: hudVideoFormat });
+      hudRenderState = null;
+    } else {
+      hudRenderState = hudRenderer.renderHud(resultHudCtx, resultHudCanvas, displayFont, {
+        showGuides: showGrids,
+        enabledElements: enabledHudElements,
+        videoFormat: hudVideoFormat,
+        layout: hudLayout,
+        labels: hudLabels,
+      });
+    }
   } else {
     hudRenderState = null;
     if (displayFont) {
@@ -3856,6 +4025,7 @@ function initEvents() {
     });
   }
   syncHudFormatUI();
+  syncHudPreviewModeUI();
   hudFormatNtscBtn?.addEventListener("click", () => {
     const nextFormat = "NTSC";
     if (hudVideoFormat === nextFormat) return;
@@ -3874,6 +4044,21 @@ function initEvents() {
     localStorage.setItem(HUD_VIDEO_FORMAT_KEY, hudVideoFormat);
     saveHudLayoutToStorage();
     syncHudFormatUI();
+    rerenderAll();
+  });
+  hudPreviewHudBtn?.addEventListener("click", () => {
+    if (hudPreviewMode === HUD_PREVIEW_MODE_HUD) return;
+    hudPreviewMode = HUD_PREVIEW_MODE_HUD;
+    localStorage.setItem(HUD_PREVIEW_MODE_KEY, hudPreviewMode);
+    syncHudPreviewModeUI();
+    rerenderAll();
+  });
+  hudPreviewBootBtn?.addEventListener("click", () => {
+    if (hudPreviewMode === HUD_PREVIEW_MODE_BOOT) return;
+    hudPreviewMode = HUD_PREVIEW_MODE_BOOT;
+    localStorage.setItem(HUD_PREVIEW_MODE_KEY, hudPreviewMode);
+    syncHudPreviewModeUI();
+    setHudCanvasCursor("default");
     rerenderAll();
   });
   hudResetDefaultsBtn?.addEventListener("click", () => {
@@ -3966,7 +4151,7 @@ function initEvents() {
   });
 
   resultHudCanvas?.addEventListener("mousedown", (e) => {
-    if (viewMode !== VIEW_MODE_HUD) return;
+    if (viewMode !== VIEW_MODE_HUD || hudPreviewMode !== HUD_PREVIEW_MODE_HUD) return;
     const p = hudCanvasPoint(e);
     if (!p) return;
     const hit = hitTestHudElement(p.x, p.y);
@@ -3986,7 +4171,7 @@ function initEvents() {
   });
 
   resultHudCanvas?.addEventListener("mousemove", (e) => {
-    if (viewMode !== VIEW_MODE_HUD) return;
+    if (viewMode !== VIEW_MODE_HUD || hudPreviewMode !== HUD_PREVIEW_MODE_HUD) return;
     const p = hudCanvasPoint(e);
     if (!p) return;
     if (hudDrag.active) {

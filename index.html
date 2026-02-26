@@ -42,6 +42,7 @@
                   (Load a font, then click a glyph.)
                 </div>
                 <div id="editorPalette" class="editor-palette" hidden>
+                  <span class="editor-tools-icon" aria-hidden="true"><i class="fa-solid fa-pencil"></i></span>
                   <button type="button" class="editor-color-btn" data-editor-color="3" aria-label="Black">
                     <span class="editor-color-swatch editor-color-black" aria-hidden="true"></span>
                   </button>
@@ -111,6 +112,10 @@
             <div class="hud-format-segment" role="group" aria-label="HUD video format">
               <button id="hudFormatNtscBtn" type="button" class="hud-format-btn">NTSC</button>
               <button id="hudFormatPalBtn" type="button" class="hud-format-btn">PAL</button>
+            </div>
+            <div class="hud-format-segment" role="group" aria-label="HUD preview mode">
+              <button id="hudPreviewHudBtn" type="button" class="hud-format-btn">OSD</button>
+              <button id="hudPreviewBootBtn" type="button" class="hud-format-btn">BOOT</button>
             </div>
             <label class="field checkbox">
               <input id="hudShowGuides" type="checkbox" checked />

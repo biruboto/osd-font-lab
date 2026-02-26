@@ -48,6 +48,14 @@ canvas{
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.view-toggle-btn .fa-solid{
+  line-height: 1;
 }
 
 .view-toggle-btn:last-child{
@@ -425,6 +433,7 @@ canvas{
   display: flex;
   gap: 6px;
   justify-content: center;
+  align-items: center;
 }
 
 .editor-palette[hidden]{
@@ -455,6 +464,15 @@ canvas{
 .editor-undo-glyph{
   font-size: 1rem;
   line-height: 1;
+}
+
+.editor-tools-icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  color: var(--text-muted);
+  opacity: 0.9;
 }
 
 .editor-color-swatch{
