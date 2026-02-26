@@ -4,7 +4,9 @@ export function buildFontPicker({
   getLabel,          // (optionEl) => string
   getValue,          // (optionEl) => string
   getPreviewUrl,     // (value) => Promise<string> | string URL to png
+  getItemClass,      // (optionEl, value) => string (optional extra row class)
   onChange,          // (value) => void
+  closeOnSelect = true,
   lazyMenuPreviews = false,
 }) {
   if (!selectEl) return;
@@ -108,6 +110,12 @@ export function buildFontPicker({
       const row = document.createElement("div");
       row.className = "fontpicker-item";
       row.setAttribute("data-value", value);
+      const extraClass = String(getItemClass?.(opt, value) || "").trim();
+      if (extraClass) {
+        for (const cls of extraClass.split(/\s+/)) {
+          if (cls) row.classList.add(cls);
+        }
+      }
 
       if (value) {
         const t = document.createElement("img");
@@ -129,7 +137,11 @@ export function buildFontPicker({
         selectEl.dispatchEvent(new Event("change", { bubbles: true }));
         setButtonFromValue(value);
         onChange?.(value);
-        wrap.classList.remove("open");
+        if (closeOnSelect) {
+          wrap.classList.remove("open");
+        } else if (wrap.classList.contains("open")) {
+          refreshMenuPreviews();
+        }
       });
     };
 
@@ -240,6 +252,14 @@ export function buildFontPicker({
     rebuild: () => {
       rebuildMenu();
       setButtonFromValue(selectEl.value);
+      if (wrap.classList.contains("open")) {
+        ensureMenuBuilt();
+        refreshMenuPreviews();
+      }
+    },
+    setFlag: (className, on = true) => {
+      if (!className) return;
+      wrap.classList.toggle(String(className), !!on);
     },
     close: () => wrap.classList.remove("open"),
   };

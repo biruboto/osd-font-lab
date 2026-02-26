@@ -37,4 +37,4 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 
 02.25.2026
 + New *experimental* TTF import support! There are plenty of reasons why importing a modern TTF font into such a limited bitmap space isn't as straightforward as you may think, but TTF support is generally the first question I get about Font Lab from people, so here it is! Results will vary wildly in quality, because of the nature of proportional fonts, hinting, ascenders/descenders, etc, but in my own testing I got surprisingly usable results out of a lot of fonts. Play around with it and see for yourself. Have fun!
-+ Added lowercase support. Don't want all caps? Flip the "case" toggle to L for lowercase A-Z.
++ Added lowercase support. Don't want all caps? Flip the "case" toggle to L for lowercase A-Z. *Note that not all fonts HAVE lowercase letters.*

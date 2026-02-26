@@ -55,6 +55,15 @@
   user-select: none;
 }
 
+.font-select-stack .fontpicker-menu .fontpicker-item.is-library-current{
+  background: color-mix(in srgb, var(--accent-0) 13%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-0) 46%, transparent);
+}
+
+.font-select-stack .fontpicker-menu .fontpicker-item.is-library-current .fontpicker-name{
+  color: color-mix(in srgb, var(--accent-1) 76%, var(--text-0));
+}
+
 .fontpicker-thumb{
   width: auto;
   height: 18px;
@@ -248,11 +257,34 @@
 }
 
 .exports{
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.exports > button,
+.exports > .kofi-badge{
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+}
+
+.exports > button{
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.exports > button .fa-solid,
+.exports > .kofi-badge .kofi-badge-fa{
+  font-size: 1.08rem;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 .kofi-badge{
@@ -267,6 +299,7 @@
   background: var(--bg-2);
   text-decoration: none;
   color: var(--text-0);
+  font: inherit;
   transition: border-color 0.15s ease, transform 0.08s ease;
 }
 
@@ -297,7 +330,7 @@
 }
 
 .kofi-badge-text{
-  font-size: 0.9rem;
+  font-size: inherit;
   line-height: 1;
 }
 
@@ -578,6 +611,10 @@ select{
   display: block;
 }
 
+.ttf-stroke-mini-label.case-mini-label{
+  line-height: 1;
+}
+
 
 /* ---------- drop zone + status ---------- */
 #drop{
@@ -712,6 +749,9 @@ select{
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .stroke-style-btn:last-child{
@@ -731,6 +771,19 @@ select{
 .stroke-style-btn.is-active{
   background: color-mix(in srgb, var(--accent-0) 18%, var(--bg-2));
   color: var(--text-0);
+}
+
+.tools-pane .fa-solid,
+.tools-pane .fa-brands{
+  font-size: 1.06em;
+  line-height: 1;
+  vertical-align: -0.08em;
+}
+
+#caseUpperBtn,
+#caseLowerBtn{
+  text-transform: none;
+  font-weight: 700;
 }
 
 .load-status{

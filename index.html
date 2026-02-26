@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>OSD Font Lab</title>
   <link rel="icon" href="./favicon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="css/app.css?v=20260226-ttfrow">
 </head>
 
@@ -33,8 +34,8 @@
             <aside class="sidecar">
               <div class="zoom-wrap">
                 <div class="zoom-mode-toggle" role="group" aria-label="Zoom panel mode">
-                  <button id="zoomModeInspector" type="button" class="zoom-mode-btn">Inspector</button>
-                  <button id="zoomModeEditor" type="button" class="zoom-mode-btn">Editor</button>
+                  <button id="zoomModeInspector" type="button" class="zoom-mode-btn"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Inspector</button>
+                  <button id="zoomModeEditor" type="button" class="zoom-mode-btn"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Editor</button>
                 </div>
                 <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
                 <div id="glyphInfo" class="inspector-body glyph-info-inline">
@@ -58,7 +59,7 @@
 
               <div class="sidecar-controls">
                 <button id="holdOriginalPreview" type="button" class="hold-preview-btn">
-                  Hold for Original
+                  <i class="fa-solid fa-code-compare" aria-hidden="true"></i> Hold for Original
                 </button>
 
                 <label class="field checkbox">
@@ -74,22 +75,22 @@
                 <div class="nudgeBox">
                   <div class="nudgeTitle">Nudge replaced ASCII</div>
                   <div class="dpad" data-nudge-target="replaced">
-                    <button type="button" data-dx="0" data-dy="-1">&uarr;</button>
-                    <button type="button" data-dx="0" data-dy="1">&darr;</button>
-                    <button type="button" data-dx="0" data-dy="0" data-action="reset">&#10226;</button>
-                    <button type="button" data-dx="-1" data-dy="0">&larr;</button>
-                    <button type="button" data-dx="1" data-dy="0">&rarr;</button>
+                    <button type="button" data-dx="0" data-dy="-1"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="1"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="reset"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="-1" data-dy="0"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="1" data-dy="0"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
                   </div>
                 </div>
 
                 <div class="nudgeBox">
                   <div class="nudgeTitle">Nudge selection</div>
                   <div class="dpad" data-nudge-target="selection">
-                    <button type="button" data-dx="0" data-dy="-1">&uarr;</button>
-                    <button type="button" data-dx="0" data-dy="1">&darr;</button>
-                    <button type="button" data-dx="0" data-dy="0" data-action="clear">&#10226;</button>
-                    <button type="button" data-dx="-1" data-dy="0">&larr;</button>
-                    <button type="button" data-dx="1" data-dy="0">&rarr;</button>
+                    <button type="button" data-dx="0" data-dy="-1"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="1"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="clear"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="-1" data-dy="0"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="1" data-dy="0"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
                   </div>
                 </div>
 
@@ -160,9 +161,9 @@
         <header class="topbar">
           <div class="topbar-right">
             <div class="exports">
-              <button id="exportMCM" type="button" title="Export a Betaflight Configurator-ready font file">Export .mcm</button>
-              <button id="exportPNG1x" type="button" title="Export a pixel-perfect PNG for editing in external applications">Export 1xPNG</button>
-              <button id="exportPNG3x" type="button" title="Export a large PNG for sharing">Export 3xPNG</button>
+              <button id="exportMCM" type="button" title="Export a Betaflight Configurator-ready font file"><i class="fa-solid fa-file-export" aria-hidden="true"></i> .mcm</button>
+              <button id="exportPNG1x" type="button" title="Export a pixel-perfect PNG for editing in external applications"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (1x)</button>
+              <button id="exportPNG3x" type="button" title="Export a large PNG for sharing"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (3x)</button>
               <a class="kofi-badge" href="https://ko-fi.com/V7V51TP9SQ" target="_blank" rel="noopener noreferrer" aria-label="Support on Ko-fi" title="If you appreciate my work ♥">
                 <img id="kofiBadgeIcon" class="kofi-badge-icon" alt="" />
                 <span class="kofi-badge-text">Ko-fi</span>
@@ -174,8 +175,8 @@
           <div class="panel-header">
             <div class="tools-view-toggle">
               <div class="view-toggle" role="group" aria-label="Preview mode">
-                <button id="viewModeSheet" type="button" class="view-toggle-btn">Sheet View</button>
-                <button id="viewModeHud" type="button" class="view-toggle-btn">HUD View</button>
+                <button id="viewModeSheet" type="button" class="view-toggle-btn"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Sheet View</button>
+                <button id="viewModeHud" type="button" class="view-toggle-btn"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i> HUD View</button>
               </div>
             </div>
             <div class="tools-section-title">Status</div>
@@ -233,17 +234,21 @@
               <input id="yaffFile" type="file" accept=".yaff,.ttf,.otf" hidden>
               <div class="ttf-stroke-row" title="Experimental TTF import controls">
                 <div class="stroke-style-group">
-                  <span class="ttf-stroke-mini-label"><span>Case</span><span>&nbsp;</span></span>
+                  <span class="ttf-stroke-mini-label case-mini-label"><span>Case</span></span>
                   <div class="stroke-style-segment" role="group" aria-label="Overlay letter case">
-                    <button id="caseUpperBtn" type="button" class="stroke-style-btn" title="Use overlay UPPERCASE A-Z for ASCII A-Z">U</button>
-                    <button id="caseLowerBtn" type="button" class="stroke-style-btn" title="Use overlay lowercase a-z for ASCII A-Z">L</button>
+                    <button id="caseUpperBtn" type="button" class="stroke-style-btn" title="Use overlay UPPERCASE A-Z for ASCII A-Z">A</button>
+                    <button id="caseLowerBtn" type="button" class="stroke-style-btn" title="Use overlay lowercase a-z for ASCII A-Z">a</button>
                   </div>
                 </div>
                 <div class="stroke-style-group">
                   <span class="ttf-stroke-mini-label"><span>Stroke</span><span>Style</span></span>
                   <div class="stroke-style-segment" role="group" aria-label="Overlay stroke style">
-                    <button id="strokeStyle4Btn" type="button" class="stroke-style-btn" title="4-neighbor stroke (up/down/left/right)">4-way</button>
-                    <button id="strokeStyle8Btn" type="button" class="stroke-style-btn" title="8-neighbor stroke (includes diagonals)">8-way</button>
+                    <button id="strokeStyle4Btn" type="button" class="stroke-style-btn" title="4-neighbor stroke (up/down/left/right)" aria-label="4-way stroke">
+                      <i class="fa-solid fa-up-down-left-right" aria-hidden="true"></i>
+                    </button>
+                    <button id="strokeStyle8Btn" type="button" class="stroke-style-btn" title="8-neighbor stroke (includes diagonals)" aria-label="8-way stroke">
+                      <i class="fa-solid fa-maximize" aria-hidden="true"></i>
+                    </button>
                   </div>
                 </div>
                 <label class="ttf-size-control-inline" for="ttfSizeRange">

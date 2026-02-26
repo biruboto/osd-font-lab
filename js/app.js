@@ -3015,6 +3015,14 @@ function libraryIdFromSelectValue(value) {
   return value.slice(LIB_SELECT_PREFIX.length);
 }
 
+function hasLoadedOverlayFontsInSelect() {
+  if (!overlaySelect) return false;
+  return [...overlaySelect.options].some((opt) => {
+    const v = String(opt.value || "");
+    return !!v && !isLibrarySelectValue(v);
+  });
+}
+
 function buildOverlaySelectOptionsBase(placeholderText = "(load font library)") {
   if (!overlaySelect) return;
   overlaySelect.innerHTML = `<option value="">${placeholderText}</option>`;
@@ -3113,7 +3121,15 @@ async function loadOverlayIndex() {
     selectEl: overlaySelect,
     getLabel: (opt) => opt.textContent,
     getValue: (opt) => opt.value,
+    getItemClass: (_opt, value) => (
+      hasLoadedOverlayFontsInSelect()
+      && isLibrarySelectValue(value)
+      && libraryIdFromSelectValue(value) === currentOverlayLibraryId
+        ? "is-library-current"
+        : ""
+    ),
     getPreviewUrl: (value) => isLibrarySelectValue(value) ? "" : getOverlayPreviewUrl(value),
+    closeOnSelect: false,
     lazyMenuPreviews: true,
   });
 
