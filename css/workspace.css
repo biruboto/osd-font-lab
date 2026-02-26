@@ -114,6 +114,19 @@ canvas{
   width: min(100%, 300px);
 }
 
+:root[data-density="compact"] .panel-body{
+  grid-template-columns: minmax(0, 1fr) 260px;
+}
+
+:root[data-density="compact"] .panel-result .panel-body{
+  gap: 8px;
+}
+
+:root[data-density="compact"] .panel-result .sidecar{
+  flex: 0 1 272px;
+  width: min(100%, 272px);
+}
+
 .tools-view-toggle{
   width: 100%;
   display: flex;
@@ -125,17 +138,31 @@ canvas{
   display: none;
 }
 
+:root[data-view-mode="hud"] .panel-result{
+  grid-template-rows: 1fr auto;
+}
+
 :root[data-view-mode="hud"] .panel-result .panel-body{
+  flex: 1 1 auto;
+  min-height: 0;
   justify-content: center;
+  align-items: stretch;
 }
 
 :root[data-view-mode="hud"] .panel-result .grid-wrap.hud-wrap{
-  width: min(100%, 1200px);
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 :root[data-view-mode="hud"] .panel-result .hud-canvas{
   width: 100%;
+  height: 100%;
   max-width: 1200px;
+  max-height: 100%;
 }
 
 .grid-canvas{
@@ -155,13 +182,24 @@ canvas{
   box-shadow: inset 0 0 0 1px var(--canvas-frame);
 }
 
-.panel-hud-tools{
+.font-pane .panel-hud-tools{
   display: none;
+  flex: 0 0 auto;
 }
 
-:root[data-view-mode="hud"] .panel-hud-tools{
+:root[data-view-mode="hud"] .font-pane .panel-hud-tools{
   display: grid;
   margin-top: 0;
+}
+
+:root[data-view-mode="hud"] .font-pane .panel-result{
+  flex: 1 1 auto;
+}
+
+.panel-hud-tools .panel-body,
+.panel-hud-tools .panel-body-single{
+  display: block;
+  width: 100%;
 }
 
 .hud-preview-controls{
@@ -173,8 +211,8 @@ canvas{
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 8px;
-  padding-top: 1px;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .hud-tools-header{
@@ -230,30 +268,52 @@ canvas{
 
 .hud-tools-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 6px 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(14px, 2vw, 26px);
+  row-gap: 8px;
   width: 100%;
+  align-items: start;
+}
+
+.hud-tools-grid > *{
+  min-width: 0;
 }
 
 .hud-tools-grid .checkbox{
   min-height: 28px;
+  width: 100%;
 }
 
 .hud-element-with-input{
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(140px, 1fr);
   align-items: center;
   gap: 6px;
+  width: 100%;
+  min-width: 0;
 }
 
 .hud-element-with-input input[type="text"]{
-  flex: 1 1 auto;
   width: 100%;
+  min-width: 140px;
   min-height: 28px;
   text-transform: uppercase;
 }
 
 .hud-element-with-input input[type="text"]:focus::placeholder{
   color: transparent;
+}
+
+@media (max-width: 1200px){
+  .hud-tools-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px){
+  .hud-tools-grid{
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- sidecar ---------- */
@@ -264,11 +324,19 @@ canvas{
   min-height: 0;
 }
 
+:root[data-density="compact"] .sidecar{
+  gap: 8px;
+}
+
 .zoom-wrap{
   border-radius: 12px;
   background: var(--bg-2);
   border: 1px solid var(--bg-3);
   padding: 8px;
+}
+
+:root[data-density="compact"] .zoom-wrap{
+  padding: 6px;
 }
 
 .zoom-label{
@@ -288,6 +356,10 @@ canvas{
   border: 1px solid var(--bg-3);
   border-radius: 10px;
   overflow: hidden;
+}
+
+:root[data-density="compact"] .zoom-mode-toggle{
+  margin-bottom: 2px;
 }
 
 .zoom-mode-btn{
@@ -334,6 +406,10 @@ canvas{
   box-shadow: none;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+}
+
+:root[data-density="compact"] .zoom-canvas{
+  max-width: 236px;
 }
 
 .zoom-canvas.is-editor{
@@ -417,6 +493,11 @@ canvas{
   min-height: 0;
 }
 
+:root[data-density="compact"] .sidecar-controls{
+  padding: 6px 8px;
+  gap: 8px;
+}
+
 .hold-preview-btn.is-holding{
   border-color: var(--accent-0);
   background: color-mix(in srgb, var(--accent-0) 14%, var(--bg-2));
@@ -441,6 +522,15 @@ canvas{
   gap: 6px 8px;
   border-top: 1px solid var(--bg-3);
   padding-top: 8px;
+}
+
+:root[data-density="compact"] .theme-radios{
+  gap: 4px 6px;
+  padding-top: 6px;
+}
+
+:root[data-density="compact"] .font-serving-note{
+  font-size: 0.74rem;
 }
 
 .theme-radios-label{
@@ -522,7 +612,7 @@ canvas{
 }
 
 /* ---------- responsive workspace ---------- */
-@media (max-width: 1700px){
+@media (max-width: 1450px){
   .panel-result .panel-body{
     flex-wrap: wrap;
   }

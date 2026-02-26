@@ -348,6 +348,97 @@ const THEME_SHORT_LABELS = {
   "cold-phosphor": "PHSPHR",
   "lavender-circuit": "LVNDR",
 };
+const DENSITY_MODE_COMPACT = "compact";
+const DENSITY_BREAKPOINT_WIDTH = 1100;
+const DENSITY_COMPACT_HEIGHT = 930;
+const PANE_BASELINE_BREAKPOINT_WIDTH = 1100;
+let densityMode = "";
+let paneBaselinePx = 0;   // anchored from Sheet mode only
+let paneLeftPanelPx = 0;  // anchored from Sheet mode only
+let paneRightMainPx = 0;  // anchored from Sheet mode only (after right-side chrome)
+let paneBaselineSyncRaf = 0;
+let paneBaselineForcePending = false;
+
+function viewportHeightForDensity() {
+  const vv = window.visualViewport;
+  if (vv && Number.isFinite(vv.height) && vv.height > 0) return Math.round(vv.height);
+  return Math.max(0, window.innerHeight || document.documentElement.clientHeight || 0);
+}
+
+function computeDensityMode() {
+  const vw = Math.max(0, window.innerWidth || document.documentElement.clientWidth || 0);
+  if (vw <= DENSITY_BREAKPOINT_WIDTH) return "";
+  const vh = viewportHeightForDensity();
+  return vh <= DENSITY_COMPACT_HEIGHT ? DENSITY_MODE_COMPACT : "";
+}
+
+function syncDensityMode({ rerender = true } = {}) {
+  const next = computeDensityMode();
+  if (next === densityMode) return;
+  densityMode = next;
+  if (densityMode) document.documentElement.setAttribute("data-density", densityMode);
+  else document.documentElement.removeAttribute("data-density");
+  if (rerender) scheduleRerender();
+}
+
+function syncPaneBaseline({ forceFromSheet = false } = {}) {
+  const splitEl = document.querySelector(".split");
+  const fontPaneEl = document.querySelector(".font-pane");
+  const panelResultEl = document.querySelector(".font-pane .panel-result");
+  const toolsPaneEl = document.querySelector(".tools-pane");
+  const topbarEl = document.querySelector(".tools-pane .topbar");
+  if (!splitEl || !fontPaneEl) return;
+
+  const vw = Math.max(0, window.innerWidth || document.documentElement.clientWidth || 0);
+  if (vw <= PANE_BASELINE_BREAKPOINT_WIDTH) {
+    paneBaselinePx = 0;
+    paneLeftPanelPx = 0;
+    paneRightMainPx = 0;
+    document.documentElement.style.removeProperty("--pane-baseline-h");
+    document.documentElement.style.removeProperty("--pane-left-panel-h");
+    document.documentElement.style.removeProperty("--pane-right-main-h");
+    return;
+  }
+
+  const shouldMeasure = forceFromSheet || viewMode === VIEW_MODE_SHEET;
+  if (shouldMeasure) {
+    const measured = Math.ceil(splitEl.getBoundingClientRect().height || 0);
+    if (measured > 0) paneBaselinePx = Math.max(paneBaselinePx, measured);
+    const panelMeasured = Math.ceil(panelResultEl?.getBoundingClientRect?.().height || 0);
+    if (panelMeasured > 0) paneLeftPanelPx = Math.max(paneLeftPanelPx, panelMeasured);
+    if (toolsPaneEl && topbarEl && measured > 0) {
+      const paneStyle = getComputedStyle(toolsPaneEl);
+      const padTop = parseFloat(paneStyle.paddingTop || "0") || 0;
+      const gap = parseFloat(paneStyle.rowGap || paneStyle.gap || "0") || 0;
+      const topbarH = Math.ceil(topbarEl.getBoundingClientRect().height || 0);
+      const chrome = Math.ceil(padTop + topbarH + gap);
+      const rightMain = Math.max(0, measured - chrome);
+      if (rightMain > 0) paneRightMainPx = Math.max(paneRightMainPx, rightMain);
+    }
+  }
+
+  if (paneBaselinePx > 0) {
+    document.documentElement.style.setProperty("--pane-baseline-h", `${paneBaselinePx}px`);
+  }
+  if (paneLeftPanelPx > 0) {
+    document.documentElement.style.setProperty("--pane-left-panel-h", `${paneLeftPanelPx}px`);
+  }
+  if (paneRightMainPx > 0) {
+    document.documentElement.style.setProperty("--pane-right-main-h", `${paneRightMainPx}px`);
+  }
+}
+
+function schedulePaneBaselineSync({ forceFromSheet = false } = {}) {
+  paneBaselineForcePending = paneBaselineForcePending || forceFromSheet;
+  if (paneBaselineSyncRaf) return;
+  paneBaselineSyncRaf = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      paneBaselineSyncRaf = 0;
+      syncPaneBaseline({ forceFromSheet: paneBaselineForcePending });
+      paneBaselineForcePending = false;
+    });
+  });
+}
 
 function updateThemeCodeLabel(themeId) {
   if (!themeCodeLabelEl) return;
@@ -358,12 +449,14 @@ function setViewMode(nextMode) {
   viewMode = nextMode === VIEW_MODE_HUD ? VIEW_MODE_HUD : VIEW_MODE_SHEET;
   localStorage.setItem(VIEW_MODE_KEY, viewMode);
   document.documentElement.setAttribute("data-view-mode", viewMode);
+  syncDensityMode({ rerender: false });
   viewModeSheetBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_SHEET);
   viewModeHudBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_HUD);
   if (viewMode !== VIEW_MODE_HUD) setHudCanvasCursor("default");
   syncZoomModeUI();
   // Repaint once more after layout settles to avoid stale canvas sizing.
   requestAnimationFrame(() => rerenderAll());
+  schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 }
 
 function syncZoomModeUI() {
@@ -2650,6 +2743,7 @@ function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
   if (renderBootSplash) {
     renderBootSplashPreview(resultFont || baseFont || null);
   }
+  schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 }
 
 function scheduleRerender() {
@@ -3810,7 +3904,26 @@ function initEvents() {
   window.addEventListener("dragover", (e) => e.preventDefault());
   window.addEventListener("drop", (e) => e.preventDefault());
 
-  window.addEventListener("resize", () => scheduleRerender());
+  window.addEventListener("resize", () => {
+    syncDensityMode({ rerender: false });
+    if (viewMode === VIEW_MODE_SHEET) {
+      paneBaselinePx = 0;
+      paneLeftPanelPx = 0;
+      paneRightMainPx = 0;
+    }
+    schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
+    scheduleRerender();
+  });
+  window.visualViewport?.addEventListener("resize", () => {
+    syncDensityMode({ rerender: false });
+    if (viewMode === VIEW_MODE_SHEET) {
+      paneBaselinePx = 0;
+      paneLeftPanelPx = 0;
+      paneRightMainPx = 0;
+    }
+    schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
+    scheduleRerender();
+  });
 
   // exports
   exportMCMBtn?.addEventListener("click", () => {
@@ -3866,8 +3979,10 @@ function initEvents() {
 function init() {
   // Keep layout stable before any font is loaded.
   setViewMode(viewMode);
+  syncDensityMode({ rerender: false });
   if (resultGridCanvas) workspaceRenderer.reserveGridCanvasSpace(resultGridCanvas);
   if (baseGridCanvas) workspaceRenderer.reserveGridCanvasSpace(baseGridCanvas);
+  schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 
   updateReplReadout();
   setLoadStatus(loadStatusText);
