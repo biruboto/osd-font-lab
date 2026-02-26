@@ -13,7 +13,8 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Export to either .MCM or .PNG (1x and 3x)
 
 02.26.2026
-+ Added OSD | BOOT toggle in HUD view so custom boot splash can now be previewed in that view.
++ Added OSD | BOOT toggle in HUD view so custom boot logo can now be previewed in that view.
++ Added export boot logo option. Can export to native OSDFL format (PNG with gray background) or BTFL format (BMP with green background). Note that OSDFL can import either format.
 
 02.25.2026
 + New *experimental* TTF import support! There are plenty of reasons why importing a modern TTF font into such a limited bitmap space isn't as straightforward as you may think, but TTF support is generally the first question I get about Font Lab from people, so here it is! Results will vary wildly in quality, because of the nature of proportional fonts, hinting, ascenders/descenders, etc, but in my own testing I got surprisingly usable results out of a lot of fonts. Play around with it and see for yourself. Have fun!
@@ -39,5 +40,5 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 
 02.13.2026
 + New HUD VIEW! Preview your OSD in an in-goggles style overlay on a flight background. Toggle common elements on/off, drag elements to your layout, switch NTSC/PAL safe areas, and compare changes live against the glyph sheet.
-+ New boot splash logo support! Import a 288x72px BMP or PNG and inject it into your font.
++ New boot logo support! Import a 288x72px BMP or PNG and inject it into your font.
 + New pixel editor! Ability to manually edit single glyphs pixel-by-pixel.

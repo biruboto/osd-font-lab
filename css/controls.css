@@ -587,6 +587,11 @@ select{
   justify-self: end;
 }
 
+.stroke-style-group.case-style-group{
+  grid-template-columns: 28px max-content;
+}
+
+
 .ttf-stroke-mini-label{
   display: inline-flex;
   flex-direction: column;
@@ -613,6 +618,8 @@ select{
 
 .ttf-stroke-mini-label.case-mini-label{
   line-height: 1;
+  width: 28px;
+  min-width: 28px;
 }
 
 
@@ -1029,12 +1036,60 @@ select{
 
 .boot-splash-import-btn{
   display: block;
-  margin: 0 auto 8px;
-  width: min(100%, 360px);
+  margin: 0;
+  width: 100%;
 }
 
 #bootSplashImportBtn.dropzone-inline{
-  width: min(100%, 360px);
+  width: 100%;
+}
+
+.boot-logo-actions{
+  width: 100%;
+  margin: 0 0 6px;
+  display: grid;
+  grid-template-columns: minmax(112px, 1fr) minmax(112px, 1fr) auto auto;
+  align-items: center;
+  gap: 6px;
+}
+
+#bootLogoExportBtn.dropzone-inline{
+  width: 100%;
+}
+
+#bootSplashImportBtn,
+#bootLogoExportBtn{
+  white-space: nowrap;
+}
+
+.boot-logo-format-label{
+  min-height: 24px;
+  line-height: 0.95;
+  letter-spacing: 0.03em;
+}
+
+.boot-logo-format-segment{
+  justify-self: end;
+}
+
+.boot-logo-format-segment .stroke-style-btn{
+  min-width: 56px;
+}
+
+@media (max-width: 460px){
+  .boot-logo-actions{
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .boot-logo-format-label{
+    grid-column: 1 / 2;
+    justify-self: end;
+  }
+
+  .boot-logo-format-segment{
+    grid-column: 2 / 3;
+    justify-self: start;
+  }
 }
 
 #drop.hot{

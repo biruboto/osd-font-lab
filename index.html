@@ -231,14 +231,14 @@
                     class="dropzone dropzone-inline"
                     title="Import a YAFF replacement overlay or an experimental TTF/OTF rasterized to 12x18"
                   >
-                    Import .yaff/.ttf
+                    Import .yaff/.ttf/.otf
                   </button>
                 </label>
               </div>
               <input id="file" type="file" accept=".mcm,.png" hidden>
               <input id="yaffFile" type="file" accept=".yaff,.ttf,.otf" hidden>
               <div class="ttf-stroke-row" title="Experimental TTF import controls">
-                <div class="stroke-style-group">
+                <div class="stroke-style-group case-style-group">
                   <span class="ttf-stroke-mini-label case-mini-label"><span>Case</span></span>
                   <div class="stroke-style-segment" role="group" aria-label="Overlay letter case">
                     <button id="caseUpperBtn" type="button" class="stroke-style-btn" title="Use overlay UPPERCASE A-Z for ASCII A-Z">A</button>
@@ -304,13 +304,23 @@
                 </div>
               </div>
             </div>
-            <div class="tools-section-title">Boot Splash</div>
+            <div class="tools-section-title">Boot Logo</div>
             <div class="boot-splash-preview-wrap">
-              <canvas id="bootSplashPreview" class="boot-splash-preview" width="288" height="72" aria-label="Boot splash logo preview"></canvas>
+              <canvas id="bootSplashPreview" class="boot-splash-preview" width="288" height="72" aria-label="Boot logo preview"></canvas>
             </div>
-            <button id="bootSplashImportBtn" type="button" class="dropzone dropzone-inline boot-splash-import-btn" title="Import a logo. Allowed colors: Black (#000000) White (#FFFFFF) Transparent (#808080 or #00FF00)">
-              Import 288x72 PNG/BMP
-            </button>
+            <div class="boot-logo-actions">
+              <button id="bootSplashImportBtn" type="button" class="dropzone dropzone-inline boot-splash-import-btn" title="Import a logo. Allowed colors: Black (#000000) White (#FFFFFF) Transparent (#808080 or #00FF00)">
+                Import logo
+              </button>
+              <button id="bootLogoExportBtn" type="button" class="dropzone dropzone-inline boot-splash-import-btn" title="Export current boot logo from tiles 0xA0..0xFF">
+                Export logo
+              </button>
+              <span class="stroke-style-label boot-logo-format-label"><span>Export</span><span>Format</span></span>
+              <div class="stroke-style-segment boot-logo-format-segment" role="group" aria-label="Boot logo export format" title="Boot logo export format">
+                <button id="bootLogoFmtBfBtn" type="button" class="stroke-style-btn" title="288x72 BMP with green background">BTFL</button>
+                <button id="bootLogoFmtNativeBtn" type="button" class="stroke-style-btn" title="288x72 PNG with gray background">OSDFL</button>
+              </div>
+            </div>
             <input id="bootSplashFile" type="file" accept=".png,.bmp" hidden>
           </div>
 

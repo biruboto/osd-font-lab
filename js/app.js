@@ -43,6 +43,9 @@ const yaffImportBtn = document.getElementById("yaffImportBtn");
 const ttfSizeRangeEl = document.getElementById("ttfSizeRange");
 const ttfSizeValueEl = document.getElementById("ttfSizeValue");
 const bootSplashImportBtn = document.getElementById("bootSplashImportBtn");
+const bootLogoExportBtn = document.getElementById("bootLogoExportBtn");
+const bootLogoFmtBfBtn = document.getElementById("bootLogoFmtBfBtn");
+const bootLogoFmtNativeBtn = document.getElementById("bootLogoFmtNativeBtn");
 const bootSplashFileInput = document.getElementById("bootSplashFile");
 const loadStatus = document.getElementById("loadStatus");
 
@@ -334,6 +337,12 @@ const BOOT_SPLASH_COLS = 24;
 const BOOT_SPLASH_ROWS = BOOT_SPLASH_GLYPH_COUNT / BOOT_SPLASH_COLS;
 const BOOT_SPLASH_PNG_WIDTH = 288;
 const BOOT_SPLASH_PNG_HEIGHT = 72;
+const BOOT_LOGO_EXPORT_FORMAT_KEY = "osdBootLogoExportFormat";
+const BOOT_LOGO_EXPORT_BF = "bf";
+const BOOT_LOGO_EXPORT_NATIVE = "native";
+let bootLogoExportFormat = (localStorage.getItem(BOOT_LOGO_EXPORT_FORMAT_KEY) === BOOT_LOGO_EXPORT_NATIVE)
+  ? BOOT_LOGO_EXPORT_NATIVE
+  : BOOT_LOGO_EXPORT_BF;
 let enabledHudElements = loadHudElementsFromStorage();
 let hudLayout = loadHudLayoutFromStorage();
 let hudLabels = loadHudLabelsFromStorage();
@@ -2186,11 +2195,11 @@ async function applyBootSplashFile(file) {
     return;
   }
   if (!isPngFile(file) && !isBmpFile(file)) {
-    setLoadStatus("Please choose a .png or .bmp file for boot splash import.", { error: true });
+    setLoadStatus("Please choose a .png or .bmp file for boot logo import.", { error: true });
     return;
   }
   if ((baseFont.width || 12) !== 12 || (baseFont.height || 18) !== 18) {
-    setLoadStatus("Boot splash import requires a 12x18 font cell size.", { error: true });
+    setLoadStatus("Boot logo import requires a 12x18 font cell size.", { error: true });
     return;
   }
 
@@ -2198,8 +2207,8 @@ async function applyBootSplashFile(file) {
   try {
     splashGlyphs = await decodeBootSplashPng(file);
   } catch (err) {
-    console.error("Boot splash PNG import failed for", file.name, err);
-    setLoadStatus(`Failed boot splash import: ${file.name}`, { error: true, subtext: err?.message || "" });
+    console.error("Boot logo PNG import failed for", file.name, err);
+    setLoadStatus(`Failed boot logo import: ${file.name}`, { error: true, subtext: err?.message || "" });
     return;
   }
 
@@ -2210,7 +2219,126 @@ async function applyBootSplashFile(file) {
   holdOriginalPreviewBtn?.classList.remove("is-holding");
   rebuildResultFont();
   rerenderAll();
-  setLoadStatus(`Loaded boot splash image: ${file.name}`, { subtext: `${BOOT_SPLASH_GLYPH_COUNT} glyphs` });
+  setLoadStatus(`Loaded boot logo image: ${file.name}`, { subtext: `${BOOT_SPLASH_GLYPH_COUNT} glyphs` });
+}
+
+function syncBootLogoExportFormatUI() {
+  bootLogoFmtBfBtn?.classList.toggle("is-active", bootLogoExportFormat === BOOT_LOGO_EXPORT_BF);
+  bootLogoFmtNativeBtn?.classList.toggle("is-active", bootLogoExportFormat === BOOT_LOGO_EXPORT_NATIVE);
+}
+
+function setBootLogoExportFormat(next) {
+  const mode = next === BOOT_LOGO_EXPORT_NATIVE ? BOOT_LOGO_EXPORT_NATIVE : BOOT_LOGO_EXPORT_BF;
+  if (bootLogoExportFormat === mode) return;
+  bootLogoExportFormat = mode;
+  localStorage.setItem(BOOT_LOGO_EXPORT_FORMAT_KEY, bootLogoExportFormat);
+  syncBootLogoExportFormatUI();
+  setLoadStatus(`Boot logo export format: ${mode === BOOT_LOGO_EXPORT_BF ? "Betaflight BMP" : "OSDFL PNG"}`);
+}
+
+function bootLogoPixelRgb(value, format) {
+  if (format === BOOT_LOGO_EXPORT_BF) {
+    if (value === 1) return [0, 255, 0]; // transparent sentinel for Betaflight
+  } else {
+    if (value === 1) return [128, 128, 128]; // transparent sentinel for OSDFL native PNG
+  }
+  if (value === 2) return [255, 255, 255];
+  return [0, 0, 0];
+}
+
+function renderBootLogoCanvas(font, { format = BOOT_LOGO_EXPORT_BF } = {}) {
+  const glyphW = Math.max(1, font?.width || 12);
+  const glyphH = Math.max(1, font?.height || 18);
+  const canvas = document.createElement("canvas");
+  canvas.width = BOOT_SPLASH_COLS * glyphW;
+  canvas.height = BOOT_SPLASH_ROWS * glyphH;
+  const ctx = canvas.getContext("2d");
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  for (let tile = 0; tile < BOOT_SPLASH_GLYPH_COUNT; tile++) {
+    const glyph = font?.glyphs?.[BOOT_SPLASH_START_INDEX + tile];
+    if (!glyph) continue;
+    const tc = tile % BOOT_SPLASH_COLS;
+    const tr = Math.floor(tile / BOOT_SPLASH_COLS);
+    const gx0 = tc * glyphW;
+    const gy0 = tr * glyphH;
+
+    for (let y = 0; y < glyphH; y++) {
+      for (let x = 0; x < glyphW; x++) {
+        const v = glyph[y * glyphW + x];
+        const [r, g, b] = bootLogoPixelRgb(v, format);
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(gx0 + x, gy0 + y, 1, 1);
+      }
+    }
+  }
+  return canvas;
+}
+
+function canvasToBmpBlob(canvas) {
+  const w = canvas.width | 0;
+  const h = canvas.height | 0;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  const rgba = ctx.getImageData(0, 0, w, h).data;
+  const rowStride = w * 3;
+  const rowPadded = (rowStride + 3) & ~3;
+  const pixelBytes = rowPadded * h;
+  const fileSize = 54 + pixelBytes;
+  const buf = new ArrayBuffer(fileSize);
+  const dv = new DataView(buf);
+  const out = new Uint8Array(buf);
+
+  dv.setUint8(0, 0x42); // B
+  dv.setUint8(1, 0x4D); // M
+  dv.setUint32(2, fileSize, true);
+  dv.setUint32(10, 54, true);
+  dv.setUint32(14, 40, true); // DIB header size
+  dv.setInt32(18, w, true);
+  dv.setInt32(22, h, true); // bottom-up
+  dv.setUint16(26, 1, true);
+  dv.setUint16(28, 24, true); // 24-bit
+  dv.setUint32(34, pixelBytes, true);
+
+  let dst = 54;
+  for (let y = h - 1; y >= 0; y--) {
+    const rowBase = y * w * 4;
+    for (let x = 0; x < w; x++) {
+      const p = rowBase + x * 4;
+      out[dst++] = rgba[p + 2]; // B
+      out[dst++] = rgba[p + 1]; // G
+      out[dst++] = rgba[p + 0]; // R
+    }
+    while ((dst - 54) % rowPadded !== 0) out[dst++] = 0;
+  }
+  return new Blob([buf], { type: "image/bmp" });
+}
+
+function exportBootLogo() {
+  const font = resultFont || baseFont;
+  if (!font) {
+    setLoadStatus("Load a base font first.", { error: true });
+    return;
+  }
+  if ((font.width || 12) !== 12 || (font.height || 18) !== 18) {
+    setLoadStatus("Boot logo export requires a 12x18 font cell size.", { error: true });
+    return;
+  }
+
+  const fmt = bootLogoExportFormat;
+  const canvas = renderBootLogoCanvas(font, { format: fmt });
+  if (fmt === BOOT_LOGO_EXPORT_BF) {
+    const blob = canvasToBmpBlob(canvas);
+    downloadBlob(blob, `${safeBaseName()}_boot_logo.bmp`);
+    setLoadStatus("Exported boot logo (Betaflight BMP).", { subtext: "288x72, green transparency" });
+    return;
+  }
+  canvas.toBlob((blob) => {
+    if (!blob) return;
+    downloadBlob(blob, `${safeBaseName()}_boot_logo.png`);
+    setLoadStatus("Exported boot logo (OSDFL PNG).", { subtext: "288x72, gray transparency" });
+  }, "image/png");
 }
 
 async function getSwapSourceFontForTarget(sourceId, targetId) {
@@ -4217,7 +4345,20 @@ function initEvents() {
     if (yaffFileInput) yaffFileInput.value = "";
     yaffFileInput?.click();
   });
-  bootSplashImportBtn?.addEventListener("click", () => bootSplashFileInput?.click());
+  bootSplashImportBtn?.addEventListener("click", () => {
+    if (bootSplashFileInput) bootSplashFileInput.value = "";
+    bootSplashFileInput?.click();
+  });
+  bootLogoExportBtn?.addEventListener("click", () => {
+    exportBootLogo();
+  });
+  bootLogoFmtBfBtn?.addEventListener("click", () => {
+    setBootLogoExportFormat(BOOT_LOGO_EXPORT_BF);
+  });
+  bootLogoFmtNativeBtn?.addEventListener("click", () => {
+    setBootLogoExportFormat(BOOT_LOGO_EXPORT_NATIVE);
+  });
+  syncBootLogoExportFormatUI();
   syncTtfSizeLabel();
   ttfSizeRangeEl?.addEventListener("input", () => {
     syncTtfSizeLabel();
