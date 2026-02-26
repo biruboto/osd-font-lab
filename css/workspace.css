@@ -77,6 +77,12 @@ canvas{
   color: var(--text-0);
 }
 
+:root[data-theme="lavender-circuit"] .view-toggle-btn:not(.is-active),
+:root[data-theme="lavender-circuit"] .zoom-mode-btn:not(.is-active),
+:root[data-theme="lavender-circuit"] .hud-format-btn:not(.is-active){
+  color: var(--text-muted);
+}
+
 :root[data-view-mode="hud"] .panel-result .sheet-wrap{
   display: none;
 }

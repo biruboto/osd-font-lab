@@ -780,6 +780,26 @@ select{
   color: var(--text-0);
 }
 
+:root[data-theme="lavender-circuit"] .stroke-style-btn:not(.is-active){
+  color: var(--text-muted);
+}
+
+:root[data-theme="lavender-circuit"] .panel-hud-tools .checkbox .toggle-slider::after{
+  background: var(--text-muted);
+}
+
+:root[data-theme="lavender-circuit"] .panel-hud-tools .checkbox .checkbox-label{
+  color: var(--text-muted);
+}
+
+:root[data-theme="lavender-circuit"] .panel-hud-tools .checkbox input[type="checkbox"]:checked ~ .checkbox-label{
+  color: var(--text-0);
+}
+
+:root[data-theme="lavender-circuit"] .panel-hud-tools .checkbox input[type="checkbox"]:checked + .toggle-slider{
+  border-color: color-mix(in srgb, var(--accent-0) 20%, var(--bg-2));
+}
+
 .tools-pane .fa-solid,
 .tools-pane .fa-brands{
   font-size: 1.06em;
