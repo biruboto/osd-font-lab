@@ -32,6 +32,7 @@ import { createWorkspaceRenderer } from "./modules/workspace-render.js";
 import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js";
 import { parseYaffToOverlay } from "./modules/yaff.js";
 import { parseTtfToOverlay } from "./modules/ttf-overlay.js";
+import { FCConnection } from "./modules/serial.js";
 
 /* -----------------------------
    DOM
@@ -114,6 +115,7 @@ const themeCodeLabelEl = document.getElementById("themeCodeLabel");
 const kofiBadgeIconEl = document.getElementById("kofiBadgeIcon");
 
 const exportMCMBtn = document.getElementById("exportMCM");
+const uploadFCBtn = document.getElementById("uploadFC");
 const exportPNG1xBtn = document.getElementById("exportPNG1x");
 const exportPNG3xBtn = document.getElementById("exportPNG3x");
 
@@ -4476,6 +4478,96 @@ function initEvents() {
     const text = encodeMCM(resultFont);
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     downloadBlob(blob, `${safeBaseName()}.mcm`);
+  });
+
+  uploadFCBtn?.addEventListener("click", async () => {
+    if (!resultFont) return;
+    if (!("serial" in navigator)) {
+      alert("Web Serial API not supported in this browser. Please use Chrome, Edge, or Opera.");
+      return;
+    }
+
+    if (!confirm("This will upload the current font directly to your Flight Controller. Make sure you are connected via USB and your props are off! Continue?")) {
+      return;
+    }
+
+    const fc = new FCConnection();
+    const originalText = uploadFCBtn.innerHTML;
+
+    try {
+      uploadFCBtn.disabled = true;
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Connecting...';
+      setLoadStatus("Connecting to FC...", { subtext: "Starting serial..." });
+
+      const connected = await fc.connect();
+      if (!connected) {
+        throw new Error("Could not connect to flight controller. Make sure it is plugged in and not used by another app (like Betaflight Configurator).");
+      }
+
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Checking FC...';
+      setLoadStatus("Checking FC...", { subtext: "MSP handshake..." });
+      const alive = await fc.checkConnection();
+      if (!alive) {
+        throw new Error("FC connected but not responding to MSP. Try closing other configuration tools.");
+      }
+
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Checking OSD...';
+      setLoadStatus("Checking OSD...", { subtext: "Verifying hardware..." });
+      try {
+        await fc.checkOSD();
+      } catch (e) {
+        throw new Error(e.message || "OSD chip not detected. Ensure a battery is connected if the OSD chip requires it.");
+      }
+
+      // Prepare font data (256 * 54 bytes)
+      const fontData = new Uint8Array(256 * 54);
+      
+      const v2bpp = (v) => {
+        if (v === 2) return 0b10; // white
+        if (v === 0 || v === 3) return 0b00; // black
+        return 0b01; // transparent
+      };
+
+      for (let gi = 0; gi < 256; gi++) {
+        const glyph = resultFont.glyphs[gi];
+        const baseOffset = gi * 54;
+        
+        let p = 0;
+        for (let bi = 0; bi < 54; bi++) {
+          const p0 = v2bpp(glyph[p++]);
+          const p1 = v2bpp(glyph[p++]);
+          const p2 = v2bpp(glyph[p++]);
+          const p3 = v2bpp(glyph[p++]);
+
+          fontData[baseOffset + bi] = (p0 << 6) | (p1 << 4) | (p2 << 2) | (p3 << 0);
+        }
+      }
+
+      setLoadStatus("Uploading font...", { subtext: "0%" });
+      await fc.uploadFont(fontData, (current, total) => {
+        const percent = Math.round((current / total) * 100);
+        const statusText = `${percent}%`;
+        uploadFCBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${statusText}`;
+        setLoadStatus("Uploading font...", { subtext: `${percent}%` });
+      });
+
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-check"></i> Done!';
+      setLoadStatus("Upload complete!", { subtext: "Font updated." });
+      setTimeout(() => {
+        uploadFCBtn.disabled = false;
+        uploadFCBtn.innerHTML = originalText;
+        setLoadStatus(loadStatusText); // Refresh current status
+      }, 3000);
+
+    } catch (err) {
+      console.error(err);
+      alert(`Upload failed: ${err.message}`);
+      setLoadStatus("Upload failed", { error: true, subtext: err.message });
+      uploadFCBtn.disabled = false;
+      uploadFCBtn.innerHTML = originalText;
+    } finally {
+      await fc.disconnect();
+    }
   });
 
   exportPNG1xBtn?.addEventListener("click", () => {
