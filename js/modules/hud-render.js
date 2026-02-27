@@ -38,7 +38,7 @@ export function createHudRenderer({
   const C = String.fromCharCode;
   const HUD_TEXT_SAMPLES = Object.freeze({
     rssi: { glyph: `${C(0x01)}99`, fallback: "RSSI 99", col: 1, row: 1 },
-    main_voltage: { glyph: `${C(0x97)}3.39${C(0x06)}`, fallback: "BAT 3.39V", col: 21, row: 1 },
+    main_voltage: { glyph: `${C(0x95)}3.29${C(0x06)}`, fallback: "BAT 3.29V", col: 21, row: 1 },
     throttle: { glyph: `${C(0x04)}52`, fallback: "THR 52", col: 21, row: 2 },
     link_quality: { glyph: `${C(0x7B)}2:99`, fallback: "LQ 2:99", col: 1, row: 2 },
     current_draw: { glyph: `3.4${C(0x9A)}`, fallback: "3.4A", col: 23, row: 2 },

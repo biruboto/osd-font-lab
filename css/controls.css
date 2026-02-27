@@ -256,13 +256,6 @@
   outline-offset: 2px;
 }
 
-.exports-stack{
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-}
-
 .exports{
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -272,8 +265,7 @@
   min-width: 0;
 }
 
-.exports > button,
-.kofi-badge{
+.exports > button{
   width: 100%;
   min-width: 0;
   justify-content: center;
@@ -341,6 +333,14 @@
 .kofi-badge-text{
   font-size: inherit;
   line-height: 1;
+}
+
+.kofi-badge-sidecar{
+  margin-top: 8px;
+  width: max-content;
+  max-width: 100%;
+  align-self: center;
+  padding: 0 12px;
 }
 
 button,

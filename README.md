@@ -12,6 +12,9 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small (but growing!) selection of custom OSDFL icons
 + Export to either .MCM or .PNG (1x and 3x)
 
+02.27.2026
++ Direct upload to flight controller support! Thanks to an implementation by [BUSHA](https://vtx.in.ua/max7456/), in Chromium based browsers OSD Font Lab can now upload your font creation directly to your quad.
+
 02.26.2026
 + Added OSD | BOOT toggle in HUD view so custom boot logo can now be previewed in that view.
 + Added export boot logo option. Can export to native OSDFL format (PNG with gray background) or BTFL format (BMP with green background). Note that OSDFL can import either format.
