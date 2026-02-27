@@ -256,6 +256,13 @@
   outline-offset: 2px;
 }
 
+.exports-stack{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
 .exports{
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -266,7 +273,7 @@
 }
 
 .exports > button,
-.exports > .kofi-badge{
+.kofi-badge{
   width: 100%;
   min-width: 0;
   justify-content: center;
@@ -277,6 +284,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
+  white-space: nowrap;
+  font-size: 0.85rem;
 }
 
 .exports > button .fa-solid,
