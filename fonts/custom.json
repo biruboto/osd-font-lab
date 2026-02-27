@@ -6,127 +6,9 @@
     "glyphHeight": 18,
     "gap": 0,
     "targets": {
-      "battery_set": { "png": "custom/battery_set/hearts.png" }
-    }
-  },
-  {
-    "id": "crosshair_dk",
-    "name": "DK",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/dk.png" }
-    }
-  },
-  {
-    "id": "crosshair_invader",
-    "name": "Invader",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/invader.png" }
-    }
-  },
-  {
-    "id": "crosshair_junkfood",
-    "name": "Junkfood",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/junkfood.png" }
-    }
-  },
-  {
-    "id": "crosshair_lite01",
-    "name": "Lite 01",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/lite01.png" }
-    }
-  },
-  {
-    "id": "crosshair_lite02",
-    "name": "Lite 02",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/lite02.png" }
-    }
-  },
-  {
-    "id": "crosshair_mage",
-    "name": "Mage",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/mage.png" }
-    }
-  },
-  {
-    "id": "crosshair_gbpanda",
-    "name": "GBPanda",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/gbpanda.png" }
-    }
-  },
-  {
-    "id": "crosshair_meowth",
-    "name": "Meowth",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/meowth.png" }
-    }
-  },
-  {
-    "id": "crosshair_osdflwhoop",
-    "name": "OSDFL Whoop",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/osdflwhoop.png" }
-    }
-  },
-  {
-    "id": "crosshair_sendit",
-    "name": "Sendit",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/sendit.png" }
-    }
-  },
-  {
-    "id": "crosshair_ryuhiko",
-    "name": "Ryuhiko",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/ryuhiko.png" }
-    }
-  },
-  {
-    "id": "crosshair_skullhorns",
-    "name": "Skullhorns",
-    "glyphWidth": 12,
-    "glyphHeight": 18,
-    "gap": 0,
-    "targets": {
-      "crosshair_set": { "png": "custom/crosshair_set/skullhorns.png" }
+      "battery_set": {
+        "png": "custom/battery_set/hearts.png"
+      }
     }
   },
   {
@@ -136,8 +18,12 @@
     "glyphHeight": 18,
     "gap": 0,
     "targets": {
-      "on_m": { "png": "custom/single/clock.png" },
-      "fly_m": { "png": "custom/single/clock.png" }
+      "on_m": {
+        "png": "custom/single/clock.png"
+      },
+      "fly_m": {
+        "png": "custom/single/clock.png"
+      }
     }
   },
   {
@@ -147,9 +33,325 @@
     "glyphHeight": 18,
     "gap": 0,
     "targets": {
-      "rssi": { "png": "custom/single/rmpocket.png" },
-      "lq": { "png": "custom/single/rmpocket.png" },
-      "throttle": { "png": "custom/single/rmpocket.png" }
+      "rssi": {
+        "png": "custom/single/rmpocket.png"
+      },
+      "lq": {
+        "png": "custom/single/rmpocket.png"
+      },
+      "throttle": {
+        "png": "custom/single/rmpocket.png"
+      }
     }
+  },
+  {
+    "id": "battery_circular",
+    "name": "Circular",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "battery_set": {
+        "png": "custom/battery_set/circular.png"
+      }
+    }
+  },
+  {
+    "id": "battery_smallbars",
+    "name": "Smallbars",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "battery_set": {
+        "png": "custom/battery_set/smallbars.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_lite01",
+    "name": "Lite 01",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/lite01.png"
+      }
+    },
+    "group": "crosshair"
+  },
+  {
+    "id": "crosshair_lite02",
+    "name": "Lite 02",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/lite02.png"
+      }
+    },
+    "group": "crosshair"
+  },
+  {
+    "id": "crosshair_air65",
+    "name": "Air 65",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/air65.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_air75",
+    "name": "Air 75",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/air75.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_dk",
+    "name": "DK",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/dk.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_dkjr",
+    "name": "Dkjr",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/dkjr.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_gbpanda",
+    "name": "GBPanda",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/gbpanda.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_invader",
+    "name": "Invader",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/invader.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_junkfood",
+    "name": "Junkfood",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/junkfood.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_mage",
+    "name": "Mage",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/mage.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_mariohammer",
+    "name": "Mariohammer",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/mariohammer.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_mariohead",
+    "name": "Mariohead",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/mariohead.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_mariorun",
+    "name": "Mariorun",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/mariorun.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_marioswim",
+    "name": "Marioswim",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/marioswim.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_meowth",
+    "name": "Meowth",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/meowth.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_osdflwhoop",
+    "name": "OSDFL Whoop",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/osdflwhoop.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_ryuhiko",
+    "name": "Ryuhiko",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/ryuhiko.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_sendit",
+    "name": "Sendit",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/sendit.png"
+      }
+    },
+    "group": "sprite"
+  },
+  {
+    "id": "crosshair_skull01",
+    "name": "Skull 01",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/skull01.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_skull02",
+    "name": "Skull 02",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/skull02.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_skull03",
+    "name": "Skull 03",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "group": "sprite",
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/skull03.png"
+      }
+    }
+  },
+  {
+    "id": "crosshair_skullhorns",
+    "name": "Skullhorns",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/skullhorns.png"
+      }
+    },
+    "group": "sprite"
   }
 ]

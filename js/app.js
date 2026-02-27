@@ -354,6 +354,8 @@ const hudDrag = {
   startPointerY: 0,
   startCol: 0,
   startRow: 0,
+  colOffset: 0,
+  rowOffset: 0,
   cellsWide: 1,
   cellsHigh: 1,
 };
@@ -1288,17 +1290,31 @@ function syncSwapSourceSelect() {
   bfGroup.label = "Betaflight Defaults";
   const customGroup = document.createElement("optgroup");
   customGroup.label = "OSD Font Lab";
+  const customCrosshairGroup = document.createElement("optgroup");
+  customCrosshairGroup.label = "OSDFL CROSSHAIRS";
+  const customSpritesGroup = document.createElement("optgroup");
+  customSpritesGroup.label = "OSDFL SPRITES";
 
   for (const entry of entries) {
     const opt = document.createElement("option");
     opt.value = entry.id;
     opt.textContent = entry.label;
     if (entry.kind === "bf_mcm") bfGroup.appendChild(opt);
-    else customGroup.appendChild(opt);
+    else if (targetId === "crosshair_set") {
+      if (entry.group === "crosshair") customCrosshairGroup.appendChild(opt);
+      else customSpritesGroup.appendChild(opt);
+    } else {
+      customGroup.appendChild(opt);
+    }
   }
 
   if (bfGroup.children.length) swapSourceSelect.appendChild(bfGroup);
-  if (customGroup.children.length) swapSourceSelect.appendChild(customGroup);
+  if (targetId === "crosshair_set") {
+    if (customCrosshairGroup.children.length) swapSourceSelect.appendChild(customCrosshairGroup);
+    if (customSpritesGroup.children.length) swapSourceSelect.appendChild(customSpritesGroup);
+  } else if (customGroup.children.length) {
+    swapSourceSelect.appendChild(customGroup);
+  }
 
   if (swapSourceSelect.options.length <= 1) {
     swapSourceSelect.innerHTML = `<option value="">(no sources for target)</option>`;
@@ -4286,12 +4302,16 @@ function initEvents() {
     if (!hit) return;
     const entry = hudLayout[hit.id];
     if (!entry) return;
+    const rectCol = Number.isFinite(hit.rect?.col) ? Math.round(hit.rect.col) : Math.round(entry.col);
+    const rectRow = Number.isFinite(hit.rect?.row) ? Math.round(hit.rect.row) : Math.round(entry.row);
     hudDrag.active = true;
     hudDrag.id = hit.id;
     hudDrag.startPointerX = p.x;
     hudDrag.startPointerY = p.y;
-    hudDrag.startCol = entry.col;
-    hudDrag.startRow = entry.row;
+    hudDrag.colOffset = Math.round(entry.col) - rectCol;
+    hudDrag.rowOffset = Math.round(entry.row) - rectRow;
+    hudDrag.startCol = rectCol;
+    hudDrag.startRow = rectRow;
     hudDrag.cellsWide = Math.max(1, hit.rect.cellsWide || 1);
     hudDrag.cellsHigh = Math.max(1, hit.rect.cellsHigh || 1);
     setHudCanvasCursor("move");
@@ -4309,8 +4329,10 @@ function initEvents() {
       const dyCells = Math.round((p.y - hudDrag.startPointerY) / Math.max(1, grid.rowStep));
       const maxCol = Math.max(0, grid.cols - hudDrag.cellsWide);
       const maxRow = Math.max(0, grid.rows - hudDrag.cellsHigh);
-      const nextCol = clampInt(hudDrag.startCol + dxCells, 0, maxCol);
-      const nextRow = clampInt(hudDrag.startRow + dyCells, 0, maxRow);
+      const nextRectCol = clampInt(hudDrag.startCol + dxCells, 0, maxCol);
+      const nextRectRow = clampInt(hudDrag.startRow + dyCells, 0, maxRow);
+      const nextCol = nextRectCol + hudDrag.colOffset;
+      const nextRow = nextRectRow + hudDrag.rowOffset;
       const cur = hudLayout[hudDrag.id];
       if (cur && (cur.col !== nextCol || cur.row !== nextRow)) {
         hudLayout[hudDrag.id] = { col: nextCol, row: nextRow };

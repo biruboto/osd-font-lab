@@ -40,6 +40,7 @@ export function registerCustomSwapSources(registry, list) {
       id,
       kind: "custom_png",
       label: entry.name,
+      group: entry.group || "",
       targets: normalizedTargets,
       glyphWidth: entry.glyphWidth ?? 12,
       glyphHeight: entry.glyphHeight ?? 18,
