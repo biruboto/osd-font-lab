@@ -4393,7 +4393,7 @@ function initEvents() {
     const f = fileInput.files?.[0];
     if (!f) return;
     if (!isMcmFile(f) && !isPngFile(f)) {
-      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff/.ttf for overlay fonts.", { error: true });
+      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff/.ttf/.otf for overlay fonts.", { error: true });
       fileInput.value = "";
       return;
     }
@@ -4432,20 +4432,23 @@ function initEvents() {
   drop?.addEventListener("dragenter", (e) => { e.preventDefault(); drop.classList.add("hot"); });
   drop?.addEventListener("dragover",  (e) => { e.preventDefault(); drop.classList.add("hot"); });
   drop?.addEventListener("dragleave", () => drop.classList.remove("hot"));
-  drop?.addEventListener("drop", (e) => {
+  drop?.addEventListener("drop", async (e) => {
     e.preventDefault();
     drop.classList.remove("hot");
     const f = e.dataTransfer.files?.[0];
     if (!f) return;
-    if (!isMcmFile(f) && !isPngFile(f)) {
-      if (isYaffFile(f) || isTtfFile(f)) {
-        setLoadStatus("Use the Import .yaff/.ttf button for YAFF and TTF overlays.", { error: true });
-      } else {
-        setLoadStatus("Unsupported file type. Drop a .mcm or exported .png file here.", { error: true });
-      }
+    const isBaseDrop = isMcmFile(f) || isPngFile(f);
+    const isOverlayDrop = isYaffFile(f) || isTtfFile(f);
+    if (!isBaseDrop && !isOverlayDrop) {
+      setLoadStatus("Unsupported file type. Drop a .mcm/.png/.yaff/.ttf/.otf file here.", { error: true });
       return;
     }
-    handleFile(f);
+    try {
+      await handleFile(f);
+    } catch (err) {
+      console.error("Drop import failed:", err);
+      setLoadStatus(`Failed to import: ${f.name}`, { error: true, subtext: err?.message || "" });
+    }
   });
 
   window.addEventListener("dragover", (e) => e.preventDefault());
