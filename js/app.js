@@ -4437,16 +4437,38 @@ function initEvents() {
     drop.classList.remove("hot");
     const f = e.dataTransfer.files?.[0];
     if (!f) return;
-    const isBaseDrop = isMcmFile(f) || isPngFile(f);
-    const isOverlayDrop = isYaffFile(f) || isTtfFile(f);
-    if (!isBaseDrop && !isOverlayDrop) {
-      setLoadStatus("Unsupported file type. Drop a .mcm/.png/.yaff/.ttf/.otf file here.", { error: true });
+    if (!isMcmFile(f) && !isPngFile(f)) {
+      if (isYaffFile(f) || isTtfFile(f)) {
+        setLoadStatus("Drop .yaff/.ttf/.otf files on the Import .yaff/.ttf/.otf button.", { error: true });
+      } else {
+        setLoadStatus("Unsupported file type. Drop a .mcm or exported .png file here.", { error: true });
+      }
       return;
     }
     try {
       await handleFile(f);
     } catch (err) {
       console.error("Drop import failed:", err);
+      setLoadStatus(`Failed to import: ${f.name}`, { error: true, subtext: err?.message || "" });
+    }
+  });
+
+  yaffImportBtn?.addEventListener("dragenter", (e) => { e.preventDefault(); yaffImportBtn.classList.add("hot"); });
+  yaffImportBtn?.addEventListener("dragover", (e) => { e.preventDefault(); yaffImportBtn.classList.add("hot"); });
+  yaffImportBtn?.addEventListener("dragleave", () => yaffImportBtn.classList.remove("hot"));
+  yaffImportBtn?.addEventListener("drop", async (e) => {
+    e.preventDefault();
+    yaffImportBtn.classList.remove("hot");
+    const f = e.dataTransfer.files?.[0];
+    if (!f) return;
+    if (!isYaffFile(f) && !isTtfFile(f)) {
+      setLoadStatus("Unsupported file type. Drop a .yaff/.ttf/.otf file on this button.", { error: true });
+      return;
+    }
+    try {
+      await handleFile(f);
+    } catch (err) {
+      console.error("Overlay drop import failed:", err);
       setLoadStatus(`Failed to import: ${f.name}`, { error: true, subtext: err?.message || "" });
     }
   });

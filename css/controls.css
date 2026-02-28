@@ -1126,3 +1126,9 @@ select{
   color: var(--text-0);
   background: color-mix(in srgb, var(--accent-0) 10%, transparent);
 }
+
+#yaffImportBtn.hot{
+  border-color: var(--accent-0);
+  color: var(--text-0);
+  background: color-mix(in srgb, var(--accent-0) 10%, transparent);
+}
