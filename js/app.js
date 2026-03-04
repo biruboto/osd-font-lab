@@ -4483,6 +4483,26 @@ function initEvents() {
     }
   });
 
+  bootSplashImportBtn?.addEventListener("dragenter", (e) => { e.preventDefault(); bootSplashImportBtn.classList.add("hot"); });
+  bootSplashImportBtn?.addEventListener("dragover", (e) => { e.preventDefault(); bootSplashImportBtn.classList.add("hot"); });
+  bootSplashImportBtn?.addEventListener("dragleave", () => bootSplashImportBtn.classList.remove("hot"));
+  bootSplashImportBtn?.addEventListener("drop", async (e) => {
+    e.preventDefault();
+    bootSplashImportBtn.classList.remove("hot");
+    const f = e.dataTransfer.files?.[0];
+    if (!f) return;
+    if (!isPngFile(f) && !isBmpFile(f)) {
+      setLoadStatus("Unsupported file type. Drop a .png/.bmp file on Import logo.", { error: true });
+      return;
+    }
+    try {
+      await applyBootSplashFile(f);
+    } catch (err) {
+      console.error("Boot logo drop import failed:", err);
+      setLoadStatus(`Failed boot logo import: ${f.name}`, { error: true, subtext: err?.message || "" });
+    }
+  });
+
   window.addEventListener("dragover", (e) => e.preventDefault());
   window.addEventListener("drop", (e) => e.preventDefault());
 
