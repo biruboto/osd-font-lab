@@ -435,6 +435,39 @@ select{
   flex: 0 0 auto;
 }
 
+.panel-header-controls .bf-inline.start-hint .or-label{
+  color: color-mix(in srgb, var(--accent-0) 72%, var(--text-muted));
+}
+
+.panel-header-controls .bf-inline.start-hint .fontpicker-btn,
+.panel-header-controls .bf-inline.start-hint select{
+  border-color: color-mix(in srgb, var(--accent-0) 68%, var(--bg-3));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-0) 28%, transparent),
+    0 0 16px color-mix(in srgb, var(--accent-0) 22%, transparent);
+  animation: startHintPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes startHintPulse{
+  0%, 100%{
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent-0) 24%, transparent),
+      0 0 12px color-mix(in srgb, var(--accent-0) 16%, transparent);
+  }
+  50%{
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--accent-0) 40%, transparent),
+      0 0 24px color-mix(in srgb, var(--accent-0) 30%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .panel-header-controls .bf-inline.start-hint .fontpicker-btn,
+  .panel-header-controls .bf-inline.start-hint select{
+    animation: none;
+  }
+}
+
 .or-select-stack{
   display: flex;
   flex-direction: column;

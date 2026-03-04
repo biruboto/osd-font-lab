@@ -53,6 +53,7 @@ const loadStatus = document.getElementById("loadStatus");
 const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
 
 const bfFontSelect = document.getElementById("bfFontSelect");
+const bfInlineLoadDefaultEl = bfFontSelect?.closest(".bf-inline") || null;
 
 const baseGridCanvas = document.getElementById("baseGrid");
 const resultGridCanvas = document.getElementById("resultGrid");
@@ -373,6 +374,7 @@ const editorUndo = {
 };
 const editorOverrideIndices = new Set();
 let rerenderRafPending = false;
+let defaultLoadCueState = null;
 
 let loadStatusText = "No file loaded.";
 let loadStatusSubtext = "";
@@ -3107,6 +3109,7 @@ function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
   if (renderBootSplash) {
     renderBootSplashPreview(resultFont || baseFont || null);
   }
+  syncDefaultLoadCue();
   schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 }
 
@@ -3117,6 +3120,13 @@ function scheduleRerender() {
     rerenderRafPending = false;
     rerenderAll();
   });
+}
+
+function syncDefaultLoadCue() {
+  const shouldCue = !baseFont;
+  if (defaultLoadCueState === shouldCue) return;
+  defaultLoadCueState = shouldCue;
+  bfInlineLoadDefaultEl?.classList.toggle("start-hint", shouldCue);
 }
 
 function hudCanvasPoint(e) {
@@ -4653,6 +4663,7 @@ function init() {
   initTheme();
   renderKofiBadgeIcon();
   initEvents();
+  syncDefaultLoadCue();
   loadOverlayIndex();
   loadBetaflightDefaults();
   updateServingFontCount();
