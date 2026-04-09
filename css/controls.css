@@ -280,6 +280,31 @@
   font-size: 0.85rem;
 }
 
+#uploadFC{
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#uploadFC::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: var(--upload-progress, 0%);
+  background: color-mix(in srgb, var(--accent-0) 28%, transparent);
+  z-index: -1;
+  transition: width 0.12s linear;
+}
+
+#uploadFC.is-uploading{
+  border-color: color-mix(in srgb, var(--accent-0) 52%, var(--bg-3));
+}
+
+#uploadFC.is-complete::before{
+  width: 100%;
+  background: color-mix(in srgb, var(--accent-0) 36%, transparent);
+}
+
 .exports > button .fa-solid,
 .exports > .kofi-badge .kofi-badge-fa{
   font-size: 1.08rem;

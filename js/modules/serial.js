@@ -213,8 +213,6 @@ export class FCConnection {
 
   async uploadFont(fontData, progressCallback) {
     for (let i = 0; i < 256; i++) {
-      if (progressCallback) progressCallback(i, 256);
-
       const charData = fontData.slice(i * 54, (i + 1) * 54);
       if (charData.length !== 54) {
         throw new Error(`Invalid character data length for char ${i}: ${charData.length}`);
@@ -244,6 +242,8 @@ export class FCConnection {
       if (i < 255) {
         await new Promise((r) => setTimeout(r, 15));
       }
+
+      if (progressCallback) progressCallback(i + 1, 256);
     }
 
     return true;

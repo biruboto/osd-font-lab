@@ -3129,6 +3129,24 @@ function syncDefaultLoadCue() {
   bfInlineLoadDefaultEl?.classList.toggle("start-hint", shouldCue);
 }
 
+function setUploadFCProgressUI(state, percent = 0) {
+  if (!uploadFCBtn) return;
+  const clamped = Math.max(0, Math.min(100, Math.round(percent)));
+  uploadFCBtn.style.setProperty("--upload-progress", `${clamped}%`);
+  uploadFCBtn.classList.toggle("is-uploading", state === "uploading");
+  uploadFCBtn.classList.toggle("is-complete", state === "complete");
+
+  if (state === "uploading") {
+    uploadFCBtn.innerHTML = `<i class="fa-solid fa-microchip" aria-hidden="true"></i> ${clamped}%`;
+    return;
+  }
+  if (state === "complete") {
+    uploadFCBtn.innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Done!';
+    return;
+  }
+  uploadFCBtn.innerHTML = '<i class="fa-solid fa-microchip" aria-hidden="true"></i> To FC';
+}
+
 function hudCanvasPoint(e) {
   if (!resultHudCanvas) return null;
   const rect = resultHudCanvas.getBoundingClientRect();
@@ -4551,7 +4569,8 @@ function initEvents() {
 
     try {
       uploadFCBtn.disabled = true;
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Connecting...';
+      setUploadFCProgressUI("idle", 0);
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Connecting...';
       setLoadStatus("Connecting to FC...", { subtext: "Starting serial..." });
 
       const connected = await fc.connect();
@@ -4559,14 +4578,14 @@ function initEvents() {
         throw new Error("Could not connect to flight controller. Make sure it is plugged in and not used by another app (like Betaflight Configurator).");
       }
 
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Checking FC...';
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Checking FC...';
       setLoadStatus("Checking FC...", { subtext: "MSP handshake..." });
       const alive = await fc.checkConnection();
       if (!alive) {
         throw new Error("FC connected but not responding to MSP. Try closing other configuration tools.");
       }
 
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Checking OSD...';
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Checking OSD...';
       setLoadStatus("Checking OSD...", { subtext: "Verifying hardware..." });
       try {
         await fc.checkOSD();
@@ -4598,18 +4617,20 @@ function initEvents() {
         }
       }
 
+      setUploadFCProgressUI("uploading", 0);
       setLoadStatus("Uploading font...", { subtext: "0%" });
       await fc.uploadFont(fontData, (current, total) => {
         const percent = Math.round((current / total) * 100);
-        const statusText = `${percent}%`;
-        uploadFCBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> ${statusText}`;
+        setUploadFCProgressUI("uploading", percent);
         setLoadStatus("Uploading font...", { subtext: `${percent}%` });
       });
 
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-check"></i> Done!';
+      setUploadFCProgressUI("complete", 100);
       setLoadStatus("Upload complete!", { subtext: "Font updated." });
       setTimeout(() => {
         uploadFCBtn.disabled = false;
+        uploadFCBtn.style.removeProperty("--upload-progress");
+        uploadFCBtn.classList.remove("is-uploading", "is-complete");
         uploadFCBtn.innerHTML = originalText;
         setLoadStatus(loadStatusText); // Refresh current status
       }, 3000);
@@ -4619,6 +4640,8 @@ function initEvents() {
       alert(`Upload failed: ${err.message}`);
       setLoadStatus("Upload failed", { error: true, subtext: err.message });
       uploadFCBtn.disabled = false;
+      uploadFCBtn.style.removeProperty("--upload-progress");
+      uploadFCBtn.classList.remove("is-uploading", "is-complete");
       uploadFCBtn.innerHTML = originalText;
     } finally {
       await fc.disconnect();
