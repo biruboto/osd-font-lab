@@ -16,6 +16,23 @@
 - `js/modules/hud-render.js`: goggles preview composition, default element positions, and hit-test geometry.
 - `js/modules/yaff.js` and `js/modules/ttf-overlay.js`: file-to-overlay conversion.
 
+TTF/OTF imports lazily load the locally bundled MIT-licensed opentype.js 2.0.0
+parser (`js/vendor/opentype-2.0.0/`). The retained source checks character coverage
+before Canvas rendering, caches measurements, and reuses two canvases. A shared
+body size and baseline use typical alphanumeric heights (upper-quartile ascent
+and median descent of available g/j/p/q/y, falling back to positive body descents),
+with supported ink as a fallback for symbol fonts.
+Requested size is capped by that body height, reported in status. Wide glyphs
+compress horizontally on their own; tall outliers compress vertically around the
+shared baseline. Both preserve a one-pixel outline margin. Status reports counts
+of narrowed and shortened glyphs. One ornate glyph cannot limit the whole font.
+Supported blanks, missing glyphs, and ink lost during thresholding have separate
+diagnostics. Missing/vanished glyphs preserve the base font; a supported space is
+explicitly blank. The source is released when a new overlay replaces it. Base-font
+loads retain the overlay source. Imports share the overlay load generation;
+debounced synchronous size updates check that generation and source identity.
+Slider changes during an import are read when its font finishes loading.
+
 ## Workspace behavior
 
 `app.js` still owns editing state while the document model is being extracted. Painted overrides carry the offset at capture time; rebuilds apply only the difference between that offset and the current nudge. File/default/overlay load generations prevent an older asynchronous selection from replacing a newer one.

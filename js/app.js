@@ -31,7 +31,7 @@ import { initDpadControls } from "./modules/dpad.js";
 import { createWorkspaceRenderer } from "./modules/workspace-render.js";
 import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js";
 import { parseYaffToOverlay } from "./modules/yaff.js";
-import { parseTtfToOverlay } from "./modules/ttf-overlay.js";
+import { loadTtfSource } from "./modules/ttf-overlay.js";
 import { FCConnection } from "./modules/serial.js";
 import { createBrandAnimation } from "./modules/brand.js";
 import { createZoomControl } from "./modules/zoom-controls.js";
@@ -154,10 +154,9 @@ let baseLoadId = 0;
 let activeFCUpload = null;
 let holdOriginalPreview = false;
 let cellClipboard = null; // A snapshot of the rendered cell, retained across font loads.
-let currentOverlayFromTtf = false;
-let currentTtfSourceFile = null;
+let currentTtfSource = null;
+let pendingTtfImportId = 0;
 let ttfRerasterTimer = 0;
-let ttfRerasterReqId = 0;
 
 const SWAP_TARGETS = [
   { id: "rssi", label: "RSSI", indices: [1] },
@@ -3292,8 +3291,8 @@ function safeBaseName() {
     .replace(/[^a-z0-9._-]+/gi, "_")
     .replace(/^_+|_+$/g, "");
 
-  const overlayName = currentOverlayFromTtf && currentTtfSourceFile?.name
-    ? sanitize(currentTtfSourceFile.name)
+  const overlayName = currentTtfSource?.file.name
+    ? sanitize(currentTtfSource.file.name)
     : (overlaySelect?.value ? sanitize(overlaySelect.value) : "no-overlay");
 
   return `osd_font_lab_${overlayName}`;
@@ -3493,7 +3492,8 @@ async function loadOverlayIndex() {
     overlaySelect.addEventListener("change", async () => {
       const value = overlaySelect.value;
       const requestId = ++overlayLoadId;
-      ++ttfRerasterReqId;
+      cancelTtfRerasterize();
+      pendingTtfImportId = 0;
 
       if (isLibrarySelectValue(value)) {
         const nextLib = libraryIdFromSelectValue(value);
@@ -3502,8 +3502,7 @@ async function loadOverlayIndex() {
         currentOverlayLibraryId = nextLib;
         localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
         currentOverlay = null;
-        currentOverlayFromTtf = false;
-        currentTtfSourceFile = null;
+        setCurrentTtfSource(null);
         clearEditorPixelOverrides();
         overlayPreviewUrlCache.clear();
         await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel, requestId);
@@ -3520,8 +3519,7 @@ async function loadOverlayIndex() {
 
       if (!file) {
         currentOverlay = null;
-        currentOverlayFromTtf = false;
-        currentTtfSourceFile = null;
+        setCurrentTtfSource(null);
         clearEditorPixelOverrides();
         rebuildResultFont();
         rerenderAll();
@@ -3532,8 +3530,7 @@ async function loadOverlayIndex() {
         const overlay = await getOverlayByFileFromLibrary(currentOverlayLibraryId, file);
         if (requestId !== overlayLoadId) return;
         currentOverlay = overlay;
-        currentOverlayFromTtf = false;
-        currentTtfSourceFile = null;
+        setCurrentTtfSource(null);
       } catch (err) {
         if (requestId !== overlayLoadId) return;
         console.error("Failed to load overlay font:", file, err);
@@ -3562,7 +3559,10 @@ async function handleFile(file) {
   const isOverlay = /\.(yaff|ttf|otf)$/.test(name);
   const requestId = isOverlay ? ++overlayLoadId : ++baseLoadId;
   const isCurrent = () => requestId === (isOverlay ? overlayLoadId : baseLoadId);
-  if (isOverlay) ++ttfRerasterReqId;
+  if (isOverlay) {
+    cancelTtfRerasterize();
+    pendingTtfImportId = 0;
+  }
   if (name.endsWith(".yaff")) {
     const text = await file.text();
     if (!isCurrent()) return;
@@ -3579,8 +3579,7 @@ async function handleFile(file) {
       return;
     }
     currentOverlay = overlay;
-    currentOverlayFromTtf = false;
-    currentTtfSourceFile = null;
+    setCurrentTtfSource(null);
     clearEditorPixelOverrides();
     if (overlaySelect) overlaySelect.value = "";
     rebuildResultFont();
@@ -3594,47 +3593,44 @@ async function handleFile(file) {
   }
 
   if (name.endsWith(".ttf") || name.endsWith(".otf")) {
+    pendingTtfImportId = requestId;
+    let source;
     let overlay;
     try {
-      const sizePx = Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE));
-      overlay = await parseTtfToOverlay(file, {
-        cellW: 12,
-        cellH: 18,
-        strokeMargin: 1,
-        sizePx,
-        charset: TTF_IMPORT_CHARS,
-      });
+      source = await loadTtfSource(file);
+      if (!isCurrent()) {
+        source.dispose();
+        return;
+      }
+      // Read settings after loading, so slider changes during import are included.
+      overlay = source.render(ttfRenderOptions());
     } catch (err) {
+      source?.dispose();
       if (!isCurrent()) return;
       console.error("TTF import failed for", file.name, err);
       setLoadStatus(`TTF import failed: ${file.name}`, { error: true, subtext: err?.message || "" });
       return;
+    } finally {
+      if (pendingTtfImportId === requestId) pendingTtfImportId = 0;
     }
 
-    if (!isCurrent()) return;
-
-    const count = Object.keys(overlay?.glyphs || {}).length;
     const stats = overlay?._importStats || {};
-    if (!count) {
+    if (!stats.imported) {
+      source.dispose();
       setLoadStatus(`TTF import failed: no usable glyphs in ${file.name}`, {
         error: true,
-        subtext: `size ${stats.sizePx || "?"}`,
+        subtext: ttfImportDiagnostics(stats),
       });
       return;
     }
 
     currentOverlay = overlay;
-    currentOverlayFromTtf = true;
-    currentTtfSourceFile = file;
+    setCurrentTtfSource(source);
     clearEditorPixelOverrides();
     if (overlaySelect) overlaySelect.value = "";
     rebuildResultFont();
     rerenderAll();
-    const diag = [];
-    diag.push(`${count} glyphs`);
-    if (Number.isInteger(stats.empty) && stats.empty > 0) diag.push(`${stats.empty} empty`);
-    diag.push(`size ${stats.sizePx || "?"}`);
-    setLoadStatus(`Loaded TTF overlay: ${file.name}`, { subtext: diag.join(", ") });
+    setLoadStatus(`Loaded TTF overlay: ${file.name}`, { subtext: ttfImportDiagnostics(stats) });
     scheduleHudSettleRerender();
     return;
   }
@@ -3669,8 +3665,6 @@ async function handleFile(file) {
 
   const buf = await file.arrayBuffer();
   if (!isCurrent()) return;
-  currentOverlayFromTtf = false;
-  currentTtfSourceFile = null;
   await handleBuffer(buf, file.name);
 }
 
@@ -3714,42 +3708,76 @@ function scheduleHudSettleRerender() {
   });
 }
 
-async function rerasterizeCurrentTtfOverlay() {
-  if (!currentOverlayFromTtf || !currentTtfSourceFile) return;
-  const reqId = ++ttfRerasterReqId;
+function setCurrentTtfSource(source) {
+  if (currentTtfSource === source) return;
+  currentTtfSource?.dispose();
+  currentTtfSource = source;
+}
+
+function ttfRenderOptions() {
+  return {
+    cellW: 12,
+    cellH: 18,
+    strokeMargin: 1,
+    sizePx: Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE)),
+    charset: TTF_IMPORT_CHARS,
+  };
+}
+
+function ttfImportDiagnostics(stats) {
+  const bits = [`${stats.imported} glyphs`];
+  if (stats.blank) bits.push(`${stats.blank} blank`);
+  if (stats.missing) bits.push(`${stats.missing} missing (kept base)`);
+  if (stats.empty) bits.push(`${stats.empty} lost at this size (kept base)`);
+  if (stats.narrowed) bits.push(`${stats.narrowed} narrowed`);
+  if (stats.shortened) bits.push(`${stats.shortened} shortened`);
+  bits.push(`size ${stats.sizePx}`);
+  if (stats.effectiveSizePx < stats.sizePx - 0.05) bits.push(`fitted to ${stats.effectiveSizePx.toFixed(1)}`);
+  return bits.join(", ");
+}
+
+function rerasterizeCurrentTtfOverlay() {
+  const source = currentTtfSource;
+  if (!source || pendingTtfImportId) return;
   try {
-    const sizePx = Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE));
-    const overlay = await parseTtfToOverlay(currentTtfSourceFile, {
-      cellW: 12,
-      cellH: 18,
-      strokeMargin: 1,
-      sizePx,
-      charset: TTF_IMPORT_CHARS,
-    });
-    if (reqId !== ttfRerasterReqId) return;
-    const count = Object.keys(overlay?.glyphs || {}).length;
-    if (!count) return;
+    // Rendering a loaded source is synchronous: no old asynchronous render can commit.
+    const overlay = source.render(ttfRenderOptions());
+    const stats = overlay._importStats;
+    if (!stats.imported) {
+      setLoadStatus(`TTF update failed: no usable glyphs in ${source.file.name}`, {
+        error: true, subtext: ttfImportDiagnostics(stats),
+      });
+      return;
+    }
     currentOverlay = overlay;
     rebuildResultFont();
     rerenderAll();
-    setLoadStatus(`Updated TTF overlay: ${currentTtfSourceFile.name}`, {
-      subtext: `${count} glyphs, size ${sizePx}`,
+    setLoadStatus(`Updated TTF overlay: ${source.file.name}`, {
+      subtext: ttfImportDiagnostics(stats),
     });
     scheduleHudSettleRerender();
   } catch (err) {
     console.error("TTF reraster failed:", err);
-    if (reqId !== ttfRerasterReqId) return;
-    setLoadStatus(`TTF update failed: ${currentTtfSourceFile?.name || "overlay"}`, {
+    setLoadStatus(`TTF update failed: ${source.file.name}`, {
       error: true,
       subtext: err?.message || "",
     });
   }
 }
 
-function scheduleTtfRerasterize() {
+function cancelTtfRerasterize() {
   if (ttfRerasterTimer) clearTimeout(ttfRerasterTimer);
+  ttfRerasterTimer = 0;
+}
+
+function scheduleTtfRerasterize() {
+  cancelTtfRerasterize();
+  if (!currentTtfSource || pendingTtfImportId) return;
+  const requestId = overlayLoadId;
+  const source = currentTtfSource;
   ttfRerasterTimer = setTimeout(() => {
     ttfRerasterTimer = 0;
+    if (requestId !== overlayLoadId || source !== currentTtfSource) return;
     rerasterizeCurrentTtfOverlay();
   }, TTF_RERASTER_DEBOUNCE_MS);
 }

@@ -3,6 +3,7 @@ import asyncio
 import functools
 import json
 import os
+import subprocess
 from pathlib import Path
 import threading
 import unittest
@@ -11,6 +12,16 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from playwright.async_api import async_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+@functools.lru_cache(maxsize=2)
+def outline_fixture(variant=0):
+    return subprocess.check_output([
+        'node', '--input-type=module', '-e',
+        "import {makeOutlineFixture} from './tests/fixtures/outline-font.mjs';"
+        "process.stdout.write(Buffer.from(makeOutlineFixture(Number(process.argv[1]))));",
+        str(variant),
+    ], cwd=ROOT)
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -116,6 +127,163 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
 
     async def settle_frames(self, page):
         await page.evaluate('() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))')
+
+    async def import_outline_fixture(self, name='fixture.otf', variant=0):
+        await self.page.locator('#yaffFile').set_input_files({
+            'name': name, 'mimeType': 'font/otf', 'buffer': outline_fixture(variant),
+        })
+
+    async def test_ttf_shared_baseline_coverage_and_reused_source(self):
+        result = await self.page.evaluate(r'''async () => {
+          const {loadTtfSource,parseTtfToOverlay}=await import('/js/modules/ttf-overlay.js');
+          const {makeOutlineFixture}=await import('/tests/fixtures/outline-font.mjs');
+          const bytes=makeOutlineFixture(),file=new File([bytes],'test.otf');
+          let reads=0,canvases=0;
+          file.arrayBuffer=async()=>{reads++;return bytes};
+          const create=document.createElement.bind(document),before=document.fonts.size;
+          document.createElement=(tag,...args)=>{if(tag==='canvas')canvases++;return create(tag,...args)};
+          let source;
+          try {
+            source=await loadTtfSource(file);
+            const charset="AHWxagp.,'_!- Z\u0378\u{1F600}\uD800";
+            const overlay=source.render({charset,sizePx:12});
+            const smaller=source.render({charset,sizePx:6});
+            const bounds=g=>{
+              if(!g)return null;
+              const points=[];
+              for(let y=0;y<18;y++)for(let x=0;x<12;x++)if(g.rows[y]&(1<<(11-x)))points.push([x,y]);
+              return points.length?{top:Math.min(...points.map(p=>p[1])),bottom:Math.max(...points.map(p=>p[1]))}:null;
+            };
+            const boundsByChar=Object.fromEntries([..."AHxg.,'"].map(ch=>[ch,bounds(overlay.glyphs['U+'+ch.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0')]) ]));
+            const marginClear=Object.values(overlay.glyphs).every(g=>g.rows[0]===0&&g.rows[17]===0&&g.rows.every(r=>(r&0x801)===0));
+            const hasSpace=overlay.glyphs['U+0020']?.rows.every(r=>r===0);
+            const missingAbsent=!overlay.glyphs['U+005A']&&!overlay.glyphs['U+0378'];
+            source.dispose();source.dispose();
+            let disposedThrows=false;
+            try{source.render({charset})}catch{disposedThrows=true}
+            let badOptionsThrow=false;
+            try{await parseTtfToOverlay(file,{charset,cellW:33})}catch{badOptionsThrow=true}
+            return {stats:overlay._importStats,smallerSize:smaller._importStats.effectiveSizePx,boundsByChar,marginClear,hasSpace,missingAbsent,disposedThrows,badOptionsThrow,reads,canvases,fontDelta:document.fonts.size-before};
+          } finally {source?.dispose();document.createElement=create}
+        }''')
+        self.assertEqual(result['stats']['missing'], 2)
+        self.assertEqual(result['stats']['blank'], 1)
+        self.assertEqual(result['stats']['empty'], 1)
+        self.assertEqual(result['stats']['skippedOutOfRange'], 2)
+        self.assertEqual(result['smallerSize'], 6)
+        bounds = result['boundsByChar']
+        self.assertGreater(bounds['.']['top'], bounds["'"]['bottom'])
+        self.assertGreater(bounds['x']['top'], bounds['H']['top'])
+        self.assertGreater(bounds['g']['bottom'], bounds['H']['bottom'])
+        self.assertGreater(bounds[',']['bottom'], bounds['.']['bottom'])
+        self.assertLessEqual(abs(bounds['H']['bottom']-bounds['x']['bottom']), 1)
+        for key in ['marginClear', 'hasSpace', 'missingAbsent', 'disposedThrows', 'badOptionsThrow']:
+            self.assertTrue(result[key], (key, result))
+        self.assertEqual(result['fontDelta'], 0)
+        self.assertEqual(result['reads'], 2)  # Retained source + one-shot failure.
+        self.assertEqual(result['canvases'], 4)  # Two per source, reused across sizes.
+
+    async def test_ttf_missing_glyphs_keep_base_and_size_changes_reuse_font(self):
+        before = await self.font()
+        await self.page.evaluate('''()=>{
+          window.ttfLoads=0;const load=FontFace.prototype.load;
+          FontFace.prototype.load=function(){ttfLoads++;return load.call(this)};
+        }''')
+        await self.import_outline_fixture()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF overlay: fixture.otf')")
+        after = await self.font()
+        self.assertNotEqual(after[65], before[65])
+        self.assertEqual(after[90], before[90], 'missing Z must keep the base glyph')
+        self.assertEqual(after[32], [1]*216, 'supported space must be transparent')
+        self.assertIn('missing (kept base)', await self.page.locator('#loadStatus').inner_text())
+        await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='6';e.dispatchEvent(new Event('input',{bubbles:true}))}")
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Updated TTF overlay: fixture.otf') && document.querySelector('#loadStatus').textContent.includes('size 6')")
+        small = await self.font()
+        self.assertNotEqual(small[65], after[65])
+        self.assertEqual(await self.page.evaluate('ttfLoads'), 1)
+        self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 1)
+        # Base imports retain the active overlay and its adjustable source.
+        await self.page.locator('#file').set_input_files(str(ROOT/'fonts/betaflight/bold.mcm'))
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: bold.mcm')")
+        self.assertEqual((await self.font())[65], small[65])
+        await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='12';e.dispatchEvent(new Event('input',{bubbles:true}))}")
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Updated TTF overlay: fixture.otf') && document.querySelector('#loadStatus').textContent.includes('size 12')")
+        self.assertEqual((await self.font())[65], after[65])
+        await self.page.select_option('#overlaySelect', '__lib:cpc')
+        self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 0)
+
+    async def test_ttf_ornate_outliers_do_not_limit_the_other_letters(self):
+        result = await self.page.evaluate(r'''async () => {
+          const {loadTtfSource}=await import('/js/modules/ttf-overlay.js');
+          const {makeOutlineFixture}=await import('/tests/fixtures/outline-font.mjs');
+          const charset="ABHWxagp.,'_!- ";
+          const regular=await loadTtfSource(new File([makeOutlineFixture(0)],'regular.otf'));
+          const ornate=await loadTtfSource(new File([makeOutlineFixture(2)],'ornate.otf'));
+          try {
+            const expected=regular.render({charset,sizePx:24});
+            const small=ornate.render({charset,sizePx:8});
+            const large=ornate.render({charset,sizePx:24});
+            const marginClear=Object.values(large.glyphs).every(g=>g.rows[0]===0&&g.rows[17]===0&&g.rows.every(r=>(r&0x801)===0));
+            return {
+              size:large._importStats.effectiveSizePx,
+              expectedSize:expected._importStats.effectiveSizePx,
+              ordinaryUnchanged:JSON.stringify(large.glyphs['U+0048'])===JSON.stringify(expected.glyphs['U+0048']),
+              ordinaryGrew:JSON.stringify(large.glyphs['U+0048'])!==JSON.stringify(small.glyphs['U+0048']),
+              hasWide:!!large.glyphs['U+0057'],hasTall:!!large.glyphs['U+0042'],
+              narrowed:large._importStats.narrowed,shortened:large._importStats.shortened,marginClear,
+            };
+          } finally {regular.dispose();ornate.dispose()}
+        }''')
+        self.assertGreater(result['size'], 15)
+        self.assertAlmostEqual(result['size'], result['expectedSize'])
+        self.assertGreaterEqual(result['narrowed'], 1)
+        self.assertGreaterEqual(result['shortened'], 1)
+        for key in ['ordinaryUnchanged', 'ordinaryGrew', 'hasWide', 'hasTall', 'marginClear']:
+            self.assertTrue(result[key], (key, result))
+
+    async def test_ttf_slider_during_new_import_uses_new_font_and_latest_size(self):
+        await self.import_outline_fixture('first.otf')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF overlay: first.otf')")
+        await self.page.evaluate('''()=>{
+          window.ttfPending=[];window.ttfOriginalLoad=FontFace.prototype.load;
+          FontFace.prototype.load=function(){return new Promise(resolve=>ttfPending.push(async()=>{const face=await ttfOriginalLoad.call(this);resolve(face)}))};
+        }''')
+        await self.import_outline_fixture('second.otf', 1)
+        await self.page.wait_for_function('ttfPending.length===1')
+        await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='6';e.dispatchEvent(new Event('input',{bubbles:true}))}")
+        await asyncio.sleep(.2)  # Let the old debounce period pass while load is held.
+        self.assertEqual(await self.page.evaluate('ttfPending.length'), 1)
+        await self.page.evaluate('()=>{ttfPending[0]()}')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF overlay: second.otf')")
+        self.assertIn('size 6', await self.page.locator('#loadStatus').inner_text())
+        actual = await self.font()
+        await self.page.evaluate('()=>{FontFace.prototype.load=ttfOriginalLoad}')
+        await self.import_outline_fixture('expected.otf', 1)
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF overlay: expected.otf')")
+        self.assertEqual(await self.font(), actual)
+        self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 1)
+
+    async def test_ttf_superseded_and_failed_imports_release_sources(self):
+        await self.page.evaluate('''()=>{
+          window.ttfPending=[];window.ttfOriginalLoad=FontFace.prototype.load;
+          FontFace.prototype.load=function(){return new Promise(resolve=>ttfPending.push(async()=>{const face=await ttfOriginalLoad.call(this);resolve(face)}))};
+        }''')
+        await self.import_outline_fixture('older.otf')
+        await self.page.wait_for_function('ttfPending.length===1')
+        await self.import_outline_fixture('newer.otf', 1)
+        await self.page.wait_for_function('ttfPending.length===2')
+        await self.page.evaluate('()=>{ttfPending[1]()}')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF overlay: newer.otf')")
+        expected = await self.font()
+        await self.page.evaluate('async()=>{await ttfPending[0]()}')
+        await self.settle_frames(self.page)
+        self.assertEqual(await self.font(), expected)
+        self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 1)
+        await self.page.evaluate('()=>{FontFace.prototype.load=ttfOriginalLoad}')
+        await self.page.locator('#yaffFile').set_input_files({'name':'broken.otf','mimeType':'font/otf','buffer':b'not a font'})
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('TTF import failed: broken.otf')")
+        self.assertEqual(await self.font(), expected)
+        self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 1)
 
     async def test_theme_pixels_and_selection_render_budget(self):
         baseline = json.loads((ROOT/'tests/fixtures/render-baseline.json').read_text())
