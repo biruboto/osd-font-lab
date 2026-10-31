@@ -58,6 +58,30 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await page.select_option('#bfFontSelect', 'betaflight.mcm')
         await page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: betaflight.mcm')")
 
+    async def set_zoom(self, kind, value, page=None):
+        page = page or self.page
+        control = page.locator('#'+kind+'Zoom')
+        await self.settle_frames(page)
+        if str(value) == 'auto':
+            if await control.get_attribute('data-zoom') != 'auto':
+                await control.locator('.zoom-auto').click()
+        else:
+            target = int(value)
+            for _ in range(40):
+                current = int((await control.locator('output').inner_text()).removesuffix('×'))
+                if current == target and await control.get_attribute('data-zoom') != 'auto':
+                    break
+                if current == target:
+                    await control.locator('.zoom-auto').click()
+                else:
+                    direction = 1 if target > current else -1
+                    await control.locator(f'[data-zoom-step="{direction}"]').click()
+                await self.settle_frames(page)
+            canvas = 'resultGrid' if kind == 'sheet' else 'resultZoom'
+            await page.wait_for_function("([id,scale])=>document.getElementById(id).dataset.scale===scale",arg=[canvas,str(target)])
+            self.assertEqual(await control.get_attribute('data-zoom'),str(target))
+        await self.settle_frames(page)
+
     async def download(self, selector):
         async with self.page.expect_download() as info:
             await self.page.locator(selector).click()
@@ -100,7 +124,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.page.locator('.sheet-wrap').evaluate("""e=>{
           e.style.width=(576+e.offsetWidth-e.clientWidth)+'px'; e.style.maxHeight='864px';
         }""")
-        await self.page.select_option('#sheetZoom','3')
+        await self.set_zoom('sheet','3')
+        await self.set_zoom('inspector','19')
         await self.page.wait_for_function("document.querySelector('#resultGrid').dataset.columns==='16'")
         await self.page.locator('#appearanceTools > summary').click()
         for theme, expected in baseline.items():
@@ -113,7 +138,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
               })))""")
             self.assertEqual(actual, expected, theme)
         await self.page.locator('.sheet-wrap').evaluate("e=>{e.style.removeProperty('width');e.style.removeProperty('max-height')}")
-        await self.page.select_option('#sheetZoom','auto')
+        await self.set_zoom('sheet','auto')
         await self.settle_frames(self.page)
         samples = await self.page.evaluate("""() => {
           const original=window.getComputedStyle; let reads=0; window.getComputedStyle=(...a)=>{reads++;return original(...a)};
@@ -312,7 +337,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.page.set_viewport_size({'width':390,'height':844})
         await self.page.locator('[data-workspace-target="preview"]').click()
         await self.page.locator('#viewModeSheet').click()
-        await self.page.select_option('#sheetZoom', '3')
+        await self.set_zoom('sheet','3')
         await self.settle_frames(self.page)
         point = await self.glyph_point(self.page, 255)
         await self.page.touchscreen.tap(point['x'],point['y'])
@@ -336,7 +361,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await page.locator('[data-workspace-target="edit"]').click()
         await self.settle_frames(page)
         self.assertIn('0x41', await page.locator('#glyphInfo').inner_text())
-        await page.select_option('#inspectorZoom','8')
+        await self.set_zoom('inspector','8',page)
         await page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='8'")
         await page.locator('#zoomModeEditor').click()
         await page.locator('.editor-color-btn[data-editor-color="2"]').click()
@@ -373,7 +398,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(data[:8], b'\x89PNG\r\n\x1a\n')
             self.assertEqual((int.from_bytes(data[16:20]),int.from_bytes(data[20:24])), (192*scale,288*scale))
             exports[scale] = data
-        await self.page.select_option('#sheetZoom','3')
+        await self.set_zoom('sheet','3')
         await self.settle_frames(self.page)
         await self.select_glyph(65)
         column_counts = []
@@ -410,15 +435,15 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_independent_inspector_zoom_reduces_height_and_preserves_edits_and_exports(self):
         await self.page.set_viewport_size({'width':1366,'height':768})
-        await self.page.select_option('#sheetZoom','2')
+        await self.set_zoom('sheet','2')
         await self.select_glyph(65)
         original = await self.font()
         _, png = await self.download('#exportPNG1x')
-        await self.page.select_option('#inspectorZoom','16')
+        await self.set_zoom('inspector','16')
         await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='16'")
         large = await self.page.locator('.panel-result').bounding_box()
         sheet = await self.page.locator('#resultGrid').evaluate('c=>[c.width,c.height,c.dataset.columns,c.dataset.scale]')
-        await self.page.select_option('#inspectorZoom','8')
+        await self.set_zoom('inspector','8')
         await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='8'")
         small = await self.page.locator('.panel-result').bounding_box()
         self.assertGreater(large['height']-small['height'],100)
@@ -436,14 +461,14 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(await self.font() == expected)
         await self.page.locator('#editorUndoBtn').click()
         self.assertTrue(await self.font() == original)
-        await self.page.select_option('#inspectorZoom','12')
+        await self.set_zoom('inspector','12')
         await self.load_default(self.page)
-        self.assertEqual(await self.page.locator('#inspectorZoom').input_value(),'12')
+        self.assertEqual(await self.page.locator('#inspectorZoom').get_attribute('data-zoom'),'12')
         await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='12'")
         for w,h in [(1024,768),(1366,768),(1440,900)]:
             await self.page.set_viewport_size({'width':w,'height':h})
-            await self.page.select_option('#inspectorZoom','auto')
-            await self.page.select_option('#sheetZoom','auto')
+            await self.set_zoom('inspector','auto')
+            await self.set_zoom('sheet','auto')
             await self.settle_frames(self.page)
             await asyncio.sleep(.1)
             metrics = await self.page.evaluate("""()=>({
@@ -452,6 +477,256 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
             })""")
             self.assertLessEqual(metrics['inspectorBottom'],h,metrics)
             self.assertLessEqual(metrics['pageHeight'],h+1,metrics)
+
+    async def test_zoom_buttons_step_from_auto_and_keep_large_canvas_gutters(self):
+        sheet = self.page.locator('#sheetZoom')
+        self.assertEqual(await sheet.locator('.zoom-auto').get_attribute('aria-pressed'),'true')
+        fitted = int(await self.page.locator('#resultGrid').get_attribute('data-scale'))
+        await sheet.locator('.zoom-auto').click()
+        self.assertEqual(await sheet.get_attribute('data-zoom'),str(fitted))
+        self.assertEqual(await sheet.locator('.zoom-auto').get_attribute('aria-pressed'),'false')
+        await sheet.locator('.zoom-auto').click()
+        await self.settle_frames(self.page)
+        self.assertEqual(await sheet.locator('.zoom-auto').get_attribute('aria-pressed'),'true')
+        direction = -1 if fitted == 4 else 1
+        await sheet.locator(f'[data-zoom-step="{direction}"]').press('Enter')
+        await self.page.wait_for_function("scale=>document.querySelector('#resultGrid').dataset.scale===String(scale)",arg=fitted+direction)
+        self.assertEqual(await sheet.get_attribute('data-zoom'),str(fitted+direction))
+        self.assertEqual(await sheet.locator('.zoom-auto').get_attribute('aria-pressed'),'false')
+        await self.set_zoom('sheet',4)
+        self.assertTrue(await sheet.locator('[data-zoom-step="1"]').is_disabled())
+        await self.set_zoom('sheet',2)
+        self.assertTrue(await sheet.locator('[data-zoom-step="-1"]').is_disabled())
+        await self.set_zoom('sheet','auto')
+        self.assertEqual(await sheet.locator('.zoom-auto').get_attribute('aria-pressed'),'true')
+        inspector = self.page.locator('#inspectorZoom')
+        fitted = int(await self.page.locator('#resultZoom').get_attribute('data-scale'))
+        await inspector.locator('[data-zoom-step="1"]').click()
+        self.assertEqual(await inspector.get_attribute('data-zoom'),str(fitted+1))
+        await self.set_zoom('inspector',20)
+        self.assertTrue(await inspector.locator('[data-zoom-step="1"]').is_disabled())
+        for w,h in [(1440,900),(1024,768),(390,844)]:
+            await self.page.set_viewport_size({'width':w,'height':h})
+            if w<=960:
+                await self.page.locator('[data-workspace-target="edit"]').click()
+            await self.settle_frames(self.page)
+            margins = await self.page.locator('.zoom-viewport').evaluate("""e=>{
+              const box=e.parentElement.getBoundingClientRect(),v=e.getBoundingClientRect(),c=e.querySelector('canvas');
+              e.scrollLeft=0;const left=c.getBoundingClientRect().left-box.left;
+              e.scrollLeft=e.scrollWidth;const right=box.right-c.getBoundingClientRect().right;
+              const mode=e.parentElement.querySelector('.zoom-mode-toggle').getBoundingClientRect();
+              const aside=e.closest('.sidecar').getBoundingClientRect();
+              return {left,right,top:v.top-mode.bottom,inside:box.left>=aside.left&&box.right<=aside.right,
+                width:c.getBoundingClientRect().width,height:c.getBoundingClientRect().height,
+                overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1};
+            }""")
+            self.assertGreaterEqual(margins['left'],20,margins)
+            self.assertGreaterEqual(margins['right'],20,margins)
+            self.assertGreaterEqual(margins['top'],12,margins)
+            self.assertTrue(margins['inside'],margins)
+            self.assertFalse(margins['overflow'],margins)
+            self.assertEqual((margins['width'],margins['height']),(240,360))
+        await self.set_zoom('inspector',4)
+        self.assertTrue(await inspector.locator('[data-zoom-step="-1"]').is_disabled())
+        await self.set_zoom('inspector','auto')
+        self.assertEqual(await inspector.locator('.zoom-auto').get_attribute('aria-pressed'),'true')
+
+    async def test_cell_clipboard_copies_active_cell_and_paste_is_undoable(self):
+        self.assertFalse(await self.page.locator('#copyCell').is_disabled())
+        self.assertTrue(await self.page.locator('#pasteCell').is_disabled())
+        original = await self.font()
+        await self.select_glyph(65)
+        status_before = await self.page.locator('#loadStatus').inner_text()
+        await self.page.locator('#copyCell').focus()
+        await self.page.keyboard.press('Enter')
+        self.assertEqual(await self.page.locator('#loadStatus').inner_text(),status_before)
+        self.assertEqual(await self.page.locator('#copyCell').inner_text(),'Copied')
+        self.assertIn('Copied cell 0x41',await self.page.locator('#cellClipboardStatus').inner_text())
+        self.assertTrue(await self.font() == original, 'copy must not edit the font')
+        self.assertFalse(await self.page.locator('#pasteCell').is_disabled())
+        point = await self.glyph_point(self.page,66)
+        await self.page.keyboard.down('Control')
+        await self.page.mouse.click(point['x'],point['y'])
+        await self.page.keyboard.up('Control')
+        self.assertIn('2',await self.page.locator('#selCount').inner_text())
+        await self.page.locator('#pasteCell').click()
+        expected = [g[:] for g in original]
+        expected[66] = original[65][:]
+        self.assertTrue(await self.font() == expected, 'paste must change only the active cell')
+        await self.page.locator('#pasteCell').click()  # Identical paste must preserve the previous undo.
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertTrue(await self.font() == original)
+        await self.page.select_option('#bfFontSelect','bold.mcm')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: bold.mcm')")
+        other_font = await self.font()
+        await self.select_glyph(67)
+        await self.page.locator('#pasteCell').click()
+        expected = [g[:] for g in other_font]
+        expected[67] = original[65][:]
+        self.assertTrue(await self.font() == expected, 'clipboard must survive loading another font')
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertTrue(await self.font() == other_font)
+        fresh = await self.context.new_page()
+        await fresh.goto(self.url,wait_until='networkidle')
+        self.assertTrue(await fresh.locator('#copyCell').is_disabled())
+        self.assertTrue(await fresh.locator('#pasteCell').is_disabled())
+        await fresh.close()
+
+    async def test_cell_clipboard_snapshot_nudges_and_boot_preview_undo(self):
+        await self.page.locator('#yaffFile').set_input_files({'name':'copy-fixture.yaff','mimeType':'text/plain',
+            'buffer':b'u+0041:\n    .@.\n    @.@\n    @@@\nu+0042:\n    @@.\n    @.@\n    @@.\n'})
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded YAFF')")
+        await self.select_glyph(65)
+        global_right = self.page.locator('.dpad[data-nudge-target="replaced"] button[data-dx="1"]')
+        single_right = self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]')
+        await global_right.click()
+        await single_right.click()
+        copied = (await self.font())[65]
+        await self.page.locator('#copyCell').click()
+        await single_right.click()
+        self.assertNotEqual((await self.font())[65],copied)
+        await self.select_glyph(66)
+        await single_right.click()
+        before = (await self.font())[66]
+        await self.page.locator('#pasteCell').click()
+        self.assertEqual((await self.font())[66],copied, 'paste must not apply the destination nudge twice')
+        await single_right.click()
+        await self.page.locator('#caseLowerBtn').click()
+        self.assertEqual((await self.font())[66],shift(copied,1))
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertEqual((await self.font())[66],shift(before,1))
+        await self.select_glyph(0xA0)
+        tile_before = (await self.font())[0xA0]
+        preview_before = await self.page.locator('#bootSplashPreview').evaluate('c=>c.toDataURL()')
+        await self.page.locator('#pasteCell').click()
+        self.assertEqual((await self.font())[0xA0],copied)
+        self.assertNotEqual(await self.page.locator('#bootSplashPreview').evaluate('c=>c.toDataURL()'),preview_before)
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertEqual((await self.font())[0xA0],tile_before)
+        self.assertEqual(await self.page.locator('#bootSplashPreview').evaluate('c=>c.toDataURL()'),preview_before)
+
+    async def test_compact_preview_controls_hold_with_keyboard_and_pointer(self):
+        await self.select_glyph(65)
+        original = await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()')
+        await self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]').click()
+        edited = await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()')
+        self.assertNotEqual(edited,original)
+        hold = self.page.locator('#holdOriginalPreview')
+        await hold.focus()
+        await self.page.keyboard.down('Space')
+        self.assertEqual(await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()'),original)
+        await self.page.keyboard.up('Space')
+        self.assertEqual(await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()'),edited)
+        box = await hold.bounding_box()
+        await self.page.mouse.move(box['x']+box['width']/2,box['y']+box['height']/2)
+        await self.page.mouse.down()
+        self.assertEqual(await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()'),original)
+        await hold.dispatch_event('pointercancel')
+        self.assertEqual(await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()'),edited)
+        await self.page.mouse.up()
+        await self.page.locator('.preview-controls label').click()
+        self.assertFalse(await self.page.locator('#showGrids').is_checked())
+        self.assertFalse(await self.page.locator('#hudShowGuides').is_checked())
+        self.assertEqual(await self.page.evaluate("localStorage.getItem('showGrids')"),'0')
+        await self.page.locator('.preview-controls label').click()
+        self.assertTrue(await self.page.locator('#showGrids').is_checked())
+        for w,h in [(1440,900),(1024,768),(390,844)]:
+            await self.page.set_viewport_size({'width':w,'height':h})
+            if w<=960:
+                await self.page.locator('[data-workspace-target="edit"]').click()
+            await self.settle_frames(self.page)
+            row = await self.page.locator('.preview-controls').evaluate("""e=>{
+              const r=e.getBoundingClientRect(),b=e.querySelector('button').getBoundingClientRect(),g=e.querySelector('label').getBoundingClientRect();
+              return {inside:b.left>=r.left&&g.right<=r.right,centerDifference:Math.abs(b.top+b.height/2-g.top-g.height/2),
+                clipped:e.querySelector('button').scrollWidth>e.querySelector('button').clientWidth};
+            }""")
+            self.assertTrue(row['inside'],row)
+            self.assertLess(row['centerDifference'],1,row)
+            self.assertFalse(row['clipped'],row)
+
+    async def test_multistep_undo_groups_strokes_and_pastes_across_cells_with_nudges(self):
+        await self.select_glyph(65)
+        await self.page.locator('#zoomModeEditor').click()
+        await self.set_zoom('inspector',8)
+        await self.page.locator('.editor-color-btn[data-editor-color="2"]').click()
+        original = await self.font()
+        frames = []
+        pixels = [i for i,p in enumerate(original[65]) if p==1][:3]
+        for pixel in pixels:
+            frames.append((65,await self.font()))
+            await self.page.locator('#resultZoom').click(position={'x':(pixel%12+.5)*8,'y':(pixel//12+.5)*8})
+        await self.select_glyph(67)
+        await self.page.locator('#copyCell').click()
+        await self.select_glyph(65)
+        frames.append((65,await self.font()))
+        await self.page.locator('#pasteCell').click()
+        await self.page.locator('#pasteCell').click()  # No-op paste is not another undo step.
+        await self.select_glyph(66)
+        frames.append((66,await self.font()))
+        pixel = next(i for i in range(215) if i%12<11 and original[66][i:i+2]==[1,1])
+        box = await self.page.locator('#resultZoom').bounding_box()
+        x,y = box['x']+(pixel%12+.5)*8,box['y']+(pixel//12+.5)*8
+        await self.page.mouse.move(x,y)
+        await self.page.mouse.down()
+        await self.page.mouse.move(x+8,y)
+        await self.page.mouse.up()
+        await self.page.locator('#resultZoom').click(position={'x':(pixel%12+.5)*8,'y':(pixel//12+.5)*8})  # No-op paint.
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'5')
+        for index in [65,66]:
+            await self.select_glyph(index)
+            await self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]').click()
+        await self.page.locator('#caseLowerBtn').click()
+        await self.set_zoom('inspector',10)
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'5')
+        for remaining,(index,snapshot) in enumerate(reversed(frames)):
+            await self.page.locator('#editorUndoBtn').focus()
+            await self.page.keyboard.press('Enter')
+            expected = [g[:] for g in snapshot]
+            for nudged in [65,66]:
+                expected[nudged] = shift(expected[nudged],1)
+            self.assertTrue(await self.font() == expected, f'undo frame {remaining+1} must preserve later nudges')
+            self.assertIn(f'0x{index:02X}',await self.page.locator('#glyphInfo').inner_text())
+            self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),str(4-remaining))
+        self.assertTrue(await self.page.locator('#editorUndoBtn').is_disabled())
+
+    async def test_multistep_undo_limit_and_loading_font_during_a_stroke(self):
+        await self.select_glyph(65)
+        await self.page.locator('#zoomModeEditor').click()
+        await self.set_zoom('inspector',8)
+        original = await self.font()
+        pixel = original[65].index(1)
+        point = {'x':(pixel%12+.5)*8,'y':(pixel//12+.5)*8}
+        for i in range(25):
+            color = 2 if i%2==0 else 3
+            await self.page.locator(f'.editor-color-btn[data-editor-color="{color}"]').click()
+            await self.page.locator('#resultZoom').click(position=point)
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'20')
+        for _ in range(20):
+            await self.page.locator('#editorUndoBtn').click()
+        expected = [g[:] for g in original]
+        expected[65][pixel] = 2  # First five edits remain after undoing the newest twenty.
+        self.assertTrue(await self.font() == expected)
+        self.assertTrue(await self.page.locator('#editorUndoBtn').is_disabled())
+        await self.page.locator('.editor-color-btn[data-editor-color="3"]').click()
+        await self.page.locator('#resultZoom').click(position=point)
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'1')
+        await self.page.locator('.editor-color-btn[data-editor-color="2"]').click()
+        box = await self.page.locator('#resultZoom').bounding_box()
+        await self.page.mouse.move(box['x']+point['x'],box['y']+point['y'])
+        await self.page.mouse.down()
+        await self.page.select_option('#bfFontSelect','bold.mcm')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: bold.mcm')")
+        await self.page.mouse.up()
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'0')
+        self.assertTrue(await self.page.locator('#editorUndoBtn').is_disabled())
+        expected = await self.page.evaluate("""async()=>{
+          const {decodeMCM}=await import('/js/mcm.js');
+          return decodeMCM(await (await fetch('/fonts/betaflight/bold.mcm')).arrayBuffer()).glyphs.map(g=>Array.from(g));
+        }""")
+        self.assertTrue(await self.font() == expected, 'old stroke/history must not leak into the new font')
 
     async def test_brand_idle_and_reroll_do_not_run_js_animation_or_fetch_fonts(self):
         requests = []

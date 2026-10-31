@@ -133,3 +133,64 @@
 
   --brand-ink: #d9a3cd;
 }
+
+/* Theme: Field Notes — warm paper, ink, rust, and olive. */
+:root[data-theme="field-notes"]{
+  color-scheme: light;
+  --bg-0: #ded6c7;
+  --bg-1: #e9e1d2;
+  --bg-2: #d9cfbd;
+  --bg-3: #ada18a;
+
+  --text-0: #2c2b25;
+  --text-1: #494b3f;
+  --text-muted: #605747;
+
+  --accent-0: #94391c;
+  --accent-1: #4b653c;
+  --accent-2: #8a641f;
+  --danger: #a32b3d;
+
+  --canvas-bg: var(--bg-2);
+  --canvas-frame: var(--bg-3);
+  --osd-matte: var(--bg-2);
+  --osd-0: #e5dac7;
+  --osd-1: #b9ae98;
+  --osd-2: #e8dfcc;
+  --osd-3: #36372f;
+  --brand-ink: #94391c;
+}
+
+/* Keep error feedback readable on paper-colored surfaces. */
+:root[data-theme="field-notes"] .hint{ opacity: 1; }
+:root[data-theme="field-notes"] .load-status.is-error{
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* Theme: Afterburn — carbon, hot coral, and icy blue. */
+:root[data-theme="afterburn"]{
+  color-scheme: dark;
+  --bg-0: #0d0f12;
+  --bg-1: #17191f;
+  --bg-2: #22262d;
+  --bg-3: #454c58;
+
+  --text-0: #f8f5ef;
+  --text-1: #d6d5d2;
+  --text-muted: #a8afb9;
+
+  --accent-0: #ff7457;
+  --accent-1: #80b9ff;
+  --accent-2: #ffd271;
+  --danger: #ff6c82;
+
+  --canvas-bg: var(--bg-2);
+  --canvas-frame: var(--bg-3);
+  --osd-matte: var(--bg-2);
+  --osd-0: #07090c;
+  --osd-1: #58616f;
+  --osd-2: #fff5e6;
+  --osd-3: #06080b;
+  --brand-ink: #ff7457;
+}

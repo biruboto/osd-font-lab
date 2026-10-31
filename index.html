@@ -41,27 +41,25 @@
                 <button id="viewModeSheet" type="button" class="view-toggle-btn" aria-pressed="true"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Sheet View</button>
                 <button id="viewModeHud" type="button" class="view-toggle-btn" aria-pressed="false"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i> HUD View</button>
               </div>
-              <label class="sheet-zoom-control">Sheet zoom
-                <select id="sheetZoom" aria-label="Sheet zoom">
-                  <option value="auto">Auto</option>
-                  <option value="2">2×</option>
-                  <option value="3">3×</option>
-                  <option value="4">4×</option>
-                </select>
-              </label>
+              <div id="sheetZoom" class="sheet-zoom-control" role="group" aria-label="Sheet zoom">
+                <span aria-hidden="true">Sheet</span>
+                <div class="zoom-stepper">
+                  <button type="button" class="zoom-auto" aria-label="Automatic sheet zoom" aria-pressed="true">Auto</button>
+                  <button type="button" data-zoom-step="-1" aria-label="Decrease sheet zoom">−</button>
+                  <output aria-label="Sheet zoom level" aria-live="polite">2×</output>
+                  <button type="button" data-zoom-step="1" aria-label="Increase sheet zoom">+</button>
+                </div>
+              </div>
             </div>
-            <label class="inspector-zoom-control">Inspector zoom
-              <select id="inspectorZoom" aria-label="Inspector zoom">
-                <option value="auto">Auto</option>
-                <option value="4">4×</option>
-                <option value="6">6×</option>
-                <option value="8">8×</option>
-                <option value="10">10×</option>
-                <option value="12">12×</option>
-                <option value="16">16×</option>
-                <option value="20">20×</option>
-              </select>
-            </label>
+            <div id="inspectorZoom" class="inspector-zoom-control" role="group" aria-label="Inspector zoom">
+              <span aria-hidden="true">Inspector</span>
+              <div class="zoom-stepper">
+                <button type="button" class="zoom-auto" aria-label="Automatic inspector zoom" aria-pressed="true">Auto</button>
+                <button type="button" data-zoom-step="-1" aria-label="Decrease inspector zoom">−</button>
+                <output aria-label="Inspector zoom level" aria-live="polite">4×</output>
+                <button type="button" data-zoom-step="1" aria-label="Increase inspector zoom">+</button>
+              </div>
+            </div>
           </div>
           <div class="panel-body">
             <div class="grid-wrap sheet-wrap">
@@ -77,7 +75,7 @@
                   <button id="zoomModeInspector" type="button" class="zoom-mode-btn"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Inspector</button>
                   <button id="zoomModeEditor" type="button" class="zoom-mode-btn"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Editor</button>
                 </div>
-                <div class="zoom-viewport">
+                <div class="zoom-viewport" tabindex="0" role="region" aria-label="Selected glyph preview">
                   <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
                 </div>
                 <div id="glyphInfo" class="inspector-body glyph-info-inline">
@@ -94,22 +92,27 @@
                   <button type="button" class="editor-color-btn" data-editor-color="1" aria-label="Mid gray / transparent">
                     <span class="editor-color-swatch editor-color-gray" aria-hidden="true"></span>
                   </button>
-                  <button id="editorUndoBtn" type="button" class="editor-color-btn editor-undo-btn" aria-label="Undo last stroke">
+                  <button id="editorUndoBtn" type="button" class="editor-color-btn editor-undo-btn" aria-label="Undo last cell edit" title="No cell edits to undo" disabled>
                     <span class="editor-undo-glyph" aria-hidden="true">↶</span>
+                    <span id="editorUndoCount" class="editor-undo-count" aria-hidden="true">0</span>
                   </button>
                 </div>
               </div>
 
               <div class="sidecar-controls">
-                <button id="holdOriginalPreview" type="button" class="hold-preview-btn">
-                  <i class="fa-solid fa-code-compare" aria-hidden="true"></i> Hold for Original
-                </button>
-
-                <label class="field checkbox">
-                  <input id="showGrids" type="checkbox" checked />
-                  <span class="toggle-slider" aria-hidden="true"></span>
-                  <span class="checkbox-label">Show grids</span>
-                </label>
+                <div class="preview-controls">
+                  <button id="holdOriginalPreview" type="button" class="hold-preview-btn" title="Press and hold to preview the original font">Hold original</button>
+                  <label class="field checkbox">
+                    <input id="showGrids" type="checkbox" checked />
+                    <span class="toggle-slider" aria-hidden="true"></span>
+                    <span class="checkbox-label">Grids</span>
+                  </label>
+                </div>
+                <div class="cell-clipboard-controls" role="group" aria-label="Cell clipboard">
+                  <button id="copyCell" type="button" aria-label="Copy cell" title="Copy the edited cell shown in the inspector" disabled>Copy cell</button>
+                  <button id="pasteCell" type="button" title="Copy a cell first" disabled>Paste cell</button>
+                  <span id="cellClipboardStatus" class="cell-clipboard-status" role="status"></span>
+                </div>
 
                 <div class="nudgeRow tiny">
                   <span id="selCount">Selected glyphs: 1</span>
@@ -349,6 +352,8 @@
                   <label><input type="radio" name="siteTheme" value="amber-terminal" aria-label="Amber Terminal"></label>
                   <label><input type="radio" name="siteTheme" value="cold-phosphor" aria-label="Cold Phosphor"></label>
                   <label><input type="radio" name="siteTheme" value="lavender-circuit" aria-label="Lavender Circuit"></label>
+                  <label title="Field Notes"><input type="radio" name="siteTheme" value="field-notes" aria-label="Field Notes"></label>
+                  <label title="Afterburn"><input type="radio" name="siteTheme" value="afterburn" aria-label="Afterburn"></label>
                   <span id="themeCodeLabel" class="theme-code-label">DUSK</span>
                 </div>
                 <div class="font-serving-note">Serving <span id="servingFontCount" class="font-serving-count">0</span> fonts! • "Analog in aeternum"</div>

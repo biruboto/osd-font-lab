@@ -182,7 +182,7 @@ export function createWorkspaceRenderer({
       const overhead = bounds.height - canvas.getBoundingClientRect().height;
       const viewportHeight = window.visualViewport?.height || window.innerHeight;
       const availableHeight = viewportHeight - (bounds.top + window.scrollY) - overhead - 24;
-      cssScale = Math.max(4, Math.min(Math.floor(targetW / font.width), Math.floor(availableHeight / font.height)));
+      cssScale = Math.max(4, Math.min(20, Math.floor(targetW / font.width), Math.floor(availableHeight / font.height)));
     } else {
       cssScale = Math.max(1, Math.min(20, Math.floor(Number(requested)) || 4));
     }

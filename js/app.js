@@ -34,6 +34,8 @@ import { parseYaffToOverlay } from "./modules/yaff.js";
 import { parseTtfToOverlay } from "./modules/ttf-overlay.js";
 import { FCConnection } from "./modules/serial.js";
 import { createBrandAnimation } from "./modules/brand.js";
+import { createZoomControl } from "./modules/zoom-controls.js";
+import { createCellUndoHistory } from "./modules/cell-history.js";
 
 /* -----------------------------
    DOM
@@ -107,6 +109,9 @@ const hudElementToggles = [...document.querySelectorAll(".hud-element-toggle")];
 const hudPilotNameInput = document.getElementById("hudPilotNameInput");
 const hudCraftNameInput = document.getElementById("hudCraftNameInput");
 const holdOriginalPreviewBtn = document.getElementById("holdOriginalPreview");
+const copyCellBtn = document.getElementById("copyCell");
+const pasteCellBtn = document.getElementById("pasteCell");
+const cellClipboardStatus = document.getElementById("cellClipboardStatus");
 const viewModeSheetBtn = document.getElementById("viewModeSheet");
 const viewModeHudBtn = document.getElementById("viewModeHud");
 const servingFontCountEl = document.getElementById("servingFontCount");
@@ -148,6 +153,7 @@ let overlayLoadId = 0;
 let baseLoadId = 0;
 let activeFCUpload = null;
 let holdOriginalPreview = false;
+let cellClipboard = null; // A snapshot of the rendered cell, retained across font loads.
 let currentOverlayFromTtf = false;
 let currentTtfSourceFile = null;
 let ttfRerasterTimer = 0;
@@ -367,11 +373,7 @@ const zoomPaint = {
   startIndex: -1,
   startOffset: null,
 };
-const editorUndo = {
-  glyph: null,
-  index: -1,
-  offset: null,
-};
+const editorHistory = createCellUndoHistory(20);
 const editorOverrideIndices = new Set();
 // Painted pixels are captured from the preview, together with its transform.
 // Rebuilds apply only the difference from that captured transform.
@@ -393,6 +395,8 @@ const THEME_SHORT_LABELS = {
   "amber-terminal": "AMBR",
   "cold-phosphor": "PHSPHR",
   "lavender-circuit": "LVNDR",
+  "field-notes": "FIELD",
+  afterburn: "BURN",
 };
 let workspacePanel = "tools";
 
@@ -451,14 +455,13 @@ function setEditorColor(nextValue) {
 }
 
 function clearEditorPixelOverrides() {
+  resetZoomPaint();
   for (const idx of editorOverrideIndices) {
     clearGlyphOverride(idx);
   }
   editorOverrideIndices.clear();
   editorOverrideOffsets.clear();
-  editorUndo.glyph = null;
-  editorUndo.index = -1;
-  editorUndo.offset = null;
+  editorHistory.clear();
 }
 
 function setGlyphOverride(idx, glyph, editorOffset = null) {
@@ -469,11 +472,8 @@ function setGlyphOverride(idx, glyph, editorOffset = null) {
   } else {
     editorOverrideIndices.delete(idx);
     editorOverrideOffsets.delete(idx);
-    if (editorUndo.index === idx) {
-      editorUndo.glyph = null;
-      editorUndo.index = -1;
-      editorUndo.offset = null;
-    }
+    editorHistory.discard(idx);
+    if (zoomPaint.startIndex === idx) resetZoomPaint();
   }
 }
 
@@ -481,11 +481,8 @@ function clearGlyphOverride(idx) {
   swapOverrides.delete(idx);
   editorOverrideIndices.delete(idx);
   editorOverrideOffsets.delete(idx);
-  if (editorUndo.index === idx) {
-    editorUndo.glyph = null;
-    editorUndo.index = -1;
-    editorUndo.offset = null;
-  }
+  editorHistory.discard(idx);
+  if (zoomPaint.startIndex === idx) resetZoomPaint();
 }
 
 function glyphNudgeOffset(idx) {
@@ -1029,9 +1026,21 @@ function pxColorViewer(v) {
 }
 
 
+const sheetZoomControl = createZoomControl({
+  root: document.getElementById("sheetZoom"), min: 2, max: 4,
+  onChange: scheduleRerender,
+});
+const inspectorZoomControl = createZoomControl({
+  root: document.getElementById("inspectorZoom"), min: 4, max: 20,
+  initial: localStorage.getItem("osdInspectorZoom"),
+  onChange: value => {
+    localStorage.setItem("osdInspectorZoom", value);
+    scheduleRerender();
+  },
+});
 const workspaceRenderer = createWorkspaceRenderer({
-  getSheetZoom: () => document.getElementById("sheetZoom")?.value || "auto",
-  getInspectorZoom: () => document.getElementById("inspectorZoom")?.value || "auto",
+  getSheetZoom: () => sheetZoomControl.value,
+  getInspectorZoom: () => inspectorZoomControl.value,
   cssVar,
   pxColorViewer,
   fitCanvasToCSS,
@@ -1183,12 +1192,11 @@ function clearSwapTarget(targetId) {
 }
 
 function clearAllSwaps() {
+  resetZoomPaint();
   swapOverrides.clear();
   editorOverrideIndices.clear();
   editorOverrideOffsets.clear();
-  editorUndo.glyph = null;
-  editorUndo.index = -1;
-  editorUndo.offset = null;
+  editorHistory.clear();
   specialCharEmojiAssignments.clear();
   rebuildResultFont();
   rerenderAll();
@@ -3046,10 +3054,7 @@ function rerenderAll({ renderBootSplash = true } = {}) {
       workspaceRenderer.renderPlaceholderGrid(resultGridCtx, resultGridCanvas, 12, 18, { showGrids });
     }
     const layout = workspaceRenderer.getSheetLayout(resultGridCanvas);
-    const zoomSelect = document.getElementById("sheetZoom");
-    const autoOption = zoomSelect?.querySelector('option[value="auto"]');
-    const label = layout && zoomSelect.value === "auto" ? `Auto (${layout.scale}×)` : "Auto";
-    if (autoOption && autoOption.textContent !== label) autoOption.textContent = label;
+    if (layout) sheetZoomControl.sync(layout.scale);
   }
 
   if (displayFont) {
@@ -3063,11 +3068,9 @@ function rerenderAll({ renderBootSplash = true } = {}) {
     if (resultZoomCanvas?.getClientRects().length) workspaceRenderer.reserveZoomCanvasSpace(resultZoomCanvas);
     updateSelectionCount();
   }
-  const inspectorZoom = document.getElementById("inspectorZoom");
-  const inspectorAuto = inspectorZoom?.querySelector('option[value="auto"]');
-  const inspectorLabel = resultZoomCanvas?.dataset.scale && inspectorZoom?.value === "auto"
-    ? `Auto (${resultZoomCanvas.dataset.scale}×)` : "Auto";
-  if (inspectorAuto && inspectorAuto.textContent !== inspectorLabel) inspectorAuto.textContent = inspectorLabel;
+  inspectorZoomControl.sync(resultZoomCanvas?.dataset.scale);
+  syncCellClipboardControls();
+  syncEditorUndoControls();
   if (renderBootSplash) {
     renderBootSplashPreview(resultFont || baseFont || null);
   }
@@ -3196,34 +3199,87 @@ function applyEditorPixel(e) {
   zoomPaint.dirty = true;
 }
 
-function commitZoomPaintIfNeeded() {
-  if (zoomPaint.dirty && zoomPaint.startGlyph && zoomPaint.startIndex >= 0) {
-    editorUndo.glyph = new Uint8Array(zoomPaint.startGlyph);
-    editorUndo.index = zoomPaint.startIndex;
-    editorUndo.offset = zoomPaint.startOffset;
-  }
+function resetZoomPaint() {
   zoomPaint.active = false;
   zoomPaint.dirty = false;
   zoomPaint.startGlyph = null;
   zoomPaint.startIndex = -1;
   zoomPaint.startOffset = null;
-  rerenderAll({ renderBootSplash: false });
+}
+
+function commitZoomPaintIfNeeded() {
+  const index = zoomPaint.startIndex;
+  if (zoomPaint.dirty && zoomPaint.startGlyph && index >= 0 &&
+      glyphDiffCount(zoomPaint.startGlyph, resultFont?.glyphs?.[index]) > 0) {
+    editorHistory.push(index, zoomPaint.startGlyph, zoomPaint.startOffset);
+  }
+  resetZoomPaint();
+  rerenderAll({ renderBootSplash: index >= BOOT_SPLASH_START_INDEX });
+}
+
+function syncEditorUndoControls() {
+  if (!editorUndoBtn) return;
+  const count = editorHistory.size;
+  editorUndoBtn.disabled = count === 0;
+  const title = count ? `Undo last cell edit (${count} available)` : "No cell edits to undo";
+  if (editorUndoBtn.title !== title) editorUndoBtn.title = title;
+  const label = count ? `Undo last cell edit (${count} available)` : "Undo last cell edit";
+  if (editorUndoBtn.getAttribute("aria-label") !== label) editorUndoBtn.setAttribute("aria-label", label);
+  const counter = document.getElementById("editorUndoCount");
+  if (counter && counter.textContent !== String(count)) counter.textContent = String(count);
+}
+
+function syncCellClipboardControls() {
+  const hasCell = !!baseFont && !!resultFont?.glyphs?.[selection.selectedIndex];
+  const compatible = hasCell && cellClipboard?.width === resultFont.width && cellClipboard?.height === resultFont.height;
+  if (copyCellBtn) {
+    copyCellBtn.disabled = !hasCell;
+    if (copyCellBtn.textContent !== "Copy cell") copyCellBtn.textContent = "Copy cell";
+  }
+  if (pasteCellBtn) {
+    pasteCellBtn.disabled = !compatible;
+    pasteCellBtn.title = compatible ? "Paste into the cell shown in the inspector" : "Copy a cell first";
+  }
+}
+
+function copySelectedCell() {
+  if (zoomPaint.active) commitZoomPaintIfNeeded();
+  const glyph = resultFont?.glyphs?.[selection.selectedIndex];
+  if (!baseFont || !glyph) return;
+  cellClipboard = { width: resultFont.width, height: resultFont.height, pixels: new Uint8Array(glyph) };
+  syncCellClipboardControls();
+  if (copyCellBtn) copyCellBtn.textContent = "Copied";
+  if (cellClipboardStatus) cellClipboardStatus.textContent = `Copied cell 0x${selection.selectedIndex.toString(16).toUpperCase().padStart(2, "0")}.`;
+}
+
+function pasteSelectedCell() {
+  if (zoomPaint.active) commitZoomPaintIfNeeded();
+  const idx = selection.selectedIndex;
+  const before = resultFont?.glyphs?.[idx];
+  if (!baseFont || !before || !cellClipboard || cellClipboard.width !== resultFont.width || cellClipboard.height !== resultFont.height) return;
+  if (glyphDiffCount(before, cellClipboard.pixels) === 0) return;
+  const offset = glyphNudgeOffset(idx);
+  editorHistory.push(idx, before, offset);
+  holdOriginalPreview = false;
+  holdOriginalPreviewBtn?.classList.remove("is-holding");
+  setGlyphOverride(idx, new Uint8Array(cellClipboard.pixels), offset);
+  rebuildResultFont();
+  rerenderAll();
+  if (cellClipboardStatus) cellClipboardStatus.textContent = `Pasted into cell 0x${idx.toString(16).toUpperCase().padStart(2, "0")}.`;
 }
 
 function applyEditorUndo() {
   if (!baseFont || !resultFont) return;
-  if (!editorUndo.glyph || editorUndo.index < 0 || editorUndo.index > 255) return;
+  if (zoomPaint.active) commitZoomPaintIfNeeded();
+  const entry = editorHistory.pop();
+  if (!entry) return;
 
   holdOriginalPreview = false;
   holdOriginalPreviewBtn?.classList.remove("is-holding");
-  setGlyphOverride(editorUndo.index, new Uint8Array(editorUndo.glyph), editorUndo.offset);
+  setGlyphOverride(entry.index, entry.glyph, entry.offset);
   rebuildResultFont();
-  setSingleSelection(editorUndo.index);
-  rerenderAll({ renderBootSplash: false });
-
-  editorUndo.glyph = null;
-  editorUndo.index = -1;
-  editorUndo.offset = null;
+  setSingleSelection(entry.index);
+  rerenderAll({ renderBootSplash: entry.index >= BOOT_SPLASH_START_INDEX });
 }
 
 /* -----------------------------
@@ -3786,6 +3842,8 @@ function initEvents() {
   editorUndoBtn?.addEventListener("click", () => {
     applyEditorUndo();
   });
+  copyCellBtn?.addEventListener("click", copySelectedCell);
+  pasteCellBtn?.addEventListener("click", pasteSelectedCell);
 
   viewModeSheetBtn?.addEventListener("click", () => {
     setViewMode(VIEW_MODE_SHEET);
@@ -3888,16 +3946,24 @@ function initEvents() {
       rerenderAll();
     };
 
-    holdOriginalPreviewBtn.addEventListener("mousedown", (e) => {
+    holdOriginalPreviewBtn.addEventListener("pointerdown", (e) => {
+      if (e.button !== 0 || !e.isPrimary) return;
       e.preventDefault();
+      holdOriginalPreviewBtn.setPointerCapture(e.pointerId);
       setHold(true);
     });
-    holdOriginalPreviewBtn.addEventListener("mouseup", () => setHold(false));
-    holdOriginalPreviewBtn.addEventListener("mouseleave", () => setHold(false));
-    holdOriginalPreviewBtn.addEventListener("touchstart", () => setHold(true), { passive: true });
-    holdOriginalPreviewBtn.addEventListener("touchend", () => setHold(false));
-    holdOriginalPreviewBtn.addEventListener("touchcancel", () => setHold(false));
-    window.addEventListener("mouseup", () => setHold(false));
+    for (const type of ["pointerup", "pointercancel", "lostpointercapture", "pointerleave", "blur"]) {
+      holdOriginalPreviewBtn.addEventListener(type, () => setHold(false));
+    }
+    for (const type of ["keydown", "keyup"]) {
+      holdOriginalPreviewBtn.addEventListener(type, e => {
+        if (e.key !== " " && e.key !== "Enter") return;
+        e.preventDefault();
+        if (!e.repeat) setHold(type === "keydown");
+      });
+    }
+    window.addEventListener("blur", () => setHold(false));
+    document.addEventListener("visibilitychange", () => { if (document.hidden) setHold(false); });
   }
 
   // grids click
@@ -4157,11 +4223,6 @@ function initEvents() {
   for (const button of document.querySelectorAll("[data-workspace-target]")) {
     button.addEventListener("click", () => setWorkspacePanel(button.dataset.workspaceTarget));
   }
-  document.getElementById("sheetZoom")?.addEventListener("change", scheduleRerender);
-  document.getElementById("inspectorZoom")?.addEventListener("change", e => {
-    localStorage.setItem("osdInspectorZoom", e.target.value);
-    scheduleRerender();
-  });
 
   // exports
   exportMCMBtn?.addEventListener("click", () => {
@@ -4303,9 +4364,6 @@ function initEvents() {
 ------------------------------ */
 
 function init() {
-  const inspectorZoom = document.getElementById("inspectorZoom");
-  const savedZoom = localStorage.getItem("osdInspectorZoom");
-  if (inspectorZoom && [...inspectorZoom.options].some(option => option.value === savedZoom)) inspectorZoom.value = savedZoom;
   // Keep layout stable before any font is loaded.
   setWorkspacePanel(workspacePanel);
   setViewMode(viewMode);

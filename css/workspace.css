@@ -137,7 +137,25 @@ canvas{
 .sheet-zoom-control, .inspector-zoom-control{ display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
 .sheet-zoom-control{ margin-left: auto; margin-right: var(--sheet-right-inset, 0px); }
 .inspector-zoom-control{ justify-self: end; }
-.sheet-zoom-control select, .inspector-zoom-control select{ min-height: 32px; min-width: 0; max-width: 110px; }
+.zoom-stepper{
+  display: inline-grid;
+  grid-template-columns: auto 28px 36px 28px;
+  border: 1px solid var(--bg-3);
+  border-radius: 10px;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.zoom-stepper button{
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+.zoom-stepper .zoom-auto{ padding-inline: 8px; border-right: 1px solid var(--bg-3); }
+.zoom-auto[aria-pressed="true"]{ background: color-mix(in srgb, var(--accent-0) 18%, var(--bg-2)); color: var(--text-0); }
+.zoom-stepper button:disabled{ opacity: .4; cursor: default; }
+.zoom-stepper button:focus-visible{ outline: 2px solid var(--accent-0); outline-offset: -3px; }
+.zoom-stepper output{ display: flex; align-items: center; justify-content: center; color: var(--text-0); }
 :root[data-view-mode="hud"] .sheet-zoom-control{ display: none; }
 :root[data-view-mode="hud"] .inspector-zoom-control{ display: none; }
 :root[data-view-mode="hud"] .workspace-toolbar{ grid-template-columns: minmax(0, 1fr); }
@@ -344,12 +362,14 @@ canvas{
 /* ---------- sidecar ---------- */
 .sidecar{
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto;
   gap: 10px;
   min-height: 0;
 }
 
 .zoom-wrap{
+  min-width: 0;
   border-radius: 12px;
   background: var(--bg-2);
   border: 1px solid var(--bg-3);
@@ -408,7 +428,8 @@ canvas{
   color: var(--text-0);
 }
 
-.zoom-viewport{ max-width: 100%; overflow: auto; }
+.zoom-viewport{ margin: 12px; max-width: calc(100% - 24px); overflow: auto; }
+.zoom-viewport:focus-visible{ outline: 2px solid var(--accent-0); outline-offset: 3px; }
 .zoom-canvas{
   max-width: none;
   height: auto;
@@ -461,7 +482,9 @@ canvas{
 
 .editor-undo-btn{
   color: var(--text-0);
+  gap: 2px;
 }
+.editor-undo-count{ font-size: .6rem; font-variant-numeric: tabular-nums; }
 
 .editor-undo-glyph{
   font-size: 1rem;
@@ -517,6 +540,13 @@ canvas{
   border-color: var(--accent-0);
   background: color-mix(in srgb, var(--accent-0) 14%, var(--bg-2));
 }
+.preview-controls{ display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+.preview-controls .hold-preview-btn{ font-size: .78rem; min-height: 34px; padding: 0 6px; white-space: nowrap; touch-action: none; user-select: none; }
+.preview-controls .checkbox{ margin: 0; gap: 6px; }
+.preview-controls .checkbox-label{ font-size: .78rem; }
+.cell-clipboard-controls{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.cell-clipboard-controls button{ font-size: .78rem; min-height: 34px; padding: 0 6px; white-space: nowrap; }
+.cell-clipboard-status{ position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------- D-pad / nudging UI ---------- */
 .nudgeBox{

@@ -277,3 +277,35 @@ Validation covers reduced panel height at 8× versus 16×, independent sheet geo
 The smaller editor exposed touch hit adjustment redirecting a top-edge tap to the Inspector mode button. The canvas now registers as a click target alongside its existing pointer handlers, preserving exact edge-pixel painting in the DPR 2 regression. The 27 Node and 18 browser cases are validated, with focused reruns after the viewport and touch changes.
 
 Toolbar refinements keep the Sheet View/HUD View pair at a compact, consistent width in both modes. Its left edge and the sheet zoom control's right edge follow the visible sheet, including centered spare space and scrollbar gutter. HUD mode aligns the same button pair with the HUD preview. Alignment was verified at five viewport widths and all four sheet zoom settings.
+
+## Implementation record: zoom buttons and inspector gutters
+
+Both zoom dropdowns are replaced by Auto / minus / actual scale / plus controls, shared through `js/modules/zoom-controls.js`. Stepping from Auto uses the fitted scale and switches to manual mode. Manual scales advance in whole integers (2–4 for the sheet, 4–20 for the inspector), with buttons disabled at the limits. Auto restores fitting, and the inspector preference remains persisted. Native buttons support keyboard activation, the active Auto state is exposed with aria-pressed, and the scale readout is announced when it changes. Selection and theme redraws do not rewrite unchanged zoom state.
+
+The inspector's scroll region is inset 12px inside the existing panel padding, leaving 21px from its visible edges to the border. The region retains those gutters at large manual sizes and can be scrolled with the keyboard. Grid columns and the zoom box can shrink independently of the canvas's intrinsic width, preventing an oversized canvas from expanding the inspector beyond its column. Auto fitting includes the smaller padded content area. The original theme pixel baselines are still checked at explicit 19× inspector geometry instead of replacing them with the new Auto dimensions.
+
+Browser coverage exercises stepping from Auto, keyboard activation, both zoom bounds, persisted preferences, unchanged font and PNG output, DPR 2 painting, and 20× canvas gutters at desktop, small-laptop, and phone sizes, including both horizontal scroll extremes.
+
+Auto is a toggle: turning it off holds the fitted scale, and turning it back on restores fitting. Validation passes 27 Node tests and 19 browser tests, with focused reruns for the final toggle behavior, saved settings, margins, and unchanged theme pixels.
+
+## Implementation record: compact preview controls and cell clipboard
+
+Hold original and Grids share a compact row, with Copy cell and Paste cell directly below. The original preview uses pointer capture and keyboard hold handling, and cancels on release, pointer cancellation, lost capture, leaving the button, blur, or a hidden document. Grids retains the shared, persisted sheet/HUD state.
+
+The cell clipboard stores an independent snapshot of the active result glyph and its dimensions. It copies composed pixels, including edits and baked-in nudges, and remains available across base-font loads in the current tab. It does not access the system clipboard. Paste changes only the active inspector cell and captures the destination's current transform, so later rebuilds do not apply that transform twice. The copied snapshot cannot be changed by later source or destination edits.
+
+Paste uses the existing single-edit Undo in Editor mode. Identical pastes leave previous undo intact; later nudges apply to both the paste and its undo snapshot consistently. Paste into boot-logo cells updates the preview, and undo refreshes that preview too. Copy/Paste disable when no valid cell or compatible clipboard is available. Copy confirmation stays local to the inspector, preserving file status and header layout.
+
+New browser coverage checks no-op copy, active-cell paste during multiple selection, no-op paste preserving undo, cross-font clipboard retention, fresh-tab guards, immutable snapshots, global/per-cell nudge composition, boot-preview undo, keyboard/pointer original preview, Grids synchronization, and the compact row at desktop, laptop, and phone sizes.
+
+Validation: 27 Node tests and 22 browser tests pass. Focused clipboard reruns also pass after moving feedback into the inspector; existing export, theme pixel, responsive layout, and zoom checks remain intact.
+
+## Implementation record: bounded multi-step editor undo
+
+`js/modules/cell-history.js` now owns a 20-entry undo stack for paint strokes and cell pastes. Each entry contains its cell index, independent pixel snapshot, and captured nudge offset. A completed stroke is one entry, and no-op strokes/pastes do not consume history. Undo follows chronological editing order across cells and selects the restored cell. Later nudges remain applied relative to each snapshot's captured offset. The Editor's undo button shows the remaining count and disables at zero.
+
+Base/overlay resets and clearing all swaps clear editor history. Replacing or clearing a glyph through other tools discards all history for that glyph while retaining unrelated entries. Resetting/replacing cells also cancels an affected in-progress stroke, so a late release cannot reinsert old history into a new font. Boot previews refresh after relevant paint commits and undos. This remains focused paint/paste undo; broader document commands and redo remain part of the overhaul plan.
+
+Unit tests cover independent snapshots and offsets, reverse order across cells, bounded retention, cell-specific invalidation, and document reset. Browser checks cover multiple strokes plus paste across cells, one undo entry for a dragged stroke, no-op edits, later nudges and rebuilds, keyboard undo, the 20-step limit, and loading another font while a stroke is active.
+
+Validation: all 31 Node tests and 24 browser tests pass. The 20-step count was visually checked in the existing palette and remains unclipped.
