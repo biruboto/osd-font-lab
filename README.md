@@ -12,6 +12,42 @@ OSD Font Lab is a web application designed to help people create custom fonts fo
 + Choose from a pre-selected assortment of single glyphs or "sets" (batteries, crosshairs) and mix and match them from the Betaflight defaults or a small (but growing!) selection of custom OSDFL icons
 + Export to either .MCM or .PNG (1x and 3x)
 
+## Local development
+
+The app runs directly from static files, with no build step or runtime package dependencies.
+From the repository directory, start a local HTTP server:
+
+```sh
+python -m http.server 5173 --bind 127.0.0.1
+```
+
+Open `http://localhost:5173/`. Use an HTTP server rather than opening `index.html` as a file so module imports and font fetches work.
+
+## Checks
+
+Run codec and simulated serial regressions with Node's built-in test runner (tested with Node 24):
+
+```sh
+npm test
+```
+
+The browser suite checks file/boot-logo round-trips, all five theme canvases against the pre-overhaul baseline, selection rendering cost, rapid font/default selection, and nudging/painting/undo through real controls. It also covers responsive views from 360px to 2560px, zoom/pan, DPR 2 touch painting, saved HUD mode, and upload cancellation with a fake device. It starts its own temporary localhost server and does not connect to a flight controller.
+
+With Python 3.12 and the test dependencies installed:
+
+```sh
+python -m pip install -r tests/requirements.txt
+python -m unittest discover -s tests -p '*_test.py' -v
+```
+
+On Windows it uses installed Microsoft Edge by default. On other platforms, install Playwright's Chromium with `python -m playwright install chromium`. Set `OSDFL_BROWSER_CHANNEL=chromium` to use that browser on Windows too. The essential tests run without access to the external icon stylesheet.
+
+See [the overhaul plan](docs/overhaul-plan.md) for baseline findings, milestones, and remaining validation.
+
+On screens up to 960px wide, use **Preview**, **Edit glyph**, and **Fonts & icons** in the header. The sheet reflows its columns to the available width. **Auto** chooses an integer 2×–4× glyph size, keeping a readable 2× minimum and scrolling vertically when necessary; you can also choose 2×, 3×, or 4× directly. Glyph indices stay fixed as cells move between rows. PNG exports always retain the standard 16×16 layout at 192×288 (1×) or 576×864 (3×).
+
+Secondary tools and appearance settings expand independently. During an FC upload, the upload button becomes the cancel action; canceling may leave a partial font on the controller, so upload the full font again to finish.
+
 02.27.2026
 + Direct upload to flight controller support! Thanks to an implementation by [BUSHA](https://vtx.in.ua/max7456/), in Chromium based browsers OSD Font Lab can now upload your font creation directly to your quad.
 

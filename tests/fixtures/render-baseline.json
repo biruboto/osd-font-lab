@@ -1,0 +1,87 @@
+{
+  "dusk": {
+    "resultGrid": {
+      "width": 576,
+      "height": 864,
+      "sha256": "dbc52054f6f4850dcc2b826b4fbde23bfd93de44ab2761192fc8e92bd902d99c"
+    },
+    "resultZoom": {
+      "width": 228,
+      "height": 342,
+      "sha256": "b5d649aa5361e1e3ec594a3aa6b3fc0f519072bb6146f3b9cf31971b168902ec"
+    },
+    "bootSplashPreview": {
+      "width": 288,
+      "height": 72,
+      "sha256": "dff6fb0c5af738353b92a04271ca6364736be4aff235119089008229ef4e3c52"
+    }
+  },
+  "crt": {
+    "resultGrid": {
+      "width": 576,
+      "height": 864,
+      "sha256": "497665621cac9a6abb90c1eff67759591d0041b266a6d55a022f92600abc1b28"
+    },
+    "resultZoom": {
+      "width": 228,
+      "height": 342,
+      "sha256": "0ef6701d2a8578f9829a06a6869d36cfee1d56fd55bec93dbc2fe92440f68d2a"
+    },
+    "bootSplashPreview": {
+      "width": 288,
+      "height": 72,
+      "sha256": "c37aade55fabf93d0775d4d280117b54582bc923b5388e8641cb6247b5808c80"
+    }
+  },
+  "amber-terminal": {
+    "resultGrid": {
+      "width": 576,
+      "height": 864,
+      "sha256": "a714f26ecb6aa0078268c0a41daaf9d9faa78888110466d31b2dc3fbc1c85022"
+    },
+    "resultZoom": {
+      "width": 228,
+      "height": 342,
+      "sha256": "e615ff788e585ecae856f6b2905448b96e1e6972f37288dda83fc59a1a349b01"
+    },
+    "bootSplashPreview": {
+      "width": 288,
+      "height": 72,
+      "sha256": "e70d8bb43e168dc1ca554b9b9498714d8466179f1854e7e23c23770328764172"
+    }
+  },
+  "cold-phosphor": {
+    "resultGrid": {
+      "width": 576,
+      "height": 864,
+      "sha256": "880dfaa84a67ea0f7989f53e2276167c94df584403256c06b95aa705aa687f3b"
+    },
+    "resultZoom": {
+      "width": 228,
+      "height": 342,
+      "sha256": "82ce72a8abfbaa123fd174f6cbc53d554959c06ca5479ee3450edd060ae61198"
+    },
+    "bootSplashPreview": {
+      "width": 288,
+      "height": 72,
+      "sha256": "627a9e135a361e19ac08b5c9d5b4624907a9d2d54a5dc7d1497af7dba5a6acb8"
+    }
+  },
+  "lavender-circuit": {
+    "resultGrid": {
+      "width": 576,
+      "height": 864,
+      "sha256": "e6163c87d203576650d9aaf6b965e14b30018e8a9d637772155185b86350c4bd"
+    },
+    "resultZoom": {
+      "width": 228,
+      "height": 342,
+      "sha256": "809ffd373d76c91614e06380d998ec971b9ae5a83c7281f52cb7fa069bdd172b"
+    },
+    "bootSplashPreview": {
+      "width": 288,
+      "height": 72,
+      "sha256": "022cdf60d9e84a95882ef64e4664a9cc9705445a1730c94e73f1909ab8370d6e"
+    }
+  }
+}

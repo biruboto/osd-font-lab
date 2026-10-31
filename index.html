@@ -1,28 +1,54 @@
 ﻿<!doctype html>
-<html lang="en">
+<html lang="en" data-workspace-panel="tools">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>OSD Font Lab</title>
   <link rel="icon" href="./favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/app.css?v=20260226-ttfrow">
+  <link rel="stylesheet" href="css/app.css?v=20261031-workspace">
 </head>
 
 <body>
   <div class="app-shell">
-    <div class="tools-brand-row">
+    <header class="app-header">
       <div class="brandCluster">
         <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
         <canvas id="brandDrone" class="brandDrone" aria-hidden="true"></canvas>
       </div>
-    </div>
+      <div class="exports" aria-label="Export font">
+        <button id="exportMCM" type="button" title="Export a Betaflight Configurator-ready font file"><i class="fa-solid fa-file-export" aria-hidden="true"></i> .mcm</button>
+        <button id="exportPNG1x" type="button" title="Export a pixel-perfect PNG for editing in external applications"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (1x)</button>
+        <button id="exportPNG3x" type="button" title="Export a large PNG for sharing"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (3x)</button>
+        <button id="uploadFC" type="button" title="Upload the current font directly to your Flight Controller via Web Serial"><i class="fa-solid fa-microchip" aria-hidden="true"></i> To FC</button>
+      </div>
+      <nav class="workspace-nav" aria-label="Workspace">
+        <button type="button" data-workspace-target="preview" aria-controls="fontPane" aria-pressed="false">Preview</button>
+        <button type="button" data-workspace-target="edit" aria-controls="glyphInspector" aria-pressed="false">Edit glyph</button>
+        <button type="button" data-workspace-target="tools" aria-controls="toolsPane" aria-pressed="true">Fonts &amp; icons</button>
+      </nav>
+      <div id="loadStatus" class="load-status hint" role="status" aria-live="polite">No file loaded.</div>
+    </header>
 
     <!-- Split workspace -->
     <div class="split">
 
-      <section class="font-pane">
+      <section id="fontPane" class="font-pane" aria-label="Font preview and editor">
         <section class="panel panel-result">
+          <div class="workspace-toolbar">
+            <div class="view-toggle" role="group" aria-label="Preview mode">
+              <button id="viewModeSheet" type="button" class="view-toggle-btn" aria-pressed="true"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Sheet View</button>
+              <button id="viewModeHud" type="button" class="view-toggle-btn" aria-pressed="false"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i> HUD View</button>
+            </div>
+            <label class="sheet-zoom-control">Sheet zoom
+              <select id="sheetZoom" aria-label="Sheet zoom">
+                <option value="auto">Auto</option>
+                <option value="2">2×</option>
+                <option value="3">3×</option>
+                <option value="4">4×</option>
+              </select>
+            </label>
+          </div>
           <div class="panel-body">
             <div class="grid-wrap sheet-wrap">
               <canvas id="resultGrid" class="grid-canvas"></canvas>
@@ -31,7 +57,7 @@
               <canvas id="resultHud" class="hud-canvas" width="960" height="540"></canvas>
             </div>
 
-            <aside class="sidecar">
+            <aside id="glyphInspector" class="sidecar" aria-label="Selected glyph">
               <div class="zoom-wrap">
                 <div class="zoom-mode-toggle" role="group" aria-label="Zoom panel mode">
                   <button id="zoomModeInspector" type="button" class="zoom-mode-btn"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Inspector</button>
@@ -53,7 +79,7 @@
                     <span class="editor-color-swatch editor-color-gray" aria-hidden="true"></span>
                   </button>
                   <button id="editorUndoBtn" type="button" class="editor-color-btn editor-undo-btn" aria-label="Undo last stroke">
-                    <span class="editor-undo-glyph" aria-hidden="true"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span>
+                    <span class="editor-undo-glyph" aria-hidden="true">↶</span>
                   </button>
                 </div>
               </div>
@@ -76,39 +102,26 @@
                 <div class="nudgeBox">
                   <div class="nudgeTitle">Nudge replaced ASCII</div>
                   <div class="dpad" data-nudge-target="replaced">
-                    <button type="button" data-dx="0" data-dy="-1"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="0" data-dy="1"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="0" data-dy="0" data-action="reset"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="-1" data-dy="0"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="1" data-dy="0"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="-1" aria-label="Nudge up">↑</button>
+                    <button type="button" data-dx="0" data-dy="1" aria-label="Nudge down">↓</button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="reset" aria-label="Reset nudge">↺</button>
+                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left">←</button>
+                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right">→</button>
                   </div>
                 </div>
 
                 <div class="nudgeBox">
                   <div class="nudgeTitle">Nudge selection</div>
                   <div class="dpad" data-nudge-target="selection">
-                    <button type="button" data-dx="0" data-dy="-1"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="0" data-dy="1"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="0" data-dy="0" data-action="clear"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="-1" data-dy="0"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
-                    <button type="button" data-dx="1" data-dy="0"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="-1" aria-label="Nudge up">↑</button>
+                    <button type="button" data-dx="0" data-dy="1" aria-label="Nudge down">↓</button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="clear" aria-label="Reset nudge">↺</button>
+                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left">←</button>
+                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right">→</button>
                   </div>
                 </div>
 
-                <div class="theme-radios" role="radiogroup" aria-label="Site theme">
-                  <span class="theme-radios-label">Site theme:</span>
-                  <label><input type="radio" name="siteTheme" value="dusk"></label>
-                  <label><input type="radio" name="siteTheme" value="crt"></label>
-                  <label><input type="radio" name="siteTheme" value="amber-terminal"></label>
-                  <label><input type="radio" name="siteTheme" value="cold-phosphor"></label>
-                  <label><input type="radio" name="siteTheme" value="lavender-circuit"></label>
-                  <span id="themeCodeLabel" class="theme-code-label">DUSK</span>
-                </div>
-                <div class="font-serving-note">Serving <span id="servingFontCount" class="font-serving-count">0</span> fonts! • "Analog in aeternum"</div>
-                <a class="kofi-badge kofi-badge-sidecar" href="https://ko-fi.com/V7V51TP9SQ" target="_blank" rel="noopener noreferrer" aria-label="Support on Ko-fi" title="If you appreciate my work ♥">
-                  <img id="kofiBadgeIcon" class="kofi-badge-icon" alt="" />
-                  <span class="kofi-badge-text">Support the project on Ko-fi!</span>
-                </a>
+
               </div>
             </aside>
           </div>
@@ -167,28 +180,10 @@
       </section>
 
       <!-- RIGHT: Tools window -->
-      <section class="tools-pane">
-        <header class="topbar">
-          <div class="topbar-right">
-            <div class="exports">
-              <button id="exportMCM" type="button" title="Export a Betaflight Configurator-ready font file"><i class="fa-solid fa-file-export" aria-hidden="true"></i> .mcm</button>
-              <button id="exportPNG1x" type="button" title="Export a pixel-perfect PNG for editing in external applications"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (1x)</button>
-              <button id="exportPNG3x" type="button" title="Export a large PNG for sharing"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (3x)</button>
-              <button id="uploadFC" type="button" title="Upload the current font directly to your Flight Controller via Web Serial"><i class="fa-solid fa-microchip" aria-hidden="true"></i> To FC</button>
-            </div>
-          </div>
-        </header>
+      <section id="toolsPane" class="tools-pane" aria-label="Fonts, icons, and boot logo">
         <section class="panel panel-base">
           <div class="panel-header">
-            <div class="tools-view-toggle">
-              <div class="view-toggle" role="group" aria-label="Preview mode">
-                <button id="viewModeSheet" type="button" class="view-toggle-btn"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Sheet View</button>
-                <button id="viewModeHud" type="button" class="view-toggle-btn"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i> HUD View</button>
-              </div>
-            </div>
-            <div class="tools-section-title">Status</div>
-            <div id="loadStatus" class="load-status hint" aria-live="polite">No file loaded.</div>
-            <div class="tools-section-title">ASCII</div>
+            <div class="tools-section-title">Fonts</div>
             <div class="panel-header-controls">
               <div class="font-select-stack">
                 <label class="field field-stack bf-inline">
@@ -215,15 +210,14 @@
               <div class="import-select-stack">
                 <label class="field field-stack import-inline">
                   <span class="import-spacer" aria-hidden="true">&nbsp;</span>
-                  <div
+                  <button
                     id="drop"
                     class="dropzone dropzone-inline"
-                    role="button"
-                    tabindex="0"
+                    type="button"
                     title="Import a base .mcm or exported .png font file"
                   >
-                    Drop .mcm/.png or click
-                  </div>
+                    Import .mcm/.png
+                  </button>
                 </label>
                 <label class="field field-stack import-inline">
                   <span class="import-spacer" aria-hidden="true">&nbsp;</span>
@@ -233,7 +227,7 @@
                     class="dropzone dropzone-inline"
                     title="Import a YAFF replacement overlay or an experimental TTF/OTF rasterized to 12x18"
                   >
-                    Import .yaff/.ttf/.otf
+                    Import YAFF / TTF
                   </button>
                 </label>
               </div>
@@ -251,10 +245,10 @@
                   <span class="ttf-stroke-mini-label"><span>Stroke</span><span>Style</span></span>
                   <div class="stroke-style-segment" role="group" aria-label="Overlay stroke style">
                     <button id="strokeStyle4Btn" type="button" class="stroke-style-btn" title="4-neighbor stroke (up/down/left/right)" aria-label="4-way stroke">
-                      <i class="fa-solid fa-up-down-left-right" aria-hidden="true"></i>
+                      4
                     </button>
                     <button id="strokeStyle8Btn" type="button" class="stroke-style-btn" title="8-neighbor stroke (includes diagonals)" aria-label="8-way stroke">
-                      <i class="fa-solid fa-maximize" aria-hidden="true"></i>
+                      8
                     </button>
                   </div>
                 </div>
@@ -265,7 +259,8 @@
                 </label>
               </div>
             </div>
-            <div class="tools-section-title">Icons</div>
+            <details id="iconTools" class="tool-section"><summary>Icons</summary>
+            <div class="tool-section-body">
             <div class="swap-controls">
               <label class="field field-stack">
                 <span class="or-label">Swap target</span>
@@ -282,7 +277,9 @@
                 <button id="clearAllSwapsBtn" type="button">Clear all swaps</button>
               </div>
             </div>
-            <div class="tools-section-title">Special Characters</div>
+            </div></details>
+            <details id="emojiTools" class="tool-section"><summary>Special Characters</summary>
+            <div class="tool-section-body">
             <div class="special-char-controls">
               <div class="field field-stack special-emoji-stack">
                 <span class="or-label">Emoji source</span>
@@ -306,7 +303,9 @@
                 </div>
               </div>
             </div>
-            <div class="tools-section-title">Boot Logo</div>
+            </div></details>
+            <details id="bootTools" class="tool-section"><summary>Boot Logo</summary>
+            <div class="tool-section-body">
             <div class="boot-splash-preview-wrap">
               <canvas id="bootSplashPreview" class="boot-splash-preview" width="288" height="72" aria-label="Boot logo preview"></canvas>
             </div>
@@ -324,13 +323,26 @@
               </div>
             </div>
             <input id="bootSplashFile" type="file" accept=".png,.bmp" hidden>
+            </div></details>
+            <details id="appearanceTools" class="tool-section"><summary>Appearance &amp; project</summary>
+            <div class="tool-section-body">
+                <div class="theme-radios" role="radiogroup" aria-label="Site theme">
+                  <span class="theme-radios-label">Site theme:</span>
+                  <label><input type="radio" name="siteTheme" value="dusk" aria-label="Dusk"></label>
+                  <label><input type="radio" name="siteTheme" value="crt" aria-label="CRT"></label>
+                  <label><input type="radio" name="siteTheme" value="amber-terminal" aria-label="Amber Terminal"></label>
+                  <label><input type="radio" name="siteTheme" value="cold-phosphor" aria-label="Cold Phosphor"></label>
+                  <label><input type="radio" name="siteTheme" value="lavender-circuit" aria-label="Lavender Circuit"></label>
+                  <span id="themeCodeLabel" class="theme-code-label">DUSK</span>
+                </div>
+                <div class="font-serving-note">Serving <span id="servingFontCount" class="font-serving-count">0</span> fonts! • "Analog in aeternum"</div>
+                <a class="kofi-badge kofi-badge-sidecar" href="https://ko-fi.com/V7V51TP9SQ" target="_blank" rel="noopener noreferrer" aria-label="Support on Ko-fi" title="If you appreciate my work ♥">
+                  <img id="kofiBadgeIcon" class="kofi-badge-icon" alt="" />
+                  <span class="kofi-badge-text">Support the project on Ko-fi!</span>
+                </a>
+            </div></details>
           </div>
 
-          <div class="panel-body panel-body-single panel-body-base">
-            <div class="grid-wrap">
-              <canvas id="baseGrid" class="grid-canvas"></canvas>
-            </div>
-          </div>
         </section>
       </section>
 

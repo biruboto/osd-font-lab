@@ -1,2 +1,3 @@
 tools/
 PROJECT_STATE_SAVE.md
+__pycache__/

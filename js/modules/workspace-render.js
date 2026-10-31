@@ -1,15 +1,36 @@
 // js/modules/workspace-render.js
+import { calculateSheetLayout, sheetPointToIndex } from "./sheet-layout.js";
+
 export function createWorkspaceRenderer({
-  scale = 3,
-  cols = 16,
+  getSheetZoom = () => "auto",
   cssVar,
   pxColorViewer,
   fitCanvasToCSS,
   getAccentColor = () => "#ffffff",
 }) {
-  function drawCellGridOverlay(ctx, font) {
-    const cellW = font.width * scale;
-    const cellH = font.height * scale;
+  const sheetLayouts = new WeakMap();
+
+  function sizeSheetCanvas(canvas, width = 12, height = 18, glyphCount = 256) {
+    const wrapper = canvas.parentElement;
+    if (!wrapper?.clientWidth || !canvas.getClientRects().length) return null;
+    const limit = parseFloat(getComputedStyle(wrapper).maxHeight);
+    const availableHeight = Number.isFinite(limit) ? limit : wrapper.clientHeight;
+    const layout = calculateSheetLayout({ availableWidth: wrapper.clientWidth, availableHeight,
+      glyphWidth: width, glyphHeight: height, glyphCount, zoom: getSheetZoom() });
+    if (canvas.width !== layout.width) canvas.width = layout.width;
+    if (canvas.height !== layout.height) canvas.height = layout.height;
+    // One bitmap pixel per CSS pixel; never stretch the sheet to fit its pane.
+    canvas.style.width = `${layout.width}px`;
+    canvas.style.height = `${layout.height}px`;
+    canvas.dataset.columns = String(layout.columns);
+    canvas.dataset.rows = String(layout.rows);
+    canvas.dataset.scale = String(layout.scale);
+    sheetLayouts.set(canvas, layout);
+    return layout;
+  }
+
+  function drawCellGridOverlay(ctx, layout) {
+    const { cellWidth: cellW, cellHeight: cellH, columns: cols, rows } = layout;
 
     ctx.save();
     ctx.strokeStyle = "rgba(255,255,255,0.10)";
@@ -23,8 +44,8 @@ export function createWorkspaceRenderer({
       ctx.stroke();
     }
 
-    for (let r = 0; r <= 16; r++) {
-      const y = (r === 16) ? (ctx.canvas.height - 0.5) : (r * cellH + 0.5);
+    for (let r = 0; r <= rows; r++) {
+      const y = (r === rows) ? (ctx.canvas.height - 0.5) : (r * cellH + 0.5);
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(ctx.canvas.width, y);
@@ -35,31 +56,27 @@ export function createWorkspaceRenderer({
   }
 
   function renderPlaceholderGrid(ctx, canvas, width = 12, height = 18, { showGrids } = {}) {
-    const rows = Math.ceil(256 / cols);
-    canvas.width = cols * width * scale;
-    canvas.height = rows * height * scale;
+    const layout = sizeSheetCanvas(canvas, width, height);
+    if (!layout) return;
 
     const matte = cssVar("--osd-matte", "#1f232b");
     ctx.fillStyle = matte;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     if (showGrids) {
-      drawCellGridOverlay(ctx, { width, height });
+      drawCellGridOverlay(ctx, layout);
     }
   }
 
   function reserveGridCanvasSpace(canvas, width = 12, height = 18) {
-    const rows = Math.ceil(256 / cols);
-    canvas.width = cols * width * scale;
-    canvas.height = rows * height * scale;
+    sizeSheetCanvas(canvas, width, height);
   }
 
   function renderGrid(ctx, canvas, font, { showGrids, selectedSet } = {}) {
     const { glyphs, width, height } = font;
-    const rows = Math.ceil(glyphs.length / cols);
-
-    canvas.width = cols * width * scale;
-    canvas.height = rows * height * scale;
+    const layout = sizeSheetCanvas(canvas, width, height, glyphs.length);
+    if (!layout) return;
+    const { scale, columns: cols } = layout;
 
     const matte = cssVar("--osd-matte", "#1f232b");
     ctx.fillStyle = matte;
@@ -80,7 +97,7 @@ export function createWorkspaceRenderer({
       }
     });
 
-    if (showGrids) drawCellGridOverlay(ctx, font);
+    if (showGrids) drawCellGridOverlay(ctx, layout);
 
     if (selectedSet && selectedSet.size) {
       ctx.save();
@@ -134,8 +151,11 @@ export function createWorkspaceRenderer({
 
   function snapZoomCanvasToIntegerScale(canvas, font) {
     if (!canvas || !font) return;
-    const rect = canvas.getBoundingClientRect();
-    const targetW = Math.max(1, Math.floor(rect.width));
+    const wrapper = canvas.parentElement;
+    const wrapperStyle = getComputedStyle(wrapper);
+    const maxWidth = parseFloat(getComputedStyle(canvas).maxWidth) || Infinity;
+    const available = wrapper.clientWidth - parseFloat(wrapperStyle.paddingLeft) - parseFloat(wrapperStyle.paddingRight);
+    const targetW = Math.max(1, Math.floor(Math.min(available, maxWidth)));
     // Ignore hidden/unstable layout passes (e.g. switching from HUD mode)
     // so we don't lock the inspector to 1x.
     if (targetW <= font.width) return;
@@ -145,6 +165,7 @@ export function createWorkspaceRenderer({
   }
 
   function renderZoom(ctx, canvas, font, index, { showGrids } = {}) {
+    if (!canvas.getClientRects().length) return;
     snapZoomCanvasToIntegerScale(canvas, font);
     fitCanvasToCSS(canvas, ctx);
 
@@ -170,22 +191,17 @@ export function createWorkspaceRenderer({
     if (showGrids) drawZoomPixelGrid(ctx, width, height, zoomScale, ox, oy);
   }
 
-  function gridClickToIndex(e, canvas, font) {
+  function gridClickToIndex(e, canvas) {
+    const layout = sheetLayouts.get(canvas);
+    if (!layout) return null;
     const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
     const sx = canvas.width / rect.width;
     const sy = canvas.height / rect.height;
     const x = (e.clientX - rect.left) * sx;
     const y = (e.clientY - rect.top) * sy;
 
-    const cellW = font.width * scale;
-    const cellH = font.height * scale;
-
-    const gx = Math.floor(x / cellW);
-    const gy = Math.floor(y / cellH);
-
-    const idx = gy * cols + gx;
-    if (idx < 0 || idx >= 256) return null;
-    return idx;
+    return sheetPointToIndex(x, y, layout);
   }
 
   function renderFontToSheetCanvas(font, exportScale = 3) {
@@ -231,6 +247,7 @@ export function createWorkspaceRenderer({
   }
 
   return {
+    getSheetLayout: (canvas) => sheetLayouts.get(canvas),
     gridClickToIndex,
     renderFontToSheetCanvas,
     renderGrid,

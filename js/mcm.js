@@ -6,7 +6,6 @@ export function decodeMCM(arrayBuffer) {
   const bytes = new Uint8Array(arrayBuffer);
   const GLYPHS = 256, W = 12, H = 18;
   const BYTES_PER_GLYPH_PADDED = 64; // text MCM stores 64 bytes per glyph
-  const BYTES_PER_GLYPH_DATA = 54;   // 12*18*2bpp = 54 bytes (18 rows * 3 bytes)
 
   const head = new TextDecoder("ascii").decode(bytes.slice(0, 16));
   const isTextMCM = head.startsWith("MAX7456");
@@ -54,7 +53,8 @@ export function decodeMCM(arrayBuffer) {
       for (let x = 0; x < W; x++) {
         const shift = 22 - x * 2;           // MSB-first
         const v = (bits24 >> shift) & 0x03; // 2-bit pixel
-        pixels[y * W + x] = v;
+        // Hardware 11 is transparent; editor value 3 means opaque stroke.
+        pixels[y * W + x] = v === 3 ? 1 : v;
       }
     }
 
@@ -64,15 +64,15 @@ export function decodeMCM(arrayBuffer) {
   return { glyphs, width: W, height: H, format: "mcm-text" };
 }
 
-export function encodeMCM(font) {
-  const W = font.width;
-  const H = font.height;
+// The packed glyph payload is shared by MCM files and flight-controller uploads.
+export function encodeFontBytes(font) {
+  if (!font?.glyphs || font.glyphs.length !== 256) {
+    throw new Error("Font export expects 256 glyphs");
+  }
+  const { width: W, height: H } = font;
 
   if (W !== 12 || H !== 18) {
-    throw new Error(`encodeMCM expects 12x18 glyphs, got ${W}x${H}`);
-  }
-  if (!font?.glyphs || font.glyphs.length !== 256) {
-    throw new Error(`encodeMCM expects 256 glyphs`);
+    throw new Error(`Font export expects 12x18 glyphs, got ${W}x${H}`);
   }
 
   // Map your internal values to MAX7456 2bpp:
@@ -92,12 +92,7 @@ export function encodeMCM(font) {
     return 0b01; // treat everything else as transparent
   }
 
-  // Each glyph: 216 pixels = 54 bytes (4 pixels/byte), then 10 unused bytes (pad to 64)
-  // Use 0x55 (01010101) as padding = 4 transparent pixels.
-  const PAD_BYTE = 0x55;
-
-  const lines = [];
-  lines.push("MAX7456");
+  const bytes = new Uint8Array(256 * 54);
 
   for (let gi = 0; gi < 256; gi++) {
     const g = font.glyphs[gi];
@@ -120,12 +115,23 @@ export function encodeMCM(font) {
         (p2 << 2) |
         (p3 << 0);
 
+      bytes[gi * 54 + bi] = byte;
+    }
+  }
+  return bytes;
+}
+
+export function encodeMCM(font) {
+  const bytes = encodeFontBytes(font);
+  const lines = ["MAX7456"];
+  for (let gi = 0; gi < 256; gi++) {
+    for (const byte of bytes.subarray(gi * 54, (gi + 1) * 54)) {
       lines.push(byte.toString(2).padStart(8, "0"));
     }
 
     // 10 unused bytes
     for (let k = 0; k < 10; k++) {
-      lines.push(PAD_BYTE.toString(2).padStart(8, "0"));
+      lines.push("01010101");
     }
   }
 

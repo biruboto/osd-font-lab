@@ -22,21 +22,17 @@ export function initDpadControls({
     }
   }
 
-  document.addEventListener("mousedown", (e) => {
-    const btn = e.target.closest(".dpad button");
-    if (!btn) return;
-
+  function actionFor(btn) {
+    if (!btn || btn.disabled) return null;
     const dpad = btn.closest(".dpad");
     const target = dpad?.getAttribute("data-nudge-target");
-    if (!target) return;
-
-    e.preventDefault();
+    if (!target) return null;
 
     const action = btn.getAttribute("data-action");
     const dx = parseInt(btn.getAttribute("data-dx") || "0", 10);
     const dy = parseInt(btn.getAttribute("data-dy") || "0", 10);
 
-    const fire = () => {
+    return () => {
       if (action === "reset" && target === "replaced") {
         onResetReplaced?.();
         return;
@@ -49,6 +45,13 @@ export function initDpadControls({
       if (target === "replaced") onNudgeReplaced?.(dx, dy);
       if (target === "selection") onNudgeSelection?.(dx, dy);
     };
+  }
+
+  document.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 || !e.isPrimary) return;
+    const fire = actionFor(e.target.closest(".dpad button"));
+    if (!fire) return;
+    stopHold();
 
     fire();
     holdTimer = setTimeout(() => {
@@ -56,6 +59,15 @@ export function initDpadControls({
     }, 250);
   });
 
-  window.addEventListener("mouseup", stopHold);
+  // Pointer activation fires on press; keyboard/assistive activation uses click.
+  document.addEventListener("click", (e) => {
+    if (e.detail === 0) actionFor(e.target.closest(".dpad button"))?.();
+  });
+  window.addEventListener("pointerup", stopHold);
+  window.addEventListener("pointercancel", stopHold);
   window.addEventListener("mouseleave", stopHold);
+  window.addEventListener("blur", stopHold);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopHold();
+  });
 }

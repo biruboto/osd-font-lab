@@ -1,5 +1,5 @@
-﻿// js/app.js
-import { decodeMCM, encodeMCM } from "./mcm.js";
+// js/app.js
+import { decodeMCM, encodeMCM, encodeFontBytes } from "./mcm.js";
 import { buildFontPicker } from "./modules/picker.js";
 import { currentThemeId, initThemeControls } from "./modules/theme.js";
 import {
@@ -55,15 +55,12 @@ const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
 const bfFontSelect = document.getElementById("bfFontSelect");
 const bfInlineLoadDefaultEl = bfFontSelect?.closest(".bf-inline") || null;
 
-const baseGridCanvas = document.getElementById("baseGrid");
 const resultGridCanvas = document.getElementById("resultGrid");
 const resultHudCanvas = document.getElementById("resultHud");
 const bootSplashPreviewCanvas = document.getElementById("bootSplashPreview");
-const baseGridCtx = baseGridCanvas?.getContext("2d");
 const resultGridCtx = resultGridCanvas?.getContext("2d");
 const resultHudCtx = resultHudCanvas?.getContext("2d");
 const bootSplashPreviewCtx = bootSplashPreviewCanvas?.getContext("2d");
-if (baseGridCtx) baseGridCtx.imageSmoothingEnabled = false;
 if (resultGridCtx) resultGridCtx.imageSmoothingEnabled = false;
 if (resultHudCtx) resultHudCtx.imageSmoothingEnabled = false;
 if (bootSplashPreviewCtx) bootSplashPreviewCtx.imageSmoothingEnabled = false;
@@ -138,8 +135,6 @@ const SPECIAL_SAFE_MODE_KEY = "osdSpecialSafeMode";
 const SPECIAL_SAFE_CHARS = `!"#%&',;=?`;
 const SPECIAL_SAFE_SET = new Set([...SPECIAL_SAFE_CHARS].map((c) => c.charCodeAt(0)));
 
-const SCALE = 3; // grid sheet scale
-const COLS = 16;
 const TTF_DEFAULT_SIZE = 12;
 const TTF_SIZE_MIN = 6;
 const TTF_SIZE_MAX = 24;
@@ -148,6 +143,9 @@ const TTF_RERASTER_DEBOUNCE_MS = 120;
 let baseFont = null;     // decoded MCM
 let resultFont = null;   // base + overlay + nudges
 let currentOverlay = null;
+let overlayLoadId = 0;
+let baseLoadId = 0;
+let activeFCUpload = null;
 let holdOriginalPreview = false;
 let currentOverlayFromTtf = false;
 let currentTtfSourceFile = null;
@@ -208,8 +206,7 @@ const nudge = {
 const replacedOverlayIndices = new Set(); // indices actually replaced by current overlay
 
 // Shared overlay cache (used by dropdown + title banner)
-const overlayCache = new Map(); // file -> overlay JSON
-let overlayManifest = null;     // active library manifest list [{file,name,id,...}]
+const overlayCache = new Map(); // library::file -> in-flight/resolved overlay promise
 let swapCustomManifest = null;  // cached list from fonts/custom.json
 const overlayPreviewUrlCache = new Map(); // `${theme}|${file}` -> dataURL
 const bfPreviewUrlCache = new Map();      // `${theme}|${file}` -> dataURL
@@ -367,12 +364,17 @@ const zoomPaint = {
   dirty: false,
   startGlyph: null,
   startIndex: -1,
+  startOffset: null,
 };
 const editorUndo = {
   glyph: null,
   index: -1,
+  offset: null,
 };
 const editorOverrideIndices = new Set();
+// Painted pixels are captured from the preview, together with its transform.
+// Rebuilds apply only the difference from that captured transform.
+const editorOverrideOffsets = new Map();
 let rerenderRafPending = false;
 let defaultLoadCueState = null;
 
@@ -391,96 +393,16 @@ const THEME_SHORT_LABELS = {
   "cold-phosphor": "PHSPHR",
   "lavender-circuit": "LVNDR",
 };
-const DENSITY_MODE_COMPACT = "compact";
-const DENSITY_BREAKPOINT_WIDTH = 1100;
-const DENSITY_COMPACT_HEIGHT = 930;
-const PANE_BASELINE_BREAKPOINT_WIDTH = 1100;
-let densityMode = "";
-let paneBaselinePx = 0;   // anchored from Sheet mode only
-let paneLeftPanelPx = 0;  // anchored from Sheet mode only
-let paneRightMainPx = 0;  // anchored from Sheet mode only (after right-side chrome)
-let paneBaselineSyncRaf = 0;
-let paneBaselineForcePending = false;
+let workspacePanel = "tools";
 
-function viewportHeightForDensity() {
-  const vv = window.visualViewport;
-  if (vv && Number.isFinite(vv.height) && vv.height > 0) return Math.round(vv.height);
-  return Math.max(0, window.innerHeight || document.documentElement.clientHeight || 0);
-}
-
-function computeDensityMode() {
-  const vw = Math.max(0, window.innerWidth || document.documentElement.clientWidth || 0);
-  if (vw <= DENSITY_BREAKPOINT_WIDTH) return "";
-  const vh = viewportHeightForDensity();
-  return vh <= DENSITY_COMPACT_HEIGHT ? DENSITY_MODE_COMPACT : "";
-}
-
-function syncDensityMode({ rerender = true } = {}) {
-  const next = computeDensityMode();
-  if (next === densityMode) return;
-  densityMode = next;
-  if (densityMode) document.documentElement.setAttribute("data-density", densityMode);
-  else document.documentElement.removeAttribute("data-density");
-  if (rerender) scheduleRerender();
-}
-
-function syncPaneBaseline({ forceFromSheet = false } = {}) {
-  const splitEl = document.querySelector(".split");
-  const fontPaneEl = document.querySelector(".font-pane");
-  const panelResultEl = document.querySelector(".font-pane .panel-result");
-  const toolsPaneEl = document.querySelector(".tools-pane");
-  const topbarEl = document.querySelector(".tools-pane .topbar");
-  if (!splitEl || !fontPaneEl) return;
-
-  const vw = Math.max(0, window.innerWidth || document.documentElement.clientWidth || 0);
-  if (vw <= PANE_BASELINE_BREAKPOINT_WIDTH) {
-    paneBaselinePx = 0;
-    paneLeftPanelPx = 0;
-    paneRightMainPx = 0;
-    document.documentElement.style.removeProperty("--pane-baseline-h");
-    document.documentElement.style.removeProperty("--pane-left-panel-h");
-    document.documentElement.style.removeProperty("--pane-right-main-h");
-    return;
+function setWorkspacePanel(panel) {
+  workspacePanel = ["preview", "edit", "tools"].includes(panel) ? panel : "preview";
+  document.documentElement.dataset.workspacePanel = workspacePanel;
+  for (const button of document.querySelectorAll("[data-workspace-target]")) {
+    button.setAttribute("aria-pressed", String(button.dataset.workspaceTarget === workspacePanel));
   }
-
-  const shouldMeasure = forceFromSheet || viewMode === VIEW_MODE_SHEET;
-  if (shouldMeasure) {
-    const measured = Math.ceil(splitEl.getBoundingClientRect().height || 0);
-    if (measured > 0) paneBaselinePx = Math.max(paneBaselinePx, measured);
-    const panelMeasured = Math.ceil(panelResultEl?.getBoundingClientRect?.().height || 0);
-    if (panelMeasured > 0) paneLeftPanelPx = Math.max(paneLeftPanelPx, panelMeasured);
-    if (toolsPaneEl && topbarEl && measured > 0) {
-      const paneStyle = getComputedStyle(toolsPaneEl);
-      const padTop = parseFloat(paneStyle.paddingTop || "0") || 0;
-      const gap = parseFloat(paneStyle.rowGap || paneStyle.gap || "0") || 0;
-      const topbarH = Math.ceil(topbarEl.getBoundingClientRect().height || 0);
-      const chrome = Math.ceil(padTop + topbarH + gap);
-      const rightMain = Math.max(0, measured - chrome);
-      if (rightMain > 0) paneRightMainPx = Math.max(paneRightMainPx, rightMain);
-    }
-  }
-
-  if (paneBaselinePx > 0) {
-    document.documentElement.style.setProperty("--pane-baseline-h", `${paneBaselinePx}px`);
-  }
-  if (paneLeftPanelPx > 0) {
-    document.documentElement.style.setProperty("--pane-left-panel-h", `${paneLeftPanelPx}px`);
-  }
-  if (paneRightMainPx > 0) {
-    document.documentElement.style.setProperty("--pane-right-main-h", `${paneRightMainPx}px`);
-  }
-}
-
-function schedulePaneBaselineSync({ forceFromSheet = false } = {}) {
-  paneBaselineForcePending = paneBaselineForcePending || forceFromSheet;
-  if (paneBaselineSyncRaf) return;
-  paneBaselineSyncRaf = requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      paneBaselineSyncRaf = 0;
-      syncPaneBaseline({ forceFromSheet: paneBaselineForcePending });
-      paneBaselineForcePending = false;
-    });
-  });
+  if (workspacePanel === "edit" && viewMode !== VIEW_MODE_SHEET) setViewMode(VIEW_MODE_SHEET);
+  scheduleRerender();
 }
 
 function updateThemeCodeLabel(themeId) {
@@ -490,16 +412,17 @@ function updateThemeCodeLabel(themeId) {
 
 function setViewMode(nextMode) {
   viewMode = nextMode === VIEW_MODE_HUD ? VIEW_MODE_HUD : VIEW_MODE_SHEET;
+  if (viewMode === VIEW_MODE_HUD && workspacePanel === "edit") setWorkspacePanel("preview");
   localStorage.setItem(VIEW_MODE_KEY, viewMode);
   document.documentElement.setAttribute("data-view-mode", viewMode);
-  syncDensityMode({ rerender: false });
   viewModeSheetBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_SHEET);
   viewModeHudBtn?.classList.toggle("is-active", viewMode === VIEW_MODE_HUD);
+  viewModeSheetBtn?.setAttribute("aria-pressed", String(viewMode === VIEW_MODE_SHEET));
+  viewModeHudBtn?.setAttribute("aria-pressed", String(viewMode === VIEW_MODE_HUD));
   if (viewMode !== VIEW_MODE_HUD) setHudCanvasCursor("default");
   syncZoomModeUI();
   // Repaint once more after layout settles to avoid stale canvas sizing.
   requestAnimationFrame(() => rerenderAll());
-  schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 }
 
 function syncZoomModeUI() {
@@ -527,13 +450,47 @@ function setEditorColor(nextValue) {
 }
 
 function clearEditorPixelOverrides() {
-  if (!editorOverrideIndices.size) return;
   for (const idx of editorOverrideIndices) {
-    swapOverrides.delete(idx);
+    clearGlyphOverride(idx);
   }
   editorOverrideIndices.clear();
+  editorOverrideOffsets.clear();
   editorUndo.glyph = null;
   editorUndo.index = -1;
+  editorUndo.offset = null;
+}
+
+function setGlyphOverride(idx, glyph, editorOffset = null) {
+  swapOverrides.set(idx, glyph);
+  if (editorOffset) {
+    editorOverrideIndices.add(idx);
+    editorOverrideOffsets.set(idx, { ...editorOffset });
+  } else {
+    editorOverrideIndices.delete(idx);
+    editorOverrideOffsets.delete(idx);
+    if (editorUndo.index === idx) {
+      editorUndo.glyph = null;
+      editorUndo.index = -1;
+      editorUndo.offset = null;
+    }
+  }
+}
+
+function clearGlyphOverride(idx) {
+  swapOverrides.delete(idx);
+  editorOverrideIndices.delete(idx);
+  editorOverrideOffsets.delete(idx);
+  if (editorUndo.index === idx) {
+    editorUndo.glyph = null;
+    editorUndo.index = -1;
+    editorUndo.offset = null;
+  }
+}
+
+function glyphNudgeOffset(idx) {
+  const perGlyph = nudge.perGlyph.get(idx);
+  const replaced = replacedOverlayIndices.has(idx) ? nudge.replaced : null;
+  return { x: (perGlyph?.x || 0) + (replaced?.x || 0), y: (perGlyph?.y || 0) + (replaced?.y || 0) };
 }
 
 function loadHudElementsFromStorage() {
@@ -937,6 +894,7 @@ function initTheme() {
   initThemeControls({
     themeRadios,
     onThemeChange: () => {
+      viewerPalette = null;
       const activeTheme = currentThemeId();
       updateThemeCodeLabel(activeTheme);
       clearDynamicPreviewCaches();
@@ -966,6 +924,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   }
 
   baseFont = decoded;
+  setWorkspacePanel("preview");
   clearEditorPixelOverrides();
   setSingleSelection(0);
   rebuildResultFont();
@@ -1053,28 +1012,25 @@ async function decodePngFontSheet(file, {
 }
 
 
+let viewerPalette = null;
+
 function pxColorViewer(v) {
   // Viewer-only theming (does NOT affect MCM/PNG export)
-  const c0 = cssVar("--osd-0", "transparent");
-  const c1 = cssVar("--osd-1", "#808080");
-  const c2 = cssVar("--osd-2", "#ffffff");
-  const c3 = cssVar("--osd-3", "#000000");
-
-  // Normalize:
-  // - Many decoded fonts use 0 as "black/dark" and 1 as "gray bg"
-  // - Your overlay pipeline uses 3 as "stroke"
-  // We want BOTH to show using the themed dark color.
-  if (v === 0) return c3;        // treat 0 as dark (viewer)
-  if (v === 1) return c1;        // gray bg
-  if (v === 2) return c2;        // white
-  if (v === 3) return c3;        // dark stroke
-  return c0;
+  if (!viewerPalette) {
+    const style = getComputedStyle(document.documentElement);
+    const color = (name, fallback) => style.getPropertyValue(name).trim() || fallback;
+    const dark = color("--osd-3", "#000000");
+    viewerPalette = {
+      pixels: [dark, color("--osd-1", "#808080"), color("--osd-2", "#ffffff"), dark],
+      fallback: color("--osd-0", "transparent"),
+    };
+  }
+  return viewerPalette.pixels[v] ?? viewerPalette.fallback;
 }
 
 
 const workspaceRenderer = createWorkspaceRenderer({
-  scale: SCALE,
-  cols: COLS,
+  getSheetZoom: () => document.getElementById("sheetZoom")?.value || "auto",
   cssVar,
   pxColorViewer,
   fitCanvasToCSS,
@@ -1181,7 +1137,7 @@ function updateReplReadout() {
 function clearSelectionNudges() {
   for (const idx of selection.selectedSet) nudge.perGlyph.delete(idx);
   rebuildResultFont();
-  rerenderAll({ renderBase: false, renderBootSplash: false });
+  rerenderAll({ renderBootSplash: false });
 }
 
 function applySwapTargetFromFont(targetId, sourceFont) {
@@ -1205,7 +1161,7 @@ function applySwapTargetFromFont(targetId, sourceFont) {
       }
     }
     if (isDifferent) changed++;
-    swapOverrides.set(idx, new Uint8Array(g));
+    setGlyphOverride(idx, new Uint8Array(g));
   }
   rebuildResultFont();
   rerenderAll();
@@ -1220,13 +1176,18 @@ function applySwapTargetFromFont(targetId, sourceFont) {
 function clearSwapTarget(targetId) {
   const target = swapTargetsById.get(targetId);
   if (!target) return;
-  for (const idx of target.indices) swapOverrides.delete(idx);
+  for (const idx of target.indices) clearGlyphOverride(idx);
   rebuildResultFont();
   rerenderAll();
 }
 
 function clearAllSwaps() {
   swapOverrides.clear();
+  editorOverrideIndices.clear();
+  editorOverrideOffsets.clear();
+  editorUndo.glyph = null;
+  editorUndo.index = -1;
+  editorUndo.offset = null;
   specialCharEmojiAssignments.clear();
   rebuildResultFont();
   rerenderAll();
@@ -1813,7 +1774,7 @@ async function refreshSpecialCharEmojiAssignments({ rerender = true } = {}) {
     try {
       const data = await getSpecialEmojiGlyphByFile(file);
       if (data.width !== baseFont.width || data.height !== baseFont.height) continue;
-      swapOverrides.set(targetIdx, renderSpecialEmojiGlyph(data.glyph, data.width, data.height));
+      setGlyphOverride(targetIdx, renderSpecialEmojiGlyph(data.glyph, data.width, data.height));
       changed = true;
     } catch (err) {
       console.warn("Failed to refresh special emoji assignment", targetIdx, file, err);
@@ -1929,7 +1890,7 @@ async function applySpecialCharSelection({ silentIncomplete = false } = {}) {
       return;
     }
     const renderedGlyph = renderSpecialEmojiGlyph(data.glyph, data.width, data.height);
-    swapOverrides.set(targetIdx, renderedGlyph);
+    setGlyphOverride(targetIdx, renderedGlyph);
     specialCharEmojiAssignments.set(targetIdx, selectedSpecialEmojiFile);
     selection.selectedSet = new Set([targetIdx]);
     selection.selectionAnchor = targetIdx;
@@ -2081,7 +2042,7 @@ async function initSpecialCharUI() {
   clearSpecialCharBtn?.addEventListener("click", () => {
     const targetIdx = getSpecialCharTargetIndex();
     if (targetIdx == null) return;
-    swapOverrides.delete(targetIdx);
+    clearGlyphOverride(targetIdx);
     specialCharEmojiAssignments.delete(targetIdx);
     rebuildResultFont();
     rerenderAll();
@@ -2233,7 +2194,7 @@ async function applyBootSplashFile(file) {
   }
 
   for (let tile = 0; tile < BOOT_SPLASH_GLYPH_COUNT; tile++) {
-    swapOverrides.set(BOOT_SPLASH_START_INDEX + tile, splashGlyphs[tile]);
+    setGlyphOverride(BOOT_SPLASH_START_INDEX + tile, splashGlyphs[tile]);
   }
   holdOriginalPreview = false;
   holdOriginalPreviewBtn?.classList.remove("is-holding");
@@ -2445,9 +2406,13 @@ function initSwapUI() {
     rerenderAll();
   };
 
+  let swapRequestId = 0;
   const applySwapSelection = async ({ silentIncomplete = false } = {}) => {
+    const requestId = ++swapRequestId;
     const targetId = swapTargetSelect?.value;
     const sourceId = swapSourceSelect?.value;
+    const sourceBase = baseFont;
+    const isCurrent = () => requestId === swapRequestId && sourceBase === baseFont;
 
     if (!baseFont) {
       if (!silentIncomplete) setLoadStatus("Load a base font first.", { error: true });
@@ -2467,11 +2432,7 @@ function initSwapUI() {
       const sourceMeta = swapSourceRegistry.get(sourceId);
       const sourceLabel = sourceMeta?.label || sourceId;
       const sourceFont = await getSwapSourceFontForTarget(sourceId, targetId);
-      const beforeGlyph = (() => {
-        const target = swapTargetsById.get(targetId);
-        const idx = target?.indices?.[0];
-        return idx == null ? null : resultFont?.glyphs?.[idx];
-      })();
+      if (!isCurrent()) return;
       const out = applySwapTargetFromFont(targetId, sourceFont);
       if (!out.applied) {
         setLoadStatus("Swap did not apply.", { error: true });
@@ -2487,6 +2448,7 @@ function initSwapUI() {
         setLoadStatus(`Applied swap: ${targetId} from ${sourceLabel} (${out.changed}/${out.total} changed)`);
       }
     } catch (err) {
+      if (!isCurrent()) return;
       console.error("Swap apply failed", err);
       setLoadStatus(`Swap failed: ${sourceId}`, { error: true });
     }
@@ -2510,6 +2472,7 @@ function initSwapUI() {
   syncSwapTargetSelect();
 
   clearSwapTargetBtn?.addEventListener("click", () => {
+    ++swapRequestId;
     holdOriginalPreview = false;
     holdOriginalPreviewBtn?.classList.remove("is-holding");
 
@@ -2520,6 +2483,7 @@ function initSwapUI() {
   });
 
   clearAllSwapsBtn?.addEventListener("click", () => {
+    ++swapRequestId;
     holdOriginalPreview = false;
     holdOriginalPreviewBtn?.classList.remove("is-holding");
 
@@ -2533,7 +2497,7 @@ function applyReplacedNudge(dx, dy) {
   nudge.replaced.y = clampInt(nudge.replaced.y + dy, -6, 6);
   updateReplReadout();
   rebuildResultFont();
-  rerenderAll({ renderBase: false, renderBootSplash: false });
+  rerenderAll({ renderBootSplash: false });
 }
 
 function applySelectionNudge(dx, dy) {
@@ -2545,7 +2509,7 @@ function applySelectionNudge(dx, dy) {
     });
   }
   rebuildResultFont();
-  rerenderAll({ renderBase: false, renderBootSplash: false });
+  rerenderAll({ renderBootSplash: false });
 }
 
 /* -----------------------------
@@ -2662,25 +2626,17 @@ function rebuildResultFont() {
     resultFont.glyphs[idx] = new Uint8Array(glyph);
   }
 
-  // Apply "Nudge replaced" to ASCII glyphs edited in pixel editor so they
-  // continue behaving like replaced characters.
-  const replacedDx = nudge.replaced.x | 0;
-  const replacedDy = nudge.replaced.y | 0;
-  if ((replacedDx !== 0 || replacedDy !== 0) && editorOverrideIndices.size) {
-    for (const idx of editorOverrideIndices) {
-      if (idx < 0 || idx > 255 || !replacedOverlayIndices.has(idx)) continue;
-      resultFont.glyphs[idx] = shiftGlyphPixels(resultFont.glyphs[idx], resultFont.width, resultFont.height, replacedDx, replacedDy);
-    }
-  }
-
-  // Apply per-glyph nudges as pixel shifts to ANY glyph (icons included)
+  // Overlays already include their global offset. Painted overrides instead
+  // carry a captured offset, so never apply that baked-in transform twice.
   const w = resultFont.width;
   const h = resultFont.height;
-
-  for (const [idx, off] of nudge.perGlyph.entries()) {
-    if (idx < 0 || idx > 255) continue;
-    const dx = off?.x ?? 0;
-    const dy = off?.y ?? 0;
+  for (let idx = 0; idx < 256; idx++) {
+    const paintedOffset = swapOverrides.has(idx) ? editorOverrideOffsets.get(idx) : null;
+    const offset = paintedOffset
+      ? glyphNudgeOffset(idx)
+      : (nudge.perGlyph.get(idx) || { x: 0, y: 0 });
+    const dx = offset.x - (paintedOffset?.x || 0);
+    const dy = offset.y - (paintedOffset?.y || 0);
     if (dx === 0 && dy === 0) continue;
 
     resultFont.glyphs[idx] = shiftGlyphPixels(resultFont.glyphs[idx], w, h, dx, dy);
@@ -3061,18 +3017,12 @@ function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
   drawBootText("+ PITCH UP", verCol - 8, verRow + 4, bootTextScale, ox, oy, safeTopRows, rowToGrid);
 }
 
-function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
+function rerenderAll({ renderBootSplash = true } = {}) {
   const hasBase = !!baseFont;
   const hasResult = !!resultFont;
   const displayFont = (hasBase && hasResult)
     ? (holdOriginalPreview ? baseFont : resultFont)
     : (resultFont || baseFont || null);
-
-  if (renderBase && hasBase && viewMode !== VIEW_MODE_HUD) {
-    workspaceRenderer.renderGrid(baseGridCtx, baseGridCanvas, baseFont, { showGrids, selectedSet: selection.selectedSet });
-  } else if (renderBase && baseGridCtx && baseGridCanvas && viewMode !== VIEW_MODE_HUD) {
-    workspaceRenderer.renderPlaceholderGrid(baseGridCtx, baseGridCanvas, 12, 18, { showGrids });
-  }
 
   if (viewMode === VIEW_MODE_HUD) {
     if (hudPreviewMode === HUD_PREVIEW_MODE_BOOT) {
@@ -3094,6 +3044,11 @@ function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
     } else if (resultGridCtx && resultGridCanvas) {
       workspaceRenderer.renderPlaceholderGrid(resultGridCtx, resultGridCanvas, 12, 18, { showGrids });
     }
+    const layout = workspaceRenderer.getSheetLayout(resultGridCanvas);
+    const zoomSelect = document.getElementById("sheetZoom");
+    const autoOption = zoomSelect?.querySelector('option[value="auto"]');
+    const label = layout && zoomSelect.value === "auto" ? `Auto (${layout.scale}×)` : "Auto";
+    if (autoOption && autoOption.textContent !== label) autoOption.textContent = label;
   }
 
   if (displayFont) {
@@ -3110,7 +3065,6 @@ function rerenderAll({ renderBase = true, renderBootSplash = true } = {}) {
     renderBootSplashPreview(resultFont || baseFont || null);
   }
   syncDefaultLoadCue();
-  schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 }
 
 function scheduleRerender() {
@@ -3137,7 +3091,7 @@ function setUploadFCProgressUI(state, percent = 0) {
   uploadFCBtn.classList.toggle("is-complete", state === "complete");
 
   if (state === "uploading") {
-    uploadFCBtn.innerHTML = `<i class="fa-solid fa-microchip" aria-hidden="true"></i> ${clamped}%`;
+    uploadFCBtn.innerHTML = `<i class="fa-solid fa-microchip" aria-hidden="true"></i> ${clamped}% · Cancel`;
     return;
   }
   if (state === "complete") {
@@ -3179,15 +3133,15 @@ function setHudCanvasCursor(cursor) {
    Grid click handling
 ------------------------------ */
 
-function handleGridClick(e, canvas, font) {
-  const idx = workspaceRenderer.gridClickToIndex(e, canvas, font);
+function handleGridClick(e, canvas) {
+  const idx = workspaceRenderer.gridClickToIndex(e, canvas);
   if (idx == null) return;
 
   if (e.shiftKey) rangeSelect(idx);
   else if (e.ctrlKey || e.metaKey) toggleSelection(idx);
   else setSingleSelection(idx);
 
-  rerenderAll();
+  rerenderAll({ renderBootSplash: false });
 }
 
 function zoomEventToPixel(e, canvas, font) {
@@ -3229,8 +3183,7 @@ function applyEditorPixel(e) {
 
   holdOriginalPreview = false;
   holdOriginalPreviewBtn?.classList.remove("is-holding");
-  swapOverrides.set(idx, next);
-  editorOverrideIndices.add(idx);
+  setGlyphOverride(idx, next, glyphNudgeOffset(idx));
   resultFont.glyphs[idx] = next;
   workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, resultFont, selection.selectedIndex, { showGrids });
   zoomPaint.dirty = true;
@@ -3240,12 +3193,14 @@ function commitZoomPaintIfNeeded() {
   if (zoomPaint.dirty && zoomPaint.startGlyph && zoomPaint.startIndex >= 0) {
     editorUndo.glyph = new Uint8Array(zoomPaint.startGlyph);
     editorUndo.index = zoomPaint.startIndex;
+    editorUndo.offset = zoomPaint.startOffset;
   }
   zoomPaint.active = false;
   zoomPaint.dirty = false;
   zoomPaint.startGlyph = null;
   zoomPaint.startIndex = -1;
-  rerenderAll({ renderBase: false, renderBootSplash: false });
+  zoomPaint.startOffset = null;
+  rerenderAll({ renderBootSplash: false });
 }
 
 function applyEditorUndo() {
@@ -3254,14 +3209,14 @@ function applyEditorUndo() {
 
   holdOriginalPreview = false;
   holdOriginalPreviewBtn?.classList.remove("is-holding");
-  swapOverrides.set(editorUndo.index, new Uint8Array(editorUndo.glyph));
-  editorOverrideIndices.add(editorUndo.index);
-  resultFont.glyphs[editorUndo.index] = new Uint8Array(editorUndo.glyph);
+  setGlyphOverride(editorUndo.index, new Uint8Array(editorUndo.glyph), editorUndo.offset);
+  rebuildResultFont();
   setSingleSelection(editorUndo.index);
-  rerenderAll({ renderBase: false, renderBootSplash: false });
+  rerenderAll({ renderBootSplash: false });
 
   editorUndo.glyph = null;
   editorUndo.index = -1;
+  editorUndo.offset = null;
 }
 
 /* -----------------------------
@@ -3284,22 +3239,6 @@ function safeBaseName() {
 /* -----------------------------
    Overlay manifest + loading
 ------------------------------ */
-
-async function loadManifest() {
-  const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
-  currentOverlayLibraryId = lib.id;
-  if (overlayManifestCache.has(lib.id)) {
-    overlayManifest = overlayManifestCache.get(lib.id);
-    return overlayManifest;
-  }
-  const res = await fetch(lib.manifestPath);
-  if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
-  const list = await res.json();
-  if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
-  overlayManifestCache.set(lib.id, list);
-  overlayManifest = list;
-  return list;
-}
 
 async function loadManifestForLibrary(libraryId) {
   const lib = OVERLAY_LIBRARIES.find((l) => l.id === libraryId);
@@ -3405,22 +3344,24 @@ async function preloadOverlayLibraryCounts() {
   );
 }
 
-async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "", placeholderText = "(load font library)") {
+async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "", placeholderText = "(load font library)", requestId = overlayLoadId) {
   if (!overlaySelect) return;
+  const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
   buildOverlaySelectOptionsBase(placeholderText);
 
   let list;
   try {
-    list = await loadManifest();
+    list = await loadManifestForLibrary(lib.id);
   } catch (err) {
-    const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
+    if (requestId !== overlayLoadId) return;
     console.error(`Failed to load ${lib.manifestPath}`, err);
     overlaySelect.innerHTML = `<option value="">(${placeholderText}: manifest missing)</option>`;
     return;
   }
+  if (requestId !== overlayLoadId) return;
 
   const overlayGroup = document.createElement("optgroup");
-  overlayGroup.label = `${(OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0]).label} Fonts`;
+  overlayGroup.label = `${lib.label} Fonts`;
   for (const entry of list) {
     const opt = document.createElement("option");
     opt.value = entry.file;
@@ -3439,11 +3380,18 @@ async function getOverlayByFileFromLibrary(libraryId, file) {
   const lib = OVERLAY_LIBRARIES.find((l) => l.id === libraryId) || OVERLAY_LIBRARIES[0];
   const cacheKey = `${lib.id}::${file}`;
   if (overlayCache.has(cacheKey)) return overlayCache.get(cacheKey);
-  const r = await fetch(`${lib.dataDir}/${encodeURIComponent(file)}`);
-  if (!r.ok) throw new Error(`overlay fetch HTTP ${r.status} for ${file}`);
-  const j = await r.json();
-  overlayCache.set(cacheKey, j);
-  return j;
+  const pending = (async () => {
+    const r = await fetch(`${lib.dataDir}/${encodeURIComponent(file)}`);
+    if (!r.ok) throw new Error(`overlay fetch HTTP ${r.status} for ${file}`);
+    return r.json();
+  })();
+  overlayCache.set(cacheKey, pending);
+  try {
+    return await pending;
+  } catch (err) {
+    if (overlayCache.get(cacheKey) === pending) overlayCache.delete(cacheKey);
+    throw err;
+  }
 }
 
 async function getOverlayByFile(file) {
@@ -3481,6 +3429,8 @@ async function loadOverlayIndex() {
   if (!overlaySelectChangeBound) {
     overlaySelect.addEventListener("change", async () => {
       const value = overlaySelect.value;
+      const requestId = ++overlayLoadId;
+      ++ttfRerasterReqId;
 
       if (isLibrarySelectValue(value)) {
         const nextLib = libraryIdFromSelectValue(value);
@@ -3493,7 +3443,8 @@ async function loadOverlayIndex() {
         currentTtfSourceFile = null;
         clearEditorPixelOverrides();
         overlayPreviewUrlCache.clear();
-        await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel);
+        await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel, requestId);
+        if (requestId !== overlayLoadId) return;
         overlayPickerApi?.rebuild();
         overlayPickerApi?.refresh();
         rebuildResultFont();
@@ -3515,14 +3466,16 @@ async function loadOverlayIndex() {
       }
 
       try {
-        currentOverlay = await getOverlayByFile(file);
+        const overlay = await getOverlayByFileFromLibrary(currentOverlayLibraryId, file);
+        if (requestId !== overlayLoadId) return;
+        currentOverlay = overlay;
         currentOverlayFromTtf = false;
         currentTtfSourceFile = null;
       } catch (err) {
+        if (requestId !== overlayLoadId) return;
         console.error("Failed to load overlay font:", file, err);
-        currentOverlay = null;
-        currentOverlayFromTtf = false;
-        currentTtfSourceFile = null;
+        setLoadStatus(`Failed to load overlay: ${file}`, { error: true, subtext: err.message });
+        return;
       }
 
       clearEditorPixelOverrides();
@@ -3681,6 +3634,8 @@ async function initBrandTitle() {
       drawOverlayGlyphToTinyCanvas(it.ctx, it.overlay, it.ch, ink);
     }
   };
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   // Timed full-title glitch reroll
   let rerollBusy = false;
@@ -3863,6 +3818,7 @@ function droneTick(now) {
 }
 
 function ensureDroneAnimationRunning() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   if (droneAnimRaf || document.hidden || !droneTintFrames.length) return;
   droneAnimLastTs = 0;
   droneAnimRaf = requestAnimationFrame(droneTick);
@@ -3904,8 +3860,13 @@ async function initBrandDrone() {
 
 async function handleFile(file) {
   const name = String(file?.name || "").toLowerCase();
+  const isOverlay = /\.(yaff|ttf|otf)$/.test(name);
+  const requestId = isOverlay ? ++overlayLoadId : ++baseLoadId;
+  const isCurrent = () => requestId === (isOverlay ? overlayLoadId : baseLoadId);
+  if (isOverlay) ++ttfRerasterReqId;
   if (name.endsWith(".yaff")) {
     const text = await file.text();
+    if (!isCurrent()) return;
     const overlay = parseYaffToOverlay(text);
     const count = Object.keys(overlay?.glyphs || {}).length;
     const stats = overlay?._importStats || {};
@@ -3945,10 +3906,13 @@ async function handleFile(file) {
         charset: TTF_IMPORT_CHARS,
       });
     } catch (err) {
+      if (!isCurrent()) return;
       console.error("TTF import failed for", file.name, err);
       setLoadStatus(`TTF import failed: ${file.name}`, { error: true, subtext: err?.message || "" });
       return;
     }
+
+    if (!isCurrent()) return;
 
     const count = Object.keys(overlay?.glyphs || {}).length;
     const stats = overlay?._importStats || {};
@@ -3981,12 +3945,16 @@ async function handleFile(file) {
     try {
       font = await decodePngFontSheet(file);
     } catch (err) {
+      if (!isCurrent()) return;
       console.error("PNG import failed for", file.name, err);
       setLoadStatus(`Failed to import PNG: ${file.name}`, { error: true, subtext: err?.message || "" });
       return;
     }
 
+    if (!isCurrent()) return;
+
     baseFont = font;
+    setWorkspacePanel("preview");
     clearEditorPixelOverrides();
     setSingleSelection(0);
     rebuildResultFont();
@@ -4001,6 +3969,7 @@ async function handleFile(file) {
   }
 
   const buf = await file.arrayBuffer();
+  if (!isCurrent()) return;
   currentOverlayFromTtf = false;
   currentTtfSourceFile = null;
   await handleBuffer(buf, file.name);
@@ -4146,15 +4115,19 @@ async function loadBetaflightDefaults() {
 
   bfFontSelect.addEventListener("change", async () => {
     const file = bfFontSelect.value;
+    const requestId = ++baseLoadId;
     if (!file) return;
 
     try {
       const r = await fetch(`fonts/betaflight/${encodeURIComponent(file)}`);
       if (!r.ok) throw new Error(`default font fetch HTTP ${r.status} for ${file}`);
       const buf = await r.arrayBuffer();
+      if (requestId !== baseLoadId) return;
       await handleBuffer(buf, file);
     } catch (err) {
+      if (requestId !== baseLoadId) return;
       console.error("Failed to load betaflight default font:", file, err);
+      setLoadStatus(`Failed to load default: ${file}`, { error: true, subtext: err.message });
     }
   });
 }
@@ -4285,14 +4258,9 @@ function initEvents() {
   }
 
   // grids click
-  baseGridCanvas?.addEventListener("click", (e) => {
-    if (!baseFont) return;
-    handleGridClick(e, baseGridCanvas, baseFont);
-  });
-
   resultGridCanvas?.addEventListener("click", (e) => {
     if (!resultFont || viewMode !== VIEW_MODE_SHEET) return;
-    handleGridClick(e, resultGridCanvas, resultFont);
+    handleGridClick(e, resultGridCanvas);
   });
   resultZoomCanvas?.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
@@ -4304,6 +4272,8 @@ function initEvents() {
     zoomPaint.dirty = false;
     zoomPaint.startGlyph = new Uint8Array(glyph);
     zoomPaint.startIndex = idx;
+    zoomPaint.startOffset = glyphNudgeOffset(idx);
+    resultZoomCanvas.setPointerCapture(e.pointerId);
     applyEditorPixel(e);
     e.preventDefault();
   });
@@ -4323,8 +4293,12 @@ function initEvents() {
     if (!zoomPaint.active) return;
     commitZoomPaintIfNeeded();
   });
+  resultZoomCanvas?.addEventListener("lostpointercapture", () => {
+    if (zoomPaint.active) commitZoomPaintIfNeeded();
+  });
 
-  resultHudCanvas?.addEventListener("mousedown", (e) => {
+  resultHudCanvas?.addEventListener("pointerdown", (e) => {
+    if (e.button !== 0 || !e.isPrimary) return;
     if (viewMode !== VIEW_MODE_HUD || hudPreviewMode !== HUD_PREVIEW_MODE_HUD) return;
     const p = hudCanvasPoint(e);
     if (!p) return;
@@ -4335,6 +4309,7 @@ function initEvents() {
     const rectCol = Number.isFinite(hit.rect?.col) ? Math.round(hit.rect.col) : Math.round(entry.col);
     const rectRow = Number.isFinite(hit.rect?.row) ? Math.round(hit.rect.row) : Math.round(entry.row);
     hudDrag.active = true;
+    resultHudCanvas.setPointerCapture(e.pointerId);
     hudDrag.id = hit.id;
     hudDrag.startPointerX = p.x;
     hudDrag.startPointerY = p.y;
@@ -4348,7 +4323,7 @@ function initEvents() {
     e.preventDefault();
   });
 
-  resultHudCanvas?.addEventListener("mousemove", (e) => {
+  resultHudCanvas?.addEventListener("pointermove", (e) => {
     if (viewMode !== VIEW_MODE_HUD || hudPreviewMode !== HUD_PREVIEW_MODE_HUD) return;
     const p = hudCanvasPoint(e);
     if (!p) return;
@@ -4380,13 +4355,16 @@ function initEvents() {
     setHudCanvasCursor("default");
   });
 
-  window.addEventListener("mouseup", () => {
+  const finishHudDrag = () => {
     if (!hudDrag.active) return;
     hudDrag.active = false;
     if (hudDrag.id) saveHudLayoutToStorage();
     hudDrag.id = "";
     setHudCanvasCursor("default");
-  });
+  };
+  resultHudCanvas?.addEventListener("pointerup", finishHudDrag);
+  resultHudCanvas?.addEventListener("pointercancel", finishHudDrag);
+  resultHudCanvas?.addEventListener("lostpointercapture", finishHudDrag);
 
   // drop zone + file picker
   drop?.addEventListener("click", () => {
@@ -4524,26 +4502,16 @@ function initEvents() {
   window.addEventListener("dragover", (e) => e.preventDefault());
   window.addEventListener("drop", (e) => e.preventDefault());
 
-  window.addEventListener("resize", () => {
-    syncDensityMode({ rerender: false });
-    if (viewMode === VIEW_MODE_SHEET) {
-      paneBaselinePx = 0;
-      paneLeftPanelPx = 0;
-      paneRightMainPx = 0;
-    }
-    schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
-    scheduleRerender();
-  });
-  window.visualViewport?.addEventListener("resize", () => {
-    syncDensityMode({ rerender: false });
-    if (viewMode === VIEW_MODE_SHEET) {
-      paneBaselinePx = 0;
-      paneLeftPanelPx = 0;
-      paneRightMainPx = 0;
-    }
-    schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
-    scheduleRerender();
-  });
+  window.addEventListener("resize", scheduleRerender);
+  window.visualViewport?.addEventListener("resize", scheduleRerender);
+  const workspaceResize = new ResizeObserver(scheduleRerender);
+  for (const wrapper of document.querySelectorAll(".sheet-wrap, .hud-wrap, .zoom-wrap")) {
+    workspaceResize.observe(wrapper);
+  }
+  for (const button of document.querySelectorAll("[data-workspace-target]")) {
+    button.addEventListener("click", () => setWorkspacePanel(button.dataset.workspaceTarget));
+  }
+  document.getElementById("sheetZoom")?.addEventListener("change", scheduleRerender);
 
   // exports
   exportMCMBtn?.addEventListener("click", () => {
@@ -4554,9 +4522,15 @@ function initEvents() {
   });
 
   uploadFCBtn?.addEventListener("click", async () => {
+    if (activeFCUpload) {
+      activeFCUpload.abort();
+      uploadFCBtn.disabled = true;
+      setLoadStatus("Canceling upload...");
+      return;
+    }
     if (!resultFont) return;
     if (!("serial" in navigator)) {
-      alert("Web Serial API not supported in this browser. Please use Chrome, Edge, or Opera.");
+      setLoadStatus("Direct upload is unavailable in this browser", { error: true, subtext: "Use Chrome or Edge for Web Serial support." });
       return;
     }
 
@@ -4565,56 +4539,39 @@ function initEvents() {
     }
 
     const fc = new FCConnection();
+    const controller = new AbortController();
+    activeFCUpload = controller;
+    const options = { signal: controller.signal };
     const originalText = uploadFCBtn.innerHTML;
+    const originalTitle = uploadFCBtn.title;
+    let complete = false;
 
     try {
-      uploadFCBtn.disabled = true;
+      // Keep the active button available as the cancel action.
+      uploadFCBtn.title = "Cancel flight controller upload";
+      const fontData = encodeFontBytes(resultFont);
       setUploadFCProgressUI("idle", 0);
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Connecting...';
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Connecting… · Cancel';
       setLoadStatus("Connecting to FC...", { subtext: "Starting serial..." });
 
-      const connected = await fc.connect();
+      const connected = await fc.connect(options);
       if (!connected) {
         throw new Error("Could not connect to flight controller. Make sure it is plugged in and not used by another app (like Betaflight Configurator).");
       }
 
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Checking FC...';
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Checking FC… · Cancel';
       setLoadStatus("Checking FC...", { subtext: "MSP handshake..." });
-      const alive = await fc.checkConnection();
+      const alive = await fc.checkConnection(options);
       if (!alive) {
         throw new Error("FC connected but not responding to MSP. Try closing other configuration tools.");
       }
 
-      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Checking OSD...';
+      uploadFCBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i> Checking OSD… · Cancel';
       setLoadStatus("Checking OSD...", { subtext: "Verifying hardware..." });
       try {
-        await fc.checkOSD();
+        await fc.checkOSD(options);
       } catch (e) {
         throw new Error(e.message || "OSD chip not detected. Ensure a battery is connected if the OSD chip requires it.");
-      }
-
-      // Prepare font data (256 * 54 bytes)
-      const fontData = new Uint8Array(256 * 54);
-      
-      const v2bpp = (v) => {
-        if (v === 2) return 0b10; // white
-        if (v === 0 || v === 3) return 0b00; // black
-        return 0b01; // transparent
-      };
-
-      for (let gi = 0; gi < 256; gi++) {
-        const glyph = resultFont.glyphs[gi];
-        const baseOffset = gi * 54;
-        
-        let p = 0;
-        for (let bi = 0; bi < 54; bi++) {
-          const p0 = v2bpp(glyph[p++]);
-          const p1 = v2bpp(glyph[p++]);
-          const p2 = v2bpp(glyph[p++]);
-          const p3 = v2bpp(glyph[p++]);
-
-          fontData[baseOffset + bi] = (p0 << 6) | (p1 << 4) | (p2 << 2) | (p3 << 0);
-        }
       }
 
       setUploadFCProgressUI("uploading", 0);
@@ -4623,28 +4580,32 @@ function initEvents() {
         const percent = Math.round((current / total) * 100);
         setUploadFCProgressUI("uploading", percent);
         setLoadStatus("Uploading font...", { subtext: `${percent}%` });
-      });
+      }, options);
 
+      complete = true;
+      uploadFCBtn.disabled = true;
       setUploadFCProgressUI("complete", 100);
       setLoadStatus("Upload complete!", { subtext: "Font updated." });
-      setTimeout(() => {
+    } catch (err) {
+      if (controller.signal.aborted) {
+        setLoadStatus("Upload canceled", { subtext: "Some characters may already have been written. Upload the full font again to finish." });
+      } else {
+        console.error(err);
+        setLoadStatus("Upload failed", { error: true, subtext: err.message });
+      }
+    } finally {
+      uploadFCBtn.disabled = true;
+      await fc.disconnect();
+      activeFCUpload = null;
+      const restoreButton = () => {
         uploadFCBtn.disabled = false;
         uploadFCBtn.style.removeProperty("--upload-progress");
         uploadFCBtn.classList.remove("is-uploading", "is-complete");
         uploadFCBtn.innerHTML = originalText;
-        setLoadStatus(loadStatusText); // Refresh current status
-      }, 3000);
-
-    } catch (err) {
-      console.error(err);
-      alert(`Upload failed: ${err.message}`);
-      setLoadStatus("Upload failed", { error: true, subtext: err.message });
-      uploadFCBtn.disabled = false;
-      uploadFCBtn.style.removeProperty("--upload-progress");
-      uploadFCBtn.classList.remove("is-uploading", "is-complete");
-      uploadFCBtn.innerHTML = originalText;
-    } finally {
-      await fc.disconnect();
+        uploadFCBtn.title = originalTitle;
+      };
+      if (complete) setTimeout(restoreButton, 3000);
+      else restoreButton();
     }
   });
 
@@ -4693,11 +4654,9 @@ function initEvents() {
 
 function init() {
   // Keep layout stable before any font is loaded.
+  setWorkspacePanel(workspacePanel);
   setViewMode(viewMode);
-  syncDensityMode({ rerender: false });
   if (resultGridCanvas) workspaceRenderer.reserveGridCanvasSpace(resultGridCanvas);
-  if (baseGridCanvas) workspaceRenderer.reserveGridCanvasSpace(baseGridCanvas);
-  schedulePaneBaselineSync({ forceFromSheet: viewMode === VIEW_MODE_SHEET });
 
   updateReplReadout();
   setLoadStatus(loadStatusText);
