@@ -108,11 +108,25 @@ body{
   50%{ transform: translateY(0); }
 }
 .app-header .exports{ width: min(100%, 480px); margin-left: auto; }
-.app-header .load-status{ max-width: 100%; overflow-wrap: anywhere; text-align: center; }
+.app-header .load-status{
+  flex: 0 1 280px;
+  width: 280px;
+  min-width: 0;
+  max-width: 100%;
+  /* Two lines plus the status padding/border, regardless of message length. */
+  height: calc(2.5em + 12px);
+  min-height: calc(2.5em + 12px);
+  display: flex;
+  align-items: safe center;
+  justify-content: center;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
 .workspace-nav{ display: none; }
 @media (min-width: 1201px){
-  .app-header{ display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
-  .app-header .load-status{ max-width: 380px; }
+  .app-header{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px) minmax(0, 1fr); }
+  .app-header .load-status{ width: 100%; max-width: 320px; }
   .app-header .exports{ width: 100%; max-width: 480px; margin-left: 0; justify-self: end; }
 }
 .split{

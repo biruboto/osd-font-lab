@@ -5,6 +5,7 @@
 - `js/modules/dom-utils.js`: shared DOM/canvas helpers (`cssVar`, HTML escaping, canvas fitting, downloads, clamps).
 - `js/modules/theme.js`: theme state + radio control wiring.
 - `js/modules/picker.js`: reusable custom dropdown (`buildFontPicker`).
+- `js/modules/font-browser.js`: searchable replacement-font browser, keyboard navigation, bounded visible rows, and a three-task preview queue.
 - `js/modules/preview.js`: preview image rendering helpers (font/glyph/overlay previews).
 - `js/modules/workspace-render.js`: grid/zoom rendering, canvas hit-testing, PNG sheet rendering.
 - `js/modules/sheet-layout.js`: pure integer-scale display geometry and hit testing for the reflowing glyph browser. This does not define PNG export geometry.
@@ -34,6 +35,21 @@ debounced synchronous size updates check that generation and source identity.
 Slider changes during an import are read when its font finishes loading.
 
 ## Workspace behavior
+
+The Fonts panel keeps library browsing separate from the applied replacement.
+Library/search filters never clear the active overlay, imported TTF source, edits,
+or undo history. Selecting a font loads its full JSON using the shared overlay
+load generation; only a successful current request changes the document. The
+applied label and Clear button stay available across filters and local imports.
+Entries and preview caches use library-qualified IDs, so matching filenames from
+different collections stay distinct. The list mounts only visible rows plus a
+small buffer and loads compact per-library previews from `fonts/previews/`.
+Theme, case, and stroke changes refresh mounted previews. Full glyph files are
+fetched only when selected. Regenerate previews after library updates with
+`python scripts/build-font-previews.py`; `--check` verifies all generated files.
+On desktop the tools column scrolls within the remaining viewport height, so the
+font browser does not extend the page below an otherwise fitted sheet/inspector.
+Mobile tools retain normal document scrolling.
 
 `app.js` still owns editing state while the document model is being extracted. Painted overrides carry the offset at capture time; rebuilds apply only the difference between that offset and the current nudge. File/default/overlay load generations prevent an older asynchronous selection from replacing a newer one.
 

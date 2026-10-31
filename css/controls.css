@@ -1,14 +1,5 @@
 /* css/controls.css */
 
-.or-sep{
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  opacity: 0.5;
-  user-select: none;
-  padding: 0 2px;
-  align-self: center;
-}
-
 /* ---------- custom font picker ---------- */
 .fontpicker{
   position: relative;
@@ -49,15 +40,6 @@
   padding: 0 var(--control-px);
   cursor: pointer;
   user-select: none;
-}
-
-.font-select-stack .fontpicker-menu .fontpicker-item.is-library-current{
-  background: color-mix(in srgb, var(--accent-0) 13%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-0) 46%, transparent);
-}
-
-.font-select-stack .fontpicker-menu .fontpicker-item.is-library-current .fontpicker-name{
-  color: color-mix(in srgb, var(--accent-1) 76%, var(--text-0));
 }
 
 .fontpicker-thumb{
@@ -442,8 +424,7 @@ select{
   min-height: var(--control-h);
 }
 
-.panel-header-controls .bf-inline,
-.panel-header-controls .overlay-inline{
+.panel-header-controls .bf-inline{
   flex: 0 0 auto;
 }
 
@@ -457,13 +438,6 @@ select{
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-0) 30%, transparent);
 }
 
-.or-select-stack{
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  align-items: stretch;
-}
-
 .import-select-stack{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -474,15 +448,7 @@ select{
   align-items: stretch;
 }
 
-.or-row{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.field .import-spacer,
-.or-spacer{
+.field .import-spacer{
   display: none;
   font-size: 0.75rem;
   line-height: 1;
@@ -491,16 +457,6 @@ select{
   text-transform: uppercase;
   user-select: none;
   pointer-events: none;
-}
-
-.or-row .or-sep{
-  height: var(--control-h);
-  min-height: var(--control-h);
-  margin: 0;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .panel-base .field-stack{

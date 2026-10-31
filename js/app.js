@@ -1,6 +1,7 @@
 // js/app.js
 import { decodeMCM, encodeMCM, encodeFontBytes } from "./mcm.js";
 import { buildFontPicker } from "./modules/picker.js";
+import { createFontBrowser } from "./modules/font-browser.js";
 import { currentThemeId, initThemeControls } from "./modules/theme.js";
 import {
   applyStroke4,
@@ -78,7 +79,7 @@ const editorColorButtons = [...document.querySelectorAll(".editor-color-btn")];
 const editorUndoBtn = document.getElementById("editorUndoBtn");
 const zoomModeInspectorBtn = document.getElementById("zoomModeInspector");
 const zoomModeEditorBtn = document.getElementById("zoomModeEditor");
-const overlaySelect = document.getElementById("overlaySelect");
+const fontBrowserRoot = document.getElementById("fontBrowser");
 const caseUpperBtn = document.getElementById("caseUpperBtn");
 const caseLowerBtn = document.getElementById("caseLowerBtn");
 const strokeStyle4Btn = document.getElementById("strokeStyle4Btn");
@@ -180,9 +181,9 @@ const swapSourceRegistry = new Map(); // sourceId -> source descriptor
 const swapOverrides = new Map(); // idx -> Uint8Array glyph
 let swapTargetPickerApi = null;
 let swapSourcePickerApi = null;
-let overlayPickerApi = null;
+let fontBrowserApi = null;
+let currentOverlaySelection = null;
 let bfPickerApi = null;
-let overlaySelectChangeBound = false;
 let specialEmojiManifest = [];
 let selectedSpecialEmojiFile = "";
 let specialEmojiOrderByFirstCodepoint = null;
@@ -211,15 +212,14 @@ const nudge = {
 };
 const replacedOverlayIndices = new Set(); // indices actually replaced by current overlay
 
-// Shared overlay cache (used by dropdown + title banner)
+// Full overlays are fetched on selection; browsing uses compact preview catalogs.
 const overlayCache = new Map(); // library::file -> in-flight/resolved overlay promise
 let swapCustomManifest = null;  // cached list from fonts/custom.json
-const overlayPreviewUrlCache = new Map(); // `${theme}|${file}` -> dataURL
+const overlayPreviewCatalogCache = new Map(); // library -> compact preview catalog promise
 const bfPreviewUrlCache = new Map();      // `${theme}|${file}` -> dataURL
 const OVERLAY_LIBRARY_KEY = "osdOverlayLibrary";
 const OVERLAY_STROKE_STYLE_KEY = "osdOverlayStrokeStyle";
 const OVERLAY_CASE_KEY = "osdOverlayCase";
-const LIB_SELECT_PREFIX = "__lib:";
 const OVERLAY_LIBRARIES = [
   {
     id: "atari",
@@ -265,8 +265,7 @@ const OVERLAY_LIBRARIES = [
   },
 ];
 const overlayManifestCache = new Map(); // library id -> manifest list
-const overlayLibraryCounts = new Map(); // library id -> entry count
-let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || OVERLAY_LIBRARIES[0].id;
+let currentOverlayLibraryId = localStorage.getItem(OVERLAY_LIBRARY_KEY) || "";
 if (currentOverlayLibraryId === "pcfon") currentOverlayLibraryId = "oldschool-pc";
 let overlayStrokeStyle = (localStorage.getItem(OVERLAY_STROKE_STYLE_KEY) === "8") ? "8" : "4";
 let overlayLetterCase = (localStorage.getItem(OVERLAY_CASE_KEY) === "lower") ? "lower" : "upper";
@@ -812,7 +811,6 @@ const BF_GLYPH_LABELS = (() => {
    Small helpers
 ------------------------------ */
 function clearDynamicPreviewCaches() {
-  overlayPreviewUrlCache.clear();
   bfPreviewUrlCache.clear();
   specialEmojiPreviewUrlCache.clear();
 }
@@ -899,7 +897,7 @@ function initTheme() {
       rerenderAll();
       renderLoadStatusVisual();
       brandAnimation.refreshTheme();
-      overlayPickerApi?.refresh();
+      fontBrowserApi?.refresh();
       bfPickerApi?.refresh();
       swapTargetPickerApi?.refresh();
       swapSourcePickerApi?.refresh();
@@ -2682,6 +2680,7 @@ function renderLoadStatusVisual() {
   const error = loadStatusError;
   loadStatus.classList.toggle("is-error", error);
   loadStatus.textContent = subtext ? `${text} (${subtext})` : text;
+  loadStatus.title = loadStatus.textContent;
 }
 
 function setLoadStatus(text, { error = false, subtext = "" } = {}) {
@@ -2691,49 +2690,33 @@ function setLoadStatus(text, { error = false, subtext = "" } = {}) {
   renderLoadStatusVisual();
 }
 
-async function getOverlayPreviewUrl(file) {
-  // file is overlaySelect.value, loaded via your existing cache
-  if (!file) return "";
-  const cacheKey = `${currentThemeId()}|${overlayStrokeStyle}|${file}`;
-  const cached = overlayPreviewUrlCache.get(cacheKey);
-  if (cached) return cached;
-  const overlay = await getOverlayByFile(file);
-  const url = drawOverlayPreviewStrip(overlay, overlayPreviewText(overlay), pxColorViewer, overlayStrokeStyle);
-  overlayPreviewUrlCache.set(cacheKey, url);
-  return url;
-}
-
-function overlayPreviewText(overlay) {
-  const preferred = "ABC123";
-  const glyphs = overlay?.glyphs;
-  if (!glyphs || typeof glyphs !== "object") return preferred;
-
-  const hasGlyph = (cp) => Object.prototype.hasOwnProperty.call(glyphs, `U+${cp.toString(16).toUpperCase().padStart(4, "0")}`);
-  if ([...preferred].every((ch) => hasGlyph(ch.charCodeAt(0)))) return preferred;
-
-  const cps = Object.keys(glyphs)
-    .map((k) => {
-      const m = /^U\+([0-9A-Fa-f]{4,6})$/.exec(k);
-      if (!m) return null;
-      const cp = parseInt(m[1], 16);
-      return Number.isFinite(cp) ? cp : null;
-    })
-    .filter((cp) => cp != null && cp >= 0x20 && cp <= 0xFFFF && cp !== 0x7F)
-    .sort((a, b) => a - b);
-
-  const sample = [];
-  for (const cp of cps) {
-    try {
-      const ch = String.fromCodePoint(cp);
-      if (!ch.trim() && cp !== 0x20) continue;
-      sample.push(ch);
-      if (sample.length >= 6) break;
-    } catch {
-      // skip invalid codepoints
-    }
+async function getLibraryFontPreviewUrl(entry) {
+  const stroke = overlayStrokeStyle;
+  const letterCase = overlayLetterCase;
+  if (!overlayPreviewCatalogCache.has(entry.libraryId)) {
+    const pending = (async () => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000);
+      try {
+        const response = await fetch(`fonts/previews/${entry.libraryId}.json`, { signal: controller.signal });
+        if (!response.ok) throw new Error(`Preview catalog HTTP ${response.status}`);
+        const catalog = await response.json();
+        if (catalog.version !== 1 || !catalog.fonts) throw new Error("Invalid font preview catalog");
+        return catalog.fonts;
+      } finally {
+        clearTimeout(timer);
+      }
+    })();
+    overlayPreviewCatalogCache.set(entry.libraryId, pending);
+    pending.catch(() => {
+      if (overlayPreviewCatalogCache.get(entry.libraryId) === pending) overlayPreviewCatalogCache.delete(entry.libraryId);
+    });
   }
-
-  return sample.length ? sample.join("") : preferred;
+  const catalog = await overlayPreviewCatalogCache.get(entry.libraryId);
+  const preview = catalog[entry.file];
+  if (!preview) return "";
+  const text = letterCase === "lower" ? preview.lower : preview.upper;
+  return drawOverlayPreviewStrip(preview, text, pxColorViewer, stroke);
 }
 
 function syncOverlayStrokeStyleUI() {
@@ -2752,6 +2735,7 @@ function setOverlayLetterCase(nextCase) {
   overlayLetterCase = mode;
   localStorage.setItem(OVERLAY_CASE_KEY, overlayLetterCase);
   syncOverlayCaseUI();
+  fontBrowserApi?.refresh();
   rebuildResultFont();
   rerenderAll();
   setLoadStatus(`Case: ${overlayLetterCase}`);
@@ -2765,7 +2749,7 @@ function setOverlayStrokeStyle(nextStyle) {
   syncOverlayStrokeStyleUI();
   clearDynamicPreviewCaches();
   invalidateSpecialEmojiMenuPreviews();
-  overlayPickerApi?.refresh();
+  fontBrowserApi?.refresh();
   syncSpecialEmojiButton();
   if (specialCharEmojiAssignments.size > 0) {
     Promise.resolve(refreshSpecialCharEmojiAssignments({ rerender: false }))
@@ -3291,9 +3275,7 @@ function safeBaseName() {
     .replace(/[^a-z0-9._-]+/gi, "_")
     .replace(/^_+|_+$/g, "");
 
-  const overlayName = currentTtfSource?.file.name
-    ? sanitize(currentTtfSource.file.name)
-    : (overlaySelect?.value ? sanitize(overlaySelect.value) : "no-overlay");
+  const overlayName = sanitize(currentOverlaySelection?.file || "no-overlay");
 
   return `osd_font_lab_${overlayName}`;
 }
@@ -3316,128 +3298,6 @@ async function loadManifestForLibrary(libraryId) {
   return list;
 }
 
-async function loadAllOverlayManifests() {
-  const all = [];
-  for (const lib of OVERLAY_LIBRARIES) {
-    try {
-      let list = overlayManifestCache.get(lib.id);
-      if (!list) {
-        const res = await fetch(lib.manifestPath);
-        if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
-        list = await res.json();
-        if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
-        overlayManifestCache.set(lib.id, list);
-      }
-      for (const entry of list) {
-        all.push({ ...entry, __libraryId: lib.id });
-      }
-    } catch (err) {
-      console.warn(`Brand title: skipping unavailable library ${lib.id}`, err);
-    }
-  }
-  return all;
-}
-
-async function updateServingFontCount() {
-  if (!servingFontCountEl) return;
-  servingFontCountEl.textContent = "...";
-  try {
-    const all = await loadAllOverlayManifests();
-    servingFontCountEl.textContent = String(all.length);
-  } catch (err) {
-    console.warn("Failed to compute serving font count", err);
-    servingFontCountEl.textContent = "?";
-  }
-}
-
-function isLibrarySelectValue(value) {
-  return typeof value === "string" && value.startsWith(LIB_SELECT_PREFIX);
-}
-
-function libraryIdFromSelectValue(value) {
-  if (!isLibrarySelectValue(value)) return "";
-  return value.slice(LIB_SELECT_PREFIX.length);
-}
-
-function hasLoadedOverlayFontsInSelect() {
-  if (!overlaySelect) return false;
-  return [...overlaySelect.options].some((opt) => {
-    const v = String(opt.value || "");
-    return !!v && !isLibrarySelectValue(v);
-  });
-}
-
-function buildOverlaySelectOptionsBase(placeholderText = "(load font library)") {
-  if (!overlaySelect) return;
-  overlaySelect.innerHTML = `<option value="">${placeholderText}</option>`;
-  const group = document.createElement("optgroup");
-  group.label = "Libraries";
-  const libsSorted = [...OVERLAY_LIBRARIES].sort((a, b) =>
-    String(a.label || "").localeCompare(String(b.label || ""), undefined, { sensitivity: "base" }),
-  );
-  for (const lib of libsSorted) {
-    const opt = document.createElement("option");
-    opt.value = `${LIB_SELECT_PREFIX}${lib.id}`;
-    const count = overlayLibraryCounts.get(lib.id);
-    opt.textContent = Number.isInteger(count) ? `${lib.label} (${count})` : lib.label;
-    group.appendChild(opt);
-  }
-  overlaySelect.appendChild(group);
-}
-
-async function preloadOverlayLibraryCounts() {
-  await Promise.all(
-    OVERLAY_LIBRARIES.map(async (lib) => {
-      try {
-        let list = overlayManifestCache.get(lib.id);
-        if (!list) {
-          const res = await fetch(lib.manifestPath);
-          if (!res.ok) throw new Error(`${lib.manifestPath} HTTP ${res.status}`);
-          list = await res.json();
-          if (!Array.isArray(list)) throw new Error(`${lib.manifestPath} did not return an array`);
-          overlayManifestCache.set(lib.id, list);
-        }
-        overlayLibraryCounts.set(lib.id, list.length);
-      } catch (err) {
-        console.warn(`Overlay library count unavailable for ${lib.id}`, err);
-        overlayLibraryCounts.set(lib.id, 0);
-      }
-    }),
-  );
-}
-
-async function buildOverlayFontOptionsForCurrentLibrary(selectedValue = "", placeholderText = "(load font library)", requestId = overlayLoadId) {
-  if (!overlaySelect) return;
-  const lib = OVERLAY_LIBRARIES.find((l) => l.id === currentOverlayLibraryId) || OVERLAY_LIBRARIES[0];
-  buildOverlaySelectOptionsBase(placeholderText);
-
-  let list;
-  try {
-    list = await loadManifestForLibrary(lib.id);
-  } catch (err) {
-    if (requestId !== overlayLoadId) return;
-    console.error(`Failed to load ${lib.manifestPath}`, err);
-    overlaySelect.innerHTML = `<option value="">(${placeholderText}: manifest missing)</option>`;
-    return;
-  }
-  if (requestId !== overlayLoadId) return;
-
-  const overlayGroup = document.createElement("optgroup");
-  overlayGroup.label = `${lib.label} Fonts`;
-  for (const entry of list) {
-    const opt = document.createElement("option");
-    opt.value = entry.file;
-    opt.textContent = entry.name;
-    overlayGroup.appendChild(opt);
-  }
-  if (overlayGroup.children.length) overlaySelect.appendChild(overlayGroup);
-  if (selectedValue && [...overlaySelect.options].some((o) => o.value === selectedValue)) {
-    overlaySelect.value = selectedValue;
-  } else {
-    overlaySelect.value = "";
-  }
-}
-
 async function getOverlayByFileFromLibrary(libraryId, file) {
   const lib = OVERLAY_LIBRARIES.find((l) => l.id === libraryId) || OVERLAY_LIBRARIES[0];
   const cacheKey = `${lib.id}::${file}`;
@@ -3456,95 +3316,86 @@ async function getOverlayByFileFromLibrary(libraryId, file) {
   }
 }
 
-async function getOverlayByFile(file) {
-  return getOverlayByFileFromLibrary(currentOverlayLibraryId, file);
+function setOverlaySelection(selection) {
+  currentOverlaySelection = selection;
+  fontBrowserApi?.setApplied(selection);
+}
+
+function clearOverlaySelection() {
+  ++overlayLoadId;
+  pendingTtfImportId = 0;
+  cancelTtfRerasterize();
+  fontBrowserApi?.setPending(null);
+  currentOverlay = null;
+  setCurrentTtfSource(null);
+  setOverlaySelection(null);
+  clearEditorPixelOverrides();
+  rebuildResultFont();
+  rerenderAll();
+  setLoadStatus("Replacement font cleared");
+}
+
+async function applyLibraryFont(entry) {
+  const requestId = ++overlayLoadId;
+  pendingTtfImportId = 0;
+  cancelTtfRerasterize();
+  if (currentOverlaySelection?.id === entry.id) {
+    fontBrowserApi?.setPending(null);
+    setLoadStatus(`Using font: ${entry.name}`, { subtext: entry.libraryLabel });
+    return;
+  }
+  fontBrowserApi?.setPending(entry.id);
+  setLoadStatus(`Loading font: ${entry.name}`);
+  try {
+    const overlay = await getOverlayByFileFromLibrary(entry.libraryId, entry.file);
+    if (requestId !== overlayLoadId) return;
+    currentOverlay = overlay;
+    setCurrentTtfSource(null);
+    setOverlaySelection(entry);
+    clearEditorPixelOverrides();
+    rebuildResultFont();
+    rerenderAll();
+    setLoadStatus(`Loaded font: ${entry.name}`, { subtext: entry.libraryLabel });
+  } catch (err) {
+    if (requestId !== overlayLoadId) return;
+    console.error("Failed to load font:", entry.file, err);
+    setLoadStatus(`Failed to load font: ${entry.name}`, { error: true, subtext: err.message });
+  } finally {
+    if (requestId === overlayLoadId) fontBrowserApi?.setPending(null);
+  }
 }
 
 async function loadOverlayIndex() {
-  if (!overlaySelect) return;
-  if (!OVERLAY_LIBRARIES.some((l) => l.id === currentOverlayLibraryId)) {
-    currentOverlayLibraryId = OVERLAY_LIBRARIES[0].id;
-  }
-  await preloadOverlayLibraryCounts();
-  // Start with libraries only; fonts are loaded after explicit library selection.
-  buildOverlaySelectOptionsBase();
-
-  
-  overlayPickerApi = buildFontPicker({
-    selectEl: overlaySelect,
-    getLabel: (opt) => opt.textContent,
-    getValue: (opt) => opt.value,
-    getItemClass: (_opt, value) => (
-      hasLoadedOverlayFontsInSelect()
-      && isLibrarySelectValue(value)
-      && libraryIdFromSelectValue(value) === currentOverlayLibraryId
-        ? "is-library-current"
-        : ""
-    ),
-    getPreviewUrl: (value) => isLibrarySelectValue(value) ? "" : getOverlayPreviewUrl(value),
-    closeOnSelect: false,
-    lazyMenuPreviews: true,
+  if (!fontBrowserRoot) return;
+  fontBrowserApi = createFontBrowser({
+    root: fontBrowserRoot,
+    libraries: OVERLAY_LIBRARIES,
+    initialLibraryId: currentOverlayLibraryId,
+    getPreviewUrl: getLibraryFontPreviewUrl,
+    onBrowse: (libraryId) => {
+      currentOverlayLibraryId = libraryId;
+      localStorage.setItem(OVERLAY_LIBRARY_KEY, libraryId);
+    },
+    onSelect: applyLibraryFont,
+    onClear: clearOverlaySelection,
   });
-
-  renderLoadStatusVisual();
-
-  if (!overlaySelectChangeBound) {
-    overlaySelect.addEventListener("change", async () => {
-      const value = overlaySelect.value;
-      const requestId = ++overlayLoadId;
-      cancelTtfRerasterize();
-      pendingTtfImportId = 0;
-
-      if (isLibrarySelectValue(value)) {
-        const nextLib = libraryIdFromSelectValue(value);
-        if (!OVERLAY_LIBRARIES.some((l) => l.id === nextLib)) return;
-        const nextLibLabel = (OVERLAY_LIBRARIES.find((l) => l.id === nextLib) || OVERLAY_LIBRARIES[0]).label;
-        currentOverlayLibraryId = nextLib;
-        localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
-        currentOverlay = null;
-        setCurrentTtfSource(null);
-        clearEditorPixelOverrides();
-        overlayPreviewUrlCache.clear();
-        await buildOverlayFontOptionsForCurrentLibrary("", nextLibLabel, requestId);
-        if (requestId !== overlayLoadId) return;
-        overlayPickerApi?.rebuild();
-        overlayPickerApi?.refresh();
-        rebuildResultFont();
-        rerenderAll();
-        setLoadStatus(`Loaded font library: ${nextLibLabel}`);
-        return;
-      }
-
-      const file = value;
-
-      if (!file) {
-        currentOverlay = null;
-        setCurrentTtfSource(null);
-        clearEditorPixelOverrides();
-        rebuildResultFont();
-        rerenderAll();
-        return;
-      }
-
-      try {
-        const overlay = await getOverlayByFileFromLibrary(currentOverlayLibraryId, file);
-        if (requestId !== overlayLoadId) return;
-        currentOverlay = overlay;
-        setCurrentTtfSource(null);
-      } catch (err) {
-        if (requestId !== overlayLoadId) return;
-        console.error("Failed to load overlay font:", file, err);
-        setLoadStatus(`Failed to load overlay: ${file}`, { error: true, subtext: err.message });
-        return;
-      }
-
-      clearEditorPixelOverrides();
-      rebuildResultFont();
-      rerenderAll();
-      renderLoadStatusVisual();
-    });
-    overlaySelectChangeBound = true;
-  }
+  const loaded = await Promise.allSettled(OVERLAY_LIBRARIES.map((lib) => loadManifestForLibrary(lib.id)));
+  const entries = [];
+  const unavailable = [];
+  loaded.forEach((result, index) => {
+    const lib = OVERLAY_LIBRARIES[index];
+    if (result.status === "rejected") {
+      unavailable.push(lib.label);
+      console.warn(`Font library unavailable: ${lib.label}`, result.reason);
+      return;
+    }
+    for (const entry of result.value) {
+      entries.push({ ...entry, id: `${lib.id}::${entry.file}`, libraryId: lib.id, libraryLabel: lib.label });
+    }
+  });
+  fontBrowserApi.setEntries(entries, unavailable);
+  fontBrowserApi.setApplied(currentOverlaySelection);
+  if (servingFontCountEl) servingFontCountEl.textContent = entries.length.toLocaleString();
 }
 
 // Branding owns its timers, cached artwork, and motion preference lifecycle.
@@ -3562,6 +3413,7 @@ async function handleFile(file) {
   if (isOverlay) {
     cancelTtfRerasterize();
     pendingTtfImportId = 0;
+    fontBrowserApi?.setPending(null);
   }
   if (name.endsWith(".yaff")) {
     const text = await file.text();
@@ -3581,7 +3433,7 @@ async function handleFile(file) {
     currentOverlay = overlay;
     setCurrentTtfSource(null);
     clearEditorPixelOverrides();
-    if (overlaySelect) overlaySelect.value = "";
+    setOverlaySelection({ id: "", name: file.name, file: file.name, libraryLabel: "Imported YAFF" });
     rebuildResultFont();
     rerenderAll();
     const diag = [];
@@ -3627,7 +3479,7 @@ async function handleFile(file) {
     currentOverlay = overlay;
     setCurrentTtfSource(source);
     clearEditorPixelOverrides();
-    if (overlaySelect) overlaySelect.value = "";
+    setOverlaySelection({ id: "", name: file.name, file: file.name, libraryLabel: "Imported TTF / OTF" });
     rebuildResultFont();
     rerenderAll();
     setLoadStatus(`Loaded TTF overlay: ${file.name}`, { subtext: ttfImportDiagnostics(stats) });
@@ -4407,7 +4259,6 @@ function init() {
   syncDefaultLoadCue();
   loadOverlayIndex();
   loadBetaflightDefaults();
-  updateServingFontCount();
 }
 
 init();

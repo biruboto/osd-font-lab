@@ -211,20 +211,6 @@
                     <option value="">(choose default)</option>
                   </select>
                 </label>
-                <label class="field field-stack overlay-inline">
-                  <span class="or-label">Replace with</span>
-                  <select id="overlaySelect" title="Choose a font collection"></select>
-                </label>
-              </div>
-              <div class="or-select-stack" aria-hidden="true">
-                <div class="or-row">
-                  <span class="or-spacer" aria-hidden="true">&nbsp;</span>
-                  <span class="or-sep">OR</span>
-                </div>
-                <div class="or-row">
-                  <span class="or-spacer" aria-hidden="true">&nbsp;</span>
-                  <span class="or-sep">OR</span>
-                </div>
               </div>
               <div class="import-select-stack">
                 <label class="field field-stack import-inline">
@@ -278,6 +264,31 @@
                 </label>
               </div>
             </div>
+            <section id="fontBrowser" class="font-browser" aria-label="Replacement font browser">
+              <div class="font-browser-current">
+                <div class="font-browser-current-copy">
+                  <span class="font-browser-eyebrow">Replacement font</span>
+                  <strong id="fontCurrentName">Original lettering</strong>
+                  <span id="fontCurrentLibrary">Choose a replacement below</span>
+                </div>
+                <button id="clearOverlayBtn" type="button" class="font-browser-clear" aria-label="Clear replacement font" title="Clear the replacement font" disabled>Clear</button>
+              </div>
+              <div class="font-browser-filters">
+                <label class="font-browser-library" for="fontLibraryFilter">
+                  <span>Library</span>
+                  <select id="fontLibraryFilter" aria-label="Font library"><option value="">All libraries</option></select>
+                </label>
+                <label class="font-browser-search" for="fontSearch">
+                  <span class="visually-hidden">Search fonts</span>
+                  <input id="fontSearch" type="search" placeholder="Search font names…" autocomplete="off" spellcheck="false" />
+                </label>
+              </div>
+              <div class="font-browser-summary"><span id="fontResultsCount" role="status" aria-live="polite">Loading font libraries…</span><span aria-hidden="true">Click to apply</span></div>
+              <div id="fontResults" class="font-browser-results" role="listbox" aria-label="Replacement fonts" tabindex="0">
+                <div class="font-browser-content"></div>
+                <div class="font-browser-empty" hidden></div>
+              </div>
+            </section>
             <details id="iconTools" class="tool-section"><summary>Icons</summary>
             <div class="tool-section-body">
             <div class="swap-controls">

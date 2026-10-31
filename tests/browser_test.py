@@ -210,7 +210,10 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='12';e.dispatchEvent(new Event('input',{bubbles:true}))}")
         await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Updated TTF overlay: fixture.otf') && document.querySelector('#loadStatus').textContent.includes('size 12')")
         self.assertEqual((await self.font())[65], after[65])
-        await self.page.select_option('#overlaySelect', '__lib:cpc')
+        await self.page.select_option('#fontLibraryFilter', 'cpc')
+        self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 1)
+        self.assertEqual(await self.page.locator('#fontCurrentName').inner_text(), 'fixture.otf')
+        await self.page.locator('#clearOverlayBtn').click()
         self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 0)
 
     async def test_ttf_ornate_outliers_do_not_limit_the_other_letters(self):
@@ -286,6 +289,27 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await self.font(), expected)
         self.assertEqual(await self.page.evaluate("Array.from(document.fonts).filter(f=>f.family.startsWith('osd_ttf_')).length"), 1)
 
+    async def test_status_wrapping_does_not_move_the_header_or_workspace(self):
+        for width, height in [(1440,900), (1200,800), (1024,768), (768,1024), (390,844), (320,640)]:
+            with self.subTest(width=width):
+                await self.page.set_viewport_size({'width':width,'height':height})
+                await self.page.evaluate("window.scrollTo(0,0)")
+                snapshots = []
+                for message in ['Loaded', "Loaded font: Blackletter community edition (NFG's Arcade Font Engine)", 'VeryLongFontNameWithoutSpaces'*12, 'Import failed: '+('Detailed diagnostic information. '*20)]:
+                    await self.page.locator('#loadStatus').evaluate('(el,text)=>{el.textContent=text;el.scrollTop=0}', message)
+                    await self.settle_frames(self.page)
+                    snapshots.append(await self.page.evaluate('''()=>{
+                      const header=document.querySelector('.app-header').getBoundingClientRect();
+                      const exports=document.querySelector('.exports').getBoundingClientRect();
+                      const status=document.querySelector('#loadStatus').getBoundingClientRect();
+                      return {headerHeight:header.height,workspaceTop:document.querySelector('.split').getBoundingClientRect().top,
+                        exportX:exports.x,exportY:exports.y,exportWidth:exports.width,statusHeight:status.height,
+                        overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1};
+                    }'''))
+                self.assertTrue(all(not snapshot['overflow'] for snapshot in snapshots), snapshots)
+                for snapshot in snapshots[1:]:
+                    self.assertEqual(snapshot, snapshots[0], snapshots)
+
     async def test_theme_pixels_and_selection_render_budget(self):
         baseline = json.loads((ROOT/'tests/fixtures/render-baseline.json').read_text())
         # Check the original pixels at their original geometry, independently
@@ -356,30 +380,105 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual((await self.font())[1], shift(before, 1))
 
     async def test_latest_font_selection_wins_even_when_older_response_arrives_last(self):
-        await self.page.select_option('#overlaySelect', '__lib:cpc')
-        await self.page.wait_for_function("Array.from(document.querySelector('#overlaySelect').options).some(o=>o.value==='alarm8x8.json')")
+        await self.page.select_option('#fontLibraryFilter', 'cpc')
+        await self.page.locator('#fontSearch').fill('alarm')
         base = await self.font()
         async with self.page.expect_response('**/alarm8x8.json') as loaded:
-            await self.page.select_option('#overlaySelect', 'alarm8x8.json')
+            await self.page.locator('[data-font-id="cpc::alarm8x8.json"]').click()
         await (await loaded.value).body()
         await self.settle_frames(self.page)
         expected = await self.font()
         self.assertTrue(expected != base, 'fixture must actually apply an overlay')
         other = await self.context.new_page()
         await self.load_default(other)
-        await other.select_option('#overlaySelect', '__lib:cpc')
-        await other.wait_for_function("Array.from(document.querySelector('#overlaySelect').options).some(o=>o.value==='alarm8x8.json')")
+        await other.select_option('#fontLibraryFilter', 'cpc')
+        await other.locator('#fontSearch').fill('alarm')
         async def delay_old(route):
             if route.request.url.endswith('/alarm8x5.json'):
                 await asyncio.sleep(0.35)
             await route.continue_()
         await other.route('**/fonts/data/cpc/**', delay_old)
         async with other.expect_response('**/alarm8x5.json') as older:
-            await other.select_option('#overlaySelect', 'alarm8x5.json')
-            await other.select_option('#overlaySelect', 'alarm8x8.json')
+            await other.locator('[data-font-id="cpc::alarm8x5.json"]').click()
+            await other.locator('[data-font-id="cpc::alarm8x8.json"]').click()
         await (await older.value).body()
         await self.settle_frames(other)
         self.assertTrue(await self.font(other) == expected, 'export must match the latest selected font')
+
+    async def test_font_browser_filters_preserve_the_applied_font_and_edits(self):
+        await self.page.select_option('#fontLibraryFilter', 'cpc')
+        await self.page.locator('#fontSearch').fill('alarm8x8')
+        await self.page.locator('[data-font-id="cpc::alarm8x8.json"]').click()
+        await self.page.wait_for_function("document.querySelector('#fontCurrentName').textContent==='alarm8x8'")
+        before = await self.font()
+        await self.select_glyph(65)
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('.editor-color-btn[data-editor-color="2"]').click()
+        pixel = before[65].index(1)
+        box = await self.page.locator('#resultZoom').bounding_box()
+        await self.page.locator('#resultZoom').click(position={'x':(pixel%12+.5)*box['width']/12,'y':(pixel//12+.5)*box['height']/18})
+        painted = await self.font()
+        self.assertNotEqual(painted, before)
+        await self.page.locator('[data-font-id="cpc::alarm8x8.json"]').click()
+        self.assertEqual(await self.font(), painted, 'selecting the active font must not erase edits')
+        await self.page.select_option('#fontLibraryFilter', 'dg')
+        await self.page.locator('#fontSearch').fill('no such font 123456789')
+        self.assertTrue(await self.page.locator('.font-browser-empty').is_visible())
+        self.assertEqual(await self.page.locator('#fontCurrentName').inner_text(), 'alarm8x8')
+        self.assertEqual(await self.font(), painted, 'browsing must not change the document')
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(), '1')
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertEqual(await self.font(), before, 'browsing must retain undo history')
+
+    async def test_font_browser_bounds_rows_and_does_not_fetch_full_fonts_for_previews(self):
+        requests = []
+        self.page.on('request', lambda request: requests.append(request.url))
+        await self.page.reload(wait_until='networkidle')
+        await self.page.select_option('#fontLibraryFilter', 'dg')
+        await self.page.wait_for_function("document.querySelector('#fontResultsCount').textContent==='469 fonts'")
+        await self.page.locator('.font-browser-row img[src]').first.wait_for()
+        for key in ['End', 'Home', 'PageDown', 'PageDown', 'PageUp']:
+            await self.page.locator('#fontResults').focus()
+            await self.page.keyboard.press(key)
+            await self.settle_frames(self.page)
+            self.assertLessEqual(await self.page.locator('.font-browser-row').count(), 9)
+            positions = await self.page.locator('.font-browser-row').evaluate_all("rows=>rows.map(row=>Number(row.getAttribute('aria-posinset')))")
+            self.assertEqual(positions, sorted(positions), 'screen-reader order must match the visible rows')
+        libraries = ['arcade-font-engine','atari','bbc','cpc','dg','oldschool-pc','zx']
+        self.assertEqual([url for url in requests if any(f'/fonts/data/{lib}/' in url for lib in libraries)], [])
+        self.assertEqual(len([url for url in requests if url.endswith('/fonts/previews/dg.json')]), 1)
+        for lib in libraries:
+            self.assertEqual(len([url for url in requests if url.endswith(f'/fonts/manifest-{lib}.json')]), 1)
+
+    async def test_font_browser_keyboard_theme_refresh_and_clear(self):
+        original = await self.font()
+        await self.page.select_option('#fontLibraryFilter', 'cpc')
+        await self.page.locator('#fontSearch').fill('alarm8x8')
+        await self.page.locator('[data-font-id="cpc::alarm8x8.json"] img[src]').wait_for()
+        await self.page.locator('#fontResults').focus()
+        await self.page.keyboard.press('Enter')
+        await self.page.wait_for_function("document.querySelector('#fontCurrentName').textContent==='alarm8x8'")
+        self.assertNotEqual(await self.font(), original)
+        preview = self.page.locator('[data-font-id="cpc::alarm8x8.json"] img')
+        old_url = await preview.get_attribute('src')
+        await self.page.evaluate("document.querySelector('input[name=siteTheme][value=afterburn]').click()")
+        await self.page.wait_for_function("old=>{const img=document.querySelector('[data-font-id=\"cpc::alarm8x8.json\"] img');return img?.src&&img.getAttribute('src')!==old}", arg=old_url)
+        await self.page.locator('#clearOverlayBtn').click()
+        self.assertEqual(await self.font(), original)
+        self.assertEqual(await self.page.locator('#fontCurrentName').inner_text(), 'Original lettering')
+        self.assertTrue(await self.page.locator('#clearOverlayBtn').is_disabled())
+
+    async def test_font_browser_failed_selection_keeps_the_current_font(self):
+        await self.page.select_option('#fontLibraryFilter', 'cpc')
+        await self.page.locator('#fontSearch').fill('alarm')
+        await self.page.locator('[data-font-id="cpc::alarm8x8.json"]').click()
+        await self.page.wait_for_function("document.querySelector('#fontCurrentName').textContent==='alarm8x8'")
+        expected = await self.font()
+        await self.page.route('**/fonts/data/cpc/alarm8x5.json', lambda route: route.fulfill(status=503, body='unavailable'))
+        await self.page.locator('[data-font-id="cpc::alarm8x5.json"]').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Failed to load font: alarm8x5')")
+        self.assertEqual(await self.page.locator('#fontCurrentName').inner_text(), 'alarm8x8')
+        self.assertEqual(await self.font(), expected)
 
     async def test_global_and_per_glyph_nudges_are_not_baked_twice_when_painting(self):
         await self.page.locator('#yaffFile').set_input_files({'name': 'fixture.yaff', 'mimeType': 'text/plain',
@@ -496,7 +595,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         for section in ['iconTools','emojiTools','bootTools','appearanceTools']:
             if await self.page.locator('#'+section).get_attribute('open') is None:
                 await self.page.locator('#'+section+' > summary').click()
-        for select in ['bfFontSelect','overlaySelect','swapTargetSelect']:
+        for select in ['bfFontSelect','swapTargetSelect']:
             await self.page.locator('#'+select+' + .fontpicker .fontpicker-btn').click()
             self.assertFalse(await self.page.evaluate('document.documentElement.scrollWidth > document.documentElement.clientWidth + 1'), select)
             await self.page.keyboard.press('Escape')
