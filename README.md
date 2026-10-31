@@ -11,12 +11,13 @@ OSD Font Lab is a web application designed to help you create custom fonts for a
 + Layout overhaul for desktop, tablet and phone, with clearer controls and collapsible tools.
 + Glyph sheet now flows to fit your screen while keeping crisp integer scaling. PNG exports stay in the standard 16×16 format.
 + Independent sheet and inspector zoom controls, with Auto fitting and +/− buttons.
-+ Two new color schemes: Field Notes (warm paper, rust and olive) and Afterburn (charcoal, coral and icy blue).
++ Two new color schemes: Field Notes and Afterburn.
 + Copy cell / Paste cell, including copying between fonts.
 + 20-step undo for editor strokes and cell pastes.
 + Faster previews and lighter logo animation, with reduced-motion support. Significant performance improvements.
 + Fixes for MCM transparency, edits after nudging, and rapid font switching.
 + FC uploads now support cancellation and better timeout/disconnect handling.
++ Improved TTF import.
 
 02.27.2026
 + Direct upload to flight controller support! Thanks to an implementation by [BUSHA](https://vtx.in.ua/max7456/), in Chromium based browsers OSD Font Lab can now upload your font creation directly to your quad.

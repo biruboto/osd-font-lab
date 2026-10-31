@@ -84,8 +84,8 @@ body{
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  /* Whole-pixel hover avoids resampling the pixel art between rows. */
-  animation: droneHover 2.2s steps(3, end) infinite;
+  /* JS sets physical-pixel steps for the current display scale/zoom. */
+  animation: droneHover 2.2s steps(var(--drone-hover-steps, 3), end) infinite;
 }
 .brand-drone-art{
   position: absolute;
@@ -104,7 +104,7 @@ body{
 .brandCluster.is-paused :is(.brand-letter, .brand-glyph, canvas, .brandDrone){ animation-play-state: paused; }
 .brandCluster.is-reduced-motion :is(.brand-letter, .brand-glyph, canvas, .brandDrone){ animation: none; }
 @keyframes droneHover{
-  0%, 100%{ transform: translateY(3px); }
+  0%, 100%{ transform: translateY(var(--drone-hover-distance, 3px)); }
   50%{ transform: translateY(0); }
 }
 .app-header .exports{ width: min(100%, 480px); margin-left: auto; }

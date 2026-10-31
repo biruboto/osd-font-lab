@@ -21,8 +21,33 @@ export function createBrandAnimation({
   let finishTimer = 0;
   let pageActive = true;
   let destroyed = false;
+  let dronePixelRatio = 0;
+  let droneRasterWidth = 0;
+  let droneRasterHeight = 0;
+  let droneResolution;
 
   const canAnimate = () => !destroyed && pageActive && !document.hidden && !motion.matches;
+
+  function syncDronePixels() {
+    if (destroyed || !drone) return;
+    const ratio = window.devicePixelRatio > 0 ? window.devicePixelRatio : 1;
+    const width = Math.max(1, Math.round(drone.clientWidth * ratio));
+    const height = Math.max(1, Math.round(drone.clientHeight * ratio));
+    if (ratio === dronePixelRatio && width === droneRasterWidth && height === droneRasterHeight) return;
+    dronePixelRatio = ratio;
+    droneRasterWidth = width;
+    droneRasterHeight = height;
+    // Whole CSS pixels still straddle device pixels at 125%/150% scaling. That
+    // changes how many rows of the sprite get painted and makes it pulse in ink
+    // coverage. Snap every hover step to one device pixel, keeping ~3 CSS px travel.
+    const steps = Math.max(1, Math.round(3 * ratio));
+    drone.style.setProperty("--drone-hover-steps", String(steps));
+    drone.style.setProperty("--drone-hover-distance", `${steps / ratio}px`);
+    droneResolution?.removeEventListener("change", syncDronePixels);
+    droneResolution = matchMedia(`(resolution: ${ratio}dppx)`);
+    droneResolution.addEventListener("change", syncDronePixels);
+    drawDrone();
+  }
 
   function drawGlyph(ctx, choice) {
     ctx.clearRect(0, 0, 12, 18);
@@ -43,10 +68,21 @@ export function createBrandAnimation({
       drawGlyph(item.oldCtx, item.choice);
       if (item.nextChoice !== null) drawGlyph(item.newCtx, item.nextChoice);
     }
+    drawDrone();
+  }
+
+  function drawDrone() {
     for (const { source, canvas } of frames) {
+      // Pre-rasterize once at screen resolution. Scaling the small source sprite
+      // during motion can change nearest-neighbor row coverage on narrow layouts.
+      if (canvas.width !== droneRasterWidth) canvas.width = droneRasterWidth;
+      if (canvas.height !== droneRasterHeight) canvas.height = droneRasterHeight;
+      canvas.style.width = `${droneRasterWidth / dronePixelRatio}px`;
+      canvas.style.height = `${droneRasterHeight / dronePixelRatio}px`;
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(source, 0, 0);
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = "source-in";
       ctx.fillStyle = ink;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -189,6 +225,8 @@ export function createBrandAnimation({
   motion.addEventListener("change", syncMotion);
   window.addEventListener("pagehide", onPageHide);
   window.addEventListener("pageshow", onPageShow);
+  window.addEventListener("resize", syncDronePixels);
+  syncDronePixels();
   refreshTheme();
   syncMotion();
   const ready = Promise.allSettled([loadTitle(), loadDrone()]).then(results => {
@@ -212,6 +250,8 @@ export function createBrandAnimation({
       motion.removeEventListener("change", syncMotion);
       window.removeEventListener("pagehide", onPageHide);
       window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("resize", syncDronePixels);
+      droneResolution?.removeEventListener("change", syncDronePixels);
     },
   };
 }

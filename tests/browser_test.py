@@ -1,5 +1,6 @@
 """Browser regressions: python -m unittest discover -s tests -p '*_test.py' -v."""
 import asyncio
+import base64
 import functools
 import json
 import os
@@ -976,6 +977,65 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(await self.page.locator('.brandCluster').evaluate("e=>[...e.querySelectorAll('*')].every(n=>getComputedStyle(n).animationName==='none')"))
         await self.page.locator('#bfFontSelect + .fontpicker').wait_for()
 
+    async def test_drone_brightness_stays_constant_at_fractional_display_scales(self):
+        # Count screenshot pixels, not just canvas data or CSS offsets. Hide the
+        # propellers to isolate the permanently visible hull. Separate contexts
+        # keep screenshots at the actual requested DPR (Playwright restores
+        # context metrics when capturing, undoing ad-hoc CDP DPR overrides).
+        for width, height, dpr in [(1440,900,0.8), (1440,900,1), (1440,900,1.1), (1440,900,1.25), (1440,900,1.5), (1440,900,2), (390,844,1.25)]:
+            with self.subTest(width=width, dpr=dpr):
+                context = await self.browser.new_context(viewport={'width':width,'height':height}, device_scale_factor=dpr)
+                page = await context.new_page()
+                try:
+                    await page.goto(self.url, wait_until='networkidle')
+                    await page.evaluate("""async()=>{
+                      document.documentElement.dataset.theme='afterburn';
+                      const {createBrandAnimation}=await import('/js/modules/brand.js');
+                      const root=document.createElement('div');root.id='dronePixelFixture';root.className='brandCluster';
+                      root.style='position:absolute;left:40px;top:160px;width:100px;height:100px;display:flex;align-items:flex-start;background:#17191f;z-index:1000';
+                      root.innerHTML='<span class="brandDrone" style="margin-top:1px"></span>';document.body.append(root);
+                      window.dronePixelBrand=createBrandAnimation({root});await dronePixelBrand.ready;
+                      root.querySelectorAll('.brand-drone-frame').forEach(c=>c.style.display='none');
+                      window.dronePixelHover=root.querySelector('.brandDrone').getAnimations()[0];dronePixelHover.pause();await dronePixelHover.ready;
+                    }""")
+                    steps = max(1, int(3*dpr+0.5))
+                    pngs = []
+                    offsets = []
+                    for step in range(steps+1):
+                        time = 1100 if step == steps else (step+0.1)*1100/steps
+                        offset = await page.evaluate("""time=>{
+                          dronePixelHover.currentTime=time;
+                          return new DOMMatrixReadOnly(getComputedStyle(document.querySelector('#dronePixelFixture .brandDrone')).transform).m42*devicePixelRatio;
+                        }""", time)
+                        offsets.append(offset)
+                        png = await page.screenshot(clip={'x':40,'y':160,'width':80,'height':60}, animations='allow')
+                        pngs.append(base64.b64encode(png).decode())
+                    rendered = await page.evaluate("""async images=>Promise.all(images.map(async png=>{
+                      const image=new Image();image.src='data:image/png;base64,'+png;await image.decode();
+                      const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+                      const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);
+                      const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+                      let ink=0,other=0;
+                      for(let i=0;i<pixels.length;i+=4){
+                        const r=pixels[i],g=pixels[i+1],b=pixels[i+2];
+                        if(r===255&&g===116&&b===87)ink++;
+                        else if(r!==23||g!==25||b!==31)other++;
+                      }
+                      return {ink,other,width:canvas.width};
+                    }))""", pngs)
+                    self.assertGreater(rendered[0]['ink'], 0)
+                    self.assertTrue(all(r['width'] == round(80*dpr) for r in rendered), rendered)
+                    self.assertEqual({r['ink'] for r in rendered}, {rendered[0]['ink']}, rendered)
+                    self.assertTrue(all(r['other'] == 0 for r in rendered), rendered)
+                    self.assertTrue(all(abs(y-round(y)) < .0001 for y in offsets), offsets)
+                    self.assertEqual({round(y) for y in offsets}, set(range(steps+1)), offsets)
+                    if width == 390:
+                        await page.set_viewport_size({'width':1440,'height':900})
+                        await page.wait_for_function("document.querySelector('#dronePixelFixture .brand-drone-body').width===65")
+                    await page.evaluate('()=>dronePixelBrand.destroy()')
+                finally:
+                    await context.close()
+
     async def test_drone_frames_keep_one_color_and_hover_on_whole_pixels(self):
         await self.page.locator('.brand-drone-frame').nth(1).wait_for()
         result = await self.page.locator('.brandDrone').evaluate("""async drone => {
@@ -998,12 +1058,13 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
           const reconstruction=[];
           for(let f=0;f<2;f++){
             const source=new Image();source.src=`drone${f+1}.png`;await source.decode();
-            const expected=document.createElement('canvas');expected.width=body.width;expected.height=body.height;
-            const ctx=expected.getContext('2d');ctx.drawImage(source,0,0);
-            const original=ctx.getImageData(0,0,body.width,body.height).data;
-            ctx.clearRect(0,0,body.width,body.height);ctx.drawImage(body,0,0);
-            ctx.drawImage(drone.querySelectorAll('.brand-drone-frame')[f],0,0);
-            const combined=ctx.getImageData(0,0,body.width,body.height).data;
+            const expected=document.createElement('canvas');expected.width=source.naturalWidth;expected.height=source.naturalHeight;
+            const {width,height}=expected;
+            const ctx=expected.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(source,0,0);
+            const original=ctx.getImageData(0,0,width,height).data;
+            ctx.clearRect(0,0,width,height);ctx.drawImage(body,0,0,width,height);
+            ctx.drawImage(drone.querySelectorAll('.brand-drone-frame')[f],0,0,width,height);
+            const combined=ctx.getImageData(0,0,width,height).data;
             reconstruction.push(original.every((value,i)=>i%4!==3 || value===combined[i]));
           }
           const bodyPixels=body.getContext('2d').getImageData(0,0,body.width,body.height).data;

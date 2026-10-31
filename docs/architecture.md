@@ -41,6 +41,16 @@ The layout no longer measures and locks pane heights in JavaScript. CSS lays out
 
 The header contains export/upload actions and shared status. Icons, emoji, boot logo, and appearance use native expandable sections. Pixel editing and HUD dragging use pointer events/capture. Rendering theme colors are cached and invalidated on theme changes.
 
+The brand drone's CSS hover moves in physical screen pixels. `brand.js` sets its
+travel and step count from the device pixel ratio and refreshes them on resize or
+resolution changes. Whole CSS-pixel offsets alone change the rasterized sprite's
+area at fractional scaling (such as 125% or 150%), causing visible brightness
+pulses even with constant colors. The body remains permanently visible while
+only propeller differences alternate. The three layers are pre-rasterized to
+whole device-pixel dimensions on load, theme changes, and resize, avoiding further
+source scaling during motion. Browser regressions compare screenshot
+pixel counts across the hover cycle at desktop and mobile display scales.
+
 ## Automated checks
 
 - `npm test`: codec and serial transport tests using native Node APIs and simulated streams.
