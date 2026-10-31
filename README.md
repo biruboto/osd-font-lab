@@ -44,9 +44,20 @@ On Windows it uses installed Microsoft Edge by default. On other platforms, inst
 
 See [the overhaul plan](docs/overhaul-plan.md) for baseline findings, milestones, and remaining validation.
 
+The animated header uses CSS motion and a cached catalog containing only its letters. It pauses in hidden tabs and respects reduced motion, including preference changes while the page is open. After adding or changing library fonts, regenerate and verify the catalog:
+
+```sh
+python scripts/build-brand-glyphs.py
+python scripts/build-brand-glyphs.py --check
+```
+
+The browser suite also checks logo idle work, a complete letter reroll without full-font requests, theme tinting, motion preferences, visibility, teardown, and asset failure fallback.
+
 On screens up to 960px wide, use **Preview**, **Edit glyph**, and **Fonts & icons** in the header. The sheet reflows its columns to the available width. **Auto** chooses an integer 2×–4× glyph size, keeping a readable 2× minimum and scrolling vertically when necessary; you can also choose 2×, 3×, or 4× directly. Glyph indices stay fixed as cells move between rows. PNG exports always retain the standard 16×16 layout at 192×288 (1×) or 576×864 (3×).
 
 Secondary tools and appearance settings expand independently. During an FC upload, the upload button becomes the cancel action; canceling may leave a partial font on the controller, so upload the full font again to finish.
+
+Sheet zoom sits at the sheet's top right. **Inspector zoom** independently sizes the selected glyph in both Inspector and Editor mode: **Auto** accounts for the remaining viewport height, and 4×–20× options let you choose a smaller or larger view. The inspector setting is remembered. Large manual zooms scroll inside the glyph viewport when needed; zooming changes neither edits nor export dimensions.
 
 02.27.2026
 + Direct upload to flight controller support! Thanks to an implementation by [BUSHA](https://vtx.in.ua/max7456/), in Chromium based browsers OSD Font Lab can now upload your font creation directly to your quad.

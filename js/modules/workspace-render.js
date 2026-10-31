@@ -3,6 +3,7 @@ import { calculateSheetLayout, sheetPointToIndex } from "./sheet-layout.js";
 
 export function createWorkspaceRenderer({
   getSheetZoom = () => "auto",
+  getInspectorZoom = () => "auto",
   cssVar,
   pxColorViewer,
   fitCanvasToCSS,
@@ -13,8 +14,13 @@ export function createWorkspaceRenderer({
   function sizeSheetCanvas(canvas, width = 12, height = 18, glyphCount = 256) {
     const wrapper = canvas.parentElement;
     if (!wrapper?.clientWidth || !canvas.getClientRects().length) return null;
-    const limit = parseFloat(getComputedStyle(wrapper).maxHeight);
-    const availableHeight = Number.isFinite(limit) ? limit : wrapper.clientHeight;
+    // Header wrapping changes the sheet's top position on smaller laptops.
+    // Budget from that position instead of a fixed header-height estimate.
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const top = wrapper.getBoundingClientRect().top + window.scrollY;
+    const availableHeight = Math.max(280, Math.floor(viewportHeight - top - 24));
+    const maxHeight = `${availableHeight}px`;
+    if (wrapper.style.maxHeight !== maxHeight) wrapper.style.maxHeight = maxHeight;
     const layout = calculateSheetLayout({ availableWidth: wrapper.clientWidth, availableHeight,
       glyphWidth: width, glyphHeight: height, glyphCount, zoom: getSheetZoom() });
     if (canvas.width !== layout.width) canvas.width = layout.width;
@@ -25,6 +31,15 @@ export function createWorkspaceRenderer({
     canvas.dataset.columns = String(layout.columns);
     canvas.dataset.rows = String(layout.rows);
     canvas.dataset.scale = String(layout.scale);
+    // Match the visible sheet edges, including centered spare space and gutter.
+    const panel = canvas.closest(".panel-result");
+    const leftInset = Math.max(0, (wrapper.clientWidth - layout.width) / 2);
+    const insets = { "--sheet-left-inset": leftInset,
+      "--sheet-right-inset": wrapper.offsetWidth - wrapper.clientWidth + leftInset };
+    for (const [property, pixels] of Object.entries(insets)) {
+      const value = `${pixels}px`;
+      if (panel && panel.style.getPropertyValue(property) !== value) panel.style.setProperty(property, value);
+    }
     sheetLayouts.set(canvas, layout);
     return layout;
   }
@@ -153,15 +168,28 @@ export function createWorkspaceRenderer({
     if (!canvas || !font) return;
     const wrapper = canvas.parentElement;
     const wrapperStyle = getComputedStyle(wrapper);
-    const maxWidth = parseFloat(getComputedStyle(canvas).maxWidth) || Infinity;
+    const maxWidth = parseFloat(wrapperStyle.getPropertyValue("--inspector-max-width")) || Infinity;
     const available = wrapper.clientWidth - parseFloat(wrapperStyle.paddingLeft) - parseFloat(wrapperStyle.paddingRight);
     const targetW = Math.max(1, Math.floor(Math.min(available, maxWidth)));
     // Ignore hidden/unstable layout passes (e.g. switching from HUD mode)
-    // so we don't lock the inspector to 1x.
+    // so we don't shrink the inspector from an invalid width measurement.
     if (targetW <= font.width) return;
-    const cssScale = Math.max(1, Math.floor(targetW / font.width));
-    canvas.style.width = `${cssScale * font.width}px`;
-    canvas.style.height = `${cssScale * font.height}px`;
+    const requested = getInspectorZoom();
+    let cssScale;
+    if (requested === "auto") {
+      const inspector = canvas.closest(".sidecar");
+      const bounds = inspector.getBoundingClientRect();
+      const overhead = bounds.height - canvas.getBoundingClientRect().height;
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const availableHeight = viewportHeight - (bounds.top + window.scrollY) - overhead - 24;
+      cssScale = Math.max(4, Math.min(Math.floor(targetW / font.width), Math.floor(availableHeight / font.height)));
+    } else {
+      cssScale = Math.max(1, Math.min(20, Math.floor(Number(requested)) || 4));
+    }
+    const width = `${cssScale * font.width}px`, height = `${cssScale * font.height}px`;
+    if (canvas.style.width !== width) canvas.style.width = width;
+    if (canvas.style.height !== height) canvas.style.height = height;
+    canvas.dataset.scale = String(cssScale);
   }
 
   function renderZoom(ctx, canvas, font, index, { showGrids } = {}) {
@@ -254,5 +282,6 @@ export function createWorkspaceRenderer({
     renderPlaceholderGrid,
     renderZoom,
     reserveGridCanvasSpace,
+    reserveZoomCanvasSpace: (canvas) => snapZoomCanvasToIntegerScale(canvas, { width: 12, height: 18 }),
   };
 }

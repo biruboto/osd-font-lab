@@ -24,15 +24,19 @@ canvas{
 }
 
 .view-toggle{
-  display: inline-flex;
-  width: min(340px, 100%);
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(220px, 100%);
+  flex: 0 0 auto;
   border: 1px solid var(--bg-3);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .view-toggle-btn{
-  flex: 1 1 50%;
+  min-width: 0;
+  padding-inline: 8px;
+  white-space: nowrap;
   min-height: 28px;
   border: 0;
   border-right: 1px solid var(--bg-3);
@@ -117,16 +121,27 @@ canvas{
 }
 
 .workspace-toolbar{
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--inspector-width);
+  gap: 12px;
+  align-items: center;
+}
+.sheet-toolbar{
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
 }
-.workspace-toolbar .view-toggle{ width: min(100%, 300px); }
-.sheet-zoom-control{ display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); }
-.sheet-zoom-control select{ min-height: 32px; }
+:root:not([data-view-mode="hud"]) .sheet-toolbar .view-toggle{ margin-left: var(--sheet-left-inset, 0px); }
+.sheet-zoom-control, .inspector-zoom-control{ display: flex; align-items: center; gap: 6px; font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.sheet-zoom-control{ margin-left: auto; margin-right: var(--sheet-right-inset, 0px); }
+.inspector-zoom-control{ justify-self: end; }
+.sheet-zoom-control select, .inspector-zoom-control select{ min-height: 32px; min-width: 0; max-width: 110px; }
 :root[data-view-mode="hud"] .sheet-zoom-control{ display: none; }
+:root[data-view-mode="hud"] .inspector-zoom-control{ display: none; }
+:root[data-view-mode="hud"] .workspace-toolbar{ grid-template-columns: minmax(0, 1fr); }
+.panel-result{ --inspector-width: 248px; --inspector-max-width: 228px; }
 
 .panel-result .grid-wrap.hud-wrap{
   width: 100%;
@@ -134,7 +149,7 @@ canvas{
 
 .panel-result .panel-body{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 248px;
+  grid-template-columns: minmax(0, 1fr) var(--inspector-width);
   justify-content: center;
   align-items: start;
   gap: 12px;
@@ -393,9 +408,9 @@ canvas{
   color: var(--text-0);
 }
 
+.zoom-viewport{ max-width: 100%; overflow: auto; }
 .zoom-canvas{
-  width: 100%;
-  max-width: 228px;
+  max-width: none;
   height: auto;
   aspect-ratio: 2 / 3;
   margin: 0 auto;
@@ -604,16 +619,21 @@ canvas{
 
 /* ---------- responsive workspace ---------- */
 @media (min-width: 961px) and (max-width: 1200px){
-  .panel-result .panel-body{ grid-template-columns: minmax(0, 1fr) 210px; }
+  .panel-result{ --inspector-width: 210px; }
   .dpad{ justify-content: center; }
 }
 @media (min-width: 961px) and (max-height: 820px){
-  .zoom-canvas{ max-width: 156px; }
+  .panel-result{ --inspector-max-width: 156px; }
   .sidecar-controls{ gap: 8px; }
 }
 @media (max-width: 960px){
   .panel-result .panel-body{ grid-template-columns: minmax(0, 1fr); }
-  .zoom-canvas{ max-width: 264px; }
+  .panel-result{ --inspector-max-width: 264px; }
+  .workspace-toolbar{ display: flex; flex-wrap: wrap; }
+  .sheet-toolbar{ width: 100%; }
+  .inspector-zoom-control{ display: none; margin-left: auto; }
+  :root[data-workspace-panel="edit"] .sheet-toolbar{ display: none; }
+  :root[data-workspace-panel="edit"][data-view-mode="sheet"] .inspector-zoom-control{ display: flex; }
   .panel-result .sheet-wrap{ max-height: max(280px, calc(100svh - 240px)); }
   .dpad{ flex-wrap: wrap; justify-content: center; gap: 8px; }
   .dpad button{ width: 40px; height: 40px; }

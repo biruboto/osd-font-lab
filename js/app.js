@@ -33,6 +33,7 @@ import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.
 import { parseYaffToOverlay } from "./modules/yaff.js";
 import { parseTtfToOverlay } from "./modules/ttf-overlay.js";
 import { FCConnection } from "./modules/serial.js";
+import { createBrandAnimation } from "./modules/brand.js";
 
 /* -----------------------------
    DOM
@@ -901,8 +902,7 @@ function initTheme() {
       invalidateSpecialEmojiMenuPreviews();
       rerenderAll();
       renderLoadStatusVisual();
-      window.__redrawBrandTitle?.();
-      window.__redrawBrandDrone?.();
+      brandAnimation.refreshTheme();
       overlayPickerApi?.refresh();
       bfPickerApi?.refresh();
       swapTargetPickerApi?.refresh();
@@ -1031,6 +1031,7 @@ function pxColorViewer(v) {
 
 const workspaceRenderer = createWorkspaceRenderer({
   getSheetZoom: () => document.getElementById("sheetZoom")?.value || "auto",
+  getInspectorZoom: () => document.getElementById("inspectorZoom")?.value || "auto",
   cssVar,
   pxColorViewer,
   fitCanvasToCSS,
@@ -3059,8 +3060,14 @@ function rerenderAll({ renderBootSplash = true } = {}) {
     updateSelectionCount();
   } else {
     if (glyphInfo) glyphInfo.textContent = "(Load a font, then click a glyph.)";
+    if (resultZoomCanvas?.getClientRects().length) workspaceRenderer.reserveZoomCanvasSpace(resultZoomCanvas);
     updateSelectionCount();
   }
+  const inspectorZoom = document.getElementById("inspectorZoom");
+  const inspectorAuto = inspectorZoom?.querySelector('option[value="auto"]');
+  const inspectorLabel = resultZoomCanvas?.dataset.scale && inspectorZoom?.value === "auto"
+    ? `Auto (${resultZoomCanvas.dataset.scale}×)` : "Auto";
+  if (inspectorAuto && inspectorAuto.textContent !== inspectorLabel) inspectorAuto.textContent = inspectorLabel;
   if (renderBootSplash) {
     renderBootSplashPreview(resultFont || baseFont || null);
   }
@@ -3487,372 +3494,8 @@ async function loadOverlayIndex() {
   }
 }
 
-/* -----------------------------
-   Fun top-right title banner
------------------------------- */
-
-const brandEl = document.getElementById("brandTitle");
-const brandDroneCanvas = document.getElementById("brandDrone");
-const brandDroneCtx = brandDroneCanvas?.getContext?.("2d") || null;
-if (brandDroneCtx) brandDroneCtx.imageSmoothingEnabled = false;
-const BRAND_TEXT = "OSD Font Lab";
-const DRONE_FRAME_PATHS = ["drone1.png", "drone2.png"];
-let droneSourceFrames = null;
-let droneTintFrames = [];
-let droneFrameIdx = 0;
-let droneAnimRaf = 0;
-let droneAnimLastTs = 0;
-let droneVisibilityBound = false;
-const DRONE_FRAME_INTERVAL_MS = 45;
-
-function drawOverlayGlyphToTinyCanvas(ctx, overlay, ch, ink) {
-  const cellW = 12, cellH = 18;
-  ctx.clearRect(0, 0, cellW, cellH);
-
-  if (ch === " ") return;
-
-  // Force uppercase glyph lookup so branding is stable across mixed-case font mappings.
-  const lookupChar = /[a-z]/i.test(ch) ? ch.toUpperCase() : ch;
-  const code = lookupChar.charCodeAt(0);
-  const key = `U+${code.toString(16).padStart(4, "0").toUpperCase()}`;
-  const og = overlay?.glyphs?.[key];
-  if (!og) return;
-
-  const [w, h] = og.size;
-  const [offX, offY] = og.offset;
-
-  ctx.fillStyle = ink;
-
-  for (let y = 0; y < h; y++) {
-    const row = og.rows[y] >>> 0;
-    for (let x = 0; x < w; x++) {
-      const bit = 1 << (w - 1 - x);
-      if (row & bit) {
-        const px = offX + x;
-        const py = offY + y;
-        if (px >= 0 && px < cellW && py >= 0 && py < cellH) {
-          ctx.fillRect(px, py, 1, 1);
-        }
-      }
-    }
-  }
-}
-
-async function initBrandTitle() {
-  if (!brandEl) return;
-
-  let list;
-  try {
-    list = await loadAllOverlayManifests();
-  } catch (err) {
-    console.warn("Brand title: no manifest, falling back to text.", err);
-    brandEl.textContent = BRAND_TEXT;
-    return;
-  }
-
-  if (!Array.isArray(list) || list.length === 0) {
-    brandEl.textContent = BRAND_TEXT;
-    return;
-  }
-
-  const chars = [...BRAND_TEXT];
-  brandEl.innerHTML = "";
-
-  const getBrandInk = () => cssVar("--brand-ink", cssVar("--accent-0", "#ffffff"));
-
-  // pick random font per non-space char
-  const picks = chars.map(ch => {
-    if (ch === " ") return null;
-    const entry = list[(Math.random() * list.length) | 0];
-    return { libraryId: entry.__libraryId || currentOverlayLibraryId, file: entry.file };
-  });
-
-  // load unique overlays used initially
-  const unique = [...new Set(picks.filter(Boolean).map((p) => `${p.libraryId}::${p.file}`))];
-  const overlays = new Map();
-  try {
-    await Promise.all(
-      unique.map(async (key) => {
-        const [libraryId, ...rest] = key.split("::");
-        const file = rest.join("::");
-        overlays.set(key, await getOverlayByFileFromLibrary(libraryId, file));
-      })
-    );
-  } catch (err) {
-    console.warn("Brand title: failed loading overlays, falling back to text.", err);
-    brandEl.textContent = BRAND_TEXT;
-    return;
-  }
-
-  // build per-char canvases
-  const items = [];
-
-  for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i];
-
-    if (ch === " ") {
-      const spacer = document.createElement("span");
-      spacer.style.width = "10px";
-      spacer.style.display = "inline-block";
-      brandEl.appendChild(spacer);
-      continue;
-    }
-
-    const c = document.createElement("canvas");
-    c.width = 12;
-    c.height = 18;
-    c.style.imageRendering = "pixelated";
-
-    const ctx = c.getContext("2d");
-    ctx.imageSmoothingEnabled = false;
-
-    const pick = picks[i];
-    const file = pick.file;
-    const libraryId = pick.libraryId;
-    const overlay = overlays.get(`${libraryId}::${file}`);
-
-    const item = {
-      el: c,
-      ctx,
-      ch,
-      libraryId,
-      file,
-      overlay,
-      phase: i * 0.55,
-    };
-
-    drawOverlayGlyphToTinyCanvas(item.ctx, item.overlay, item.ch, getBrandInk());
-
-    items.push(item);
-    brandEl.appendChild(c);
-  }
-
-  // redraw ONCE, after items exists
-  window.__redrawBrandTitle = () => {
-    const ink = getBrandInk();
-    for (const it of items) {
-      drawOverlayGlyphToTinyCanvas(it.ctx, it.overlay, it.ch, ink);
-    }
-  };
-
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  // Timed full-title glitch reroll
-  let rerollBusy = false;
-  const GLITCH_MIN_MS = 15000;
-  const GLITCH_MAX_MS = 20000;
-  const GLITCH_DURATION_MS = 900;
-  const nextGlitchDelay = () =>
-    GLITCH_MIN_MS + Math.floor(Math.random() * (GLITCH_MAX_MS - GLITCH_MIN_MS + 1));
-  let nextGlitchAt = performance.now() + nextGlitchDelay();
-  let glitchState = null; // { end, picks, overlays }
-
-  async function beginGlitchReroll() {
-    if (rerollBusy || glitchState || items.length === 0) return;
-    rerollBusy = true;
-
-    try {
-      const picks = items
-        .map(() => {
-          const entry = list[(Math.random() * list.length) | 0];
-          if (!entry?.file) return null;
-          return { libraryId: entry.__libraryId || currentOverlayLibraryId, file: entry.file };
-        })
-        .filter(Boolean);
-      const overlays = await Promise.all(
-        picks.map((p) => getOverlayByFileFromLibrary(p.libraryId, p.file))
-      );
-      const now = performance.now();
-      glitchState = {
-        end: now + GLITCH_DURATION_MS,
-        picks,
-        overlays,
-      };
-    } catch (err) {
-      console.warn("Brand title glitch reroll failed:", err);
-    } finally {
-      rerollBusy = false;
-    }
-  }
-
-  // Sine animation
-  const amp = 4;
-  const speed = 1.8;
-  const t0 = performance.now();
-  let frameHandle = 0;
-
-  function tick(now) {
-    frameHandle = 0;
-    if (document.hidden) return;
-    const t = (now - t0) / 1000;
-    const glitchActive = !!glitchState && now < glitchState.end;
-    const ink = getBrandInk();
-
-    for (let i = 0; i < items.length; i++) {
-      const it = items[i];
-      const y = Math.sin(t * speed + it.phase) * amp;
-
-      if (glitchActive) {
-        // Flicker + jitter + temporary overlay swaps for a "static" glitch effect.
-        const jx = (Math.random() * 3 - 1.5);
-        const jy = (Math.random() * 4 - 2);
-        it.el.style.transform = `translate(${jx.toFixed(2)}px, ${(y + jy).toFixed(2)}px)`;
-        it.el.style.opacity = (0.55 + Math.random() * 0.45).toFixed(2);
-        it.el.style.filter = `contrast(${(125 + Math.random() * 120).toFixed(0)}%) brightness(${(85 + Math.random() * 50).toFixed(0)}%)`;
-
-        const flickerOverlay = (Math.random() < 0.5)
-          ? it.overlay
-          : glitchState.overlays[i];
-        drawOverlayGlyphToTinyCanvas(it.ctx, flickerOverlay, it.ch, ink);
-      } else {
-        it.el.style.transform = `translateY(${y.toFixed(2)}px)`;
-        it.el.style.opacity = "1";
-        it.el.style.filter = "none";
-      }
-    }
-
-    if (glitchState && now >= glitchState.end) {
-      for (let i = 0; i < items.length; i++) {
-        const it = items[i];
-        it.libraryId = glitchState.picks[i].libraryId;
-        it.file = glitchState.picks[i].file;
-        it.overlay = glitchState.overlays[i];
-        drawOverlayGlyphToTinyCanvas(it.ctx, it.overlay, it.ch, ink);
-      }
-      glitchState = null;
-    }
-
-    if (!rerollBusy && !glitchState && now >= nextGlitchAt) {
-      beginGlitchReroll();
-      nextGlitchAt = now + nextGlitchDelay();
-    }
-
-    frameHandle = requestAnimationFrame(tick);
-  }
-
-  const onVisibilityChange = () => {
-    if (document.hidden) {
-      if (frameHandle) {
-        cancelAnimationFrame(frameHandle);
-        frameHandle = 0;
-      }
-      return;
-    }
-    if (!frameHandle) frameHandle = requestAnimationFrame(tick);
-  };
-  document.addEventListener("visibilitychange", onVisibilityChange, { passive: true });
-  frameHandle = requestAnimationFrame(tick);
-}
-
-async function loadDroneSourceFrames() {
-  if (droneSourceFrames) return droneSourceFrames;
-  const frames = [];
-  for (const path of DRONE_FRAME_PATHS) {
-    const img = new Image();
-    img.decoding = "async";
-    img.src = path;
-    await img.decode();
-    frames.push(img);
-  }
-  droneSourceFrames = frames;
-  return frames;
-}
-
-function tintDroneFrameToCanvas(sourceImg, ink) {
-  const c = document.createElement("canvas");
-  c.width = sourceImg.naturalWidth || sourceImg.width;
-  c.height = sourceImg.naturalHeight || sourceImg.height;
-  const ctx = c.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-  ctx.clearRect(0, 0, c.width, c.height);
-  ctx.drawImage(sourceImg, 0, 0);
-  // Keep source alpha, replace color with themed ink.
-  ctx.globalCompositeOperation = "source-in";
-  ctx.fillStyle = ink;
-  ctx.fillRect(0, 0, c.width, c.height);
-  ctx.globalCompositeOperation = "source-over";
-  return c;
-}
-
-function drawBrandDroneFrame(index = 0) {
-  if (!brandDroneCanvas || !brandDroneCtx || !droneTintFrames.length) return;
-  const frame = droneTintFrames[index % droneTintFrames.length];
-  if (!frame) return;
-  if (brandDroneCanvas.width !== frame.width || brandDroneCanvas.height !== frame.height) {
-    brandDroneCanvas.width = frame.width;
-    brandDroneCanvas.height = frame.height;
-    brandDroneCtx.imageSmoothingEnabled = false;
-  }
-  brandDroneCtx.clearRect(0, 0, brandDroneCanvas.width, brandDroneCanvas.height);
-  brandDroneCtx.drawImage(frame, 0, 0);
-}
-
-async function renderBrandDroneFrames() {
-  if (!brandDroneCanvas || !brandDroneCtx) return;
-  const frames = await loadDroneSourceFrames();
-  const ink = cssVar("--brand-ink", cssVar("--accent-0", "#ffffff"));
-  const prevIdx = droneFrameIdx;
-  droneTintFrames = frames.map((img) => tintDroneFrameToCanvas(img, ink));
-  if (droneTintFrames.length) {
-    droneFrameIdx = Math.min(prevIdx, droneTintFrames.length - 1);
-    drawBrandDroneFrame(droneFrameIdx);
-  }
-}
-
-function stopDroneAnimation() {
-  if (!droneAnimRaf) return;
-  cancelAnimationFrame(droneAnimRaf);
-  droneAnimRaf = 0;
-}
-
-function droneTick(now) {
-  droneAnimRaf = 0;
-  if (document.hidden || !droneTintFrames.length) return;
-  if (!droneAnimLastTs) droneAnimLastTs = now;
-  if (now - droneAnimLastTs >= DRONE_FRAME_INTERVAL_MS) {
-    droneAnimLastTs = now;
-    droneFrameIdx = (droneFrameIdx + 1) % droneTintFrames.length;
-    drawBrandDroneFrame(droneFrameIdx);
-  }
-  droneAnimRaf = requestAnimationFrame(droneTick);
-}
-
-function ensureDroneAnimationRunning() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  if (droneAnimRaf || document.hidden || !droneTintFrames.length) return;
-  droneAnimLastTs = 0;
-  droneAnimRaf = requestAnimationFrame(droneTick);
-}
-
-async function initBrandDrone() {
-  if (!brandDroneCanvas || !brandDroneCtx) return;
-  try {
-    await renderBrandDroneFrames();
-  } catch (err) {
-    console.warn("Brand drone: failed to initialize.", err);
-    return;
-  }
-
-  ensureDroneAnimationRunning();
-
-  if (!droneVisibilityBound) {
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        stopDroneAnimation();
-        return;
-      }
-      ensureDroneAnimationRunning();
-    }, { passive: true });
-    droneVisibilityBound = true;
-  }
-
-  window.__redrawBrandDrone = () => {
-    renderBrandDroneFrames().catch((err) => {
-      console.warn("Brand drone: failed to redraw.", err);
-    });
-  };
-}
-
+// Branding owns its timers, cached artwork, and motion preference lifecycle.
+const brandAnimation = createBrandAnimation();
 
 /* -----------------------------
    File loading + events
@@ -4262,6 +3905,9 @@ function initEvents() {
     if (!resultFont || viewMode !== VIEW_MODE_SHEET) return;
     handleGridClick(e, resultGridCanvas);
   });
+  // Treat the canvas as a tap target too. Otherwise touch hit adjustment can
+  // redirect an edge pixel tap to a nearby mode button at smaller zooms.
+  resultZoomCanvas?.addEventListener("click", e => e.preventDefault());
   resultZoomCanvas?.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
     if (viewMode !== VIEW_MODE_SHEET || zoomMode !== ZOOM_MODE_EDITOR || !resultFont) return;
@@ -4512,6 +4158,10 @@ function initEvents() {
     button.addEventListener("click", () => setWorkspacePanel(button.dataset.workspaceTarget));
   }
   document.getElementById("sheetZoom")?.addEventListener("change", scheduleRerender);
+  document.getElementById("inspectorZoom")?.addEventListener("change", e => {
+    localStorage.setItem("osdInspectorZoom", e.target.value);
+    scheduleRerender();
+  });
 
   // exports
   exportMCMBtn?.addEventListener("click", () => {
@@ -4653,6 +4303,9 @@ function initEvents() {
 ------------------------------ */
 
 function init() {
+  const inspectorZoom = document.getElementById("inspectorZoom");
+  const savedZoom = localStorage.getItem("osdInspectorZoom");
+  if (inspectorZoom && [...inspectorZoom.options].some(option => option.value === savedZoom)) inspectorZoom.value = savedZoom;
   // Keep layout stable before any font is loaded.
   setWorkspacePanel(workspacePanel);
   setViewMode(viewMode);
@@ -4669,8 +4322,6 @@ function init() {
   loadOverlayIndex();
   loadBetaflightDefaults();
   updateServingFontCount();
-  initBrandDrone();
-  initBrandTitle();
 }
 
 init();

@@ -45,13 +45,38 @@ body{
   line-height: 1;
 }
 .brandTitle canvas{
+  display: block;
   width: 24px;
   height: 36px;
   background: transparent;
   box-shadow: none;
   border-radius: 0;
 }
+.brand-space{ display: inline-block; width: 10px; }
+.brand-letter{
+  display: inline-block;
+  animation: brandWave 1.745s cubic-bezier(.37, 0, .63, 1) infinite alternate;
+  animation-delay: var(--brand-delay);
+}
+.brand-glyph{ display: block; position: relative; }
+.brandTitle .brand-new{ position: absolute; inset: 0; opacity: 0; }
+.brandTitle.is-glitching .brand-glyph{ animation: brandGlitch 120ms steps(1) infinite; }
+.brandTitle.is-glitching .brand-old{ animation: brandFirstFrame var(--glitch-period) steps(1) infinite; }
+.brandTitle.is-glitching .brand-new{ animation: brandSecondFrame var(--glitch-period) steps(1) infinite; }
+@keyframes brandWave{
+  from{ transform: translateY(-4px); }
+  to{ transform: translateY(4px); }
+}
+@keyframes brandGlitch{
+  0%, 100%{ transform: translate(0, 0); filter: none; }
+  25%{ transform: translate(-1px, 1px); filter: contrast(1.4); }
+  50%{ transform: translate(2px, -1px); filter: brightness(1.4); }
+  75%{ transform: translate(0, 1px); filter: none; }
+}
+@keyframes brandFirstFrame{ 0%, 100%{ opacity: 1; } 50%{ opacity: 0; } }
+@keyframes brandSecondFrame{ 0%, 100%{ opacity: 0; } 50%{ opacity: 1; } }
 .brandDrone{
+  position: relative;
   width: 52px;
   height: 36px;
   flex: 0 0 auto;
@@ -59,14 +84,37 @@ body{
   background: transparent;
   box-shadow: none;
   border-radius: 0;
-  animation: droneHover 2.2s ease-in-out infinite;
+  /* Whole-pixel hover avoids resampling the pixel art between rows. */
+  animation: droneHover 2.2s steps(3, end) infinite;
 }
+.brand-drone-art{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+.brand-drone-frame{ animation: droneFirstFrame 90ms steps(1) infinite; }
+.brand-drone-frame + .brand-drone-frame{ visibility: hidden; animation-name: droneSecondFrame; }
+@keyframes droneFirstFrame{ 0%, 100%{ visibility: visible; } 50%{ visibility: hidden; } }
+@keyframes droneSecondFrame{ 0%, 100%{ visibility: hidden; } 50%{ visibility: visible; } }
+.brandCluster.is-paused :is(.brand-letter, .brand-glyph, canvas, .brandDrone){ animation-play-state: paused; }
+.brandCluster.is-reduced-motion :is(.brand-letter, .brand-glyph, canvas, .brandDrone){ animation: none; }
 @keyframes droneHover{
   0%, 100%{ transform: translateY(3px); }
   50%{ transform: translateY(0); }
 }
-.app-header .exports{ width: min(100%, 480px); }
+.app-header .exports{ width: min(100%, 480px); margin-left: auto; }
+.app-header .load-status{ max-width: 100%; overflow-wrap: anywhere; text-align: center; }
 .workspace-nav{ display: none; }
+@media (min-width: 1201px){
+  .app-header{ display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+  .app-header .load-status{ max-width: 380px; }
+  .app-header .exports{ width: 100%; max-width: 480px; margin-left: 0; justify-self: end; }
+}
 .split{
   display: grid;
   grid-template-columns: minmax(0, 1fr) 360px;
@@ -139,5 +187,5 @@ body{
   .app-header .exports > button{ white-space: normal; font-size: 0.78rem; min-height: 40px; line-height: 1.2; padding: 4px; }
 }
 @media (prefers-reduced-motion: reduce){
-  .brandDrone{ animation: none; }
+  .brandCluster :is(.brand-letter, .brand-glyph, canvas, .brandDrone){ animation: none; }
 }

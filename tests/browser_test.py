@@ -43,7 +43,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.page = await self.context.new_page()
         self.errors = []
         self.page.on('pageerror', lambda e: self.errors.append(str(e)))
-        # Stable branding choices prevent incidental preview requests from hiding race regressions.
+        # Deterministic letter choices and glitch timing keep checks repeatable.
         await self.context.add_init_script('Math.random = () => 0.5;')
         await self.load_default(self.page)
 
@@ -336,6 +336,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await page.locator('[data-workspace-target="edit"]').click()
         await self.settle_frames(page)
         self.assertIn('0x41', await page.locator('#glyphInfo').inner_text())
+        await page.select_option('#inspectorZoom','8')
+        await page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='8'")
         await page.locator('#zoomModeEditor').click()
         await page.locator('.editor-color-btn[data-editor-color="2"]').click()
         pixel = original[65].index(1)
@@ -404,6 +406,183 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         for scale in [1,3]:
             _, data = await self.download(f'#exportPNG{scale}x')
             self.assertEqual(data,exports[scale],f'{scale}x PNG changed after reflow')
+
+
+    async def test_independent_inspector_zoom_reduces_height_and_preserves_edits_and_exports(self):
+        await self.page.set_viewport_size({'width':1366,'height':768})
+        await self.page.select_option('#sheetZoom','2')
+        await self.select_glyph(65)
+        original = await self.font()
+        _, png = await self.download('#exportPNG1x')
+        await self.page.select_option('#inspectorZoom','16')
+        await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='16'")
+        large = await self.page.locator('.panel-result').bounding_box()
+        sheet = await self.page.locator('#resultGrid').evaluate('c=>[c.width,c.height,c.dataset.columns,c.dataset.scale]')
+        await self.page.select_option('#inspectorZoom','8')
+        await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='8'")
+        small = await self.page.locator('.panel-result').bounding_box()
+        self.assertGreater(large['height']-small['height'],100)
+        self.assertEqual(await self.page.locator('#resultZoom').evaluate('c=>[c.width,c.height,c.getBoundingClientRect().width,c.getBoundingClientRect().height]'),[96,144,96,144])
+        self.assertEqual(await self.page.locator('#resultGrid').evaluate('c=>[c.width,c.height,c.dataset.columns,c.dataset.scale]'),sheet)
+        self.assertTrue(await self.font() == original)
+        self.assertEqual((await self.download('#exportPNG1x'))[1],png)
+        self.assertTrue(await self.page.evaluate("Math.abs(document.querySelector('#sheetZoom').getBoundingClientRect().right-document.querySelector('#resultGrid').getBoundingClientRect().right)<1"))
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('.editor-color-btn[data-editor-color="2"]').click()
+        pixel = original[65].index(1)
+        await self.page.locator('#resultZoom').click(position={'x':(pixel%12+.5)*8,'y':(pixel//12+.5)*8})
+        expected = [g[:] for g in original]
+        expected[65][pixel] = 2
+        self.assertTrue(await self.font() == expected)
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertTrue(await self.font() == original)
+        await self.page.select_option('#inspectorZoom','12')
+        await self.load_default(self.page)
+        self.assertEqual(await self.page.locator('#inspectorZoom').input_value(),'12')
+        await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='12'")
+        for w,h in [(1024,768),(1366,768),(1440,900)]:
+            await self.page.set_viewport_size({'width':w,'height':h})
+            await self.page.select_option('#inspectorZoom','auto')
+            await self.page.select_option('#sheetZoom','auto')
+            await self.settle_frames(self.page)
+            await asyncio.sleep(.1)
+            metrics = await self.page.evaluate("""()=>({
+              inspectorBottom:document.querySelector('.sidecar').getBoundingClientRect().bottom,
+              pageHeight:document.documentElement.scrollHeight,viewport:innerHeight
+            })""")
+            self.assertLessEqual(metrics['inspectorBottom'],h,metrics)
+            self.assertLessEqual(metrics['pageHeight'],h+1,metrics)
+
+    async def test_brand_idle_and_reroll_do_not_run_js_animation_or_fetch_fonts(self):
+        requests = []
+        self.page.on('request', lambda request: requests.append(request.url))
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('.brand-letter').nth(9).wait_for()
+        self.assertEqual(await self.page.locator('.brand-drone-frame').count(), 2)
+        await self.page.evaluate("""() => {
+          window.brandChurn={styles:0,frames:0,reads:0};
+          new MutationObserver(ms=>brandChurn.styles+=ms.length).observe(document.querySelector('.brandCluster'),{subtree:true,attributes:true});
+          const raf=window.requestAnimationFrame, style=window.getComputedStyle;
+          window.requestAnimationFrame=(...args)=>{brandChurn.frames++;return raf(...args)};
+          window.getComputedStyle=(...args)=>{brandChurn.reads++;return style(...args)};
+        }""")
+        await asyncio.sleep(1.2)
+        churn = await self.page.evaluate('brandChurn')
+        print('\nBrand idle work over 1.2 seconds:', json.dumps(churn), flush=True)
+        self.assertEqual(churn, {'styles':0,'frames':0,'reads':0})
+        await self.page.wait_for_function("document.querySelector('.brandTitle').classList.contains('is-glitching')", timeout=23000)
+        await self.page.wait_for_function("!document.querySelector('.brandTitle').classList.contains('is-glitching')")
+        self.assertEqual(len([r for r in requests if r.endswith('/fonts/brand-glyphs.json')]),1)
+        libraries = ['arcade-font-engine','atari','bbc','cpc','dg','oldschool-pc','zx']
+        self.assertEqual([r for r in requests if any(f'/fonts/data/{lib}/' in r for lib in libraries)],[])
+
+    async def test_brand_motion_lifecycle_theme_and_teardown(self):
+        await self.page.evaluate("""async () => {
+          const {createBrandAnimation}=await import('/js/modules/brand.js');
+          const root=document.createElement('div');root.className='brandCluster';root.id='brandFixture';
+          root.innerHTML='<div class="brandTitle" role="img" aria-label="OSD Font Lab"></div><span class="brandDrone"></span>';
+          document.body.append(root);
+          window.brandFixture=createBrandAnimation({root,glitchDelay:()=>250,glitchDuration:180});
+          await brandFixture.ready;
+        }""")
+        await self.page.wait_for_function("document.querySelector('#brandFixture .brandTitle').classList.contains('is-glitching')")
+        # Recolor both glitch layers and both drone frames from the current theme.
+        colors = await self.page.evaluate("""() => {
+          document.documentElement.style.setProperty('--brand-ink','#12ab34');brandFixture.refreshTheme();
+          return [...document.querySelectorAll('#brandFixture canvas')].map(c=>{
+            const data=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+            for(let i=0;i<data.length;i+=4)if(data[i+3])return [...data.slice(i,i+3)];
+            return null;
+          });
+        }""")
+        self.assertEqual(colors, [[18,171,52]]*23)
+        await self.page.emulate_media(reduced_motion='reduce')
+        await self.page.wait_for_function("document.querySelector('#brandFixture').classList.contains('is-reduced-motion')")
+        await asyncio.sleep(.6)
+        self.assertFalse(await self.page.locator('#brandFixture .brandTitle').evaluate("e=>e.classList.contains('is-glitching')"))
+        self.assertTrue(await self.page.locator('#brandFixture').evaluate("e=>[...e.querySelectorAll('*')].every(n=>getComputedStyle(n).animationName==='none')"))
+        await self.page.emulate_media(reduced_motion='no-preference')
+        await self.page.wait_for_function("document.querySelector('#brandFixture .brandTitle').classList.contains('is-glitching')")
+        await self.page.evaluate("""() => {
+          Object.defineProperty(document,'hidden',{configurable:true,get:()=>true});
+          document.dispatchEvent(new Event('visibilitychange'));
+        }""")
+        self.assertTrue(await self.page.locator('#brandFixture').evaluate("e=>e.classList.contains('is-paused') && !e.querySelector('.brandTitle').classList.contains('is-glitching')"))
+        self.assertTrue(await self.page.locator('#brandFixture').evaluate("e=>[...e.querySelectorAll('*')].filter(n=>getComputedStyle(n).animationName!=='none').every(n=>getComputedStyle(n).animationPlayState==='paused')"))
+        await self.page.evaluate("delete document.hidden;document.dispatchEvent(new Event('visibilitychange'))")
+        await self.page.wait_for_function("document.querySelector('#brandFixture .brandTitle').classList.contains('is-glitching')")
+        await self.page.evaluate("window.dispatchEvent(new Event('pagehide'))")
+        self.assertTrue(await self.page.locator('#brandFixture').evaluate("e=>e.classList.contains('is-paused')"))
+        await self.page.evaluate("window.dispatchEvent(new Event('pageshow'))")
+        await self.page.wait_for_function("document.querySelector('#brandFixture .brandTitle').classList.contains('is-glitching')")
+        await self.page.evaluate("""() => {
+          brandFixture.destroy();window.brandMutations=0;
+          new MutationObserver(ms=>brandMutations+=ms.length).observe(document.querySelector('#brandFixture'),{attributes:true,subtree:true});
+          document.documentElement.style.removeProperty('--brand-ink');
+        }""")
+        await asyncio.sleep(.7)
+        self.assertEqual(await self.page.evaluate('brandMutations'),0)
+
+    async def test_brand_asset_failure_keeps_readable_title_and_drone(self):
+        await self.page.route('**/fonts/brand-glyphs.json', lambda route: route.fulfill(status=503,body='unavailable'))
+        await self.page.emulate_media(reduced_motion='reduce')
+        await self.page.reload(wait_until='networkidle')
+        self.assertEqual(await self.page.locator('.brandTitle').inner_text(),'OSD Font Lab')
+        self.assertEqual(await self.page.locator('.brandTitle').get_attribute('role'),'img')
+        self.assertEqual(await self.page.locator('.brand-drone-frame').count(),2)
+        self.assertTrue(await self.page.locator('.brandCluster').evaluate("e=>[...e.querySelectorAll('*')].every(n=>getComputedStyle(n).animationName==='none')"))
+        await self.page.locator('#bfFontSelect + .fontpicker').wait_for()
+
+    async def test_drone_frames_keep_one_color_and_hover_on_whole_pixels(self):
+        await self.page.locator('.brand-drone-frame').nth(1).wait_for()
+        result = await self.page.locator('.brandDrone').evaluate("""async drone => {
+          const body=drone.querySelector('.brand-drone-body');
+          const frames=[...drone.querySelectorAll('.brand-drone-frame')].map(c=>{
+            const pixels=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+            const colors=new Set();let inkPixels=0;
+            for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]){
+              colors.add([...pixels.slice(i,i+4)].join(','));inkPixels++;
+            }
+            return {colors:[...colors],inkPixels};
+          });
+          const hover=drone.getAnimations().find(a=>a.animationName==='droneHover');
+          hover.pause();
+          const offsets=[];
+          for(let t=0;t<=2200;t+=25){
+            hover.currentTime=t;
+            offsets.push(new DOMMatrixReadOnly(getComputedStyle(drone).transform).m42);
+          }
+          const reconstruction=[];
+          for(let f=0;f<2;f++){
+            const source=new Image();source.src=`drone${f+1}.png`;await source.decode();
+            const expected=document.createElement('canvas');expected.width=body.width;expected.height=body.height;
+            const ctx=expected.getContext('2d');ctx.drawImage(source,0,0);
+            const original=ctx.getImageData(0,0,body.width,body.height).data;
+            ctx.clearRect(0,0,body.width,body.height);ctx.drawImage(body,0,0);
+            ctx.drawImage(drone.querySelectorAll('.brand-drone-frame')[f],0,0);
+            const combined=ctx.getImageData(0,0,body.width,body.height).data;
+            reconstruction.push(original.every((value,i)=>i%4!==3 || value===combined[i]));
+          }
+          const bodyPixels=body.getContext('2d').getImageData(0,0,body.width,body.height).data;
+          const bodyInk=bodyPixels.filter((v,i)=>i%4===3 && v).length;
+          const first=drone.querySelector('.brand-drone-frame').getAnimations()[0];
+          const second=drone.querySelectorAll('.brand-drone-frame')[1].getAnimations()[0];
+          first.pause();second.pause();const bodyStyles=[];
+          for(let t=0;t<=90;t++){
+            first.currentTime=second.currentTime=t;
+            const style=getComputedStyle(body);
+            bodyStyles.push([style.opacity,style.visibility,style.animationName]);
+          }
+          return {frames,offsets,reconstruction,bodyInk,bodyStyles};
+        }""")
+        self.assertEqual(result['frames'][0],result['frames'][1])
+        self.assertEqual(len(result['frames'][0]['colors']),1)
+        self.assertGreater(result['frames'][0]['inkPixels'],0)
+        self.assertGreater(result['bodyInk'],result['frames'][0]['inkPixels'])
+        self.assertEqual(result['reconstruction'],[True,True])
+        self.assertTrue(all(s==['1','visible','none'] for s in result['bodyStyles']))
+        self.assertTrue(all(abs(y-round(y))<.00001 for y in result['offsets']),result['offsets'])
+        self.assertEqual(set(round(y) for y in result['offsets']),{0,1,2,3})
 
 
 def shift(pixels, dx):

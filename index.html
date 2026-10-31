@@ -13,9 +13,10 @@
   <div class="app-shell">
     <header class="app-header">
       <div class="brandCluster">
-        <div id="brandTitle" class="brandTitle" aria-label="OSD Font Lab"></div>
-        <canvas id="brandDrone" class="brandDrone" aria-hidden="true"></canvas>
+        <div id="brandTitle" class="brandTitle" role="img" aria-label="OSD Font Lab">OSD Font Lab</div>
+        <span id="brandDrone" class="brandDrone" aria-hidden="true"></span>
       </div>
+      <div id="loadStatus" class="load-status hint" role="status" aria-live="polite">No file loaded.</div>
       <div class="exports" aria-label="Export font">
         <button id="exportMCM" type="button" title="Export a Betaflight Configurator-ready font file"><i class="fa-solid fa-file-export" aria-hidden="true"></i> .mcm</button>
         <button id="exportPNG1x" type="button" title="Export a pixel-perfect PNG for editing in external applications"><i class="fa-solid fa-file-export" aria-hidden="true"></i> PNG (1x)</button>
@@ -27,7 +28,6 @@
         <button type="button" data-workspace-target="edit" aria-controls="glyphInspector" aria-pressed="false">Edit glyph</button>
         <button type="button" data-workspace-target="tools" aria-controls="toolsPane" aria-pressed="true">Fonts &amp; icons</button>
       </nav>
-      <div id="loadStatus" class="load-status hint" role="status" aria-live="polite">No file loaded.</div>
     </header>
 
     <!-- Split workspace -->
@@ -36,16 +36,30 @@
       <section id="fontPane" class="font-pane" aria-label="Font preview and editor">
         <section class="panel panel-result">
           <div class="workspace-toolbar">
-            <div class="view-toggle" role="group" aria-label="Preview mode">
-              <button id="viewModeSheet" type="button" class="view-toggle-btn" aria-pressed="true"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Sheet View</button>
-              <button id="viewModeHud" type="button" class="view-toggle-btn" aria-pressed="false"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i> HUD View</button>
+            <div class="sheet-toolbar">
+              <div class="view-toggle" role="group" aria-label="Preview mode">
+                <button id="viewModeSheet" type="button" class="view-toggle-btn" aria-pressed="true"><i class="fa-solid fa-table-cells" aria-hidden="true"></i> Sheet View</button>
+                <button id="viewModeHud" type="button" class="view-toggle-btn" aria-pressed="false"><i class="fa-solid fa-vr-cardboard" aria-hidden="true"></i> HUD View</button>
+              </div>
+              <label class="sheet-zoom-control">Sheet zoom
+                <select id="sheetZoom" aria-label="Sheet zoom">
+                  <option value="auto">Auto</option>
+                  <option value="2">2×</option>
+                  <option value="3">3×</option>
+                  <option value="4">4×</option>
+                </select>
+              </label>
             </div>
-            <label class="sheet-zoom-control">Sheet zoom
-              <select id="sheetZoom" aria-label="Sheet zoom">
+            <label class="inspector-zoom-control">Inspector zoom
+              <select id="inspectorZoom" aria-label="Inspector zoom">
                 <option value="auto">Auto</option>
-                <option value="2">2×</option>
-                <option value="3">3×</option>
                 <option value="4">4×</option>
+                <option value="6">6×</option>
+                <option value="8">8×</option>
+                <option value="10">10×</option>
+                <option value="12">12×</option>
+                <option value="16">16×</option>
+                <option value="20">20×</option>
               </select>
             </label>
           </div>
@@ -63,7 +77,9 @@
                   <button id="zoomModeInspector" type="button" class="zoom-mode-btn"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Inspector</button>
                   <button id="zoomModeEditor" type="button" class="zoom-mode-btn"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Editor</button>
                 </div>
-                <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
+                <div class="zoom-viewport">
+                  <canvas id="resultZoom" class="zoom-canvas" width="240" height="360"></canvas>
+                </div>
                 <div id="glyphInfo" class="inspector-body glyph-info-inline">
                   (Load a font, then click a glyph.)
                 </div>
