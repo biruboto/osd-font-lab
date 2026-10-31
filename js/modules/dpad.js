@@ -1,5 +1,6 @@
 // js/modules/dpad.js
 export function initDpadControls({
+  onTargetChange,
   onResetReplaced,
   onClearSelection,
   onNudgeReplaced,
@@ -33,11 +34,15 @@ export function initDpadControls({
     const dy = parseInt(btn.getAttribute("data-dy") || "0", 10);
 
     return () => {
+      if (btn.disabled || dpad.getAttribute("data-nudge-target") !== target) {
+        stopHold();
+        return;
+      }
       if (action === "reset" && target === "replaced") {
         onResetReplaced?.();
         return;
       }
-      if (action === "clear" && target === "selection") {
+      if (action === "reset" && target === "selection") {
         onClearSelection?.();
         return;
       }
@@ -61,6 +66,12 @@ export function initDpadControls({
 
   // Pointer activation fires on press; keyboard/assistive activation uses click.
   document.addEventListener("click", (e) => {
+    const targetButton = e.target.closest("[data-nudge-scope]");
+    if (targetButton) {
+      stopHold();
+      onTargetChange?.(targetButton.getAttribute("data-nudge-scope"));
+      return;
+    }
     if (e.detail === 0) actionFor(e.target.closest(".dpad button"))?.();
   });
   window.addEventListener("pointerup", stopHold);

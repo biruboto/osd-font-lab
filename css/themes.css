@@ -2,6 +2,10 @@
 
 /* ---------- color palettes ---------- */
 :root{
+  color-scheme: dark;
+  /* Inherited by every scrollable panel, including the page itself. */
+  scrollbar-color: color-mix(in srgb, var(--text-muted) 65%, var(--accent-0)) var(--bg-1);
+
   /* page + panels */
   --bg-0: #161823;
   --bg-1: #21243a;

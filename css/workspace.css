@@ -526,39 +526,80 @@ canvas{
 
 /* controls under zoom/inspector */
 .sidecar-controls{
-  padding: 8px 10px;
+  --inspector-control-h: 36px;
+  padding: 10px;
   border-radius: 12px;
   background: var(--bg-2);
   border: 1px solid var(--bg-3);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   min-height: 0;
 }
+
+.sidecar-controls button{
+  min-width: 0;
+  min-height: var(--inspector-control-h);
+  border-radius: 8px;
+  font-size: .75rem;
+}
+.sidecar-controls button:focus-visible{ outline: 2px solid var(--accent-0); outline-offset: -3px; }
 
 .hold-preview-btn.is-holding{
   border-color: var(--accent-0);
   background: color-mix(in srgb, var(--accent-0) 14%, var(--bg-2));
 }
-.preview-controls{ display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
-.preview-controls .hold-preview-btn{ font-size: .78rem; min-height: 34px; padding: 0 6px; white-space: nowrap; touch-action: none; user-select: none; }
-.preview-controls .checkbox{ margin: 0; gap: 6px; }
-.preview-controls .checkbox-label{ font-size: .78rem; }
+.preview-controls{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: 8px; }
+.preview-controls .hold-preview-btn{ padding: 0 6px; white-space: nowrap; touch-action: none; user-select: none; }
+.preview-controls .checkbox{ margin: 0; gap: 6px; justify-content: flex-end; min-height: var(--inspector-control-h); }
+.preview-controls .checkbox-label{ font-size: .75rem; }
 .cell-clipboard-controls{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.cell-clipboard-controls button{ font-size: .78rem; min-height: 34px; padding: 0 6px; white-space: nowrap; }
+.cell-clipboard-controls button{ padding: 0 6px; white-space: nowrap; }
 .cell-clipboard-status{ position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------- D-pad / nudging UI ---------- */
 .nudgeBox{
-  margin: 0;
-  display: block;
+  margin: 4px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--bg-3);
+  display: grid;
+  gap: 8px;
 }
 
 .nudgeTitle{
-  opacity: 0.8;
-  font-size: 13px;
-  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1.4;
 }
+
+.nudge-targets{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--bg-3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sidecar-controls .nudge-targets button{
+  padding: 0 5px;
+  border: 0;
+  border-radius: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  background: var(--bg-2);
+  color: var(--text-1);
+}
+
+.sidecar-controls .nudge-targets button + button{ border-left: 1px solid var(--bg-3); }
+.nudge-targets button[aria-pressed="true"]{
+  background: color-mix(in srgb, var(--accent-0) 18%, var(--bg-2));
+  color: var(--text-0);
+}
+.nudge-targets button:focus-visible{ outline-offset: -3px; }
+.nudge-status{ color: var(--text-muted); font-size: .72rem; line-height: 1.4; }
 
 .theme-radios{
   display: flex;
@@ -613,33 +654,23 @@ canvas{
 }
 
 .dpad{
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 5px;
-  justify-content: start;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
 }
 
-.dpad button{
-  width: 32px;
-  height: 32px;
+.sidecar-controls .dpad button{
   padding: 0;
   margin: 0;
   display: grid;
   place-items: center;
   line-height: 1;
+  font-size: 1rem;
   box-sizing: border-box;
 }
 
 .dpad button:active{
   transform: translateY(1px);
-}
-
-.nudgeRow{
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 8px;
 }
 
 .tiny{
@@ -650,7 +681,6 @@ canvas{
 /* ---------- responsive workspace ---------- */
 @media (min-width: 961px) and (max-width: 1200px){
   .panel-result{ --inspector-width: 210px; }
-  .dpad{ justify-content: center; }
 }
 @media (min-width: 961px) and (max-height: 820px){
   .panel-result{ --inspector-max-width: 156px; }
@@ -665,10 +695,7 @@ canvas{
   :root[data-workspace-panel="edit"] .sheet-toolbar{ display: none; }
   :root[data-workspace-panel="edit"][data-view-mode="sheet"] .inspector-zoom-control{ display: flex; }
   .panel-result .sheet-wrap{ max-height: max(280px, calc(100svh - 240px)); }
-  .dpad{ flex-wrap: wrap; justify-content: center; gap: 8px; }
-  .dpad button{ width: 40px; height: 40px; }
-  .sidecar-controls{ align-items: stretch; }
-  .nudgeTitle{ text-align: center; }
+  .sidecar-controls{ --inspector-control-h: 40px; align-items: stretch; }
   .hud-format-btn{ min-height: 36px; }
   :root[data-workspace-panel="edit"] .sheet-zoom-control{ display: none; }
   :root[data-workspace-panel="preview"][data-view-mode="sheet"] .app-shell{

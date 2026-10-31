@@ -1,6 +1,6 @@
 /* css/app.css */
-@import url("./themes.css");
+@import url("./themes.css?v=20261031-scrollbars");
 @import url("./layout.css");
 @import url("./controls.css");
-@import url("./workspace.css");
+@import url("./workspace.css?v=20261031-inspector-controls");
 @import url("./font-browser.css");

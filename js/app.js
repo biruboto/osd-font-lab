@@ -22,13 +22,12 @@ import {
   rangeSelect as rangeSelectState,
   setSingleSelection as setSingleSelectionState,
   toggleSelection as toggleSelectionState,
-  updateSelectionCount as updateSelectionCountView,
 } from "./modules/selection.js";
 import {
   registerBetaflightSwapSources,
   registerCustomSwapSources,
 } from "./modules/swap-registry.js";
-import { initDpadControls } from "./modules/dpad.js";
+import { initDpadControls } from "./modules/dpad.js?v=20261031-nudge-target";
 import { createWorkspaceRenderer } from "./modules/workspace-render.js";
 import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js";
 import { parseYaffToOverlay } from "./modules/yaff.js";
@@ -98,6 +97,9 @@ const specialSafeOnBtn = document.getElementById("specialSafeOnBtn");
 const specialSafeOffBtn = document.getElementById("specialSafeOffBtn");
 
 const selCount = document.getElementById("selCount");
+const nudgeStatus = document.getElementById("nudgeStatus");
+const nudgeTargetButtons = [...document.querySelectorAll("[data-nudge-scope]")];
+const nudgePad = document.querySelector(".dpad");
 
 const showGridsEl = document.getElementById("showGrids");
 const hudShowGuidesEl = document.getElementById("hudShowGuides");
@@ -211,6 +213,7 @@ const nudge = {
   perGlyph: new Map(),        // idx -> {x,y}
 };
 const replacedOverlayIndices = new Set(); // indices actually replaced by current overlay
+let nudgeTarget = "replaced";
 
 // Full overlays are fetched on selection; browsing uses compact preview catalogs.
 const overlayCache = new Map(); // library::file -> in-flight/resolved overlay promise
@@ -1117,10 +1120,6 @@ async function getSwapSourcePreviewUrl(sourceId) {
    Selection helpers
 ------------------------------ */
 
-function updateSelectionCount() {
-  updateSelectionCountView(selCount, selection);
-}
-
 function setSingleSelection(idx) {
   setSingleSelectionState(selection, idx);
 }
@@ -1137,8 +1136,36 @@ function rangeSelect(toIdx) {
    Nudges
 ------------------------------ */
 
-function updateReplReadout() {
-  // Readout removed from UI; keep stub so existing calls remain harmless.
+function syncNudgeControls() {
+  const selectionCount = baseFont ? selection.selectedSet.size : 0;
+  // An icon swap supersedes the imported letter; painted letters retain its offset.
+  const replacedCount = [...replacedOverlayIndices].filter(idx =>
+    !swapOverrides.has(idx) || editorOverrideOffsets.has(idx)
+  ).length;
+  const count = nudgeTarget === "replaced" ? replacedCount : selectionCount;
+  const selectionLabel = `Selection · ${selectionCount}`;
+  if (selCount && selCount.textContent !== selectionLabel) selCount.textContent = selectionLabel;
+  for (const button of nudgeTargetButtons) {
+    button.setAttribute("aria-pressed", String(button.dataset.nudgeScope === nudgeTarget));
+  }
+  if (nudgeStatus) {
+    const status = !baseFont
+      ? "Load a base font to nudge glyphs."
+      : nudgeTarget === "replaced"
+        ? (count ? `Moving ${count} replaced character${count === 1 ? "" : "s"}.` : "Choose a replacement font to nudge.")
+        : `Moving ${count} selected glyph${count === 1 ? "" : "s"}.`;
+    if (nudgeStatus.textContent !== status) nudgeStatus.textContent = status;
+  }
+  if (!nudgePad) return;
+  nudgePad.dataset.nudgeTarget = nudgeTarget;
+  for (const button of nudgePad.querySelectorAll("button")) button.disabled = !count;
+  const reset = nudgePad.querySelector('[data-action="reset"]');
+  if (reset) {
+    reset.setAttribute("aria-label", nudgeTarget === "replaced" ? "Reset imported lettering nudge" : "Reset selection nudge");
+    reset.title = nudgeTarget === "replaced"
+      ? "Reset overall lettering alignment; keep individual glyph adjustments."
+      : "Reset selected glyph adjustments; keep overall lettering alignment.";
+  }
 }
 
 function clearSelectionNudges() {
@@ -2501,7 +2528,6 @@ function initSwapUI() {
 function applyReplacedNudge(dx, dy) {
   nudge.replaced.x = clampInt(nudge.replaced.x + dx, -6, 6);
   nudge.replaced.y = clampInt(nudge.replaced.y + dy, -6, 6);
-  updateReplReadout();
   rebuildResultFont();
   rerenderAll({ renderBootSplash: false });
 }
@@ -3045,11 +3071,11 @@ function rerenderAll({ renderBootSplash = true } = {}) {
       workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, displayFont, selection.selectedIndex, { showGrids });
       updateInfoPanel(selection.selectedIndex);
     }
-    updateSelectionCount();
+    syncNudgeControls();
   } else {
     if (glyphInfo) glyphInfo.textContent = "(Load a font, then click a glyph.)";
     if (resultZoomCanvas?.getClientRects().length) workspaceRenderer.reserveZoomCanvasSpace(resultZoomCanvas);
-    updateSelectionCount();
+    syncNudgeControls();
   }
   inspectorZoomControl.sync(resultZoomCanvas?.dataset.scale);
   syncCellClipboardControls();
@@ -3317,6 +3343,7 @@ async function getOverlayByFileFromLibrary(libraryId, file) {
 }
 
 function setOverlaySelection(selection) {
+  if (selection && !currentOverlaySelection) nudgeTarget = "replaced";
   currentOverlaySelection = selection;
   fontBrowserApi?.setApplied(selection);
 }
@@ -4218,12 +4245,15 @@ function initEvents() {
     }, "image/png");
   });
 
-  // d-pads
+  // One nudge pad, with an explicit target that is independent of glyph selection.
   initDpadControls({
+    onTargetChange: (target) => {
+      nudgeTarget = target;
+      syncNudgeControls();
+    },
     onResetReplaced: () => {
       nudge.replaced.x = 0;
       nudge.replaced.y = 0;
-      updateReplReadout();
       rebuildResultFont();
       rerenderAll();
     },
@@ -4249,7 +4279,7 @@ function init() {
   setViewMode(viewMode);
   if (resultGridCanvas) workspaceRenderer.reserveGridCanvasSpace(resultGridCanvas);
 
-  updateReplReadout();
+  syncNudgeControls();
   setLoadStatus(loadStatusText);
   initSwapUI();
   initSpecialCharUI();

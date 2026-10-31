@@ -6,7 +6,7 @@
   <title>OSD Font Lab</title>
   <link rel="icon" href="./favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/app.css?v=20261031-workspace">
+  <link rel="stylesheet" href="css/app.css?v=20261031-scrollbars">
 </head>
 
 <body>
@@ -114,32 +114,21 @@
                   <span id="cellClipboardStatus" class="cell-clipboard-status" role="status"></span>
                 </div>
 
-                <div class="nudgeRow tiny">
-                  <span id="selCount">Selected glyphs: 1</span>
-                </div>
-
                 <div class="nudgeBox">
-                  <div class="nudgeTitle">Nudge replaced ASCII</div>
-                  <div class="dpad" data-nudge-target="replaced">
+                  <div id="nudgeTitle" class="nudgeTitle">Nudge</div>
+                  <div class="nudge-targets" role="group" aria-label="Nudge target">
+                    <button type="button" data-nudge-scope="replaced" aria-label="Imported lettering" title="Nudge all imported lettering" aria-pressed="true">Lettering</button>
+                    <button type="button" data-nudge-scope="selection" aria-pressed="false"><span id="selCount">Selection · 1</span></button>
+                  </div>
+                  <div class="dpad" data-nudge-target="replaced" role="group" aria-labelledby="nudgeTitle" aria-describedby="nudgeStatus">
+                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left">←</button>
                     <button type="button" data-dx="0" data-dy="-1" aria-label="Nudge up">↑</button>
                     <button type="button" data-dx="0" data-dy="1" aria-label="Nudge down">↓</button>
+                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right">→</button>
                     <button type="button" data-dx="0" data-dy="0" data-action="reset" aria-label="Reset nudge">↺</button>
-                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left">←</button>
-                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right">→</button>
                   </div>
+                  <div id="nudgeStatus" class="nudge-status" role="status">Choose a replacement font to nudge.</div>
                 </div>
-
-                <div class="nudgeBox">
-                  <div class="nudgeTitle">Nudge selection</div>
-                  <div class="dpad" data-nudge-target="selection">
-                    <button type="button" data-dx="0" data-dy="-1" aria-label="Nudge up">↑</button>
-                    <button type="button" data-dx="0" data-dy="1" aria-label="Nudge down">↓</button>
-                    <button type="button" data-dx="0" data-dy="0" data-action="clear" aria-label="Reset nudge">↺</button>
-                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left">←</button>
-                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right">→</button>
-                  </div>
-                </div>
-
 
               </div>
             </aside>
@@ -383,6 +372,6 @@
 </div>
 
 
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=20261031-nudge-target"></script>
 </body>
 </html>

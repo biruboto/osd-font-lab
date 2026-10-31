@@ -342,9 +342,110 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         print('\nSelection render samples:', json.dumps(samples), flush=True)
         self.assertTrue(all(s['styleReads'] < 100 for s in samples), samples)
 
+    async def test_nudge_update_bypasses_stale_scripts_and_moves_only_one_letter(self):
+        stale_requests = []
+
+        async def stale_script(route):
+            stale_requests.append(route.request.url)
+            await route.fulfill(status=200, content_type='application/javascript',
+                                body='export function initDpadControls() {}')
+
+        # Model an existing visitor who still has the pre-switch scripts cached.
+        await self.page.route('**/js/app.js', stale_script)
+        await self.page.route('**/js/modules/dpad.js', stale_script)
+        await self.page.goto(self.url, wait_until='networkidle')
+        self.assertEqual(stale_requests, [], 'updated UI must bypass the old script URLs')
+        await self.page.select_option('#bfFontSelect', 'betaflight.mcm')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: betaflight.mcm')")
+        await self.page.locator('#yaffFile').set_input_files({'name':'cached-nudge.yaff','mimeType':'text/plain',
+            'buffer':b'u+0041:\n    .@.\n    @.@\n    @@@\nu+0042:\n    @@.\n    @.@\n    @@.\n'})
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded YAFF')")
+        await self.select_glyph(65)
+        initial = await self.font()
+        # Click the nested label, where a user normally clicks this option.
+        await self.page.locator('#selCount').click()
+        self.assertEqual(await self.page.locator('#nudgeStatus').inner_text(), 'Moving 1 selected glyph.')
+        await self.page.locator('.dpad [data-dx="1"]').click()
+        expected = [g[:] for g in initial]
+        expected[65] = shift(initial[65],1)
+        self.assertEqual(await self.font(), expected, 'only the selected letter should move')
+
+    async def test_shared_nudge_target_counts_selection_and_scoped_resets(self):
+        pad = self.page.locator('.dpad')
+        lettering = self.page.locator('[data-nudge-scope="replaced"]')
+        selected = self.page.locator('[data-nudge-scope="selection"]')
+        right = pad.locator('[data-dx="1"]')
+        reset = pad.locator('[data-action="reset"]')
+        self.assertEqual(await pad.count(), 1)
+        self.assertEqual(await pad.locator('button:disabled').count(), 5)
+        await selected.click()
+        self.assertTrue(await right.is_enabled())
+        await self.page.locator('#yaffFile').set_input_files({'name':'nudge.yaff','mimeType':'text/plain',
+            'buffer':b'u+0041:\n    .@.\n    @.@\n    @@@\nu+0042:\n    @@.\n    @.@\n    @@.\n'})
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded YAFF')")
+        self.assertEqual(await lettering.get_attribute('aria-pressed'), 'true')
+        self.assertEqual(await self.page.locator('#nudgeStatus').inner_text(), 'Moving 2 replaced characters.')
+        initial = await self.font()
+        await right.click()
+        expected = [g[:] for g in initial]
+        for index in [65,66]:
+            expected[index] = shift(initial[index],1)
+        self.assertEqual(await self.font(), expected)
+
+        async def custom_selection():
+            await self.select_glyph(65)
+            point = await self.glyph_point(self.page, 1)
+            await self.page.keyboard.down('Control')
+            try:
+                await self.page.mouse.click(point['x'], point['y'])
+            finally:
+                await self.page.keyboard.up('Control')
+
+        await custom_selection()
+        self.assertEqual(await lettering.get_attribute('aria-pressed'), 'true', 'inspecting glyphs keeps the target')
+        await selected.focus()
+        await self.page.keyboard.press('Space')
+        self.assertEqual(await selected.inner_text(), 'Selection · 2')
+        self.assertEqual(await self.page.locator('#nudgeStatus').inner_text(), 'Moving 2 selected glyphs.')
+        await right.click()
+        combined = [g[:] for g in expected]
+        for index in [1,65]:
+            combined[index] = shift(combined[index],1)
+        self.assertEqual(await self.font(), combined)
+        await self.select_glyph(66)
+        self.assertEqual(await selected.get_attribute('aria-pressed'), 'true')
+        self.assertEqual(await self.page.locator('#nudgeStatus').inner_text(), 'Moving 1 selected glyph.')
+        await custom_selection()
+        self.assertIn('keep overall lettering alignment', await reset.get_attribute('title'))
+        await reset.click()
+        self.assertEqual(await self.font(), expected, 'selection reset keeps the overall alignment')
+        await right.click()
+        await lettering.click()
+        self.assertIn('keep individual glyph adjustments', await reset.get_attribute('title'))
+        await reset.click()
+        remaining = [g[:] for g in initial]
+        for index in [1,65]:
+            remaining[index] = shift(initial[index],1)
+        self.assertEqual(await self.font(), remaining, 'lettering reset keeps individual adjustments')
+        await selected.click()
+        await reset.click()
+        self.assertEqual(await self.font(), initial)
+
+        # Replacing lettering again should preserve an explicitly chosen selection target.
+        await self.page.locator('#yaffFile').set_input_files({'name':'next.yaff','mimeType':'text/plain',
+            'buffer':b'u+0041:\n    @@@\n    @.@\n    @.@\n'})
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('next.yaff')")
+        self.assertEqual(await selected.get_attribute('aria-pressed'), 'true')
+        await self.page.locator('#clearOverlayBtn').click()
+        await lettering.click()
+        self.assertEqual(await pad.locator('button:disabled').count(), 5)
+        await selected.click()
+        self.assertTrue(await right.is_enabled())
+
     async def test_keyboard_touch_and_mouse_nudge_each_apply_once(self):
         await self.select_glyph_one()
         initial = (await self.font())[1]
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         button = self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]')
         for activation in ['keyboard', 'touch', 'mouse']:
             if activation == 'keyboard':
@@ -360,6 +461,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_paint_with_nudges_survives_rebuild_and_undo(self):
         await self.select_glyph_one()
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         button = self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]')
         await button.click()
         before = (await self.font())[1]
@@ -488,6 +590,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         global_right = self.page.locator('.dpad[data-nudge-target="replaced"] button[data-dx="1"]')
         single_right = self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]')
         await global_right.click()
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         await single_right.click()
         before = (await self.font())[65]
         await self.page.locator('#zoomModeEditor').click()
@@ -496,7 +599,9 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotEqual(painted, before)
         await self.page.locator('#caseLowerBtn').click()
         self.assertEqual((await self.font())[65], painted)
+        await self.page.locator('[data-nudge-scope="replaced"]').click()
         await global_right.click()
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         await single_right.click()
         self.assertEqual((await self.font())[65], shift(painted, 2))
         await self.page.locator('#editorUndoBtn').click()
@@ -850,6 +955,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         global_right = self.page.locator('.dpad[data-nudge-target="replaced"] button[data-dx="1"]')
         single_right = self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]')
         await global_right.click()
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         await single_right.click()
         copied = (await self.font())[65]
         await self.page.locator('#copyCell').click()
@@ -879,6 +985,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
     async def test_compact_preview_controls_hold_with_keyboard_and_pointer(self):
         await self.select_glyph(65)
         original = await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()')
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         await self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]').click()
         edited = await self.page.locator('#resultZoom').evaluate('c=>c.toDataURL()')
         self.assertNotEqual(edited,original)
@@ -943,6 +1050,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.page.mouse.up()
         await self.page.locator('#resultZoom').click(position={'x':(pixel%12+.5)*8,'y':(pixel//12+.5)*8})  # No-op paint.
         self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'5')
+        await self.page.locator('[data-nudge-scope="selection"]').click()
         for index in [65,66]:
             await self.select_glyph(index)
             await self.page.locator('.dpad[data-nudge-target="selection"] button[data-dx="1"]').click()
