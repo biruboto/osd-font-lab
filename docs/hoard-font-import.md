@@ -4,6 +4,13 @@ The audited Latin candidates are converted into the existing `cell` / `glyphs`
 JSON format and registered as **Hoard of Bitfonts**. Select that
 library in the Fonts panel to try them in the sheet, editor, and HUD.
 
+Picker names include the source system from the upstream folders, for example
+`Apple Macintosh · Geneva Regular 9` or `Windows 3.1 · Arial 8`, followed by the
+source bitmap size. Platform and OS versions distinguish otherwise identical
+family names. Custom collections use their target system rather than the
+contributor folder, and names that already identify the system are kept without
+repeating it. Original source names and paths remain in `_source` metadata.
+
 There are **330 curated entries** across **125 source-size/capital-height groups**.
 The original pool contains 497 candidates; **115 are excluded** because at least
 one supplied glyph cannot retain a full one-pixel outline at its intended placement,

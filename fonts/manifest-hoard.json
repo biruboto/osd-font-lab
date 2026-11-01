@@ -1,70 +1,5 @@
 [
   {
-    "id": "atari-st-6x6-6b455710c7",
-    "file": "atari-st-6x6-6b455710c7.json",
-    "name": "6x6 system font — 6x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "type340-b30b1dfdd5",
-    "file": "type340-b30b1dfdd5.json",
-    "name": "7x12 — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 57,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "atari-st-8x16-b317722a83",
-    "file": "atari-st-8x16-b317722a83.json",
-    "name": "8x16 system font — 8x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "atari-st-8x8-e6953c406c",
-    "file": "atari-st-8x8-e6953c406c.json",
-    "name": "8x8 system font — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "abtastfernschreiber-8x14-ca40ed33f2",
-    "file": "abtastfernschreiber-8x14-ca40ed33f2.json",
-    "name": "Abtastfernschreiber 8x14 — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 48,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
     "id": "bbc-master-f9c4055916",
     "file": "bbc-master-f9c4055916.json",
     "name": "Acorn BBC Master — 8x8",
@@ -78,9 +13,347 @@
     "hasDigits": true
   },
   {
+    "id": "amiga-ks10-topaz-08-e772de950d",
+    "file": "amiga-ks10-topaz-08-e772de950d.json",
+    "name": "Amiga Kickstart 1.0 · topaz/8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "amiga-ks10-topaz-09-3e9b531548",
+    "file": "amiga-ks10-topaz-09-3e9b531548.json",
+    "name": "Amiga Kickstart 1.0 · topaz/9 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "amiga-ks30-topaz-08-9585d18817",
+    "file": "amiga-ks30-topaz-08-9585d18817.json",
+    "name": "Amiga Kickstart 3.0 · topaz/8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "amiga-ks30-topaz-09-1c96ddb4b3",
+    "file": "amiga-ks30-topaz-09-1c96ddb4b3.json",
+    "name": "Amiga Kickstart 3.0 · topaz/9 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xcourier-15-67afceac89",
+    "file": "xcourier-15-67afceac89.json",
+    "name": "Amiga Magic Workbench · XCourier Regular 15 — 9x15",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xcourier-6x11-1e61becf35",
+    "file": "xcourier-6x11-1e61becf35.json",
+    "name": "Amiga Magic Workbench · XCourier Regular 6x11 — 6x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xcourier-7x13-998b7091c1",
+    "file": "xcourier-7x13-998b7091c1.json",
+    "name": "Amiga Magic Workbench · XCourier Regular 7x13 — 7x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xen-6x8-530ce46ad8",
+    "file": "xen-6x8-530ce46ad8.json",
+    "name": "Amiga Magic Workbench · Xen Regular 6x8 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xen-6x9-7450484a76",
+    "file": "xen-6x9-7450484a76.json",
+    "name": "Amiga Magic Workbench · Xen Regular 6x9 — 6x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xen-7x11-71d61f20d6",
+    "file": "xen-7x11-71d61f20d6.json",
+    "name": "Amiga Magic Workbench · Xen Regular 7x11 — 7x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xhelvetica-11-cede2b6965",
+    "file": "xhelvetica-11-cede2b6965.json",
+    "name": "Amiga Magic Workbench · XHelvetica Regular 11 — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xhelvetica-13-45ce20ef9c",
+    "file": "xhelvetica-13-45ce20ef9c.json",
+    "name": "Amiga Magic Workbench · XHelvetica Regular 13 — 9x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "xhelvetica-9-1f548575d5",
+    "file": "xhelvetica-9-1f548575d5.json",
+    "name": "Amiga Magic Workbench · XHelvetica Regular 9 — 5x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-13-50160062e6",
+    "file": "courier-13-50160062e6.json",
+    "name": "Amiga Workbench 3.1 · Courier Regular 13 — 7x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-11-0718055dd8",
+    "file": "helvetica-11-0718055dd8.json",
+    "name": "Amiga Workbench 3.1 · Helvetica Regular 11 — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-13-02194aca69",
+    "file": "helvetica-13-02194aca69.json",
+    "name": "Amiga Workbench 3.1 · Helvetica Regular 13 — 9x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-9-f71afeb222",
+    "file": "helvetica-9-f71afeb222.json",
+    "name": "Amiga Workbench 3.1 · Helvetica Regular 9 — 7x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "topaz-8x11-52cff24666",
+    "file": "topaz-8x11-52cff24666.json",
+    "name": "Amiga Workbench 3.1 · Topaz Regular 8x11 — 8x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
     "id": "ammolite-8x10-4887de8b82",
     "file": "ammolite-8x10-4887de8b82.json",
-    "name": "Ammolite Regular 8x10 — 8x10",
+    "name": "Amiga · Ammolite Regular 8x10 — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "eagleplayer-66e05451ea",
+    "file": "eagleplayer-66e05451ea.json",
+    "name": "Amiga · Eagleplayer Regular 8x8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "microknight-60b308a825",
+    "file": "microknight-60b308a825.json",
+    "name": "Amiga · MicroKnight Regular 8x8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "mo-soul-441b9d91d4",
+    "file": "mo-soul-441b9d91d4.json",
+    "name": "Amiga · mO'sOul — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "onyx-7x9-5f49b8d374",
+    "file": "onyx-7x9-5f49b8d374.json",
+    "name": "Amiga · Onyx Regular 7x9 — 7x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "p0t-ibm-787ebd04d1",
+    "file": "p0t-ibm-787ebd04d1.json",
+    "name": "Amiga · P0T-Ibm Regular 8x8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "peridot-7-54159c3f96",
+    "file": "peridot-7-54159c3f96.json",
+    "name": "Amiga · Peridot Regular 7 — 5x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "polarsmall-5064236b9b",
+    "file": "polarsmall-5064236b9b.json",
+    "name": "Amiga · PolarSmall Regular 8x6 — 8x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "polarsmall-prop-40f91959cd",
+    "file": "polarsmall-prop-40f91959cd.json",
+    "name": "Amiga · PolarSmall-Prop — 7x6",
     "cell": [
       12,
       18
@@ -117,6 +390,149 @@
     "hasDigits": true
   },
   {
+    "id": "setfont-bold-fc2251e189",
+    "file": "setfont-bold-fc2251e189.json",
+    "name": "Amstrad PCW · Bold Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-capitals-cae7ecd9fb",
+    "file": "setfont-capitals-cae7ecd9fb.json",
+    "name": "Amstrad PCW · Capitals Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-ibm-a6c139cdb3",
+    "file": "setfont-ibm-a6c139cdb3.json",
+    "name": "Amstrad PCW · Ibm Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-italic-d76b12a971",
+    "file": "setfont-italic-d76b12a971.json",
+    "name": "Amstrad PCW · Italic Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-joindup-14b49b8fa7",
+    "file": "setfont-joindup-14b49b8fa7.json",
+    "name": "Amstrad PCW · Joindup Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-lcd-c9a336bff3",
+    "file": "setfont-lcd-c9a336bff3.json",
+    "name": "Amstrad PCW · Lcd Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-rounded-365cbb6537",
+    "file": "setfont-rounded-365cbb6537.json",
+    "name": "Amstrad PCW · Rounded Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-serif-67632f7833",
+    "file": "setfont-serif-67632f7833.json",
+    "name": "Amstrad PCW · Serif Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-square1-b8534eef7c",
+    "file": "setfont-square1-b8534eef7c.json",
+    "name": "Amstrad PCW · Square1 Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-square2-dcf585af91",
+    "file": "setfont-square2-dcf585af91.json",
+    "name": "Amstrad PCW · Square2 Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "setfont-tiny-2df646dda2",
+    "file": "setfont-tiny-2df646dda2.json",
+    "name": "Amstrad PCW · Tiny Regular 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
     "id": "apple-ii-jplus-135428a805",
     "file": "apple-ii-jplus-135428a805.json",
     "name": "Apple II J-Plus — 7x8",
@@ -143,9 +559,9 @@
     "hasDigits": true
   },
   {
-    "id": "arial-8-eb9060f530",
-    "file": "arial-8-eb9060f530.json",
-    "name": "Arial 8 — 10x11",
+    "id": "courier-10-7fdb7a393e",
+    "file": "courier-10-7fdb7a393e.json",
+    "name": "Apple IIgs · Courier 10 — 6x11",
     "cell": [
       12,
       18
@@ -156,9 +572,295 @@
     "hasDigits": true
   },
   {
-    "id": "arial-1d3b2e0274",
-    "file": "arial-1d3b2e0274.json",
-    "name": "Arial 9 — 7x9",
+    "id": "courier-12-d3a96cc12b",
+    "file": "courier-12-d3a96cc12b.json",
+    "name": "Apple IIgs · Courier 12 — 7x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-14-15a0e6d1df",
+    "file": "courier-14-15a0e6d1df.json",
+    "name": "Apple IIgs · Courier 14 — 8x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-9-5fdb6e7367",
+    "file": "courier-9-5fdb6e7367.json",
+    "name": "Apple IIgs · Courier 9 — 5x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "geneva-10-648a289b7f",
+    "file": "geneva-10-648a289b7f.json",
+    "name": "Apple IIgs · Geneva 10 — 9x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "geneva-12-38bf6849d3",
+    "file": "geneva-12-38bf6849d3.json",
+    "name": "Apple IIgs · Geneva 12 — 9x15",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-10-d2f43ed1e9",
+    "file": "helvetica-10-d2f43ed1e9.json",
+    "name": "Apple IIgs · Helvetica 10 — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-9-76b00ebcc1",
+    "file": "helvetica-9-76b00ebcc1.json",
+    "name": "Apple IIgs · Helvetica 9 — 7x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "shaston-8-227b7d6e0c",
+    "file": "shaston-8-227b7d6e0c.json",
+    "name": "Apple IIgs · Shaston 8 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-10-75f57fdd2e",
+    "file": "times-10-75f57fdd2e.json",
+    "name": "Apple IIgs · Times 10 — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-9-cc03572098",
+    "file": "times-9-cc03572098.json",
+    "name": "Apple IIgs · Times 9 — 7x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "chicago-12-4ef968e79e",
+    "file": "chicago-12-4ef968e79e.json",
+    "name": "Apple Macintosh · Chicago Regular 12 — 10x15",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-14-cd85d31458",
+    "file": "courier-14-cd85d31458.json",
+    "name": "Apple Macintosh · Courier Regular 14 — 8x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "espy-sans-10-2da68d34c0",
+    "file": "espy-sans-10-2da68d34c0.json",
+    "name": "Apple Macintosh · Espy Sans Regular 10 — 9x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "espy-sans-9-759d8d4f12",
+    "file": "espy-sans-9-759d8d4f12.json",
+    "name": "Apple Macintosh · Espy Sans Regular 9 — 9x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "gacha-6x12-a158a98077",
+    "file": "gacha-6x12-a158a98077.json",
+    "name": "Apple Macintosh · Gacha Regular 6x12 — 5x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "gacha-6x9-fd000ebb87",
+    "file": "gacha-6x9-fd000ebb87.json",
+    "name": "Apple Macintosh · Gacha Regular 6x9 — 5x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "gacha-7x13-4f72b1b582",
+    "file": "gacha-7x13-4f72b1b582.json",
+    "name": "Apple Macintosh · Gacha Regular 7x13 — 6x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "geneva-9-c18c849771",
+    "file": "geneva-9-c18c849771.json",
+    "name": "Apple Macintosh · Geneva Regular 9 — 7x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "los-angeles-12-a50b8d2b15",
+    "file": "los-angeles-12-a50b8d2b15.json",
+    "name": "Apple Macintosh · Los Angeles Regular 12 — 10x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "new-york-10-486adb8f66",
+    "file": "new-york-10-486adb8f66.json",
+    "name": "Apple Macintosh · New York Regular 10 — 9x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "new-york-9-775a494589",
+    "file": "new-york-9-775a494589.json",
+    "name": "Apple Macintosh · New York Regular 9 — 9x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-12-b2a2e4b2e9",
+    "file": "system-12-b2a2e4b2e9.json",
+    "name": "Apple Macintosh · System Regular 12 — 10x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-9-af4d1e9588",
+    "file": "times-9-af4d1e9588.json",
+    "name": "Apple Macintosh · Times Regular 9 — 7x10",
     "cell": [
       12,
       18
@@ -171,7 +873,7 @@
   {
     "id": "atari-classic-0ad5f15aa6",
     "file": "atari-classic-0ad5f15aa6.json",
-    "name": "Atari Classic 8x8 — 8x8",
+    "name": "Atari 8-bit · Classic 8x8 — 8x8",
     "cell": [
       12,
       18
@@ -184,7 +886,7 @@
   {
     "id": "atascii-d8228b86cc",
     "file": "atascii-d8228b86cc.json",
-    "name": "Atari Classic 8x8 — 8x8",
+    "name": "Atari 8-bit · Classic 8x8 — 8x8",
     "cell": [
       12,
       18
@@ -195,9 +897,9 @@
     "hasDigits": true
   },
   {
-    "id": "barbedor10-screen-d7f85ab13a",
-    "file": "barbedor10-screen-d7f85ab13a.json",
-    "name": "Barbedor10.Scn.Fnt — 9x9",
+    "id": "atari-st-6x6-6b455710c7",
+    "file": "atari-st-6x6-6b455710c7.json",
+    "name": "Atari ST · 6x6 system font — 6x6",
     "cell": [
       12,
       18
@@ -208,9 +910,9 @@
     "hasDigits": true
   },
   {
-    "id": "barbedor10b-screen-40fa108ca5",
-    "file": "barbedor10b-screen-40fa108ca5.json",
-    "name": "Barbedor10b.Scn.Fnt — 10x10",
+    "id": "atari-st-8x16-b317722a83",
+    "file": "atari-st-8x16-b317722a83.json",
+    "name": "Atari ST · 8x16 system font — 8x16",
     "cell": [
       12,
       18
@@ -221,118 +923,14 @@
     "hasDigits": true
   },
   {
-    "id": "barbedor10i-screen-35728284c2",
-    "file": "barbedor10i-screen-35728284c2.json",
-    "name": "Barbedor10i.Scn.Fnt — 10x9",
+    "id": "atari-st-8x8-e6953c406c",
+    "file": "atari-st-8x8-e6953c406c.json",
+    "name": "Atari ST · 8x8 system font — 8x8",
     "cell": [
       12,
       18
     ],
     "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "berkeley-10-28aa46ac71",
-    "file": "berkeley-10-28aa46ac71.json",
-    "name": "Berkeley 10 — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "berkeley-9-abb755bc2c",
-    "file": "berkeley-9-abb755bc2c.json",
-    "name": "Berkeley 9 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "big-e8c1172bf8",
-    "file": "big-e8c1172bf8.json",
-    "name": "Big 10 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "bison-12-f6d8a4b573",
-    "file": "bison-12-f6d8a4b573.json",
-    "name": "Bison 12 — 5x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "bison-6x11-d87bd35464",
-    "file": "bison-6x11-d87bd35464.json",
-    "name": "Bison 6x11 — 5x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "bold-1aab12e283",
-    "file": "bold-1aab12e283.json",
-    "name": "Bold 8 — 7x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-bold-fc2251e189",
-    "file": "setfont-bold-fc2251e189.json",
-    "name": "Bold Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-capitals-cae7ecd9fb",
-    "file": "setfont-capitals-cae7ecd9fb.json",
-    "name": "Capitals Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
     "hasUpper": true,
     "hasLower": true,
     "hasDigits": true
@@ -348,58 +946,6 @@
     "glyphCount": 63,
     "hasUpper": true,
     "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "mera-elzab-meritum-lowercase-850d37237f",
-    "file": "mera-elzab-meritum-lowercase-850d37237f.json",
-    "name": "Char 6x12 — 6x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "mera-elzab-meritum-6b47cc419c",
-    "file": "mera-elzab-meritum-6b47cc419c.json",
-    "name": "Chargen 6x12 — 6x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 63,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "chicago-12-4ef968e79e",
-    "file": "chicago-12-4ef968e79e.json",
-    "name": "Chicago Regular 12 — 10x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "classic-8028561105",
-    "file": "classic-8028561105.json",
-    "name": "Classic 8 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
     "hasDigits": true
   },
   {
@@ -445,409 +991,6 @@
     "id": "superpet-ascii-7531775451",
     "file": "superpet-ascii-7531775451.json",
     "name": "Commodore SuperPET (ASCII range) — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-10-7fdb7a393e",
-    "file": "courier-10-7fdb7a393e.json",
-    "name": "Courier 10 — 6x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-10-b3c1230233",
-    "file": "courier-10-b3c1230233.json",
-    "name": "Courier 10 — 6x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-10-71d113f890",
-    "file": "courier-10-71d113f890.json",
-    "name": "Courier 10 — 7x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-10-4a4a133df7",
-    "file": "courier-10-4a4a133df7.json",
-    "name": "Courier 10 — 8x13",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-10-7918369993",
-    "file": "courier-10-7918369993.json",
-    "name": "Courier 10 — 9x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-10-48ac87dfd6",
-    "file": "courier-10-48ac87dfd6.json",
-    "name": "Courier 10 — 9x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-12-d3a96cc12b",
-    "file": "courier-12-d3a96cc12b.json",
-    "name": "Courier 12 — 7x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-12-da97c31d20",
-    "file": "courier-12-da97c31d20.json",
-    "name": "Courier 12 — 7x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-12-0ce003e42d",
-    "file": "courier-12-0ce003e42d.json",
-    "name": "Courier 12 — 8x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-14-15a0e6d1df",
-    "file": "courier-14-15a0e6d1df.json",
-    "name": "Courier 14 — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-14-f93987f95e",
-    "file": "courier-14-f93987f95e.json",
-    "name": "Courier 14 — 9x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-8-3124162eef",
-    "file": "courier-8-3124162eef.json",
-    "name": "Courier 8 — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-8-22a65a5274",
-    "file": "courier-8-22a65a5274.json",
-    "name": "Courier 8 — 5x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-8-bdb03e7e4a",
-    "file": "courier-8-bdb03e7e4a.json",
-    "name": "Courier 8 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-8-2ca677150a",
-    "file": "courier-8-2ca677150a.json",
-    "name": "Courier 8 — 8x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-9-5fdb6e7367",
-    "file": "courier-9-5fdb6e7367.json",
-    "name": "Courier 9 — 5x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-13-50160062e6",
-    "file": "courier-13-50160062e6.json",
-    "name": "Courier Regular 13 — 7x13",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-14-cd85d31458",
-    "file": "courier-14-cd85d31458.json",
-    "name": "Courier Regular 14 — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-8x7-4e6eac7c65",
-    "file": "courier-8x7-4e6eac7c65.json",
-    "name": "Courier — 8x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-9x8-270b584395",
-    "file": "courier-9x8-270b584395.json",
-    "name": "Courier — 9x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-bold-10-8e4d037449",
-    "file": "courier-bold-10-8e4d037449.json",
-    "name": "Courier-Bold 10 — 7x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-bold-12-14182657d9",
-    "file": "courier-bold-12-14182657d9.json",
-    "name": "Courier-Bold 12 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-bold-14-5bd5aee100",
-    "file": "courier-bold-14-5bd5aee100.json",
-    "name": "Courier-Bold 14 — 10x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-boldoblique-10-4f4de56bd8",
-    "file": "courier-boldoblique-10-4f4de56bd8.json",
-    "name": "Courier-BoldOblique 10 — 8x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-boldoblique-12-b78c6b4bde",
-    "file": "courier-boldoblique-12-b78c6b4bde.json",
-    "name": "Courier-BoldOblique 12 — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-oblique-10-b78a1406f0",
-    "file": "courier-oblique-10-b78a1406f0.json",
-    "name": "Courier-Oblique 10 — 7x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-oblique-12-a81526d215",
-    "file": "courier-oblique-12-a81526d215.json",
-    "name": "Courier-Oblique 12 — 9x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier-oblique-14-930eed8994",
-    "file": "courier-oblique-14-930eed8994.json",
-    "name": "Courier-Oblique 14 — 10x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier10-screen-8632ae0ebf",
-    "file": "courier10-screen-8632ae0ebf.json",
-    "name": "Courier10.Scn.Fnt — 7x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier12-screen-07f668b127",
-    "file": "courier12-screen-07f668b127.json",
-    "name": "Courier12.Scn.Fnt — 8x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "courier8-screen-3128557ed1",
-    "file": "courier8-screen-3128557ed1.json",
-    "name": "Courier8.Scn.Fnt — 6x9",
     "cell": [
       12,
       18
@@ -936,42 +1079,68 @@
     "hasDigits": true
   },
   {
-    "id": "dutch-7-vga-448999efaf",
-    "file": "dutch-7-vga-448999efaf.json",
-    "name": "Dutch — 9x11",
+    "id": "type340-b30b1dfdd5",
+    "file": "type340-b30b1dfdd5.json",
+    "name": "DEC · 7x12 — 5x7",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 89,
+    "glyphCount": 57,
+    "hasUpper": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "pdp1-1964-e2d95052c3",
+    "file": "pdp1-1964-e2d95052c3.json",
+    "name": "DEC · PDP-1 Character Display routine — 5x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 79,
     "hasUpper": true,
     "hasLower": true,
     "hasDigits": true
   },
   {
-    "id": "dutch-7-ega-6b93423390",
-    "file": "dutch-7-ega-6b93423390.json",
-    "name": "Dutch — 9x9",
+    "id": "pdp1-1961-codeword-289a053610",
+    "file": "pdp1-1961-codeword-289a053610.json",
+    "name": "DEC · PDP-1 Codeword Display routine — 5x7",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 89,
+    "glyphCount": 79,
     "hasUpper": true,
     "hasLower": true,
     "hasDigits": true
   },
   {
-    "id": "eagleplayer-66e05451ea",
-    "file": "eagleplayer-66e05451ea.json",
-    "name": "Eagleplayer Regular 8x8 — 8x8",
+    "id": "pdp1-bbn37-cc4326c619",
+    "file": "pdp1-bbn37-cc4326c619.json",
+    "name": "DEC · PDP-1 display routine BBN-37 — 5x7",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 89,
+    "glyphCount": 42,
     "hasUpper": true,
-    "hasLower": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "vt05-7f476aeaf8",
+    "file": "vt05-7f476aeaf8.json",
+    "name": "DEC · VT05 — 5x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 63,
+    "hasUpper": true,
+    "hasLower": false,
     "hasDigits": true
   },
   {
@@ -1014,123 +1183,6 @@
     "hasDigits": true
   },
   {
-    "id": "espy-sans-10-2da68d34c0",
-    "file": "espy-sans-10-2da68d34c0.json",
-    "name": "Espy Sans Regular 10 — 9x13",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "espy-sans-9-759d8d4f12",
-    "file": "espy-sans-9-759d8d4f12.json",
-    "name": "Espy Sans Regular 9 — 9x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "esquire-10-0-c36ccdc656",
-    "file": "esquire-10-0-c36ccdc656.json",
-    "name": "Esquire 10 — 10x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "esquire-10-59047d4210",
-    "file": "esquire-10-59047d4210.json",
-    "name": "Esquire 10 — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "esquire-12-0-ace22a53fb",
-    "file": "esquire-12-0-ace22a53fb.json",
-    "name": "Esquire 12 — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "esquire-12-059ceea2c6",
-    "file": "esquire-12-059ceea2c6.json",
-    "name": "Esquire 12 — 9x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "esquire-9-e0401d3480",
-    "file": "esquire-9-e0401d3480.json",
-    "name": "Esquire 9 — 7x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "esquire-9-0-d64875971f",
-    "file": "esquire-9-0-d64875971f.json",
-    "name": "Esquire 9 — 9x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "facit-5x7-15b87544dd",
-    "file": "facit-5x7-15b87544dd.json",
-    "name": "FACIT — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 59,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
     "id": "figlet-banner-9cb7797878",
     "file": "figlet-banner-9cb7797878.json",
     "name": "FIGlet Banner — 9x8",
@@ -1144,9 +1196,9 @@
     "hasDigits": true
   },
   {
-    "id": "hp16500b-large-59d3942eb9",
-    "file": "hp16500b-large-59d3942eb9.json",
-    "name": "Fixed Medium 12x15 — 12x15",
+    "id": "gem-1-1-6x6-cga-49b49a8252",
+    "file": "gem-1-1-6x6-cga-49b49a8252.json",
+    "name": "GEM 1.1 · System — 6x6",
     "cell": [
       12,
       18
@@ -1157,9 +1209,9 @@
     "hasDigits": true
   },
   {
-    "id": "hp16500b-small-9578d763c8",
-    "file": "hp16500b-small-9578d763c8.json",
-    "name": "Fixed Medium 8x14 — 8x14",
+    "id": "gem-3-1-8x14-1b31fee685",
+    "file": "gem-3-1-8x14-1b31fee685.json",
+    "name": "GEM 3.1 · System — 8x14",
     "cell": [
       12,
       18
@@ -1170,9 +1222,9 @@
     "hasDigits": true
   },
   {
-    "id": "font4-02233a05f8",
-    "file": "font4-02233a05f8.json",
-    "name": "Font4 8 — 7x8",
+    "id": "gem-3-1-8x16-4f8c21f0b9",
+    "file": "gem-3-1-8x16-4f8c21f0b9.json",
+    "name": "GEM 3.1 · System — 8x16",
     "cell": [
       12,
       18
@@ -1183,9 +1235,9 @@
     "hasDigits": true
   },
   {
-    "id": "gacha-6x12-a158a98077",
-    "file": "gacha-6x12-a158a98077.json",
-    "name": "Gacha Regular 6x12 — 5x12",
+    "id": "gem-3-1-8x8-5eb62a0ad1",
+    "file": "gem-3-1-8x8-5eb62a0ad1.json",
+    "name": "GEM 3.1 · System — 8x8",
     "cell": [
       12,
       18
@@ -1196,9 +1248,9 @@
     "hasDigits": true
   },
   {
-    "id": "gacha-6x9-fd000ebb87",
-    "file": "gacha-6x9-fd000ebb87.json",
-    "name": "Gacha Regular 6x9 — 5x9",
+    "id": "viewmax-1-8x14-1ab41ffdb1",
+    "file": "viewmax-1-8x14-1ab41ffdb1.json",
+    "name": "GEM ViewMAX 1 · System — 8x14",
     "cell": [
       12,
       18
@@ -1209,9 +1261,9 @@
     "hasDigits": true
   },
   {
-    "id": "gacha-7x13-4f72b1b582",
-    "file": "gacha-7x13-4f72b1b582.json",
-    "name": "Gacha Regular 7x13 — 6x13",
+    "id": "viewmax-1-8x16-7f732cbdb7",
+    "file": "viewmax-1-8x16-7f732cbdb7.json",
+    "name": "GEM ViewMAX 1 · System — 8x16",
     "cell": [
       12,
       18
@@ -1222,9 +1274,9 @@
     "hasDigits": true
   },
   {
-    "id": "geneva-10-648a289b7f",
-    "file": "geneva-10-648a289b7f.json",
-    "name": "Geneva 10 — 9x12",
+    "id": "viewmax-1-8x8-98b4df11af",
+    "file": "viewmax-1-8x8-98b4df11af.json",
+    "name": "GEM ViewMAX 1 · System — 8x8",
     "cell": [
       12,
       18
@@ -1235,9 +1287,9 @@
     "hasDigits": true
   },
   {
-    "id": "geneva-12-38bf6849d3",
-    "file": "geneva-12-38bf6849d3.json",
-    "name": "Geneva 12 — 9x15",
+    "id": "viewmax-2-8x14-e0d5d4046c",
+    "file": "viewmax-2-8x14-e0d5d4046c.json",
+    "name": "GEM ViewMAX 2 · System — 8x14",
     "cell": [
       12,
       18
@@ -1248,9 +1300,9 @@
     "hasDigits": true
   },
   {
-    "id": "geneva-9-c18c849771",
-    "file": "geneva-9-c18c849771.json",
-    "name": "Geneva Regular 9 — 7x12",
+    "id": "viewmax-2-8x16-d2fcc5a899",
+    "file": "viewmax-2-8x16-d2fcc5a899.json",
+    "name": "GEM ViewMAX 2 · System — 8x16",
     "cell": [
       12,
       18
@@ -1258,12 +1310,90 @@
     "glyphCount": 89,
     "hasUpper": true,
     "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "dutch-7-vga-448999efaf",
+    "file": "dutch-7-vga-448999efaf.json",
+    "name": "GEM · Dutch — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "dutch-7-ega-6b93423390",
+    "file": "dutch-7-ega-6b93423390.json",
+    "name": "GEM · Dutch — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "swiss-7-vga-9e513b23a8",
+    "file": "swiss-7-vga-9e513b23a8.json",
+    "name": "GEM · Swiss — 8x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "swiss-7-ega-68c447a47f",
+    "file": "swiss-7-ega-68c447a47f.json",
+    "name": "GEM · Swiss — 8x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "abtastfernschreiber-8x14-ca40ed33f2",
+    "file": "abtastfernschreiber-8x14-ca40ed33f2.json",
+    "name": "Hellschreiber · Abtastfernschreiber 8x14 — 8x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 48,
+    "hasUpper": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "facit-5x7-15b87544dd",
+    "file": "facit-5x7-15b87544dd.json",
+    "name": "Hellschreiber · FACIT — 5x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 59,
+    "hasUpper": true,
+    "hasLower": false,
     "hasDigits": true
   },
   {
     "id": "gtl-telewriter-7x8-27b4448c26",
     "file": "gtl-telewriter-7x8-27b4448c26.json",
-    "name": "GTL Telewriter — 8x7",
+    "name": "Hellschreiber · GTL Telewriter — 8x7",
     "cell": [
       12,
       18
@@ -1276,7 +1406,7 @@
   {
     "id": "hell80-7x9-81e2aee846",
     "file": "hell80-7x9-81e2aee846.json",
-    "name": "Hell-80 7x9 — 7x9",
+    "name": "Hellschreiber · Hell-80 7x9 — 7x9",
     "cell": [
       12,
       18
@@ -1287,9 +1417,35 @@
     "hasDigits": true
   },
   {
-    "id": "helv-10-142a211679",
-    "file": "helv-10-142a211679.json",
-    "name": "Helv 10 — 8x12",
+    "id": "feld-hell-tbs24a-7x14-2b214887e1",
+    "file": "feld-hell-tbs24a-7x14-2b214887e1.json",
+    "name": "Hellschreiber · S&H Feld-Hell Tbs 24a — 7x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 41,
+    "hasUpper": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "t-typ72-gl-7x14-9dc134b751",
+    "file": "t-typ72-gl-7x14-9dc134b751.json",
+    "name": "Hellschreiber · S&H T typ 72 GL — 7x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 48,
+    "hasUpper": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "hp16500b-large-59d3942eb9",
+    "file": "hp16500b-large-59d3942eb9.json",
+    "name": "HP 16500B · Fixed Medium 12x15 — 12x15",
     "cell": [
       12,
       18
@@ -1300,165 +1456,9 @@
     "hasDigits": true
   },
   {
-    "id": "helv-12-3655b242b0",
-    "file": "helv-12-3655b242b0.json",
-    "name": "Helv 12 — 10x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helv-8-efb022c879",
-    "file": "helv-8-efb022c879.json",
-    "name": "Helv 8 — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helv-8-287e11ddc0",
-    "file": "helv-8-287e11ddc0.json",
-    "name": "Helv 8 — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-10-d2f43ed1e9",
-    "file": "helvetica-10-d2f43ed1e9.json",
-    "name": "Helvetica 10 — 9x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-9-76b00ebcc1",
-    "file": "helvetica-9-76b00ebcc1.json",
-    "name": "Helvetica 9 — 7x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-11-0718055dd8",
-    "file": "helvetica-11-0718055dd8.json",
-    "name": "Helvetica Regular 11 — 9x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-13-02194aca69",
-    "file": "helvetica-13-02194aca69.json",
-    "name": "Helvetica Regular 13 — 9x13",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-9-f71afeb222",
-    "file": "helvetica-9-f71afeb222.json",
-    "name": "Helvetica Regular 9 — 7x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-bold-10-84b5b2d028",
-    "file": "helvetica-bold-10-84b5b2d028.json",
-    "name": "Helvetica-Bold 10 — 10x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-bold-8-4de37fac52",
-    "file": "helvetica-bold-8-4de37fac52.json",
-    "name": "Helvetica-Bold 8 — 7x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-boldoblique-8-6b5d1e829f",
-    "file": "helvetica-boldoblique-8-6b5d1e829f.json",
-    "name": "Helvetica-BoldOblique 8 — 8x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-oblique-10-61015fd895",
-    "file": "helvetica-oblique-10-61015fd895.json",
-    "name": "Helvetica-Oblique 10 — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "helvetica-oblique-8-6828705b72",
-    "file": "helvetica-oblique-8-6828705b72.json",
-    "name": "Helvetica-Oblique 8 — 8x7",
+    "id": "hp16500b-small-9578d763c8",
+    "file": "hp16500b-small-9578d763c8.json",
+    "name": "HP 16500B · Fixed Medium 8x14 — 8x14",
     "cell": [
       12,
       18
@@ -1508,451 +1508,9 @@
     "hasDigits": true
   },
   {
-    "id": "setfont-ibm-a6c139cdb3",
-    "file": "setfont-ibm-a6c139cdb3.json",
-    "name": "Ibm Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-10x12-d6c2feb210",
-    "file": "ibm3270-10x12-d6c2feb210.json",
-    "name": "IBM3270 — 10x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-10x14-9d3e35a4fc",
-    "file": "ibm3270-10x14-9d3e35a4fc.json",
-    "name": "IBM3270 — 10x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-10x16-5e55030720",
-    "file": "ibm3270-10x16-5e55030720.json",
-    "name": "IBM3270 — 10x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-10x18-31a2ae3b49",
-    "file": "ibm3270-10x18-31a2ae3b49.json",
-    "name": "IBM3270 — 10x18",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-4x6-c1445671d2",
-    "file": "ibm3270-4x6-c1445671d2.json",
-    "name": "IBM3270 — 4x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-4x8-6c652047a1",
-    "file": "ibm3270-4x8-6c652047a1.json",
-    "name": "IBM3270 — 4x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-5x14-ad97a080c4",
-    "file": "ibm3270-5x14-ad97a080c4.json",
-    "name": "IBM3270 — 5x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-5x7-aab40dd6b3",
-    "file": "ibm3270-5x7-aab40dd6b3.json",
-    "name": "IBM3270 — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-5x9-dc12aa6b9f",
-    "file": "ibm3270-5x9-dc12aa6b9f.json",
-    "name": "IBM3270 — 5x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-6x10-bff2088328",
-    "file": "ibm3270-6x10-bff2088328.json",
-    "name": "IBM3270 — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-6x12-331b97fcfd",
-    "file": "ibm3270-6x12-331b97fcfd.json",
-    "name": "IBM3270 — 6x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-6x8-e3420a61f9",
-    "file": "ibm3270-6x8-e3420a61f9.json",
-    "name": "IBM3270 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-7x10-5a0b9ecdb2",
-    "file": "ibm3270-7x10-5a0b9ecdb2.json",
-    "name": "IBM3270 — 7x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-7x12-3b649e430b",
-    "file": "ibm3270-7x12-3b649e430b.json",
-    "name": "IBM3270 — 7x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-7x14-87347442ca",
-    "file": "ibm3270-7x14-87347442ca.json",
-    "name": "IBM3270 — 7x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-7x8-0820062905",
-    "file": "ibm3270-7x8-0820062905.json",
-    "name": "IBM3270 — 7x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-8x10-528367f70f",
-    "file": "ibm3270-8x10-528367f70f.json",
-    "name": "IBM3270 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-8x12-aa019b43df",
-    "file": "ibm3270-8x12-aa019b43df.json",
-    "name": "IBM3270 — 8x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-8x14-f3f9d4f566",
-    "file": "ibm3270-8x14-f3f9d4f566.json",
-    "name": "IBM3270 — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-8x16-2c36818145",
-    "file": "ibm3270-8x16-2c36818145.json",
-    "name": "IBM3270 — 8x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-8x18-5f0449402e",
-    "file": "ibm3270-8x18-5f0449402e.json",
-    "name": "IBM3270 — 8x18",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-8x8-3a3286c1b0",
-    "file": "ibm3270-8x8-3a3286c1b0.json",
-    "name": "IBM3270 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-9x10-2d0738afa6",
-    "file": "ibm3270-9x10-2d0738afa6.json",
-    "name": "IBM3270 — 9x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-9x12-bb0bf1a85d",
-    "file": "ibm3270-9x12-bb0bf1a85d.json",
-    "name": "IBM3270 — 9x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-9x14-7417efe532",
-    "file": "ibm3270-9x14-7417efe532.json",
-    "name": "IBM3270 — 9x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ibm3270-9x16-b368543fba",
-    "file": "ibm3270-9x16-b368543fba.json",
-    "name": "IBM3270 — 9x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "italic-ed5504f95d",
-    "file": "italic-ed5504f95d.json",
-    "name": "Italic 8 — 7x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-italic-d76b12a971",
-    "file": "setfont-italic-d76b12a971.json",
-    "name": "Italic Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-joindup-14b49b8fa7",
-    "file": "setfont-joindup-14b49b8fa7.json",
-    "name": "Joindup Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
     "id": "kyotronic-85-050901da1c",
     "file": "kyotronic-85-050901da1c.json",
     "name": "Kyotronic 85 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-lcd-c9a336bff3",
-    "file": "setfont-lcd-c9a336bff3.json",
-    "name": "Lcd Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "los-angeles-12-a50b8d2b15",
-    "file": "los-angeles-12-a50b8d2b15.json",
-    "name": "Los Angeles Regular 12 — 10x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "trs80-dvi-7x8-4125bd874a",
-    "file": "trs80-dvi-7x8-4125bd874a.json",
-    "name": "M17-Cg Regular 8 — 7x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "trs80-dvi-8x8-268eff8322",
-    "file": "trs80-dvi-8x8-268eff8322.json",
-    "name": "M17-Cg Regular 8 — 8x8",
     "cell": [
       12,
       18
@@ -1976,162 +1534,6 @@
     "hasDigits": true
   },
   {
-    "id": "mc6847-46ca1ae145",
-    "file": "mc6847-46ca1ae145.json",
-    "name": "MC-6847 — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 61,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "mc6847t1-1a2ae736ac",
-    "file": "mc6847t1-1a2ae736ac.json",
-    "name": "MC-6847T1 — 8x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "micro-05e59f62a8",
-    "file": "micro-05e59f62a8.json",
-    "name": "Micro 4x6 — 4x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "microknight-60b308a825",
-    "file": "microknight-60b308a825.json",
-    "name": "MicroKnight Regular 8x8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "mirrors-ega-dc8fbe8948",
-    "file": "mirrors-ega-dc8fbe8948.json",
-    "name": "Mirrors-EGA — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "mirrors-oem-vga-05389ca0eb",
-    "file": "mirrors-oem-vga-05389ca0eb.json",
-    "name": "Mirrors-OEM-VGA — 8x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "mo-soul-441b9d91d4",
-    "file": "mo-soul-441b9d91d4.json",
-    "name": "mO'sOul — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "modern-78d762fad7",
-    "file": "modern-78d762fad7.json",
-    "name": "Modern 8 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ms-serif-6-8d67beea05",
-    "file": "ms-serif-6-8d67beea05.json",
-    "name": "MS Serif 6 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ms-serif-6-a9db96eb45",
-    "file": "ms-serif-6-a9db96eb45.json",
-    "name": "MS Serif 6 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ms-serif-7-135934b42d",
-    "file": "ms-serif-7-135934b42d.json",
-    "name": "MS Serif 7 — 9x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ms-serif-7-9ef7dc80c8",
-    "file": "ms-serif-7-9ef7dc80c8.json",
-    "name": "MS Serif 7 — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
     "id": "msx-brazilian-expert10-0e6883116f",
     "file": "msx-brazilian-expert10-0e6883116f.json",
     "name": "MSX Brazilian (Gradiente Expert 1.0) — 8x8",
@@ -2145,40 +1547,14 @@
     "hasDigits": true
   },
   {
-    "id": "saa5051-germany-aad9c150c8",
-    "file": "saa5051-germany-aad9c150c8.json",
-    "name": "Mullard SAA-5051 (Germany) — 6x10",
+    "id": "videowriter250-9x12-43d7a2d1f4",
+    "file": "videowriter250-9x12-43d7a2d1f4.json",
+    "name": "NCR 7250 · VideoWriter250 Regular 9x12 — 9x12",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 85,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "saa5052-sweden-0245cf2111",
-    "file": "saa5052-sweden-0245cf2111.json",
-    "name": "Mullard SAA-5052 (Sweden) — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 84,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "saa5055-us-9f6ab0ed6b",
-    "file": "saa5055-us-9f6ab0ed6b.json",
-    "name": "Mullard SAA-5055 (US ASCII) — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
+    "glyphCount": 86,
     "hasUpper": true,
     "hasLower": true,
     "hasDigits": true
@@ -2197,9 +1573,9 @@
     "hasDigits": true
   },
   {
-    "id": "new-york-10-486adb8f66",
-    "file": "new-york-10-486adb8f66.json",
-    "name": "New York Regular 10 — 9x12",
+    "id": "courier-10-71d113f890",
+    "file": "courier-10-71d113f890.json",
+    "name": "NeXT · Courier 10 — 7x7",
     "cell": [
       12,
       18
@@ -2210,9 +1586,477 @@
     "hasDigits": true
   },
   {
-    "id": "new-york-9-775a494589",
-    "file": "new-york-9-775a494589.json",
-    "name": "New York Regular 9 — 9x12",
+    "id": "courier-12-da97c31d20",
+    "file": "courier-12-da97c31d20.json",
+    "name": "NeXT · Courier 12 — 7x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-14-f93987f95e",
+    "file": "courier-14-f93987f95e.json",
+    "name": "NeXT · Courier 14 — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-bold-10-8e4d037449",
+    "file": "courier-bold-10-8e4d037449.json",
+    "name": "NeXT · Courier-Bold 10 — 7x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-bold-12-14182657d9",
+    "file": "courier-bold-12-14182657d9.json",
+    "name": "NeXT · Courier-Bold 12 — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-bold-14-5bd5aee100",
+    "file": "courier-bold-14-5bd5aee100.json",
+    "name": "NeXT · Courier-Bold 14 — 10x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-boldoblique-10-4f4de56bd8",
+    "file": "courier-boldoblique-10-4f4de56bd8.json",
+    "name": "NeXT · Courier-BoldOblique 10 — 8x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-boldoblique-12-b78c6b4bde",
+    "file": "courier-boldoblique-12-b78c6b4bde.json",
+    "name": "NeXT · Courier-BoldOblique 12 — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-oblique-10-b78a1406f0",
+    "file": "courier-oblique-10-b78a1406f0.json",
+    "name": "NeXT · Courier-Oblique 10 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-oblique-12-a81526d215",
+    "file": "courier-oblique-12-a81526d215.json",
+    "name": "NeXT · Courier-Oblique 12 — 9x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-oblique-14-930eed8994",
+    "file": "courier-oblique-14-930eed8994.json",
+    "name": "NeXT · Courier-Oblique 14 — 10x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-bold-10-84b5b2d028",
+    "file": "helvetica-bold-10-84b5b2d028.json",
+    "name": "NeXT · Helvetica-Bold 10 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-bold-8-4de37fac52",
+    "file": "helvetica-bold-8-4de37fac52.json",
+    "name": "NeXT · Helvetica-Bold 8 — 7x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-boldoblique-8-6b5d1e829f",
+    "file": "helvetica-boldoblique-8-6b5d1e829f.json",
+    "name": "NeXT · Helvetica-BoldOblique 8 — 8x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-oblique-10-61015fd895",
+    "file": "helvetica-oblique-10-61015fd895.json",
+    "name": "NeXT · Helvetica-Oblique 10 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "helvetica-oblique-8-6828705b72",
+    "file": "helvetica-oblique-8-6828705b72.json",
+    "name": "NeXT · Helvetica-Oblique 8 — 8x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ohlfs-10-7def9b82c1",
+    "file": "ohlfs-10-7def9b82c1.json",
+    "name": "NeXT · Ohlfs 10 — 6x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ohlfs-12-40bd622a9a",
+    "file": "ohlfs-12-40bd622a9a.json",
+    "name": "NeXT · Ohlfs 12 — 7x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ohlfs-9-ee4b7a6efe",
+    "file": "ohlfs-9-ee4b7a6efe.json",
+    "name": "NeXT · Ohlfs 9 — 5x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-bold-10-8f021304e6",
+    "file": "times-bold-10-8f021304e6.json",
+    "name": "NeXT · Times-Bold 10 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-roman-7-5cbcac08f8",
+    "file": "times-roman-7-5cbcac08f8.json",
+    "name": "NeXT · Times-Roman 7 — 7x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-roman-9-c210df77d4",
+    "file": "times-roman-9-c210df77d4.json",
+    "name": "NeXT · Times-Roman 9 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "barbedor10-screen-d7f85ab13a",
+    "file": "barbedor10-screen-d7f85ab13a.json",
+    "name": "Oberon · Barbedor10.Scn.Fnt — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "barbedor10b-screen-40fa108ca5",
+    "file": "barbedor10b-screen-40fa108ca5.json",
+    "name": "Oberon · Barbedor10b.Scn.Fnt — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "barbedor10i-screen-35728284c2",
+    "file": "barbedor10i-screen-35728284c2.json",
+    "name": "Oberon · Barbedor10i.Scn.Fnt — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier10-screen-8632ae0ebf",
+    "file": "courier10-screen-8632ae0ebf.json",
+    "name": "Oberon · Courier10.Scn.Fnt — 7x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier12-screen-07f668b127",
+    "file": "courier12-screen-07f668b127.json",
+    "name": "Oberon · Courier12.Scn.Fnt — 8x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier8-screen-3128557ed1",
+    "file": "courier8-screen-3128557ed1.json",
+    "name": "Oberon · Courier8.Scn.Fnt — 6x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "syndor11-screen-1124de663d",
+    "file": "syndor11-screen-1124de663d.json",
+    "name": "Oberon · Syndor11.Scn.Fnt — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "syndor8j-screen-70bd73a1ac",
+    "file": "syndor8j-screen-70bd73a1ac.json",
+    "name": "Oberon · Syndor8j.Scn.Fnt — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "syndor9-screen-8fb9205306",
+    "file": "syndor9-screen-8fb9205306.json",
+    "name": "Oberon · Syndor9.Scn.Fnt — 8x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "syndor9i-screen-fa6e139caa",
+    "file": "syndor9i-screen-fa6e139caa.json",
+    "name": "Oberon · Syndor9i.Scn.Fnt — 8x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times10-screen-ce533a63af",
+    "file": "times10-screen-ce533a63af.json",
+    "name": "Oberon · Times10.Scn.Fnt — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times10b-screen-e31d7269d8",
+    "file": "times10b-screen-e31d7269d8.json",
+    "name": "Oberon · Times10b.Scn.Fnt — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times10i-screen-62dbdd9fd2",
+    "file": "times10i-screen-62dbdd9fd2.json",
+    "name": "Oberon · Times10i.Scn.Fnt — 9x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times8-screen-b68590049d",
+    "file": "times8-screen-b68590049d.json",
+    "name": "Oberon · Times8.Scn.Fnt — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times8b-screen-1c04e2134f",
+    "file": "times8b-screen-1c04e2134f.json",
+    "name": "Oberon · Times8b.Scn.Fnt — 8x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times8i-screen-479478dc5f",
+    "file": "times8i-screen-479478dc5f.json",
+    "name": "Oberon · Times8i.Scn.Fnt — 8x9",
     "cell": [
       12,
       18
@@ -2340,45 +2184,6 @@
     "hasDigits": true
   },
   {
-    "id": "ohlfs-10-7def9b82c1",
-    "file": "ohlfs-10-7def9b82c1.json",
-    "name": "Ohlfs 10 — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ohlfs-12-40bd622a9a",
-    "file": "ohlfs-12-40bd622a9a.json",
-    "name": "Ohlfs 12 — 7x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "ohlfs-9-ee4b7a6efe",
-    "file": "ohlfs-9-ee4b7a6efe.json",
-    "name": "Ohlfs 9 — 5x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
     "id": "olivetti-m10-uk-a44f094fb0",
     "file": "olivetti-m10-uk-a44f094fb0.json",
     "name": "Olivetti M10 — 6x8",
@@ -2392,9 +2197,9 @@
     "hasDigits": true
   },
   {
-    "id": "onyx-7x9-5f49b8d374",
-    "file": "onyx-7x9-5f49b8d374.json",
-    "name": "Onyx Regular 7x9 — 7x9",
+    "id": "courier-8x7-4e6eac7c65",
+    "file": "courier-8x7-4e6eac7c65.json",
+    "name": "OS/2 1.3 · Courier — 8x7",
     "cell": [
       12,
       18
@@ -2405,490 +2210,9 @@
     "hasDigits": true
   },
   {
-    "id": "p0t-ibm-787ebd04d1",
-    "file": "p0t-ibm-787ebd04d1.json",
-    "name": "P0T-Ibm Regular 8x8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "pdp1-1964-e2d95052c3",
-    "file": "pdp1-1964-e2d95052c3.json",
-    "name": "PDP-1 Character Display routine — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 79,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "pdp1-1961-codeword-289a053610",
-    "file": "pdp1-1961-codeword-289a053610.json",
-    "name": "PDP-1 Codeword Display routine — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 79,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "pdp1-bbn37-cc4326c619",
-    "file": "pdp1-bbn37-cc4326c619.json",
-    "name": "PDP-1 display routine BBN-37 — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 42,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "peridot-7-54159c3f96",
-    "file": "peridot-7-54159c3f96.json",
-    "name": "Peridot Regular 7 — 5x7",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "polarsmall-5064236b9b",
-    "file": "polarsmall-5064236b9b.json",
-    "name": "PolarSmall Regular 8x6 — 8x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "polarsmall-prop-40f91959cd",
-    "file": "polarsmall-prop-40f91959cd.json",
-    "name": "PolarSmall-Prop — 7x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-rounded-365cbb6537",
-    "file": "setfont-rounded-365cbb6537.json",
-    "name": "Rounded Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "feld-hell-tbs24a-7x14-2b214887e1",
-    "file": "feld-hell-tbs24a-7x14-2b214887e1.json",
-    "name": "S&H Feld-Hell Tbs 24a — 7x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 41,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "t-typ72-gl-7x14-9dc134b751",
-    "file": "t-typ72-gl-7x14-9dc134b751.json",
-    "name": "S&H T typ 72 GL — 7x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 48,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "sather-gothic-10-f122ea5dae",
-    "file": "sather-gothic-10-f122ea5dae.json",
-    "name": "Sather Gothic 10 — 9x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "sather-gothic-12-d606ff4de5",
-    "file": "sather-gothic-12-d606ff4de5.json",
-    "name": "Sather Gothic 12 — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-serif-67632f7833",
-    "file": "setfont-serif-67632f7833.json",
-    "name": "Serif Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "shaston-8-227b7d6e0c",
-    "file": "shaston-8-227b7d6e0c.json",
-    "name": "Shaston 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-3-3f8841163f",
-    "file": "small-fonts-3-3f8841163f.json",
-    "name": "Small Fonts 3 — 4x5",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 85,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-3-075025d6a8",
-    "file": "small-fonts-3-075025d6a8.json",
-    "name": "Small Fonts 3 — 5x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 84,
-    "hasUpper": true,
-    "hasLower": false,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-4-23fd1affcc",
-    "file": "small-fonts-4-23fd1affcc.json",
-    "name": "Small Fonts 4 — 5x5",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-4-c3c374a8af",
-    "file": "small-fonts-4-c3c374a8af.json",
-    "name": "Small Fonts 4 — 5x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-4-482f7c59f9",
-    "file": "small-fonts-4-482f7c59f9.json",
-    "name": "Small Fonts 4 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-5-bfeeaf7bab",
-    "file": "small-fonts-5-bfeeaf7bab.json",
-    "name": "Small Fonts 5 — 6x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-5-ab7957d74a",
-    "file": "small-fonts-5-ab7957d74a.json",
-    "name": "Small Fonts 5 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-6-0fde028ef5",
-    "file": "small-fonts-6-0fde028ef5.json",
-    "name": "Small Fonts 6 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-6-f022425758",
-    "file": "small-fonts-6-f022425758.json",
-    "name": "Small Fonts 6 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-6-b101900479",
-    "file": "small-fonts-6-b101900479.json",
-    "name": "Small Fonts 6 — 9x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-7-65de325098",
-    "file": "small-fonts-7-65de325098.json",
-    "name": "Small Fonts 7 — 9x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "small-fonts-7-11478c1a65",
-    "file": "small-fonts-7-11478c1a65.json",
-    "name": "Small Fonts 7 — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-square1-b8534eef7c",
-    "file": "setfont-square1-b8534eef7c.json",
-    "name": "Square1 Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-square2-dcf585af91",
-    "file": "setfont-square2-dcf585af91.json",
-    "name": "Square2 Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "squiggle-9520418063",
-    "file": "squiggle-9520418063.json",
-    "name": "Squiggle 8 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "swiss-7-vga-9e513b23a8",
-    "file": "swiss-7-vga-9e513b23a8.json",
-    "name": "Swiss — 8x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "swiss-7-ega-68c447a47f",
-    "file": "swiss-7-ega-68c447a47f.json",
-    "name": "Swiss — 8x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "syndor11-screen-1124de663d",
-    "file": "syndor11-screen-1124de663d.json",
-    "name": "Syndor11.Scn.Fnt — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "syndor8j-screen-70bd73a1ac",
-    "file": "syndor8j-screen-70bd73a1ac.json",
-    "name": "Syndor8j.Scn.Fnt — 10x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "syndor9-screen-8fb9205306",
-    "file": "syndor9-screen-8fb9205306.json",
-    "name": "Syndor9.Scn.Fnt — 8x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "syndor9i-screen-fa6e139caa",
-    "file": "syndor9i-screen-fa6e139caa.json",
-    "name": "Syndor9i.Scn.Fnt — 8x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-12-hi-76863a8a32",
-    "file": "system-12-hi-76863a8a32.json",
-    "name": "System 12 — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-12-sq-3d6b2f8c85",
-    "file": "system-12-sq-3d6b2f8c85.json",
-    "name": "System 12 — 8x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-12-lo-1029954661",
-    "file": "system-12-lo-1029954661.json",
-    "name": "System 12 — 8x8",
+    "id": "courier-9x8-270b584395",
+    "file": "courier-9x8-270b584395.json",
+    "name": "OS/2 1.3 · Courier — 9x8",
     "cell": [
       12,
       18
@@ -2901,7 +2225,7 @@
   {
     "id": "system-monospaced-8x12-b21f99c91d",
     "file": "system-monospaced-8x12-b21f99c91d.json",
-    "name": "System Monospaced — 8x12",
+    "name": "OS/2 1.3 · System Monospaced — 8x12",
     "cell": [
       12,
       18
@@ -2914,7 +2238,7 @@
   {
     "id": "system-monospaced-8x16-52be184516",
     "file": "system-monospaced-8x16-52be184516.json",
-    "name": "System Monospaced — 8x16",
+    "name": "OS/2 1.3 · System Monospaced — 8x16",
     "cell": [
       12,
       18
@@ -2927,176 +2251,7 @@
   {
     "id": "system-monospaced-8x8-8729349b76",
     "file": "system-monospaced-8x8-8729349b76.json",
-    "name": "System Monospaced — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-12-b2a2e4b2e9",
-    "file": "system-12-b2a2e4b2e9.json",
-    "name": "System Regular 12 — 10x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-10x18-d4d27e5a75",
-    "file": "system-vio-10x18-d4d27e5a75.json",
-    "name": "System VIO — 10x18",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-5x12-742df94ceb",
-    "file": "system-vio-5x12-742df94ceb.json",
-    "name": "System VIO — 5x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-5x16-b38e188628",
-    "file": "system-vio-5x16-b38e188628.json",
-    "name": "System VIO — 5x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-6x10-957dc6d727",
-    "file": "system-vio-6x10-957dc6d727.json",
-    "name": "System VIO — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-6x14-5b520283bf",
-    "file": "system-vio-6x14-5b520283bf.json",
-    "name": "System VIO — 6x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-7x15-bdf7042767",
-    "file": "system-vio-7x15-bdf7042767.json",
-    "name": "System VIO — 7x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-8x10-a4960ac608",
-    "file": "system-vio-8x10-a4960ac608.json",
-    "name": "System VIO — 8x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-8x12-77ee3d4421",
-    "file": "system-vio-8x12-77ee3d4421.json",
-    "name": "System VIO — 8x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-8x14-8841b0b0a6",
-    "file": "system-vio-8x14-8841b0b0a6.json",
-    "name": "System VIO — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-8x16-76504acae6",
-    "file": "system-vio-8x16-76504acae6.json",
-    "name": "System VIO — 8x16",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-8x18-3e3479782b",
-    "file": "system-vio-8x18-3e3479782b.json",
-    "name": "System VIO — 8x18",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "system-vio-8x8-3aaa9c30c6",
-    "file": "system-vio-8x8-3aaa9c30c6.json",
-    "name": "System VIO — 8x8",
+    "name": "OS/2 1.3 · System Monospaced — 8x8",
     "cell": [
       12,
       18
@@ -3109,7 +2264,7 @@
   {
     "id": "system-5x12-7c17931ad8",
     "file": "system-5x12-7c17931ad8.json",
-    "name": "System — 5x12",
+    "name": "OS/2 1.3 · System — 5x12",
     "cell": [
       12,
       18
@@ -3122,7 +2277,7 @@
   {
     "id": "system-5x16-037c66f566",
     "file": "system-5x16-037c66f566.json",
-    "name": "System — 5x16",
+    "name": "OS/2 1.3 · System — 5x16",
     "cell": [
       12,
       18
@@ -3135,7 +2290,7 @@
   {
     "id": "system-6x10-5b3726735d",
     "file": "system-6x10-5b3726735d.json",
-    "name": "System — 6x10",
+    "name": "OS/2 1.3 · System — 6x10",
     "cell": [
       12,
       18
@@ -3148,20 +2303,7 @@
   {
     "id": "system-6x14-3cf10aa779",
     "file": "system-6x14-3cf10aa779.json",
-    "name": "System — 6x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "gem-1-1-6x6-cga-49b49a8252",
-    "file": "gem-1-1-6x6-cga-49b49a8252.json",
-    "name": "System — 6x6",
+    "name": "OS/2 1.3 · System — 6x14",
     "cell": [
       12,
       18
@@ -3174,7 +2316,7 @@
   {
     "id": "system-8x10-334876a68c",
     "file": "system-8x10-334876a68c.json",
-    "name": "System — 8x10",
+    "name": "OS/2 1.3 · System — 8x10",
     "cell": [
       12,
       18
@@ -3187,20 +2329,7 @@
   {
     "id": "system-8x12-6b575d0bc2",
     "file": "system-8x12-6b575d0bc2.json",
-    "name": "System — 8x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "gem-3-1-8x14-1b31fee685",
-    "file": "gem-3-1-8x14-1b31fee685.json",
-    "name": "System — 8x14",
+    "name": "OS/2 1.3 · System — 8x12",
     "cell": [
       12,
       18
@@ -3213,46 +2342,7 @@
   {
     "id": "system-8x14-b0498720e0",
     "file": "system-8x14-b0498720e0.json",
-    "name": "System — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "viewmax-1-8x14-1ab41ffdb1",
-    "file": "viewmax-1-8x14-1ab41ffdb1.json",
-    "name": "System — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "viewmax-2-8x14-e0d5d4046c",
-    "file": "viewmax-2-8x14-e0d5d4046c.json",
-    "name": "System — 8x14",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "gem-3-1-8x16-4f8c21f0b9",
-    "file": "gem-3-1-8x16-4f8c21f0b9.json",
-    "name": "System — 8x16",
+    "name": "OS/2 1.3 · System — 8x14",
     "cell": [
       12,
       18
@@ -3265,7 +2355,7 @@
   {
     "id": "system-8x16-eba432e5d8",
     "file": "system-8x16-eba432e5d8.json",
-    "name": "System — 8x16",
+    "name": "OS/2 1.3 · System — 8x16",
     "cell": [
       12,
       18
@@ -3276,9 +2366,9 @@
     "hasDigits": true
   },
   {
-    "id": "viewmax-1-8x16-7f732cbdb7",
-    "file": "viewmax-1-8x16-7f732cbdb7.json",
-    "name": "System — 8x16",
+    "id": "tms-rmn-18-46b030984d",
+    "file": "tms-rmn-18-46b030984d.json",
+    "name": "OS/2 1.3 · Tms Rmn — 9x6",
     "cell": [
       12,
       18
@@ -3289,9 +2379,9 @@
     "hasDigits": true
   },
   {
-    "id": "viewmax-2-8x16-d2fcc5a899",
-    "file": "viewmax-2-8x16-d2fcc5a899.json",
-    "name": "System — 8x16",
+    "id": "system-vio-10x18-d4d27e5a75",
+    "file": "system-vio-10x18-d4d27e5a75.json",
+    "name": "OS/2 2.1 · System VIO — 10x18",
     "cell": [
       12,
       18
@@ -3302,9 +2392,9 @@
     "hasDigits": true
   },
   {
-    "id": "gem-3-1-8x8-5eb62a0ad1",
-    "file": "gem-3-1-8x8-5eb62a0ad1.json",
-    "name": "System — 8x8",
+    "id": "system-vio-5x12-742df94ceb",
+    "file": "system-vio-5x12-742df94ceb.json",
+    "name": "OS/2 2.1 · System VIO — 5x12",
     "cell": [
       12,
       18
@@ -3315,9 +2405,1062 @@
     "hasDigits": true
   },
   {
-    "id": "viewmax-1-8x8-98b4df11af",
-    "file": "viewmax-1-8x8-98b4df11af.json",
-    "name": "System — 8x8",
+    "id": "system-vio-5x16-b38e188628",
+    "file": "system-vio-5x16-b38e188628.json",
+    "name": "OS/2 2.1 · System VIO — 5x16",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-6x10-957dc6d727",
+    "file": "system-vio-6x10-957dc6d727.json",
+    "name": "OS/2 2.1 · System VIO — 6x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-6x14-5b520283bf",
+    "file": "system-vio-6x14-5b520283bf.json",
+    "name": "OS/2 2.1 · System VIO — 6x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-7x15-bdf7042767",
+    "file": "system-vio-7x15-bdf7042767.json",
+    "name": "OS/2 2.1 · System VIO — 7x15",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-8x10-a4960ac608",
+    "file": "system-vio-8x10-a4960ac608.json",
+    "name": "OS/2 2.1 · System VIO — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-8x12-77ee3d4421",
+    "file": "system-vio-8x12-77ee3d4421.json",
+    "name": "OS/2 2.1 · System VIO — 8x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-8x14-8841b0b0a6",
+    "file": "system-vio-8x14-8841b0b0a6.json",
+    "name": "OS/2 2.1 · System VIO — 8x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-8x16-76504acae6",
+    "file": "system-vio-8x16-76504acae6.json",
+    "name": "OS/2 2.1 · System VIO — 8x16",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-8x18-3e3479782b",
+    "file": "system-vio-8x18-3e3479782b.json",
+    "name": "OS/2 2.1 · System VIO — 8x18",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "system-vio-8x8-3aaa9c30c6",
+    "file": "system-vio-8x8-3aaa9c30c6.json",
+    "name": "OS/2 2.1 · System VIO — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "mirrors-ega-dc8fbe8948",
+    "file": "mirrors-ega-dc8fbe8948.json",
+    "name": "OS/2 Warp 3 · Mirrors-EGA — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "mirrors-oem-vga-05389ca0eb",
+    "file": "mirrors-oem-vga-05389ca0eb.json",
+    "name": "OS/2 Warp 3 · Mirrors-OEM-VGA — 8x15",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-10x12-d6c2feb210",
+    "file": "ibm3270-10x12-d6c2feb210.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 10x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-10x14-9d3e35a4fc",
+    "file": "ibm3270-10x14-9d3e35a4fc.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 10x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-10x16-5e55030720",
+    "file": "ibm3270-10x16-5e55030720.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 10x16",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-10x18-31a2ae3b49",
+    "file": "ibm3270-10x18-31a2ae3b49.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 10x18",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-4x6-c1445671d2",
+    "file": "ibm3270-4x6-c1445671d2.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 4x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-4x8-6c652047a1",
+    "file": "ibm3270-4x8-6c652047a1.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 4x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-5x14-ad97a080c4",
+    "file": "ibm3270-5x14-ad97a080c4.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 5x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-5x7-aab40dd6b3",
+    "file": "ibm3270-5x7-aab40dd6b3.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 5x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-5x9-dc12aa6b9f",
+    "file": "ibm3270-5x9-dc12aa6b9f.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 5x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-6x10-bff2088328",
+    "file": "ibm3270-6x10-bff2088328.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 6x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-6x12-331b97fcfd",
+    "file": "ibm3270-6x12-331b97fcfd.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 6x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-6x8-e3420a61f9",
+    "file": "ibm3270-6x8-e3420a61f9.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-7x10-5a0b9ecdb2",
+    "file": "ibm3270-7x10-5a0b9ecdb2.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 7x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-7x12-3b649e430b",
+    "file": "ibm3270-7x12-3b649e430b.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 7x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-7x14-87347442ca",
+    "file": "ibm3270-7x14-87347442ca.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 7x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-7x8-0820062905",
+    "file": "ibm3270-7x8-0820062905.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-8x10-528367f70f",
+    "file": "ibm3270-8x10-528367f70f.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-8x12-aa019b43df",
+    "file": "ibm3270-8x12-aa019b43df.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 8x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-8x14-f3f9d4f566",
+    "file": "ibm3270-8x14-f3f9d4f566.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 8x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-8x16-2c36818145",
+    "file": "ibm3270-8x16-2c36818145.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 8x16",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-8x18-5f0449402e",
+    "file": "ibm3270-8x18-5f0449402e.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 8x18",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-8x8-3a3286c1b0",
+    "file": "ibm3270-8x8-3a3286c1b0.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-9x10-2d0738afa6",
+    "file": "ibm3270-9x10-2d0738afa6.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 9x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-9x12-bb0bf1a85d",
+    "file": "ibm3270-9x12-bb0bf1a85d.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 9x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-9x14-7417efe532",
+    "file": "ibm3270-9x14-7417efe532.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 9x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ibm3270-9x16-b368543fba",
+    "file": "ibm3270-9x16-b368543fba.json",
+    "name": "OS/2 Warp 4 · IBM3270 — 9x16",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "warpsans-9-96x96dpi-bc0abfcd49",
+    "file": "warpsans-9-96x96dpi-bc0abfcd49.json",
+    "name": "OS/2 Warp 4 · WarpSans — 10x14",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "berkeley-10-28aa46ac71",
+    "file": "berkeley-10-28aa46ac71.json",
+    "name": "PC GEOS · Berkeley 10 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "berkeley-9-abb755bc2c",
+    "file": "berkeley-9-abb755bc2c.json",
+    "name": "PC GEOS · Berkeley 9 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "bison-12-f6d8a4b573",
+    "file": "bison-12-f6d8a4b573.json",
+    "name": "PC GEOS · Bison 12 — 5x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "bison-6x11-d87bd35464",
+    "file": "bison-6x11-d87bd35464.json",
+    "name": "PC GEOS · Bison 6x11 — 5x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "esquire-10-0-c36ccdc656",
+    "file": "esquire-10-0-c36ccdc656.json",
+    "name": "PC GEOS · Esquire 10 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "esquire-10-59047d4210",
+    "file": "esquire-10-59047d4210.json",
+    "name": "PC GEOS · Esquire 10 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "esquire-12-0-ace22a53fb",
+    "file": "esquire-12-0-ace22a53fb.json",
+    "name": "PC GEOS · Esquire 12 — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "esquire-12-059ceea2c6",
+    "file": "esquire-12-059ceea2c6.json",
+    "name": "PC GEOS · Esquire 12 — 9x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "esquire-9-e0401d3480",
+    "file": "esquire-9-e0401d3480.json",
+    "name": "PC GEOS · Esquire 9 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "esquire-9-0-d64875971f",
+    "file": "esquire-9-0-d64875971f.json",
+    "name": "PC GEOS · Esquire 9 — 9x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "sather-gothic-10-f122ea5dae",
+    "file": "sather-gothic-10-f122ea5dae.json",
+    "name": "PC GEOS · Sather Gothic 10 — 9x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "sather-gothic-12-d606ff4de5",
+    "file": "sather-gothic-12-d606ff4de5.json",
+    "name": "PC GEOS · Sather Gothic 12 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-10-a83a16937a",
+    "file": "urw-mono-10-a83a16937a.json",
+    "name": "PC GEOS · URW Mono 10 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-10-2-1b551123c3",
+    "file": "urw-mono-10-2-1b551123c3.json",
+    "name": "PC GEOS · URW Mono 10 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-10-1-ef427530e5",
+    "file": "urw-mono-10-1-ef427530e5.json",
+    "name": "PC GEOS · URW Mono 10 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-12-f2ac84f514",
+    "file": "urw-mono-12-f2ac84f514.json",
+    "name": "PC GEOS · URW Mono 12 — 8x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-12-1-c2a2efb273",
+    "file": "urw-mono-12-1-c2a2efb273.json",
+    "name": "PC GEOS · URW Mono 12 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-12-2-7ae629a00c",
+    "file": "urw-mono-12-2-7ae629a00c.json",
+    "name": "PC GEOS · URW Mono 12 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-14-2-37ac4c2a28",
+    "file": "urw-mono-14-2-37ac4c2a28.json",
+    "name": "PC GEOS · URW Mono 14 — 10x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-14-0-417a1e2bd4",
+    "file": "urw-mono-14-0-417a1e2bd4.json",
+    "name": "PC GEOS · URW Mono 14 — 10x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-10-0-e2b3bbbff5",
+    "file": "urw-mono-10-0-e2b3bbbff5.json",
+    "name": "PC GEOS · URW Mono 6x10 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-12-0-267416adf4",
+    "file": "urw-mono-12-0-267416adf4.json",
+    "name": "PC GEOS · URW Mono 7x12 — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-mono-14-0a097340f5",
+    "file": "urw-mono-14-0a097340f5.json",
+    "name": "PC GEOS · URW Mono 8x14 — 9x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-roman-10-2-8fc01d298c",
+    "file": "urw-roman-10-2-8fc01d298c.json",
+    "name": "PC GEOS · URW Roman 10 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-roman-10-0-ac73b3deed",
+    "file": "urw-roman-10-0-ac73b3deed.json",
+    "name": "PC GEOS · URW Roman 10 — 9x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-roman-10-1-7f14f2789a",
+    "file": "urw-roman-10-1-7f14f2789a.json",
+    "name": "PC GEOS · URW Roman 10 — 9x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-roman-10-9b5431aaa3",
+    "file": "urw-roman-10-9b5431aaa3.json",
+    "name": "PC GEOS · URW Roman 10 — 9x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-roman-12-1b67cd3e48",
+    "file": "urw-roman-12-1b67cd3e48.json",
+    "name": "PC GEOS · URW Roman 12 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-roman-12-2-abe0a55125",
+    "file": "urw-roman-12-2-abe0a55125.json",
+    "name": "PC GEOS · URW Roman 12 — 10x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-sans-10-546589f8b6",
+    "file": "urw-sans-10-546589f8b6.json",
+    "name": "PC GEOS · URW Sans 10 — 7x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-sans-10-0-350d282b54",
+    "file": "urw-sans-10-0-350d282b54.json",
+    "name": "PC GEOS · URW Sans 10 — 8x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-sans-10-1-b747bb264d",
+    "file": "urw-sans-10-1-b747bb264d.json",
+    "name": "PC GEOS · URW Sans 10 — 9x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "urw-sans-12-0e2283d01b",
+    "file": "urw-sans-12-0e2283d01b.json",
+    "name": "PC GEOS · URW Sans 12 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "zx-spectrum-f9cc61c714",
+    "file": "zx-spectrum-f9cc61c714.json",
+    "name": "Sinclair · ZX Spectrum — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 88,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "arial-1d3b2e0274",
+    "file": "arial-1d3b2e0274.json",
+    "name": "SymbOS · Arial 9 — 7x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "big-e8c1172bf8",
+    "file": "big-e8c1172bf8.json",
+    "name": "SymbOS · Big 10 — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "bold-1aab12e283",
+    "file": "bold-1aab12e283.json",
+    "name": "SymbOS · Bold 8 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "classic-8028561105",
+    "file": "classic-8028561105.json",
+    "name": "SymbOS · Classic 8 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "font4-02233a05f8",
+    "file": "font4-02233a05f8.json",
+    "name": "SymbOS · Font4 8 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "italic-ed5504f95d",
+    "file": "italic-ed5504f95d.json",
+    "name": "SymbOS · Italic 8 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "micro-05e59f62a8",
+    "file": "micro-05e59f62a8.json",
+    "name": "SymbOS · Micro 4x6 — 4x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "modern-78d762fad7",
+    "file": "modern-78d762fad7.json",
+    "name": "SymbOS · Modern 8 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "squiggle-9520418063",
+    "file": "squiggle-9520418063.json",
+    "name": "SymbOS · Squiggle 8 — 6x8",
     "cell": [
       12,
       18
@@ -3354,9 +3497,35 @@
     "hasDigits": true
   },
   {
-    "id": "terminal-12-sq-c744d6d70a",
-    "file": "terminal-12-sq-c744d6d70a.json",
-    "name": "Terminal 12 — 8x12",
+    "id": "saa5051-germany-aad9c150c8",
+    "file": "saa5051-germany-aad9c150c8.json",
+    "name": "Teletext · Mullard SAA-5051 (Germany) — 6x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 85,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "saa5052-sweden-0245cf2111",
+    "file": "saa5052-sweden-0245cf2111.json",
+    "name": "Teletext · Mullard SAA-5052 (Sweden) — 6x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 84,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "saa5055-us-9f6ab0ed6b",
+    "file": "saa5055-us-9f6ab0ed6b.json",
+    "name": "Teletext · Mullard SAA-5055 (US ASCII) — 6x10",
     "cell": [
       12,
       18
@@ -3367,9 +3536,9 @@
     "hasDigits": true
   },
   {
-    "id": "terminal-12-6dcc75e448",
-    "file": "terminal-12-6dcc75e448.json",
-    "name": "Terminal 12 — 8x8",
+    "id": "mera-elzab-meritum-lowercase-850d37237f",
+    "file": "mera-elzab-meritum-lowercase-850d37237f.json",
+    "name": "TRS-80 / Mera Elzab Meritum · Char 6x12 — 6x12",
     "cell": [
       12,
       18
@@ -3380,412 +3549,74 @@
     "hasDigits": true
   },
   {
-    "id": "terminal-120-82a11e209c",
-    "file": "terminal-120-82a11e209c.json",
-    "name": "Terminal 120 — 7x12",
+    "id": "mera-elzab-meritum-6b47cc419c",
+    "file": "mera-elzab-meritum-6b47cc419c.json",
+    "name": "TRS-80 / Mera Elzab Meritum · Chargen 6x12 — 6x12",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 89,
+    "glyphCount": 63,
     "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "terminal-hercules-cp437-537639b3ff",
-    "file": "terminal-hercules-cp437-537639b3ff.json",
-    "name": "Terminal 13 — 9x13",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "terminal-15-9c4bec598f",
-    "file": "terminal-15-9c4bec598f.json",
-    "name": "Terminal 15 — 4x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "terminal-90-1311c7d9a4",
-    "file": "terminal-90-1311c7d9a4.json",
-    "name": "Terminal 90 — 5x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "terminal-bold-21-0af13f3526",
-    "file": "terminal-bold-21-0af13f3526.json",
-    "name": "Terminal Bold 21 — 6x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-10-75f57fdd2e",
-    "file": "times-10-75f57fdd2e.json",
-    "name": "Times 10 — 9x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-9-cc03572098",
-    "file": "times-9-cc03572098.json",
-    "name": "Times 9 — 7x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-new-roman-8-86cbcac8d4",
-    "file": "times-new-roman-8-86cbcac8d4.json",
-    "name": "Times New Roman 8 — 10x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-9-af4d1e9588",
-    "file": "times-9-af4d1e9588.json",
-    "name": "Times Regular 9 — 7x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-bold-10-8f021304e6",
-    "file": "times-bold-10-8f021304e6.json",
-    "name": "Times-Bold 10 — 10x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-roman-7-5cbcac08f8",
-    "file": "times-roman-7-5cbcac08f8.json",
-    "name": "Times-Roman 7 — 7x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times-roman-9-c210df77d4",
-    "file": "times-roman-9-c210df77d4.json",
-    "name": "Times-Roman 9 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times10-screen-ce533a63af",
-    "file": "times10-screen-ce533a63af.json",
-    "name": "Times10.Scn.Fnt — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times10b-screen-e31d7269d8",
-    "file": "times10b-screen-e31d7269d8.json",
-    "name": "Times10b.Scn.Fnt — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times10i-screen-62dbdd9fd2",
-    "file": "times10i-screen-62dbdd9fd2.json",
-    "name": "Times10i.Scn.Fnt — 9x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times8-screen-b68590049d",
-    "file": "times8-screen-b68590049d.json",
-    "name": "Times8.Scn.Fnt — 9x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times8b-screen-1c04e2134f",
-    "file": "times8b-screen-1c04e2134f.json",
-    "name": "Times8b.Scn.Fnt — 8x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "times8i-screen-479478dc5f",
-    "file": "times8i-screen-479478dc5f.json",
-    "name": "Times8i.Scn.Fnt — 8x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "setfont-tiny-2df646dda2",
-    "file": "setfont-tiny-2df646dda2.json",
-    "name": "Tiny Regular 8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 88,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-10-2a56eb3ed3",
-    "file": "tms-rmn-10-2a56eb3ed3.json",
-    "name": "Tms Rmn 10 — 9x12",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-12-b7e332f416",
-    "file": "tms-rmn-12-b7e332f416.json",
-    "name": "Tms Rmn 12 — 10x15",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-8-6f7a0d4a87",
-    "file": "tms-rmn-8-6f7a0d4a87.json",
-    "name": "Tms Rmn 8 — 10x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-8-e5595438a1",
-    "file": "tms-rmn-8-e5595438a1.json",
-    "name": "Tms Rmn 8 — 10x13",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-8-b090b1bec2",
-    "file": "tms-rmn-8-b090b1bec2.json",
-    "name": "Tms Rmn 8 — 6x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-8-e35a74a433",
-    "file": "tms-rmn-8-e35a74a433.json",
-    "name": "Tms Rmn 8 — 9x10",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "tms-rmn-18-46b030984d",
-    "file": "tms-rmn-18-46b030984d.json",
-    "name": "Tms Rmn — 9x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "topaz-8x11-52cff24666",
-    "file": "topaz-8x11-52cff24666.json",
-    "name": "Topaz Regular 8x11 — 8x11",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "amiga-ks10-topaz-08-e772de950d",
-    "file": "amiga-ks10-topaz-08-e772de950d.json",
-    "name": "topaz/8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "amiga-ks30-topaz-08-9585d18817",
-    "file": "amiga-ks30-topaz-08-9585d18817.json",
-    "name": "topaz/8 — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "amiga-ks10-topaz-09-3e9b531548",
-    "file": "amiga-ks10-topaz-09-3e9b531548.json",
-    "name": "topaz/9 — 10x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "amiga-ks30-topaz-09-1c96ddb4b3",
-    "file": "amiga-ks30-topaz-09-1c96ddb4b3.json",
-    "name": "topaz/9 — 10x9",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
+    "hasLower": false,
     "hasDigits": true
   },
   {
     "id": "trs80-coco3-d0251e3476",
     "file": "trs80-coco3-d0251e3476.json",
     "name": "TRS-80 Color Computer 3 — 8x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "mc6847-46ca1ae145",
+    "file": "mc6847-46ca1ae145.json",
+    "name": "TRS-80 Color Computer · MC-6847 — 5x7",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 61,
+    "hasUpper": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "mc6847t1-1a2ae736ac",
+    "file": "mc6847t1-1a2ae736ac.json",
+    "name": "TRS-80 Color Computer · MC-6847T1 — 8x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "trs80-dvi-7x8-4125bd874a",
+    "file": "trs80-dvi-7x8-4125bd874a.json",
+    "name": "TRS-80 Disk/Video Interface · M17-Cg Regular 8 — 7x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "trs80-dvi-8x8-268eff8322",
+    "file": "trs80-dvi-8x8-268eff8322.json",
+    "name": "TRS-80 Disk/Video Interface · M17-Cg Regular 8 — 8x8",
     "cell": [
       12,
       18
@@ -3837,7 +3668,7 @@
   {
     "id": "tvc-fb977a9440",
     "file": "tvc-fb977a9440.json",
-    "name": "TVC 8x10 — 8x10",
+    "name": "Videoton · TVC 8x10 — 8x10",
     "cell": [
       12,
       18
@@ -3848,9 +3679,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-10-a83a16937a",
-    "file": "urw-mono-10-a83a16937a.json",
-    "name": "URW Mono 10 — 6x8",
+    "id": "courier-10-b3c1230233",
+    "file": "courier-10-b3c1230233.json",
+    "name": "Windows 1.04 · Courier 10 — 6x12",
     "cell": [
       12,
       18
@@ -3861,9 +3692,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-10-2-1b551123c3",
-    "file": "urw-mono-10-2-1b551123c3.json",
-    "name": "URW Mono 10 — 7x8",
+    "id": "courier-10-7918369993",
+    "file": "courier-10-7918369993.json",
+    "name": "Windows 1.04 · Courier 10 — 9x12",
     "cell": [
       12,
       18
@@ -3874,9 +3705,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-10-1-ef427530e5",
-    "file": "urw-mono-10-1-ef427530e5.json",
-    "name": "URW Mono 10 — 8x8",
+    "id": "courier-12-0ce003e42d",
+    "file": "courier-12-0ce003e42d.json",
+    "name": "Windows 1.04 · Courier 12 — 8x15",
     "cell": [
       12,
       18
@@ -3887,9 +3718,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-12-f2ac84f514",
-    "file": "urw-mono-12-f2ac84f514.json",
-    "name": "URW Mono 12 — 8x9",
+    "id": "courier-8-3124162eef",
+    "file": "courier-8-3124162eef.json",
+    "name": "Windows 1.04 · Courier 8 — 10x10",
     "cell": [
       12,
       18
@@ -3900,9 +3731,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-12-1-c2a2efb273",
-    "file": "urw-mono-12-1-c2a2efb273.json",
-    "name": "URW Mono 12 — 9x9",
+    "id": "courier-8-22a65a5274",
+    "file": "courier-8-22a65a5274.json",
+    "name": "Windows 1.04 · Courier 8 — 5x10",
     "cell": [
       12,
       18
@@ -3913,9 +3744,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-12-2-7ae629a00c",
-    "file": "urw-mono-12-2-7ae629a00c.json",
-    "name": "URW Mono 12 — 9x9",
+    "id": "courier-8-bdb03e7e4a",
+    "file": "courier-8-bdb03e7e4a.json",
+    "name": "Windows 1.04 · Courier 8 — 8x10",
     "cell": [
       12,
       18
@@ -3926,9 +3757,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-14-2-37ac4c2a28",
-    "file": "urw-mono-14-2-37ac4c2a28.json",
-    "name": "URW Mono 14 — 10x10",
+    "id": "courier-8-2ca677150a",
+    "file": "courier-8-2ca677150a.json",
+    "name": "Windows 1.04 · Courier 8 — 8x6",
     "cell": [
       12,
       18
@@ -3939,9 +3770,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-14-0-417a1e2bd4",
-    "file": "urw-mono-14-0-417a1e2bd4.json",
-    "name": "URW Mono 14 — 10x11",
+    "id": "helv-10-142a211679",
+    "file": "helv-10-142a211679.json",
+    "name": "Windows 1.04 · Helv 10 — 8x12",
     "cell": [
       12,
       18
@@ -3952,9 +3783,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-10-0-e2b3bbbff5",
-    "file": "urw-mono-10-0-e2b3bbbff5.json",
-    "name": "URW Mono 6x10 — 6x8",
+    "id": "helv-12-3655b242b0",
+    "file": "helv-12-3655b242b0.json",
+    "name": "Windows 1.04 · Helv 12 — 10x15",
     "cell": [
       12,
       18
@@ -3965,9 +3796,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-12-0-267416adf4",
-    "file": "urw-mono-12-0-267416adf4.json",
-    "name": "URW Mono 7x12 — 8x10",
+    "id": "helv-8-efb022c879",
+    "file": "helv-8-efb022c879.json",
+    "name": "Windows 1.04 · Helv 8 — 10x10",
     "cell": [
       12,
       18
@@ -3978,9 +3809,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-mono-14-0a097340f5",
-    "file": "urw-mono-14-0a097340f5.json",
-    "name": "URW Mono 8x14 — 9x12",
+    "id": "helv-8-287e11ddc0",
+    "file": "helv-8-287e11ddc0.json",
+    "name": "Windows 1.04 · Helv 8 — 6x10",
     "cell": [
       12,
       18
@@ -3991,9 +3822,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-roman-10-2-8fc01d298c",
-    "file": "urw-roman-10-2-8fc01d298c.json",
-    "name": "URW Roman 10 — 8x8",
+    "id": "tms-rmn-10-2a56eb3ed3",
+    "file": "tms-rmn-10-2a56eb3ed3.json",
+    "name": "Windows 1.04 · Tms Rmn 10 — 9x12",
     "cell": [
       12,
       18
@@ -4004,9 +3835,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-roman-10-0-ac73b3deed",
-    "file": "urw-roman-10-0-ac73b3deed.json",
-    "name": "URW Roman 10 — 9x8",
+    "id": "tms-rmn-12-b7e332f416",
+    "file": "tms-rmn-12-b7e332f416.json",
+    "name": "Windows 1.04 · Tms Rmn 12 — 10x15",
     "cell": [
       12,
       18
@@ -4017,9 +3848,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-roman-10-1-7f14f2789a",
-    "file": "urw-roman-10-1-7f14f2789a.json",
-    "name": "URW Roman 10 — 9x8",
+    "id": "tms-rmn-8-b090b1bec2",
+    "file": "tms-rmn-8-b090b1bec2.json",
+    "name": "Windows 1.04 · Tms Rmn 8 — 6x10",
     "cell": [
       12,
       18
@@ -4030,9 +3861,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-roman-10-9b5431aaa3",
-    "file": "urw-roman-10-9b5431aaa3.json",
-    "name": "URW Roman 10 — 9x8",
+    "id": "tms-rmn-8-e35a74a433",
+    "file": "tms-rmn-8-e35a74a433.json",
+    "name": "Windows 1.04 · Tms Rmn 8 — 9x10",
     "cell": [
       12,
       18
@@ -4043,9 +3874,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-roman-12-1b67cd3e48",
-    "file": "urw-roman-12-1b67cd3e48.json",
-    "name": "URW Roman 12 — 10x9",
+    "id": "courier-10-48ac87dfd6",
+    "file": "courier-10-48ac87dfd6.json",
+    "name": "Windows 2.03 · Courier 10 — 9x16",
     "cell": [
       12,
       18
@@ -4056,9 +3887,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-roman-12-2-abe0a55125",
-    "file": "urw-roman-12-2-abe0a55125.json",
-    "name": "URW Roman 12 — 10x9",
+    "id": "system-12-hi-76863a8a32",
+    "file": "system-12-hi-76863a8a32.json",
+    "name": "Windows 2.03 · System 12 — 8x10",
     "cell": [
       12,
       18
@@ -4069,9 +3900,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-sans-10-546589f8b6",
-    "file": "urw-sans-10-546589f8b6.json",
-    "name": "URW Sans 10 — 7x7",
+    "id": "system-12-sq-3d6b2f8c85",
+    "file": "system-12-sq-3d6b2f8c85.json",
+    "name": "Windows 2.03 · System 12 — 8x15",
     "cell": [
       12,
       18
@@ -4082,9 +3913,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-sans-10-0-350d282b54",
-    "file": "urw-sans-10-0-350d282b54.json",
-    "name": "URW Sans 10 — 8x7",
+    "id": "system-12-lo-1029954661",
+    "file": "system-12-lo-1029954661.json",
+    "name": "Windows 2.03 · System 12 — 8x8",
     "cell": [
       12,
       18
@@ -4095,9 +3926,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-sans-10-1-b747bb264d",
-    "file": "urw-sans-10-1-b747bb264d.json",
-    "name": "URW Sans 10 — 9x7",
+    "id": "terminal-12-sq-c744d6d70a",
+    "file": "terminal-12-sq-c744d6d70a.json",
+    "name": "Windows 2.03 · Terminal 12 — 8x12",
     "cell": [
       12,
       18
@@ -4108,9 +3939,9 @@
     "hasDigits": true
   },
   {
-    "id": "urw-sans-12-0e2283d01b",
-    "file": "urw-sans-12-0e2283d01b.json",
-    "name": "URW Sans 12 — 9x9",
+    "id": "terminal-12-6dcc75e448",
+    "file": "terminal-12-6dcc75e448.json",
+    "name": "Windows 2.03 · Terminal 12 — 8x8",
     "cell": [
       12,
       18
@@ -4121,35 +3952,152 @@
     "hasDigits": true
   },
   {
-    "id": "videowriter250-9x12-43d7a2d1f4",
-    "file": "videowriter250-9x12-43d7a2d1f4.json",
-    "name": "VideoWriter250 Regular 9x12 — 9x12",
+    "id": "tms-rmn-8-6f7a0d4a87",
+    "file": "tms-rmn-8-6f7a0d4a87.json",
+    "name": "Windows 2.03 · Tms Rmn 8 — 10x10",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 86,
+    "glyphCount": 89,
     "hasUpper": true,
     "hasLower": true,
     "hasDigits": true
   },
   {
-    "id": "vt05-7f476aeaf8",
-    "file": "vt05-7f476aeaf8.json",
-    "name": "VT05 — 5x7",
+    "id": "tms-rmn-8-e5595438a1",
+    "file": "tms-rmn-8-e5595438a1.json",
+    "name": "Windows 2.03 · Tms Rmn 8 — 10x13",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 63,
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "terminal-hercules-cp437-537639b3ff",
+    "file": "terminal-hercules-cp437-537639b3ff.json",
+    "name": "Windows 3.0 · Terminal 13 — 9x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "arial-8-eb9060f530",
+    "file": "arial-8-eb9060f530.json",
+    "name": "Windows 3.1 · Arial 8 — 10x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "courier-10-4a4a133df7",
+    "file": "courier-10-4a4a133df7.json",
+    "name": "Windows 3.1 · Courier 10 — 8x13",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ms-serif-6-8d67beea05",
+    "file": "ms-serif-6-8d67beea05.json",
+    "name": "Windows 3.1 · MS Serif 6 — 8x10",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ms-serif-6-a9db96eb45",
+    "file": "ms-serif-6-a9db96eb45.json",
+    "name": "Windows 3.1 · MS Serif 6 — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ms-serif-7-135934b42d",
+    "file": "ms-serif-7-135934b42d.json",
+    "name": "Windows 3.1 · MS Serif 7 — 9x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "ms-serif-7-9ef7dc80c8",
+    "file": "ms-serif-7-9ef7dc80c8.json",
+    "name": "Windows 3.1 · MS Serif 7 — 9x9",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "small-fonts-3-3f8841163f",
+    "file": "small-fonts-3-3f8841163f.json",
+    "name": "Windows 3.1 · Small Fonts 3 — 4x5",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 85,
     "hasUpper": true,
     "hasLower": false,
     "hasDigits": true
   },
   {
-    "id": "warpsans-9-96x96dpi-bc0abfcd49",
-    "file": "warpsans-9-96x96dpi-bc0abfcd49.json",
-    "name": "WarpSans — 10x14",
+    "id": "small-fonts-3-075025d6a8",
+    "file": "small-fonts-3-075025d6a8.json",
+    "name": "Windows 3.1 · Small Fonts 3 — 5x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 84,
+    "hasUpper": true,
+    "hasLower": false,
+    "hasDigits": true
+  },
+  {
+    "id": "small-fonts-4-23fd1affcc",
+    "file": "small-fonts-4-23fd1affcc.json",
+    "name": "Windows 3.1 · Small Fonts 4 — 5x5",
     "cell": [
       12,
       18
@@ -4160,9 +4108,9 @@
     "hasDigits": true
   },
   {
-    "id": "xcourier-15-67afceac89",
-    "file": "xcourier-15-67afceac89.json",
-    "name": "XCourier Regular 15 — 9x15",
+    "id": "small-fonts-4-c3c374a8af",
+    "file": "small-fonts-4-c3c374a8af.json",
+    "name": "Windows 3.1 · Small Fonts 4 — 5x6",
     "cell": [
       12,
       18
@@ -4173,9 +4121,9 @@
     "hasDigits": true
   },
   {
-    "id": "xcourier-6x11-1e61becf35",
-    "file": "xcourier-6x11-1e61becf35.json",
-    "name": "XCourier Regular 6x11 — 6x11",
+    "id": "small-fonts-4-482f7c59f9",
+    "file": "small-fonts-4-482f7c59f9.json",
+    "name": "Windows 3.1 · Small Fonts 4 — 6x8",
     "cell": [
       12,
       18
@@ -4186,9 +4134,9 @@
     "hasDigits": true
   },
   {
-    "id": "xcourier-7x13-998b7091c1",
-    "file": "xcourier-7x13-998b7091c1.json",
-    "name": "XCourier Regular 7x13 — 7x13",
+    "id": "small-fonts-5-bfeeaf7bab",
+    "file": "small-fonts-5-bfeeaf7bab.json",
+    "name": "Windows 3.1 · Small Fonts 5 — 6x6",
     "cell": [
       12,
       18
@@ -4199,9 +4147,9 @@
     "hasDigits": true
   },
   {
-    "id": "xen-6x8-530ce46ad8",
-    "file": "xen-6x8-530ce46ad8.json",
-    "name": "Xen Regular 6x8 — 6x8",
+    "id": "small-fonts-5-ab7957d74a",
+    "file": "small-fonts-5-ab7957d74a.json",
+    "name": "Windows 3.1 · Small Fonts 5 — 8x10",
     "cell": [
       12,
       18
@@ -4212,9 +4160,9 @@
     "hasDigits": true
   },
   {
-    "id": "xen-6x9-7450484a76",
-    "file": "xen-6x9-7450484a76.json",
-    "name": "Xen Regular 6x9 — 6x9",
+    "id": "small-fonts-6-0fde028ef5",
+    "file": "small-fonts-6-0fde028ef5.json",
+    "name": "Windows 3.1 · Small Fonts 6 — 8x10",
     "cell": [
       12,
       18
@@ -4225,9 +4173,9 @@
     "hasDigits": true
   },
   {
-    "id": "xen-7x11-71d61f20d6",
-    "file": "xen-7x11-71d61f20d6.json",
-    "name": "Xen Regular 7x11 — 7x11",
+    "id": "small-fonts-6-f022425758",
+    "file": "small-fonts-6-f022425758.json",
+    "name": "Windows 3.1 · Small Fonts 6 — 8x8",
     "cell": [
       12,
       18
@@ -4238,9 +4186,9 @@
     "hasDigits": true
   },
   {
-    "id": "xhelvetica-11-cede2b6965",
-    "file": "xhelvetica-11-cede2b6965.json",
-    "name": "XHelvetica Regular 11 — 9x11",
+    "id": "small-fonts-6-b101900479",
+    "file": "small-fonts-6-b101900479.json",
+    "name": "Windows 3.1 · Small Fonts 6 — 9x12",
     "cell": [
       12,
       18
@@ -4251,9 +4199,9 @@
     "hasDigits": true
   },
   {
-    "id": "xhelvetica-13-45ce20ef9c",
-    "file": "xhelvetica-13-45ce20ef9c.json",
-    "name": "XHelvetica Regular 13 — 9x13",
+    "id": "small-fonts-7-65de325098",
+    "file": "small-fonts-7-65de325098.json",
+    "name": "Windows 3.1 · Small Fonts 7 — 9x11",
     "cell": [
       12,
       18
@@ -4264,9 +4212,9 @@
     "hasDigits": true
   },
   {
-    "id": "xhelvetica-9-1f548575d5",
-    "file": "xhelvetica-9-1f548575d5.json",
-    "name": "XHelvetica Regular 9 — 5x9",
+    "id": "small-fonts-7-11478c1a65",
+    "file": "small-fonts-7-11478c1a65.json",
+    "name": "Windows 3.1 · Small Fonts 7 — 9x9",
     "cell": [
       12,
       18
@@ -4277,14 +4225,66 @@
     "hasDigits": true
   },
   {
-    "id": "zx-spectrum-f9cc61c714",
-    "file": "zx-spectrum-f9cc61c714.json",
-    "name": "ZX Spectrum — 8x8",
+    "id": "terminal-120-82a11e209c",
+    "file": "terminal-120-82a11e209c.json",
+    "name": "Windows 3.1 · Terminal 120 — 7x12",
     "cell": [
       12,
       18
     ],
-    "glyphCount": 88,
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "terminal-15-9c4bec598f",
+    "file": "terminal-15-9c4bec598f.json",
+    "name": "Windows 3.1 · Terminal 15 — 4x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "terminal-90-1311c7d9a4",
+    "file": "terminal-90-1311c7d9a4.json",
+    "name": "Windows 3.1 · Terminal 90 — 5x12",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "terminal-bold-21-0af13f3526",
+    "file": "terminal-bold-21-0af13f3526.json",
+    "name": "Windows 3.1 · Terminal Bold 21 — 6x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "times-new-roman-8-86cbcac8d4",
+    "file": "times-new-roman-8-86cbcac8d4.json",
+    "name": "Windows 3.1 · Times New Roman 8 — 10x11",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
     "hasUpper": true,
     "hasLower": true,
     "hasDigits": true

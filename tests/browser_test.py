@@ -1025,7 +1025,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         manifest = json.loads((ROOT/'fonts/manifest-hoard.json').read_text(encoding='utf-8'))
         await self.page.select_option('#fontLibraryFilter', 'hoard')
         await self.page.wait_for_function("count=>document.querySelector('#fontResultsCount').textContent===`${count} fonts`", arg=len(manifest))
-        for prefix in ['Acorn BBC Master — 8x8', 'topaz/8 — 8x8', 'Oberon9m.Scn.Fnt — 7x9']:
+        for prefix in ['Acorn BBC Master — 8x8', 'Amiga Kickstart 1.0 · topaz/8 — 8x8', 'Oberon9m.Scn.Fnt — 7x9']:
             entry = next(e for e in manifest if e['name'] == prefix)
             await self.page.locator('#fontSearch').fill(prefix)
             await self.page.locator(f'[data-font-id="hoard::{entry["file"]}"]').click()

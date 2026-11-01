@@ -43,8 +43,37 @@ class BaselineTests(unittest.TestCase):
                 aliases[variant['file']] = variant
         self.assertEqual(set(aliases), removed.keys())
         self.assertEqual({path.name for path in (ROOT / 'fonts/data/hoard').glob('*.json')}, {entry['file'] for entry in manifest})
-        self.assertEqual(sum(entry['name'] == 'Terminal 12 — 8x12' for entry in manifest), 1)
-        self.assertEqual([entry['name'] for entry in manifest if entry['name'].startswith('P0T-')], ['P0T-Ibm Regular 8x8 — 8x8'])
+        self.assertEqual(sum(entry['name'] == 'Windows 2.03 · Terminal 12 — 8x12' for entry in manifest), 1)
+        self.assertEqual([entry['name'] for entry in manifest if 'P0T-' in entry['name']], ['Amiga · P0T-Ibm Regular 8x8 — 8x8'])
+
+    def test_system_names_follow_platform_folders_not_family_or_author_folders(self):
+        examples = [
+            ('apple/mac/Geneva_9.yaff', 'Geneva 9', 'Apple Macintosh · Geneva 9'),
+            ('apple/iigs/Geneva_9.yaff', 'Geneva 9', 'Apple IIgs · Geneva 9'),
+            ('apple/ii/apple-iic.yaff', 'Apple IIe Enhanced', 'Apple IIe Enhanced'),
+            ('atari/st/atari-st-8x8.yaff', '8x8 system font', 'Atari ST · 8x8 system font'),
+            ('atari/8-bit/atascii.yaff', 'Atari Classic 8x8', 'Atari 8-bit · Classic 8x8'),
+            ('next/Courier/Courier_12.yaff', 'Courier 12', 'NeXT · Courier 12'),
+            ('windows/windows-3.1/arial-b/Arial_8.yaff', 'Arial 8', 'Windows 3.1 · Arial 8'),
+            ('os-2/os2_warp4/pcomos2/IBM3270_4x6.yaff', 'IBM3270', 'OS/2 Warp 4 · IBM3270'),
+            ('amiga/amiga-ks10-topaz-08.yaff', 'topaz/8', 'Amiga Kickstart 1.0 · topaz/8'),
+            ('amiga/workbench-3.1/Courier_13.yaff', 'Courier Regular 13', 'Amiga Workbench 3.1 · Courier Regular 13'),
+            ('|custom|/amiga/nudelfonts/PolarSmall-Prop.yaff', '$VER: PolarSmall-Prop6 39.0 (18.', 'Amiga · PolarSmall-Prop'),
+            ('|custom|/amstrad_setfont/setfont-bold.yaff', 'Bold Regular 8', 'Amstrad PCW · Bold Regular 8'),
+            ('kyotronic/trs80-dvi-7x8.yaff', 'M17-Cg Regular 8', 'TRS-80 Disk/Video Interface · M17-Cg Regular 8'),
+            ('oberon/Oberon9m.screen.yaff', 'Oberon9m.Scn.Fnt', 'Oberon9m.Scn.Fnt'),
+            ('acorn/bbc/bbc_master.yaff', 'Acorn BBC Master', 'Acorn BBC Master'),
+        ]
+        for path, name, expected in examples:
+            with self.subTest(path=path):
+                self.assertEqual(importer.library_name(name, {'source_name': 'PolarSmall-Prop.font'}, path), expected)
+
+    def test_every_library_label_includes_its_source_system(self):
+        manifest = json.loads((ROOT / 'fonts/manifest-hoard.json').read_text(encoding='utf-8'))
+        for entry in manifest:
+            source = json.loads((ROOT / 'fonts/data/hoard' / entry['file']).read_text(encoding='utf-8'))['_source']
+            with self.subTest(path=source['path']):
+                self.assertIn(importer.source_system(source['path']).casefold(), entry['name'].casefold())
 
     def test_non_latin_source_variants_stay_excluded_even_with_roman_letters(self):
         for path, name, encoding in [

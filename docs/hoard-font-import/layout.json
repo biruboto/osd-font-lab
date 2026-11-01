@@ -744,7 +744,7 @@
       "keptFile": "kyotronic-85-050901da1c.json",
       "keptName": "Kyotronic 85 \u2014 6x8",
       "removedFile": "pk8000-0c3ff2b223.json",
-      "removedName": "PK-8000 Hobbi/Vesta/Sura \u2014 8x8",
+      "removedName": "MSX \u00b7 PK-8000 Hobbi/Vesta/Sura \u2014 8x8",
       "source": "msx/pk8000.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1109,7 +1109,7 @@
       "keptFile": "kyotronic-85-050901da1c.json",
       "keptName": "Kyotronic 85 \u2014 6x8",
       "removedFile": "pk8002-0e66b4fe6b.json",
-      "removedName": "PK-8002 Elf \u2014 5x8",
+      "removedName": "MSX \u00b7 PK-8002 Elf \u2014 5x8",
       "source": "msx/pk8002.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1128,9 +1128,9 @@
     },
     {
       "keptFile": "saa5055-us-9f6ab0ed6b.json",
-      "keptName": "Mullard SAA-5055 (US ASCII) \u2014 6x10",
+      "keptName": "Teletext \u00b7 Mullard SAA-5055 (US ASCII) \u2014 6x10",
       "removedFile": "saa5050-uk-1fdfa7d40f.json",
-      "removedName": "Mullard SAA-5050 (UK) \u2014 6x10",
+      "removedName": "Teletext \u00b7 Mullard SAA-5050 (UK) \u2014 6x10",
       "source": "teletext/saa5050-uk.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1165,9 +1165,9 @@
     },
     {
       "keptFile": "saa5055-us-9f6ab0ed6b.json",
-      "keptName": "Mullard SAA-5055 (US ASCII) \u2014 6x10",
+      "keptName": "Teletext \u00b7 Mullard SAA-5055 (US ASCII) \u2014 6x10",
       "removedFile": "riscos-3-8x10-3b90b8e677.json",
-      "removedName": "RISC OS 3 8x10 \u2014 8x10",
+      "removedName": "Acorn \u00b7 RISC OS 3 8x10 \u2014 8x10",
       "source": "acorn/riscos/riscos-3-8x10.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -1215,9 +1215,9 @@
     },
     {
       "keptFile": "saa5055-us-9f6ab0ed6b.json",
-      "keptName": "Mullard SAA-5055 (US ASCII) \u2014 6x10",
+      "keptName": "Teletext \u00b7 Mullard SAA-5055 (US ASCII) \u2014 6x10",
       "removedFile": "saa5053-italy-8ffe6efafb.json",
-      "removedName": "mullard SAA-5053 (Italy) \u2014 6x10",
+      "removedName": "Teletext \u00b7 mullard SAA-5053 (Italy) \u2014 6x10",
       "source": "teletext/saa5053-italy.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1256,9 +1256,9 @@
     },
     {
       "keptFile": "saa5055-us-9f6ab0ed6b.json",
-      "keptName": "Mullard SAA-5055 (US ASCII) \u2014 6x10",
+      "keptName": "Teletext \u00b7 Mullard SAA-5055 (US ASCII) \u2014 6x10",
       "removedFile": "saa5054-belgium-0a4d9e4bf3.json",
-      "removedName": "Mullard SAA-5054 (Belgium) \u2014 6x10",
+      "removedName": "Teletext \u00b7 Mullard SAA-5054 (Belgium) \u2014 6x10",
       "source": "teletext/saa5054-belgium.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -1385,9 +1385,9 @@
     },
     {
       "keptFile": "courier-10-4a4a133df7.json",
-      "keptName": "Courier 10 \u2014 8x13",
+      "keptName": "Windows 3.1 \u00b7 Courier 10 \u2014 8x13",
       "removedFile": "courier-8-8a85497469.json",
-      "removedName": "Courier 8 \u2014 8x13",
+      "removedName": "Windows 2.03 \u00b7 Courier 8 \u2014 8x13",
       "source": "windows/windows-2.03/courier-e/Courier_8.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1402,9 +1402,9 @@
     },
     {
       "keptFile": "courier-10-4a4a133df7.json",
-      "keptName": "Courier 10 \u2014 8x13",
+      "keptName": "Windows 3.1 \u00b7 Courier 10 \u2014 8x13",
       "removedFile": "courier-8x13-442d4e7749.json",
-      "removedName": "Courier \u2014 8x13",
+      "removedName": "OS/2 2.1 \u00b7 Courier \u2014 8x13",
       "source": "os-2/os2_2.1/courier/Courier_8x13.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1419,9 +1419,9 @@
     },
     {
       "keptFile": "courier-10-4a4a133df7.json",
-      "keptName": "Courier 10 \u2014 8x13",
+      "keptName": "Windows 3.1 \u00b7 Courier 10 \u2014 8x13",
       "removedFile": "courier-8x13-eac29156d8.json",
-      "removedName": "Courier \u2014 8x13",
+      "removedName": "OS/2 1.3 \u00b7 Courier \u2014 8x13",
       "source": "os-2/os2_1.3/courier/Courier_8x13.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1588,7 +1588,7 @@
       "keptFile": "mc6670p-62dbad84a3.json",
       "keptName": "MC-6670P (TRS-80 Model I) \u2014 6x8",
       "removedFile": "mc6674-c62599861e.json",
-      "removedName": "Motorola MC 6674 \u2014 5x8",
+      "removedName": "TRS-80 \u00b7 Motorola MC 6674 \u2014 5x8",
       "source": "trs-80/model-i-iii-4/mc6674.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -1980,9 +1980,9 @@
     },
     {
       "keptFile": "p0t-ibm-787ebd04d1.json",
-      "keptName": "P0T-Ibm Regular 8x8 \u2014 8x8",
+      "keptName": "Amiga \u00b7 P0T-Ibm Regular 8x8 \u2014 8x8",
       "removedFile": "p0t-noodle-c1d954ed74.json",
-      "removedName": "P0T-NOoDLE Regular 8x8 \u2014 8x8",
+      "removedName": "Amiga \u00b7 P0T-NOoDLE Regular 8x8 \u2014 8x8",
       "source": "|custom|/amiga/nudelfonts/P0T-NOoDLE.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2001,9 +2001,9 @@
     },
     {
       "keptFile": "p0t-ibm-787ebd04d1.json",
-      "keptName": "P0T-Ibm Regular 8x8 \u2014 8x8",
+      "keptName": "Amiga \u00b7 P0T-Ibm Regular 8x8 \u2014 8x8",
       "removedFile": "p0t-prop-828279c712.json",
-      "removedName": "P0T-Prop Regular 8 \u2014 8x8",
+      "removedName": "Amiga \u00b7 P0T-Prop Regular 8 \u2014 8x8",
       "source": "|custom|/amiga/nudelfonts/P0T-Prop.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2114,9 +2114,9 @@
     },
     {
       "keptFile": "terminal-12-sq-c744d6d70a.json",
-      "keptName": "Terminal 12 \u2014 8x12",
+      "keptName": "Windows 2.03 \u00b7 Terminal 12 \u2014 8x12",
       "removedFile": "terminal-ega80-cp437-ff87bf88f9.json",
-      "removedName": "Terminal 12 \u2014 8x12",
+      "removedName": "Windows 3.0 \u00b7 Terminal 12 \u2014 8x12",
       "source": "windows/windows-3.0/Terminal_EGA80_cp437.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -2136,9 +2136,9 @@
     },
     {
       "keptFile": "terminal-12-sq-c744d6d70a.json",
-      "keptName": "Terminal 12 \u2014 8x12",
+      "keptName": "Windows 2.03 \u00b7 Terminal 12 \u2014 8x12",
       "removedFile": "terminal-vga-cp860-f64d441f90.json",
-      "removedName": "Terminal 12 \u2014 8x12",
+      "removedName": "Windows 3.0 \u00b7 Terminal 12 \u2014 8x12",
       "source": "windows/windows-3.0/Terminal_VGA_cp860.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -2160,7 +2160,7 @@
       "keptFile": "bbc-master-f9c4055916.json",
       "keptName": "Acorn BBC Master \u2014 8x8",
       "removedFile": "riscos-3-aafbffe8cf.json",
-      "removedName": "RISC OS 3 \u2014 8x8",
+      "removedName": "Acorn \u00b7 RISC OS 3 \u2014 8x8",
       "source": "acorn/riscos/riscos-3.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2183,9 +2183,9 @@
     },
     {
       "keptFile": "bison-12-f6d8a4b573.json",
-      "keptName": "Bison 12 \u2014 5x11",
+      "keptName": "PC GEOS \u00b7 Bison 12 \u2014 5x11",
       "removedFile": "monaco-6x16-f6ca50246f.json",
-      "removedName": "Monaco Regular 6x16 \u2014 5x15",
+      "removedName": "Apple Macintosh \u00b7 Monaco Regular 6x16 \u2014 5x15",
       "source": "apple/mac/Monaco_6x16.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2195,9 +2195,9 @@
     },
     {
       "keptFile": "bison-6x11-d87bd35464.json",
-      "keptName": "Bison 6x11 \u2014 5x8",
+      "keptName": "PC GEOS \u00b7 Bison 6x11 \u2014 5x8",
       "removedFile": "monaco-6x11-b036dd2ec2.json",
-      "removedName": "Monaco Regular 6x11 \u2014 5x11",
+      "removedName": "Apple Macintosh \u00b7 Monaco Regular 6x11 \u2014 5x11",
       "source": "apple/mac/Monaco_6x11.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2229,9 +2229,9 @@
     },
     {
       "keptFile": "courier-10-71d113f890.json",
-      "keptName": "Courier 10 \u2014 7x7",
+      "keptName": "NeXT \u00b7 Courier 10 \u2014 7x7",
       "removedFile": "courier-11-a7d1d3768a.json",
-      "removedName": "Courier Regular 11 \u2014 7x11",
+      "removedName": "Amiga Workbench 3.1 \u00b7 Courier Regular 11 \u2014 7x11",
       "source": "amiga/workbench-3.1/Courier_11.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2430,9 +2430,9 @@
     },
     {
       "keptFile": "courier-10-7918369993.json",
-      "keptName": "Courier 10 \u2014 9x12",
+      "keptName": "Windows 1.04 \u00b7 Courier 10 \u2014 9x12",
       "removedFile": "courier-9x12-886e3e2f74.json",
-      "removedName": "Courier \u2014 9x12",
+      "removedName": "OS/2 1.3 \u00b7 Courier \u2014 9x12",
       "source": "os-2/os2_1.3/courier/Courier_9x12.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2447,9 +2447,9 @@
     },
     {
       "keptFile": "courier-10-48ac87dfd6.json",
-      "keptName": "Courier 10 \u2014 9x16",
+      "keptName": "Windows 2.03 \u00b7 Courier 10 \u2014 9x16",
       "removedFile": "courier-9x16-4c04b69fe1.json",
-      "removedName": "Courier \u2014 9x16",
+      "removedName": "OS/2 1.3 \u00b7 Courier \u2014 9x16",
       "source": "os-2/os2_1.3/courier/Courier_9x16.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2464,9 +2464,9 @@
     },
     {
       "keptFile": "courier-14-f93987f95e.json",
-      "keptName": "Courier 14 \u2014 9x11",
+      "keptName": "NeXT \u00b7 Courier 14 \u2014 9x11",
       "removedFile": "courier-15-3508117caf.json",
-      "removedName": "Courier Regular 15 \u2014 9x15",
+      "removedName": "Amiga Workbench 3.1 \u00b7 Courier Regular 15 \u2014 9x15",
       "source": "amiga/workbench-3.1/Courier_15.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2549,9 +2549,9 @@
     },
     {
       "keptFile": "courier-8-3124162eef.json",
-      "keptName": "Courier 8 \u2014 10x10",
+      "keptName": "Windows 1.04 \u00b7 Courier 8 \u2014 10x10",
       "removedFile": "courier-10x10-7117b84b17.json",
-      "removedName": "Courier \u2014 10x10",
+      "removedName": "OS/2 1.3 \u00b7 Courier \u2014 10x10",
       "source": "os-2/os2_1.3/courier/Courier_10x10.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2566,9 +2566,9 @@
     },
     {
       "keptFile": "courier-8-bdb03e7e4a.json",
-      "keptName": "Courier 8 \u2014 8x10",
+      "keptName": "Windows 1.04 \u00b7 Courier 8 \u2014 8x10",
       "removedFile": "courier-8x10-43b9a9c237.json",
-      "removedName": "Courier \u2014 8x10",
+      "removedName": "OS/2 1.3 \u00b7 Courier \u2014 8x10",
       "source": "os-2/os2_1.3/courier/Courier_8x10.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2583,9 +2583,9 @@
     },
     {
       "keptFile": "eagleplayer-66e05451ea.json",
-      "keptName": "Eagleplayer Regular 8x8 \u2014 8x8",
+      "keptName": "Amiga \u00b7 Eagleplayer Regular 8x8 \u2014 8x8",
       "removedFile": "eagleplayer-prop-700b48ce17.json",
-      "removedName": "Eagleplayer-Prop Regular 8 \u2014 8x8",
+      "removedName": "Amiga \u00b7 Eagleplayer-Prop Regular 8 \u2014 8x8",
       "source": "|custom|/amiga/nudelfonts/Eagleplayer-Prop.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2700,9 +2700,9 @@
     },
     {
       "keptFile": "geneva-10-648a289b7f.json",
-      "keptName": "Geneva 10 \u2014 9x12",
+      "keptName": "Apple IIgs \u00b7 Geneva 10 \u2014 9x12",
       "removedFile": "university-10-044c0b0bf5.json",
-      "removedName": "University 10 \u2014 9x9",
+      "removedName": "PC GEOS \u00b7 University 10 \u2014 9x9",
       "source": "pc-geos/BreadBox_Ensemble_4.1.3/University_10.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2712,9 +2712,9 @@
     },
     {
       "keptFile": "geneva-12-38bf6849d3.json",
-      "keptName": "Geneva 12 \u2014 9x15",
+      "keptName": "Apple IIgs \u00b7 Geneva 12 \u2014 9x15",
       "removedFile": "university-12-1d4305c62f.json",
-      "removedName": "University 12 \u2014 9x10",
+      "removedName": "PC GEOS \u00b7 University 12 \u2014 9x10",
       "source": "pc-geos/BreadBox_Ensemble_4.1.3/University_12.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2724,9 +2724,9 @@
     },
     {
       "keptFile": "geneva-9-c18c849771.json",
-      "keptName": "Geneva Regular 9 \u2014 7x12",
+      "keptName": "Apple Macintosh \u00b7 Geneva Regular 9 \u2014 7x12",
       "removedFile": "university-9-e504f7d0ba.json",
-      "removedName": "University 9 \u2014 7x8",
+      "removedName": "PC GEOS \u00b7 University 9 \u2014 7x8",
       "source": "pc-geos/BreadBox_Ensemble_4.1.3/University_9.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2736,9 +2736,9 @@
     },
     {
       "keptFile": "mc6847-46ca1ae145.json",
-      "keptName": "MC-6847 \u2014 5x7",
+      "keptName": "TRS-80 Color Computer \u00b7 MC-6847 \u2014 5x7",
       "removedFile": "trs80-coco-4d5ab986ec.json",
-      "removedName": "MC-6847 \u2014 8x12",
+      "removedName": "TRS-80 Color Computer \u00b7 MC-6847 \u2014 8x12",
       "source": "trs-80/coco/trs80-coco.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2748,9 +2748,9 @@
     },
     {
       "keptFile": "mirrors-oem-vga-05389ca0eb.json",
-      "keptName": "Mirrors-OEM-VGA \u2014 8x15",
+      "keptName": "OS/2 Warp 3 \u00b7 Mirrors-OEM-VGA \u2014 8x15",
       "removedFile": "mirrors-vga-0148d4b2b3.json",
-      "removedName": "Mirrors-VGA \u2014 8x15",
+      "removedName": "OS/2 Warp 3 \u00b7 Mirrors-VGA \u2014 8x15",
       "source": "os-2/os2_warp3/mirrors/Mirrors-VGA.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2796,7 +2796,7 @@
       "keptFile": "oberon8-screen-72d6e055db.json",
       "keptName": "Oberon8.Scn.Fnt \u2014 8x9",
       "removedFile": "syntaxxx8-screen-72f36bca26.json",
-      "removedName": "SyntaxXX8.Scn.Fnt \u2014 8x9",
+      "removedName": "Oberon \u00b7 SyntaxXX8.Scn.Fnt \u2014 8x9",
       "source": "oberon/SyntaxXX8.screen.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2823,9 +2823,9 @@
     },
     {
       "keptFile": "small-fonts-4-482f7c59f9.json",
-      "keptName": "Small Fonts 4 \u2014 6x8",
+      "keptName": "Windows 3.1 \u00b7 Small Fonts 4 \u2014 6x8",
       "removedFile": "small-fonts-5-b9e9571a15.json",
-      "removedName": "Small Fonts 5 \u2014 6x8",
+      "removedName": "Windows 3.1 \u00b7 Small Fonts 5 \u2014 6x8",
       "source": "windows/windows-3.1/small-e/Small_Fonts_5.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -2853,9 +2853,9 @@
     },
     {
       "keptFile": "system-12-lo-1029954661.json",
-      "keptName": "System 12 \u2014 8x8",
+      "keptName": "Windows 2.03 \u00b7 System 12 \u2014 8x8",
       "removedFile": "system-8x8-a8136db8b8.json",
-      "removedName": "System \u2014 8x8",
+      "removedName": "OS/2 1.3 \u00b7 System \u2014 8x8",
       "source": "os-2/os2_1.3/system/System_8x8.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -2875,9 +2875,9 @@
     },
     {
       "keptFile": "system-vio-10x18-d4d27e5a75.json",
-      "keptName": "System VIO \u2014 10x18",
+      "keptName": "OS/2 2.1 \u00b7 System VIO \u2014 10x18",
       "removedFile": "system-vio-14-120x120dpi-ad49be198c.json",
-      "removedName": "System VIO \u2014 10x18",
+      "removedName": "OS/2 Warp 4 \u00b7 System VIO \u2014 10x18",
       "source": "os-2/os2_warp4/system/System_VIO_14-120x120dpi.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2896,9 +2896,9 @@
     },
     {
       "keptFile": "gem-1-1-6x6-cga-49b49a8252.json",
-      "keptName": "System \u2014 6x6",
+      "keptName": "GEM 1.1 \u00b7 System \u2014 6x6",
       "removedFile": "viewmax-1-6x6-46b4356fe9.json",
-      "removedName": "System \u2014 6x6",
+      "removedName": "GEM ViewMAX 1 \u00b7 System \u2014 6x6",
       "source": "gem/viewmax-1-6x6.yaff",
       "letterDifference": {
         "changedLetters": [
@@ -2934,9 +2934,9 @@
     },
     {
       "keptFile": "tms-rmn-8-6f7a0d4a87.json",
-      "keptName": "Tms Rmn 8 \u2014 10x10",
+      "keptName": "Windows 2.03 \u00b7 Tms Rmn 8 \u2014 10x10",
       "removedFile": "tms-rmn-c95a6ecd18.json",
-      "removedName": "Tms Rmn \u2014 10x10",
+      "removedName": "OS/2 1.3 \u00b7 Tms Rmn \u2014 10x10",
       "source": "os-2/os2_1.3/times/Tms_Rmn.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2951,9 +2951,9 @@
     },
     {
       "keptFile": "tms-rmn-8-e5595438a1.json",
-      "keptName": "Tms Rmn 8 \u2014 10x13",
+      "keptName": "Windows 2.03 \u00b7 Tms Rmn 8 \u2014 10x13",
       "removedFile": "tms-rmn-6-fefd06a51d.json",
-      "removedName": "Tms Rmn \u2014 10x13",
+      "removedName": "OS/2 1.3 \u00b7 Tms Rmn \u2014 10x13",
       "source": "os-2/os2_1.3/times/Tms_Rmn.6.yaff",
       "letterDifference": {
         "changedLetters": [],
@@ -2968,9 +2968,9 @@
     },
     {
       "keptFile": "urw-sans-10-0-350d282b54.json",
-      "keptName": "URW Sans 10 \u2014 8x7",
+      "keptName": "PC GEOS \u00b7 URW Sans 10 \u2014 8x7",
       "removedFile": "urw-sans-10-2-40f3a44c87.json",
-      "removedName": "URW Sans 10 \u2014 8x7",
+      "removedName": "PC GEOS \u00b7 URW Sans 10 \u2014 8x7",
       "source": "pc-geos/GeoWorks_Ensemble_2.0/URW_Sans_10.2.yaff",
       "letterDifference": {
         "changedLetters": [],

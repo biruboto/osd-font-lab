@@ -49,6 +49,74 @@ def display_name(name, properties):
     return re.split(r'\s+\d+\.\d+(?:\.\d+)*\b', name[header.end():], maxsplit=1)[0].strip()
 
 
+def source_system(path):
+    """Use platform folders, not font-family or contributor folders, as context."""
+    parts = path.split('/')
+    if parts[0] == '|custom|':
+        parts = parts[1:]
+    platform, filename = parts[0], parts[-1]
+    if platform == 'acorn':
+        return 'Acorn BBC' if parts[1] == 'bbc' else 'Acorn'
+    if platform == 'amiga':
+        if parts[1] == 'workbench-3.1':
+            return 'Amiga Workbench 3.1'
+        if parts[1] == 'magic-workbench':
+            return 'Amiga Magic Workbench'
+        kickstart = re.match(r'amiga-ks(\d)(\d)-', filename)
+        if kickstart:
+            return f'Amiga Kickstart {kickstart[1]}.{kickstart[2]}'
+        return 'Amiga'
+    if platform == 'apple':
+        return {'ii': 'Apple II', 'iigs': 'Apple IIgs', 'mac': 'Apple Macintosh'}[parts[1]]
+    if platform == 'atari':
+        return {'st': 'Atari ST', '8-bit': 'Atari 8-bit'}[parts[1]]
+    if platform == 'windows':
+        return parts[1].replace('windows-', 'Windows ')
+    if platform == 'os-2':
+        return parts[1].replace('os2_warp', 'OS/2 Warp ').replace('os2_', 'OS/2 ')
+    if platform == 'gem':
+        version = re.match(r'(gem|viewmax)-([\d.]+)-', filename)
+        if version:
+            return ('GEM ' if version[1] == 'gem' else 'GEM ViewMAX ') + version[2]
+        return 'GEM'
+    if platform == 'kyotronic':
+        # This folder includes related machines, not just the Kyotronic itself.
+        if filename.startswith('trs80-dvi-'):
+            return 'TRS-80 Disk/Video Interface'
+        return {'kyotronic-85.yaff': 'Kyotronic 85', 'nec-pc8201.yaff': 'NEC PC-8201',
+                'nec-pc8201a.yaff': 'NEC PC-8201A',
+                'olivetti-m10-uk.yaff': 'Olivetti M10', 'tandy-200.yaff': 'TRS-80'}[filename]
+    if platform == 'trs-80':
+        if filename.startswith('mera-elzab-meritum'):
+            return 'TRS-80 / Mera Elzab Meritum'
+        if parts[1] == 'coco':
+            return 'TRS-80 Color Computer'
+        return 'TRS-80'
+    systems = {
+        'amstrad': 'Amstrad', 'amstrad_setfont': 'Amstrad PCW',
+        'banner': 'Banner', 'commodore': 'Commodore', 'crt8002': 'CRT8002',
+        'dec': 'DEC', 'elan_enterprise': 'Elan Enterprise', 'epson': 'Epson',
+        'hellschreiber': 'Hellschreiber', 'hp': 'HP 16500B', 'ibm': 'IBM',
+        'msx': 'MSX', 'ncr7250': 'NCR 7250', 'next': 'NeXT', 'oberon': 'Oberon',
+        'pc-geos': 'PC GEOS', 'sinclair': 'Sinclair', 'symbos': 'SymbOS',
+        'teletext': 'Teletext', 'videoton_tvc': 'Videoton',
+    }
+    # Fail on a new platform so it cannot silently enter the library unlabelled.
+    return systems[platform]
+
+
+def library_name(name, properties, path):
+    name = display_name(name, properties)
+    system = source_system(path)
+    if system.casefold() in name.casefold():
+        return name
+    # For example, "Atari Classic" becomes "Atari 8-bit · Classic".
+    family = system.split(' ')[0]
+    if system.startswith(family + ' ') and name.casefold().startswith(family.casefold() + ' '):
+        name = name[len(family) + 1:]
+    return f'{system} · {name}'
+
+
 def lettering_baseline(glyphs):
     """Find the standing line in source coordinates, not the raster box bottom.
 
@@ -365,7 +433,7 @@ def main():
         has = lambda chars: all(any(glyphs.get(f'U+{ord(ch):04X}', {}).get('rows', [])) for ch in chars)
         entry = {
             'id': identifier, 'file': filename,
-            'name': f'{display_name(source["name"], source["properties"])} — {source["size"][0]}x{source["size"][1]}',
+            'name': f'{library_name(source["name"], source["properties"], path)} — {source["size"][0]}x{source["size"][1]}',
             'cell': [12, 18], 'glyphCount': len(glyphs),
             'hasUpper': has(audit.UPPER), 'hasLower': has(audit.LOWER), 'hasDigits': has(audit.DIGITS),
         }
