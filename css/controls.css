@@ -38,6 +38,8 @@
   border: 1px solid var(--bg-3);
   border-radius: var(--control-radius);
   padding: 0 var(--control-px);
+  font-size: 0.9rem;
+  line-height: 1.2;
   cursor: pointer;
   user-select: none;
 }
@@ -96,6 +98,8 @@
   gap: 10px;
   padding: 8px 10px;
   border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.2;
   cursor: pointer;
 }
 
@@ -140,10 +144,6 @@
   );
 }
 
-.fontpicker-item .fontpicker-name{
-  opacity: 0.95;
-}
-
 .fontpicker-item .fontpicker-thumb{
   width: auto;
   height: 18px;
@@ -167,15 +167,13 @@
   gap: 4px;
 }
 
-.field span{
-  display: block;
+.field > .or-label{
   opacity: 0.75;
-  font-size: 0.9rem;
-  line-height: 1.2;
-  min-height: 1.2em;
 }
 
 .checkbox .checkbox-label{
+  font-size: 0.9rem;
+  line-height: 1.2;
   opacity: 0.85;
 }
 
@@ -880,6 +878,8 @@ select{
   width: 100%;
   min-height: var(--control-h);
   padding: 0 var(--control-px);
+  font-size: 0.9rem;
+  line-height: 1.2;
   text-align: left;
 }
 

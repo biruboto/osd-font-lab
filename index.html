@@ -16,7 +16,7 @@
   <title>OSD Font Lab</title>
   <link rel="icon" href="./favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/app.css?v=20261031-mode-alignment">
+  <link rel="stylesheet" href="css/app.css?v=20261101-default-loading">
 </head>
 
 <body>
@@ -117,6 +117,10 @@
                 <button type="button" data-zoom-step="1" aria-label="Increase inspector zoom">+</button>
               </div>
             </div>
+          </div>
+          <div id="defaultFontLoadState" class="font-load-state" role="status" aria-live="polite" hidden>
+            <span id="defaultFontLoadMessage"></span>
+            <button id="retryDefaultFont" type="button" hidden>Try again</button>
           </div>
           <div class="panel-body">
             <div class="grid-wrap sheet-wrap">
@@ -441,6 +445,6 @@
 </div>
 
 
-  <script type="module" src="js/app.js?v=20261031-burn-default"></script>
+  <script type="module" src="js/app.js?v=20261101-default-loading"></script>
 </body>
 </html>

@@ -435,6 +435,33 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         }''', {'catalog':catalog,'stroke':stroke})
         self.assertEqual(result, {'failures':[], 'count':507})
 
+    async def test_emoji_picker_displays_exact_theme_fill_and_stroke(self):
+        await self.page.locator('#emojiTools > summary').click()
+        await self.page.locator('#specialEmojiBtn').click()
+        await self.page.wait_for_function("document.querySelector('#specialEmojiPicker').classList.contains('open')")
+        for theme in ['afterburn', 'crt', 'amber-terminal', 'cold-phosphor', 'lavender-circuit', 'field-notes', 'dusk']:
+            previous = await self.page.locator('#specialEmojiMenu').evaluate("e=>e.style.getPropertyValue('--emoji-atlas')")
+            await self.page.evaluate('theme=>document.querySelector(`input[name=siteTheme][value="${theme}"]`).click()', theme)
+            if theme != 'afterburn':
+                await self.page.wait_for_function("previous=>document.querySelector('#specialEmojiMenu').style.getPropertyValue('--emoji-atlas')!==previous", arg=previous)
+            await self.assert_emoji_atlas_matches_source()
+            await self.page.mouse.move(0, 0)
+            thumb = self.page.locator('.special-emoji-option-thumb').first
+            screenshot = base64.b64encode(await thumb.screenshot()).decode()
+            colors = await self.page.evaluate('''async encoded => {
+              const image=new Image();image.src='data:image/png;base64,'+encoded;await image.decode();
+              const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;
+              const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0);
+              const pixels=ctx.getImageData(0,0,image.width,image.height).data;
+              const actual=new Set();for(let i=0;i<pixels.length;i+=4)actual.add(Array.from(pixels.slice(i,i+4)).join(','));
+              const style=getComputedStyle(document.documentElement);
+              const color=value=>{ctx.fillStyle=value;ctx.fillRect(0,0,1,1);return Array.from(ctx.getImageData(0,0,1,1).data).join(',')};
+              const fill=color(style.getPropertyValue('--osd-2')),stroke=color(style.getPropertyValue('--osd-3'));
+              const background=color(getComputedStyle(document.querySelector('#specialEmojiMenu')).backgroundColor);
+              return {hasFill:actual.has(fill),hasStroke:actual.has(stroke),unexpected:[...actual].filter(c=>![fill,stroke,background].includes(c))};
+            }''', screenshot)
+            self.assertEqual(colors, {'hasFill':True, 'hasStroke':True, 'unexpected':[]}, theme)
+
     async def test_emoji_catalog_fast_scroll_theme_refresh_and_keyboard_selection(self):
         requests = []
         self.page.on('request', lambda request: requests.append(request.url))
@@ -1095,6 +1122,60 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.page.locator('#editorUndoBtn').click()
         self.assertEqual((await self.font())[65], shift(before, 2))
 
+    async def test_mobile_first_default_load_uses_small_previews_and_shows_progress(self):
+        context = await self.browser.new_context(viewport={'width':390, 'height':844}, is_mobile=True, has_touch=True)
+        page = await context.new_page()
+        requests = []
+        async def delay_font(route):
+            requests.append(route.request.url.rsplit('/', 1)[-1])
+            await asyncio.sleep(0.6)
+            await route.continue_()
+        await page.route('**/fonts/betaflight/*.mcm', delay_font)
+        try:
+            await page.goto(self.url, wait_until='networkidle')
+            await page.locator('#bfFontSelect + .fontpicker').wait_for()
+            if await page.locator('#welcomeNotice').is_visible():
+                await page.locator('#dismissWelcome').click()
+            await page.locator('#bfFontSelect + .fontpicker .fontpicker-btn').click()
+            await page.locator('#bfFontSelect + .fontpicker .fontpicker-menu img[src]').first.wait_for()
+            self.assertEqual(requests, [], 'picker thumbnails must not download full fonts')
+            await page.locator('#bfFontSelect + .fontpicker .fontpicker-item[data-value="betaflight.mcm"]').click()
+            await page.locator('#defaultFontLoadState').wait_for(state='visible')
+            self.assertEqual(await page.locator('html').get_attribute('data-workspace-panel'), 'preview')
+            self.assertEqual(await page.locator('.panel-result').get_attribute('aria-busy'), 'true')
+            self.assertIn('Loading Betaflight', await page.locator('#defaultFontLoadMessage').inner_text())
+            self.assertTrue(await page.locator('#resultGrid').is_visible())
+            await page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: betaflight.mcm')")
+            self.assertTrue(await page.locator('#defaultFontLoadState').is_hidden())
+            self.assertEqual(await page.locator('.panel-result').get_attribute('aria-busy'), 'false')
+            self.assertEqual(requests, ['betaflight.mcm'], 'load the selected font exactly once')
+            self.assertGreater(int(await page.locator('#resultGrid').get_attribute('width')), 300)
+            expected = await page.evaluate('''async text=>{
+              const {decodeMCM}=await import('/js/mcm.js');
+              return decodeMCM(new TextEncoder().encode(text).buffer).glyphs.map(g=>Array.from(g));
+            }''', (ROOT/'fonts/betaflight/betaflight.mcm').read_text())
+            self.assertEqual(await self.font(page), expected)
+        finally:
+            await context.close()
+
+    async def test_default_font_failure_has_a_working_retry(self):
+        attempts = 0
+        async def fail_once(route):
+            nonlocal attempts
+            attempts += 1
+            if attempts == 1:
+                await route.fulfill(status=503, body='Unavailable')
+            else:
+                await route.continue_()
+        await self.page.route('**/fonts/betaflight/bold.mcm', fail_once)
+        await self.page.select_option('#bfFontSelect', 'bold.mcm')
+        await self.page.locator('#defaultFontLoadState.is-error').wait_for()
+        self.assertEqual(await self.page.locator('.panel-result').get_attribute('aria-busy'), 'false')
+        await self.page.locator('#retryDefaultFont').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: bold.mcm')")
+        self.assertEqual(attempts, 2)
+        self.assertTrue(await self.page.locator('#defaultFontLoadState').is_hidden())
+
     async def test_latest_default_selection_wins(self):
         async def delay_old(route):
             await asyncio.sleep(0.35)
@@ -1110,6 +1191,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
           return decodeMCM(await (await fetch('/fonts/betaflight/clarity.mcm')).arrayBuffer()).glyphs.map(g=>Array.from(g));
         }""")
         self.assertTrue(await self.font() == expected, 'late default response overwrote the latest base')
+        self.assertTrue(await self.page.locator('#defaultFontLoadState').is_hidden())
+        self.assertEqual(await self.page.locator('.panel-result').get_attribute('aria-busy'), 'false')
 
     async def test_clean_sheet_and_boot_exports_roundtrip(self):
         initial = await self.font()

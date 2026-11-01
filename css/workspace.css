@@ -11,6 +11,34 @@ canvas{
 }
 
 /* ---------- panel body layout ---------- */
+.font-load-state{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 18px 12px;
+  margin: 0 12px 12px;
+  border: 1px solid var(--bg-3);
+  border-radius: var(--control-radius);
+  background: var(--bg-1);
+  color: var(--text-0);
+  font-size: .9rem;
+}
+.font-load-state[hidden], .font-load-state button[hidden]{ display: none; }
+.font-load-state:not(.is-error)::before{
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--bg-3);
+  border-top-color: var(--accent-0);
+  border-radius: 50%;
+  animation: font-loading-spin 1s linear infinite;
+}
+.font-load-state.is-error{ border-color: var(--danger); }
+@keyframes font-loading-spin{ to{ transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce){ .font-load-state::before{ animation: none; } }
+
 .panel-body{
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;

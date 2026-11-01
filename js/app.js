@@ -38,6 +38,7 @@ import { createBrandAnimation } from "./modules/brand.js";
 import { createZoomControl } from "./modules/zoom-controls.js?v=20261031-hud-zoom";
 import { createCellUndoHistory } from "./modules/cell-history.js?v=20261031-recovery";
 import { createEmojiCatalog, renderEmojiGlyph, renderEmojiAtlas, EMOJI_ATLAS_COLUMNS } from "./modules/emoji-preview.js";
+import { createDefaultFontLibrary } from "./modules/default-fonts.js?v=20261101-default-loading";
 import { createRecoveryStore, createSessionRecovery } from "./modules/session-recovery.js";
 import { createAnnouncements } from "./modules/announcements.js?v=20261031-welcome-minimize";
 
@@ -60,6 +61,11 @@ const loadStatus = document.getElementById("loadStatus");
 const themeRadios = [...document.querySelectorAll('input[name="siteTheme"]')];
 
 const bfFontSelect = document.getElementById("bfFontSelect");
+const defaultFontLoadState = document.getElementById("defaultFontLoadState");
+const defaultFontLoadMessage = document.getElementById("defaultFontLoadMessage");
+const retryDefaultFontBtn = document.getElementById("retryDefaultFont");
+const defaultFontLibrary = createDefaultFontLibrary({ previewUrl: "fonts/previews/betaflight.json?v=20261101-default-loading" });
+let pendingDefaultFontFile = "";
 const bfInlineLoadDefaultEl = bfFontSelect?.closest(".bf-inline") || null;
 
 const resultGridCanvas = document.getElementById("resultGrid");
@@ -947,6 +953,11 @@ async function handleBuffer(buf, label = "loaded.mcm") {
     throw err;
   }
 
+  applyLoadedBaseFont(decoded, label, buf.byteLength);
+}
+
+function applyLoadedBaseFont(decoded, label, byteLength) {
+  setDefaultFontLoadState();
   baseFont = decoded;
   setWorkspacePanel("preview");
   clearEditorPixelOverrides();
@@ -954,7 +965,7 @@ async function handleBuffer(buf, label = "loaded.mcm") {
   rebuildResultFont();
   rerenderAll();
 
-  setLoadStatus(`Loaded: ${label}`, { subtext: `${buf.byteLength} bytes` });
+  setLoadStatus(`Loaded: ${label}`, { subtext: `${byteLength} bytes` });
   syncSwapTargetSelect();
   swapTargetPickerApi?.refresh();
   swapSourcePickerApi?.refresh();
@@ -1272,13 +1283,7 @@ async function getSwapSourceFont(file) {
   if (!source) throw new Error(`Unknown swap source: ${file}`);
 
   if (source.kind === "bf_mcm") {
-    if (swapSourceCache.has(file)) return swapSourceCache.get(file);
-    const r = await fetch(`fonts/betaflight/${encodeURIComponent(source.file)}`);
-    if (!r.ok) throw new Error(`swap source fetch HTTP ${r.status} for ${source.file}`);
-    const buf = await r.arrayBuffer();
-    const font = decodeMCM(buf);
-    swapSourceCache.set(file, font);
-    return font;
+    return (await defaultFontLibrary.load(source.file)).font;
   }
 
   throw new Error(`Unsupported swap source kind: ${source.kind}`);
@@ -2569,25 +2574,13 @@ function rebuildResultFont() {
   recoveryContentDirty = true;
 }
 
-/* load and cache the decoded font for each betaflight file */
-
-const bfPreviewFontCache = new Map(); // file -> decoded font
-
 async function getBetaflightPreviewUrl(file) {
   if (!file) return "";
   const cacheKey = `${currentThemeId()}|${file}`;
   const cached = bfPreviewUrlCache.get(cacheKey);
   if (cached) return cached;
 
-  // file is like "betaflight.mcm"
-  let font = bfPreviewFontCache.get(file);
-  if (!font) {
-    const r = await fetch(`./fonts/betaflight/${encodeURIComponent(file)}`);
-    if (!r.ok) throw new Error(`preview fetch HTTP ${r.status} for ${file}`);
-    const buf = await r.arrayBuffer();
-    font = decodeMCM(buf);
-    bfPreviewFontCache.set(file, font);
-  }
+  const font = await defaultFontLibrary.preview(file);
   const url = drawFontPreviewStrip(font, "ABC123", pxColorViewer);
   bfPreviewUrlCache.set(cacheKey, url);
   return url;
@@ -3351,6 +3344,7 @@ async function handleFile(file) {
   const isOverlay = /\.(yaff|ttf|otf)$/.test(name);
   const requestId = isOverlay ? ++overlayLoadId : ++baseLoadId;
   const isCurrent = () => requestId === (isOverlay ? overlayLoadId : baseLoadId);
+  if (!isOverlay) setDefaultFontLoadState();
   if (isOverlay) {
     cancelTtfRerasterize();
     pendingTtfImportId = 0;
@@ -3607,6 +3601,42 @@ async function loadSwapCustomManifest() {
   }
 }
 
+function setDefaultFontLoadState(file = "", { error = false, label = file } = {}) {
+  pendingDefaultFontFile = file;
+  if (!defaultFontLoadState) return;
+  defaultFontLoadState.hidden = !file;
+  defaultFontLoadState.classList.toggle("is-error", error);
+  defaultFontLoadState.closest(".panel-result")?.setAttribute("aria-busy", String(!!file && !error));
+  defaultFontLoadMessage.textContent = error
+    ? `Could not load ${label}. Try again.`
+    : `Loading ${label}…`;
+  retryDefaultFontBtn.hidden = !error;
+}
+
+async function loadDefaultFontSelection(file) {
+  const requestId = ++baseLoadId;
+  if (!file) {
+    setDefaultFontLoadState();
+    return;
+  }
+  const label = [...bfFontSelect.options].find(option => option.value === file)?.textContent || file;
+  setDefaultFontLoadState(file, { label });
+  setWorkspacePanel("preview");
+  setLoadStatus(`Loading default: ${label}…`);
+  try {
+    const { buffer, font } = await defaultFontLibrary.load(file);
+    if (requestId !== baseLoadId) return;
+    applyLoadedBaseFont(font, file, buffer.byteLength);
+  } catch (err) {
+    if (requestId !== baseLoadId) return;
+    console.error("Failed to load betaflight default font:", file, err);
+    setDefaultFontLoadState(file, { error: true, label });
+    setLoadStatus(`Failed to load default: ${file}`, {
+      error: true, subtext: err.name === "AbortError" ? "Download timed out. Try again." : err.message,
+    });
+  }
+}
+
 async function loadBetaflightDefaults() {
   if (!bfFontSelect) return;
 
@@ -3645,26 +3675,11 @@ async function loadBetaflightDefaults() {
   });
 
 
-  bfFontSelect.addEventListener("change", async () => {
-    const file = bfFontSelect.value;
-    const requestId = ++baseLoadId;
-    if (!file) return;
-
-    try {
-      const r = await fetch(`fonts/betaflight/${encodeURIComponent(file)}`);
-      if (!r.ok) throw new Error(`default font fetch HTTP ${r.status} for ${file}`);
-      const buf = await r.arrayBuffer();
-      if (requestId !== baseLoadId) return;
-      await handleBuffer(buf, file);
-    } catch (err) {
-      if (requestId !== baseLoadId) return;
-      console.error("Failed to load betaflight default font:", file, err);
-      setLoadStatus(`Failed to load default: ${file}`, { error: true, subtext: err.message });
-    }
-  });
+  bfFontSelect.addEventListener("change", () => loadDefaultFontSelection(bfFontSelect.value));
 }
 
 function initEvents() {
+  retryDefaultFontBtn?.addEventListener("click", () => loadDefaultFontSelection(pendingDefaultFontFile));
   setEditorColor(editorColorValue);
   setZoomMode(ZOOM_MODE_INSPECTOR);
   zoomModeInspectorBtn?.addEventListener("click", () => setZoomMode(ZOOM_MODE_INSPECTOR));
@@ -4242,6 +4257,7 @@ async function restoreSession(snapshot) {
   let source = null;
   try {
     ++baseLoadId;
+    setDefaultFontLoadState();
     ++overlayLoadId;
     pendingTtfImportId = 0;
     cancelTtfRerasterize();

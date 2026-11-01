@@ -64,6 +64,15 @@ On desktop the tools column scrolls within the remaining viewport height, so the
 font browser does not extend the page below an otherwise fitted sheet/inspector.
 Mobile tools retain normal document scrolling.
 
+The default-font picker also uses a compact preview catalog:
+`fonts/previews/betaflight.json` stores only the `ABC123` sample for each bundled
+MCM. Generate it with `node scripts/build-default-previews.mjs`; `--check`
+verifies it against the manifest and source files. Opening the picker does not
+download full MCMs. Selecting a default opens the preview panel immediately with
+a loading indicator, and the default/swap loaders share a cached request and
+decoded font. Failed or timed-out requests can be retried; stale selections
+cannot replace the current font or its loading state.
+
 The Hoard of Bitfonts library is generated offline from the audited
 Latin sources by `scripts/import-hoard-fonts.py`. Its overlays use the existing
 JSON format and preview pipeline. Fonts sharing a visible capital height share an
