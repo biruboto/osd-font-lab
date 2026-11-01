@@ -11,6 +11,7 @@ OSD Font Lab is a web application designed to help you create custom fonts for a
 + Layout overhaul for desktop, tablet and phone, with clearer controls and collapsible tools.
 + Glyph sheet now flows to fit your screen while keeping crisp integer scaling. PNG exports stay in the standard 16×16 format.
 + Huge font and library picker overhaul, including search. Emoji picker performance improvements.
++ New library, with over 300 new fonts from the [Hoard of Bitmap Fonts](https://github.com/robhagemans/hoard-of-bitfonts).
 + Independent sheet and inspector zoom controls, with Auto fitting and +/− buttons.
 + Copy cell / Paste cell, including copying between fonts.
 + 20-step undo for editor strokes and cell pastes.
