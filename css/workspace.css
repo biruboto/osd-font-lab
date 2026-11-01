@@ -35,6 +35,14 @@ canvas{
   overflow: hidden;
 }
 
+.view-toggle-btn,
+.zoom-mode-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .view-toggle-btn{
   min-width: 0;
   padding-inline: 8px;
@@ -49,14 +57,13 @@ canvas{
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
 }
 
-.view-toggle-btn .fa-solid{
+.view-toggle-btn .fa-solid,
+.zoom-mode-btn .fa-solid{
   line-height: 1;
+  /* Font Awesome's visible ink sits above its centered line box. */
+  transform: translateY(1px);
 }
 
 .view-toggle-btn:last-child{
