@@ -22,11 +22,11 @@
 }
 #fontCurrentName{ color: var(--text-0); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #fontCurrentLibrary{ color: var(--text-muted); font-size: 11px; overflow-wrap: anywhere; }
-.font-browser-clear{ min-height: 30px; padding: 4px 9px; font-size: 11px; flex: 0 0 auto; }
+.font-browser-clear{ min-height: var(--control-compact-h); padding: 4px 9px; font-size: 11px; flex: 0 0 auto; }
 .font-browser-filters{ display: grid; gap: 7px; min-width: 0; }
 .font-browser-library{ display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; color: var(--text-1); font-size: 12px; }
 .font-browser-library select,
-.font-browser-search input{ display: block; width: 100%; min-width: 0; height: 36px; font-size: 12px; }
+.font-browser-search input{ display: block; width: 100%; min-width: 0; height: var(--control-h); min-height: var(--control-h); font-size: 12px; }
 .font-browser-search{ display: block; min-width: 0; }
 .font-browser-search input{
   background: var(--bg-2);

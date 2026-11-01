@@ -28,14 +28,18 @@ import {
   registerCustomSwapSources,
 } from "./modules/swap-registry.js";
 import { initDpadControls } from "./modules/dpad.js?v=20261031-nudge-target";
-import { createWorkspaceRenderer } from "./modules/workspace-render.js";
-import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js";
+import { createWorkspaceRenderer } from "./modules/workspace-render.js?v=20261031-inspector-fit";
+import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js?v=20261031-hud-zoom";
+import { fitHudCanvas } from "./modules/hud-layout.js?v=20261031-hud-zoom";
 import { parseYaffToOverlay } from "./modules/yaff.js";
 import { loadTtfSource } from "./modules/ttf-overlay.js";
 import { FCConnection } from "./modules/serial.js";
 import { createBrandAnimation } from "./modules/brand.js";
-import { createZoomControl } from "./modules/zoom-controls.js";
-import { createCellUndoHistory } from "./modules/cell-history.js";
+import { createZoomControl } from "./modules/zoom-controls.js?v=20261031-hud-zoom";
+import { createCellUndoHistory } from "./modules/cell-history.js?v=20261031-recovery";
+import { createEmojiCatalog, renderEmojiGlyph, renderEmojiAtlas, EMOJI_ATLAS_COLUMNS } from "./modules/emoji-preview.js";
+import { createRecoveryStore, createSessionRecovery } from "./modules/session-recovery.js";
+import { createAnnouncements } from "./modules/announcements.js?v=20261031-welcome-minimize";
 
 /* -----------------------------
    DOM
@@ -44,8 +48,8 @@ const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
 const yaffFileInput = document.getElementById("yaffFile");
 const yaffImportBtn = document.getElementById("yaffImportBtn");
-const ttfSizeRangeEl = document.getElementById("ttfSizeRange");
-const ttfSizeValueEl = document.getElementById("ttfSizeValue");
+const ttfSizeInputEl = document.getElementById("ttfSizeInput");
+const ttfSizeButtons = [...document.querySelectorAll("[data-ttf-size-step]")];
 const bootSplashImportBtn = document.getElementById("bootSplashImportBtn");
 const bootLogoExportBtn = document.getElementById("bootLogoExportBtn");
 const bootLogoFmtBfBtn = document.getElementById("bootLogoFmtBfBtn");
@@ -103,6 +107,7 @@ const nudgePad = document.querySelector(".dpad");
 
 const showGridsEl = document.getElementById("showGrids");
 const hudShowGuidesEl = document.getElementById("hudShowGuides");
+const hudShowBackgroundEl = document.getElementById("hudShowBackground");
 const hudFormatNtscBtn = document.getElementById("hudFormatNtscBtn");
 const hudFormatPalBtn = document.getElementById("hudFormatPalBtn");
 const hudPreviewHudBtn = document.getElementById("hudPreviewHudBtn");
@@ -120,6 +125,12 @@ const viewModeHudBtn = document.getElementById("viewModeHud");
 const servingFontCountEl = document.getElementById("servingFontCount");
 const themeCodeLabelEl = document.getElementById("themeCodeLabel");
 const kofiBadgeIconEl = document.getElementById("kofiBadgeIcon");
+const recoveryBanner = document.getElementById("sessionRecovery");
+const recoveryTitle = document.getElementById("recoveryTitle");
+const recoveryDetails = document.getElementById("recoveryDetails");
+const recoveryRestoreBtn = document.getElementById("restoreSession");
+const recoveryFreshBtn = document.getElementById("startFreshSession");
+const recoveryStatus = document.getElementById("recoveryStatus");
 
 const exportMCMBtn = document.getElementById("exportMCM");
 const uploadFCBtn = document.getElementById("uploadFC");
@@ -137,7 +148,7 @@ const TTF_IMPORT_CHARS = `${REPLACE_CHARS}${REPLACE_ALPHA_LOWER}`;
 const REPLACE_SET = new Set([...REPLACE_CHARS].map(c => c.charCodeAt(0)));
 const isReplaceable = (idx) => REPLACE_SET.has(idx);
 const SPECIAL_EMOJI_MANIFEST_PATH = "fonts/manifest-emoji-pixels.json";
-const SPECIAL_EMOJI_DATA_DIR = "fonts/data/emoji-pixels";
+const specialEmojiCatalog = createEmojiCatalog("fonts/previews/emoji-pixels.json?v=20261031-emoji-catalog");
 const SPECIAL_EMOJI_ORDER_PATH = "fonts/emoji-order-firstcp.json";
 const SPECIAL_EMOJI_SYMBOLS_PATH = "fonts/emoji-symbol-codepoints.json";
 const SPECIAL_SAFE_MODE_KEY = "osdSpecialSafeMode";
@@ -160,6 +171,7 @@ let cellClipboard = null; // A snapshot of the rendered cell, retained across fo
 let currentTtfSource = null;
 let pendingTtfImportId = 0;
 let ttfRerasterTimer = 0;
+let ttfSize = TTF_DEFAULT_SIZE;
 
 const SWAP_TARGETS = [
   { id: "rssi", label: "RSSI", indices: [1] },
@@ -192,17 +204,13 @@ let specialEmojiOrderByFirstCodepoint = null;
 let specialEmojiNameByFirstCodepoint = null;
 let specialEmojiSymbolCodepoints = null;
 const specialEmojiPreviewUrlCache = new Map();
-const specialEmojiGlyphCache = new Map();
 let specialEmojiMenuBuilt = false;
-const specialEmojiPreviewPending = new Set();
-let specialEmojiVisiblePreloadRaf = 0;
 let specialEmojiButtonSyncReqId = 0;
 let specialEmojiMenuEventsBound = false;
-const SPECIAL_EMOJI_PREVIEW_CONCURRENCY = 4;
-let specialEmojiPreviewInFlight = 0;
-let specialEmojiPreviewDrainRaf = 0;
-const specialEmojiPreviewTasks = [];
-let specialEmojiPrewarmStarted = false;
+let specialEmojiPreviewGeneration = 0;
+let specialEmojiAtlasPending = null;
+let specialEmojiMenuOpenRequest = 0;
+let specialEmojiOptionButtons = [];
 const specialCharEmojiAssignments = new Map(); // idx -> emoji file
 let specialSafeMode = localStorage.getItem(SPECIAL_SAFE_MODE_KEY) !== "off";
 
@@ -293,6 +301,8 @@ const HUD_PREVIEW_MODE_BOOT = "boot";
 let hudPreviewMode = (localStorage.getItem(HUD_PREVIEW_MODE_KEY) === HUD_PREVIEW_MODE_BOOT)
   ? HUD_PREVIEW_MODE_BOOT
   : HUD_PREVIEW_MODE_HUD;
+const HUD_SHOW_BACKGROUND_KEY = "osdHudShowBackground";
+let hudShowBackground = (localStorage.getItem(HUD_SHOW_BACKGROUND_KEY) ?? "1") === "1";
 const HUD_ELEMENTS_KEY = "osdHudElements";
 const HUD_ELEMENTS_VERSION_KEY = "osdHudElementsVersion";
 const HUD_ELEMENTS_SCHEMA_VERSION = 4;
@@ -400,6 +410,10 @@ const THEME_SHORT_LABELS = {
   afterburn: "BURN",
 };
 let workspacePanel = "tools";
+let sessionRecovery = null;
+let announcements = null;
+let initialLoadReady = Promise.resolve();
+let recoveryContentDirty = false;
 
 function setWorkspacePanel(panel) {
   workspacePanel = ["preview", "edit", "tools"].includes(panel) ? panel : "preview";
@@ -455,14 +469,17 @@ function setEditorColor(nextValue) {
   }
 }
 
-function clearEditorPixelOverrides() {
-  resetZoomPaint();
+function clearEditorPixelOverrides({ letteringOnly = false } = {}) {
+  if (letteringOnly && zoomPaint.active) commitZoomPaintIfNeeded();
+  else resetZoomPaint();
   for (const idx of editorOverrideIndices) {
-    clearGlyphOverride(idx);
+    if (!letteringOnly || isReplaceable(idx)) clearGlyphOverride(idx);
   }
-  editorOverrideIndices.clear();
-  editorOverrideOffsets.clear();
-  editorHistory.clear();
+  if (!letteringOnly) {
+    editorOverrideIndices.clear();
+    editorOverrideOffsets.clear();
+    editorHistory.clear();
+  }
 }
 
 function setGlyphOverride(idx, glyph, editorOffset = null) {
@@ -614,6 +631,10 @@ function resetHudDefaults() {
   localStorage.setItem("showGrids", "1");
   if (showGridsEl) showGridsEl.checked = true;
   if (hudShowGuidesEl) hudShowGuidesEl.checked = true;
+
+  hudShowBackground = true;
+  localStorage.setItem(HUD_SHOW_BACKGROUND_KEY, "1");
+  if (hudShowBackgroundEl) hudShowBackgroundEl.checked = true;
 
   syncHudElementToggleUI();
   rerenderAll();
@@ -1030,6 +1051,10 @@ const sheetZoomControl = createZoomControl({
   root: document.getElementById("sheetZoom"), min: 2, max: 4,
   onChange: scheduleRerender,
 });
+const hudZoomControl = createZoomControl({
+  root: document.getElementById("hudZoom"), min: 1, max: 3,
+  onChange: scheduleRerender,
+});
 const inspectorZoomControl = createZoomControl({
   root: document.getElementById("inspectorZoom"), min: 4, max: 20,
   initial: localStorage.getItem("osdInspectorZoom"),
@@ -1048,8 +1073,8 @@ const workspaceRenderer = createWorkspaceRenderer({
 });
 
 const hudRenderer = createHudRenderer({
-  fitCanvasToCSS,
   cssVar,
+  getHudZoom: () => hudZoomControl.value,
   pxColorViewer,
   backgroundImagePath: "fpv.jpg",
   requestRerender: () => rerenderAll(),
@@ -1446,146 +1471,83 @@ async function getSpecialEmojiPreviewUrl(file) {
   const cacheKey = `${currentThemeId()}|${overlayStrokeStyle}|${file}`;
   const cached = specialEmojiPreviewUrlCache.get(cacheKey);
   if (cached) return cached;
+  const strokeStyle = overlayStrokeStyle;
+  const palette = [0, 1, 2, 3].map(pxColorViewer);
   const data = await getSpecialEmojiGlyphByFile(file);
-  const rendered = renderSpecialEmojiGlyph(data.glyph, data.width, data.height);
-  const url = drawGlyphPreviewStrip([rendered], data.width, data.height, 0, pxColorViewer);
+  const rendered = renderEmojiGlyph(data.glyph, data.width, data.height, strokeStyle);
+  const url = drawGlyphPreviewStrip([rendered], data.width, data.height, 0, value => palette[value]);
   specialEmojiPreviewUrlCache.set(cacheKey, url);
   return url;
 }
 
-function getCachedSpecialEmojiPreviewUrl(file) {
-  if (!file) return "";
-  const cacheKey = `${currentThemeId()}|${overlayStrokeStyle}|${file}`;
-  return specialEmojiPreviewUrlCache.get(cacheKey) || "";
-}
-
 function syncSpecialEmojiMenuActive() {
-  if (!specialEmojiMenu) return;
-  for (const el of specialEmojiMenu.querySelectorAll(".special-emoji-option")) {
-    const isActive = el.getAttribute("data-file") === selectedSpecialEmojiFile;
-    el.classList.toggle("is-active", isActive);
+  for (const button of specialEmojiOptionButtons) {
+    button.classList.toggle("is-active", button.dataset.file === selectedSpecialEmojiFile);
   }
 }
 
 function invalidateSpecialEmojiMenuPreviews() {
-  if (!specialEmojiMenu) return;
-  specialEmojiPreviewPending.clear();
-  for (const img of specialEmojiMenu.querySelectorAll(".special-emoji-option-thumb")) {
-    img.removeAttribute("src");
+  ++specialEmojiPreviewGeneration;
+  specialEmojiAtlasPending = null;
+  // Keep the previous sheet visible until its replacement is decoded.
+  if (specialEmojiPicker?.classList.contains("open")) {
+    refreshSpecialEmojiMenuPreviews().catch(reportSpecialEmojiLoadError);
   }
 }
 
-function queueSpecialEmojiPreview(img, { priority = false } = {}) {
-  if (!img || img.src) return;
-  const file = img.getAttribute("data-file");
-  if (!file || specialEmojiPreviewPending.has(file)) return;
-  const cached = getCachedSpecialEmojiPreviewUrl(file);
-  if (cached) {
-    img.src = cached;
-    return;
-  }
-  specialEmojiPreviewPending.add(file);
-  if (priority) {
-    specialEmojiPreviewTasks.unshift({ img, file });
-    drainSpecialEmojiPreviewQueue();
-  } else {
-    specialEmojiPreviewTasks.push({ img, file });
-    scheduleSpecialEmojiPreviewDrain();
-  }
+function reportSpecialEmojiLoadError(error) {
+  console.warn("Emoji previews unavailable", error);
+  setLoadStatus("Could not load emoji. Try opening the picker again.", { error: true });
 }
 
-function scheduleSpecialEmojiPreviewDrain() {
-  if (specialEmojiPreviewDrainRaf) return;
-  specialEmojiPreviewDrainRaf = requestAnimationFrame(() => {
-    specialEmojiPreviewDrainRaf = 0;
-    drainSpecialEmojiPreviewQueue();
-  });
+async function refreshSpecialEmojiMenuPreviews() {
+  if (!specialEmojiMenu) return true;
+  const generation = specialEmojiPreviewGeneration;
+  if (!specialEmojiAtlasPending) {
+    const palette = [0, 1, 2, 3].map(pxColorViewer);
+    const strokeStyle = overlayStrokeStyle;
+    specialEmojiAtlasPending = specialEmojiCatalog.load()
+      .then(glyphs => renderEmojiAtlas(specialEmojiManifest.map(entry => entry.file), glyphs, {
+        palette, strokeStyle, isCurrent: () => generation === specialEmojiPreviewGeneration,
+      }))
+      .catch(error => {
+        if (generation !== specialEmojiPreviewGeneration) return null;
+        specialEmojiAtlasPending = null;
+        throw error;
+      });
+  }
+  const atlas = await specialEmojiAtlasPending;
+  if (!atlas || generation !== specialEmojiPreviewGeneration) return false;
+  specialEmojiMenu.style.setProperty("--emoji-atlas", `url("${atlas.url}")`);
+  specialEmojiMenu.style.setProperty("--emoji-atlas-size", `${atlas.width * 2}px ${atlas.height * 2}px`);
+  return true;
 }
 
-function drainSpecialEmojiPreviewQueue() {
-  while (
-    specialEmojiPreviewInFlight < SPECIAL_EMOJI_PREVIEW_CONCURRENCY &&
-    specialEmojiPreviewTasks.length
-  ) {
-    const task = specialEmojiPreviewTasks.shift();
-    const img = task?.img;
-    const file = task?.file;
-    if (!img || !file) continue;
-    if (!img.isConnected || img.src) {
-      specialEmojiPreviewPending.delete(file);
-      continue;
+async function openSpecialEmojiMenu({ focus = false } = {}) {
+  const request = ++specialEmojiMenuOpenRequest;
+  specialEmojiBtn?.setAttribute("aria-busy", "true");
+  try {
+    await buildSpecialEmojiMenu();
+    do {
+      if (request !== specialEmojiMenuOpenRequest) return;
+    } while (specialEmojiManifest.length && !await refreshSpecialEmojiMenuPreviews());
+    if (request !== specialEmojiMenuOpenRequest) return;
+    specialEmojiPicker?.classList.add("open");
+    specialEmojiBtn?.setAttribute("aria-expanded", "true");
+    if (focus) {
+      const current = specialEmojiOptionButtons.find(button => button.dataset.file === selectedSpecialEmojiFile);
+      (current || specialEmojiOptionButtons[0])?.focus();
     }
-
-    specialEmojiPreviewInFlight++;
-    Promise.resolve(getSpecialEmojiPreviewUrl(file))
-      .then((url) => {
-        if (url && img.isConnected && !img.src) img.src = url;
-      })
-      .catch(() => {})
-      .finally(() => {
-        specialEmojiPreviewPending.delete(file);
-        specialEmojiPreviewInFlight = Math.max(0, specialEmojiPreviewInFlight - 1);
-        if (specialEmojiPreviewTasks.length) scheduleSpecialEmojiPreviewDrain();
-      });
+  } catch (error) {
+    if (request === specialEmojiMenuOpenRequest) reportSpecialEmojiLoadError(error);
+  } finally {
+    if (request === specialEmojiMenuOpenRequest) specialEmojiBtn?.removeAttribute("aria-busy");
   }
-}
-
-function prewarmSpecialEmojiPreviews({ limit = 96 } = {}) {
-  if (specialEmojiPrewarmStarted) return;
-  if (!specialEmojiManifest.length) return;
-  specialEmojiPrewarmStarted = true;
-  const files = specialEmojiManifest
-    .slice(0, Math.max(0, limit))
-    .map((e) => e?.file)
-    .filter(Boolean);
-  let i = 0;
-  const tick = () => {
-    if (i >= files.length) return;
-    const file = files[i++];
-    Promise.resolve(getSpecialEmojiPreviewUrl(file))
-      .catch(() => {})
-      .finally(() => {
-        if (typeof requestIdleCallback === "function") {
-          requestIdleCallback(() => tick(), { timeout: 120 });
-        } else {
-          setTimeout(tick, 16);
-        }
-      });
-  };
-  tick();
-}
-
-function preloadVisibleSpecialEmojiThumbs({ margin = 24, max = null } = {}) {
-  if (!specialEmojiMenu || !specialEmojiPicker?.classList.contains("open")) return;
-  const menuRect = specialEmojiMenu.getBoundingClientRect();
-  const thumbs = [...specialEmojiMenu.querySelectorAll(".special-emoji-option-thumb")];
-  const cols = specialEmojiGridColumns();
-  const approxRowsVisible = Math.max(1, Math.ceil(menuRect.height / 42));
-  const dynamicLimit = Math.max(32, (approxRowsVisible + 2) * cols);
-  const limit = Number.isFinite(max) ? max : dynamicLimit;
-  let loaded = 0;
-  for (const img of thumbs) {
-    if (img.src) continue;
-    const rect = img.getBoundingClientRect();
-    const inView = rect.bottom >= (menuRect.top - margin) && rect.top <= (menuRect.bottom + margin);
-    if (!inView) continue;
-    queueSpecialEmojiPreview(img, { priority: true });
-    loaded++;
-    if (loaded >= limit) break;
-  }
-}
-
-function scheduleVisibleSpecialEmojiPreload() {
-  if (specialEmojiVisiblePreloadRaf) return;
-  specialEmojiVisiblePreloadRaf = requestAnimationFrame(() => {
-    specialEmojiVisiblePreloadRaf = 0;
-    preloadVisibleSpecialEmojiThumbs();
-  });
 }
 
 function getSpecialEmojiOptionButtons() {
   if (!specialEmojiMenu) return [];
-  return [...specialEmojiMenu.querySelectorAll(".special-emoji-option")];
+  return specialEmojiOptionButtons;
 }
 
 function specialEmojiGridColumns() {
@@ -1599,6 +1561,8 @@ function specialEmojiGridColumns() {
 }
 
 function closeSpecialEmojiMenu() {
+  ++specialEmojiMenuOpenRequest;
+  specialEmojiBtn?.removeAttribute("aria-busy");
   specialEmojiPicker?.classList.remove("open");
   specialEmojiBtn?.setAttribute("aria-expanded", "false");
 }
@@ -1635,21 +1599,6 @@ async function syncSpecialEmojiButton() {
   specialEmojiLabel.textContent = meta?.name || selectedSpecialEmojiFile;
   const fileAtRequest = selectedSpecialEmojiFile;
 
-  // Instant visual continuity: reuse menu thumb if it is already rendered.
-  let menuThumb = null;
-  if (specialEmojiMenu) {
-    for (const img of specialEmojiMenu.querySelectorAll(".special-emoji-option-thumb")) {
-      if (img.getAttribute("data-file") === fileAtRequest) {
-        menuThumb = img;
-        break;
-      }
-    }
-  }
-  if (menuThumb?.src) {
-    specialEmojiThumb.src = menuThumb.src;
-    specialEmojiThumb.style.display = "block";
-  }
-
   try {
     const url = await getSpecialEmojiPreviewUrl(fileAtRequest);
     if (reqId !== specialEmojiButtonSyncReqId || fileAtRequest !== selectedSpecialEmojiFile) return;
@@ -1666,8 +1615,6 @@ async function syncSpecialEmojiButton() {
 
 async function loadSpecialEmojiManifest() {
   try {
-    specialEmojiPrewarmStarted = false;
-    specialEmojiGlyphCache.clear();
     specialEmojiPreviewUrlCache.clear();
     specialEmojiMenuBuilt = false;
     const res = await fetch(SPECIAL_EMOJI_MANIFEST_PATH);
@@ -1745,7 +1692,6 @@ async function loadSpecialEmojiManifest() {
       if (ca !== cb) return ca - cb;
       return String(a?.name || "").localeCompare(String(b?.name || ""), undefined, { sensitivity: "base" });
     });
-    prewarmSpecialEmojiPreviews();
   } catch (err) {
     console.warn("Failed to load emoji manifest", err);
     specialEmojiManifest = [];
@@ -1754,49 +1700,14 @@ async function loadSpecialEmojiManifest() {
 }
 
 async function getSpecialEmojiGlyphByFile(file) {
-  if (!file) throw new Error("Missing emoji file");
-  if (specialEmojiGlyphCache.has(file)) return specialEmojiGlyphCache.get(file);
-  const res = await fetch(`${SPECIAL_EMOJI_DATA_DIR}/${encodeURIComponent(file)}`);
-  if (!res.ok) throw new Error(`special emoji fetch HTTP ${res.status} for ${file}`);
-  const j = await res.json();
-  const width = Number(j?.width);
-  const height = Number(j?.height);
-  const glyphRaw = Array.isArray(j?.glyph) ? j.glyph : null;
-  if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {
-    throw new Error(`Invalid dimensions in ${file}`);
-  }
-  if (!glyphRaw || glyphRaw.length !== width * height) {
-    throw new Error(`Invalid glyph payload in ${file}`);
-  }
-  const glyph = new Uint8Array(glyphRaw.map((v) => {
-    const n = Number(v) | 0;
-    if (n === 1 || n === 2 || n === 3) return n;
-    return 1;
-  }));
-  const data = { width, height, glyph };
-  specialEmojiGlyphCache.set(file, data);
+  const glyphs = await specialEmojiCatalog.load();
+  const data = glyphs.get(file);
+  if (!data) throw new Error(`Emoji missing from catalog: ${file}`);
   return data;
 }
 
 function renderSpecialEmojiGlyph(sourceGlyph, w, h) {
-  const fillMask = new Uint8Array(w * h);
-  fillMask.fill(1);
-  for (let i = 0; i < fillMask.length; i++) {
-    const p = sourceGlyph[i] | 0;
-    if (p === 2 || p === 3) fillMask[i] = 2;
-  }
-
-  const stroked = overlayStrokeStyle === "8"
-    ? applyStroke8(fillMask, w, h)
-    : applyStroke4(fillMask, w, h);
-
-  // Preserve intended fill details after stroke pass, including internal black pools.
-  for (let i = 0; i < stroked.length; i++) {
-    const p = sourceGlyph[i] | 0;
-    if (p === 2) stroked[i] = 2;
-    else if (p === 3) stroked[i] = 3;
-  }
-  return stroked;
+  return renderEmojiGlyph(sourceGlyph, w, h, overlayStrokeStyle);
 }
 
 async function refreshSpecialCharEmojiAssignments({ rerender = true } = {}) {
@@ -1826,6 +1737,7 @@ async function buildSpecialEmojiMenu() {
     return;
   }
   specialEmojiMenu.innerHTML = "";
+  specialEmojiOptionButtons = [];
 
   if (!specialEmojiManifest.length) {
     const empty = document.createElement("div");
@@ -1852,6 +1764,7 @@ async function buildSpecialEmojiMenu() {
     fragment.appendChild(group);
   };
 
+  const atlasIndices = new Map(specialEmojiManifest.map((entry, index) => [entry.file, index]));
   const appendEntry = (entry) => {
     const file = entry?.file;
     if (!file) return;
@@ -1860,11 +1773,15 @@ async function buildSpecialEmojiMenu() {
     btn.className = "special-emoji-option";
     btn.setAttribute("data-file", file);
     btn.title = entry?.name || file;
+    btn.setAttribute("aria-label", btn.title);
+    specialEmojiOptionButtons.push(btn);
 
-    const img = document.createElement("img");
+    const img = document.createElement("span");
     img.className = "special-emoji-option-thumb";
-    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
     img.setAttribute("data-file", file);
+    const index = atlasIndices.get(file);
+    img.style.backgroundPosition = `${-(index % EMOJI_ATLAS_COLUMNS) * 24}px ${-Math.floor(index / EMOJI_ATLAS_COLUMNS) * 36}px`;
     btn.appendChild(img);
 
     fragment.appendChild(btn);
@@ -1948,16 +1865,11 @@ async function initSpecialCharUI() {
   await syncSpecialEmojiButton();
   syncSpecialSafeModeUi();
 
-  specialEmojiBtn.addEventListener("click", async () => {
-    const opening = !specialEmojiPicker.classList.contains("open");
-    if (opening) {
-      await buildSpecialEmojiMenu();
-    }
-    specialEmojiPicker.classList.toggle("open", opening);
-    specialEmojiBtn.setAttribute("aria-expanded", opening ? "true" : "false");
-    if (opening) {
-      scheduleVisibleSpecialEmojiPreload();
-      setTimeout(() => scheduleVisibleSpecialEmojiPreload(), 60);
+  specialEmojiBtn.addEventListener("click", () => {
+    if (specialEmojiPicker.classList.contains("open") || specialEmojiBtn.hasAttribute("aria-busy")) {
+      closeSpecialEmojiMenu();
+    } else {
+      openSpecialEmojiMenu();
     }
   });
 
@@ -1967,7 +1879,6 @@ async function initSpecialCharUI() {
       if (specialEmojiPicker?.classList.contains("open")) {
         const first = getSpecialEmojiOptionButtons()[0];
         first?.focus();
-        queueSpecialEmojiPreview(first?.querySelector(".special-emoji-option-thumb"));
       } else {
         await cycleSpecialEmojiSelection(1);
       }
@@ -1979,7 +1890,6 @@ async function initSpecialCharUI() {
         const options = getSpecialEmojiOptionButtons();
         const last = options[options.length - 1];
         last?.focus();
-        queueSpecialEmojiPreview(last?.querySelector(".special-emoji-option-thumb"));
       } else {
         await cycleSpecialEmojiSelection(-1);
       }
@@ -1987,18 +1897,10 @@ async function initSpecialCharUI() {
     }
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      const opening = !specialEmojiPicker.classList.contains("open");
-      if (opening) {
-        await buildSpecialEmojiMenu();
-        specialEmojiPicker.classList.add("open");
-        specialEmojiBtn.setAttribute("aria-expanded", "true");
-        scheduleVisibleSpecialEmojiPreload();
-        const options = getSpecialEmojiOptionButtons();
-        const current = options.find((o) => o.getAttribute("data-file") === selectedSpecialEmojiFile);
-        const target = current || options[0];
-        target?.focus();
-      } else {
+      if (specialEmojiPicker.classList.contains("open") || specialEmojiBtn.hasAttribute("aria-busy")) {
         closeSpecialEmojiMenu();
+      } else {
+        await openSpecialEmojiMenu({ focus: true });
       }
       return;
     }
@@ -2007,20 +1909,7 @@ async function initSpecialCharUI() {
     }
   });
 
-  specialEmojiMenu.addEventListener("scroll", scheduleVisibleSpecialEmojiPreload, { passive: true });
-  window.addEventListener("resize", scheduleVisibleSpecialEmojiPreload);
-
   if (!specialEmojiMenuEventsBound) {
-    specialEmojiMenu.addEventListener("mouseover", (e) => {
-      const btn = e.target?.closest?.(".special-emoji-option");
-      if (!btn || !specialEmojiMenu.contains(btn)) return;
-      queueSpecialEmojiPreview(btn.querySelector(".special-emoji-option-thumb"));
-    });
-    specialEmojiMenu.addEventListener("focusin", (e) => {
-      const btn = e.target?.closest?.(".special-emoji-option");
-      if (!btn || !specialEmojiMenu.contains(btn)) return;
-      queueSpecialEmojiPreview(btn.querySelector(".special-emoji-option-thumb"));
-    });
     specialEmojiMenu.addEventListener("click", async (e) => {
       const btn = e.target?.closest?.(".special-emoji-option");
       if (!btn || !specialEmojiMenu.contains(btn)) return;
@@ -2060,15 +1949,13 @@ async function initSpecialCharUI() {
 
       e.preventDefault();
       options[next]?.focus();
-      queueSpecialEmojiPreview(options[next]?.querySelector(".special-emoji-option-thumb"));
     });
     specialEmojiMenuEventsBound = true;
   }
 
   document.addEventListener("mousedown", (event) => {
     if (!specialEmojiPicker?.contains(event.target)) {
-      specialEmojiPicker?.classList.remove("open");
-      specialEmojiBtn?.setAttribute("aria-expanded", "false");
+      closeSpecialEmojiMenu();
     }
   });
 
@@ -2673,6 +2560,7 @@ function rebuildResultFont() {
 
     resultFont.glyphs[idx] = shiftGlyphPixels(resultFont.glyphs[idx], w, h, dx, dy);
   }
+  recoveryContentDirty = true;
 }
 
 /* load and cache the decoded font for each betaflight file */
@@ -2887,10 +2775,10 @@ function renderBootSplashPreview(font) {
   }
 }
 
-function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
+function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL", showBackground = true } = {}) {
   if (!ctx || !canvas) return;
-  fitCanvasToCSS(canvas, ctx);
-  ctx.imageSmoothingEnabled = false;
+  const frame = fitHudCanvas(canvas, ctx, font, hudZoomControl.value);
+  if (!frame) return;
 
   const ensureHudBootBackground = () => {
     if (hudBootBgTried) return;
@@ -2919,7 +2807,10 @@ function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
         const dh = Math.round(ih * scale);
         const dx = Math.floor(x + (w - dw) / 2);
         const dy = Math.floor(y + (h - dh) / 2);
+        ctx.save();
+        ctx.imageSmoothingEnabled = true;
         ctx.drawImage(hudBootBgImage, dx, dy, dw, dh);
+        ctx.restore();
         return;
       }
     }
@@ -2975,7 +2866,7 @@ function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
     ctx.restore();
   };
 
-  ensureHudBootBackground();
+  if (showBackground) ensureHudBootBackground();
 
   const HUD_COLS = 30;
   const HUD_ROWS = 16;
@@ -2984,10 +2875,7 @@ function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
   const rowToGrid = (row) => Math.max(0, Math.min(safeRows - 1, Math.round(row)));
   const glyphW = Math.max(1, font?.width || 12);
   const glyphH = Math.max(1, font?.height || 18);
-  const scale = Math.min(
-    canvas.width / (HUD_COLS * glyphW),
-    canvas.height / (HUD_ROWS * glyphH),
-  );
+  const scale = frame.scale;
   const cellW = glyphW * scale;
   const cellH = glyphH * scale;
   const hudW = HUD_COLS * cellW;
@@ -3003,7 +2891,12 @@ function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL" } = {}) {
   ctx.beginPath();
   ctx.rect(ox, safeY, hudW, safeH);
   ctx.clip();
-  drawHudBootBackdrop(ox, safeY, hudW, safeH);
+  if (showBackground) {
+    drawHudBootBackdrop(ox, safeY, hudW, safeH);
+  } else {
+    ctx.fillStyle = cssVar("--osd-1", "#808080");
+    ctx.fillRect(ox, safeY, hudW, safeH);
+  }
   ctx.restore();
 
   const splashGlyphW = Math.max(1, font?.width || 12);
@@ -3044,17 +2937,21 @@ function rerenderAll({ renderBootSplash = true } = {}) {
 
   if (viewMode === VIEW_MODE_HUD) {
     if (hudPreviewMode === HUD_PREVIEW_MODE_BOOT) {
-      renderHudBootMock(resultHudCtx, resultHudCanvas, displayFont, { videoFormat: hudVideoFormat });
+      renderHudBootMock(resultHudCtx, resultHudCanvas, displayFont, {
+        videoFormat: hudVideoFormat, showBackground: hudShowBackground,
+      });
       hudRenderState = null;
     } else {
       hudRenderState = hudRenderer.renderHud(resultHudCtx, resultHudCanvas, displayFont, {
         showGuides: showGrids,
+        showBackground: hudShowBackground,
         enabledElements: enabledHudElements,
         videoFormat: hudVideoFormat,
         layout: hudLayout,
         labels: hudLabels,
       });
     }
+    hudZoomControl.sync(resultHudCanvas.dataset.scale, { max: Number(resultHudCanvas.dataset.maxScale) });
   } else {
     hudRenderState = null;
     if (displayFont) {
@@ -3077,13 +2974,22 @@ function rerenderAll({ renderBootSplash = true } = {}) {
     if (resultZoomCanvas?.getClientRects().length) workspaceRenderer.reserveZoomCanvasSpace(resultZoomCanvas);
     syncNudgeControls();
   }
-  inspectorZoomControl.sync(resultZoomCanvas?.dataset.scale);
+  const previousInspectorZoom = inspectorZoomControl.value;
+  inspectorZoomControl.sync(resultZoomCanvas?.dataset.scale, { max: Number(resultZoomCanvas?.dataset.maxScale) });
+  if (inspectorZoomControl.value !== previousInspectorZoom) {
+    localStorage.setItem("osdInspectorZoom", inspectorZoomControl.value);
+  }
   syncCellClipboardControls();
   syncEditorUndoControls();
   if (renderBootSplash) {
     renderBootSplashPreview(resultFont || baseFont || null);
   }
   syncDefaultLoadCue();
+  sessionRecovery?.schedule();
+  if (recoveryContentDirty) {
+    recoveryContentDirty = false;
+    sessionRecovery?.flush();
+  }
 }
 
 function scheduleRerender() {
@@ -3206,6 +3112,7 @@ function applyEditorPixel(e) {
   resultFont.glyphs[idx] = next;
   workspaceRenderer.renderZoom(resultZoomCtx, resultZoomCanvas, resultFont, selection.selectedIndex, { showGrids });
   zoomPaint.dirty = true;
+  sessionRecovery?.schedule();
 }
 
 function resetZoomPaint() {
@@ -3221,6 +3128,7 @@ function commitZoomPaintIfNeeded() {
   if (zoomPaint.dirty && zoomPaint.startGlyph && index >= 0 &&
       glyphDiffCount(zoomPaint.startGlyph, resultFont?.glyphs?.[index]) > 0) {
     editorHistory.push(index, zoomPaint.startGlyph, zoomPaint.startOffset);
+    recoveryContentDirty = true;
   }
   resetZoomPaint();
   rerenderAll({ renderBootSplash: index >= BOOT_SPLASH_START_INDEX });
@@ -3356,7 +3264,7 @@ function clearOverlaySelection() {
   currentOverlay = null;
   setCurrentTtfSource(null);
   setOverlaySelection(null);
-  clearEditorPixelOverrides();
+  clearEditorPixelOverrides({ letteringOnly: true });
   rebuildResultFont();
   rerenderAll();
   setLoadStatus("Replacement font cleared");
@@ -3379,7 +3287,7 @@ async function applyLibraryFont(entry) {
     currentOverlay = overlay;
     setCurrentTtfSource(null);
     setOverlaySelection(entry);
-    clearEditorPixelOverrides();
+    clearEditorPixelOverrides({ letteringOnly: true });
     rebuildResultFont();
     rerenderAll();
     setLoadStatus(`Loaded font: ${entry.name}`, { subtext: entry.libraryLabel });
@@ -3459,7 +3367,7 @@ async function handleFile(file) {
     }
     currentOverlay = overlay;
     setCurrentTtfSource(null);
-    clearEditorPixelOverrides();
+    clearEditorPixelOverrides({ letteringOnly: true });
     setOverlaySelection({ id: "", name: file.name, file: file.name, libraryLabel: "Imported YAFF" });
     rebuildResultFont();
     rerenderAll();
@@ -3481,7 +3389,7 @@ async function handleFile(file) {
         source.dispose();
         return;
       }
-      // Read settings after loading, so slider changes during import are included.
+      // Read settings after loading, so size changes during import are included.
       overlay = source.render(ttfRenderOptions());
     } catch (err) {
       source?.dispose();
@@ -3505,7 +3413,7 @@ async function handleFile(file) {
 
     currentOverlay = overlay;
     setCurrentTtfSource(source);
-    clearEditorPixelOverrides();
+    clearEditorPixelOverrides({ letteringOnly: true });
     setOverlaySelection({ id: "", name: file.name, file: file.name, libraryLabel: "Imported TTF / OTF" });
     rebuildResultFont();
     rerenderAll();
@@ -3572,10 +3480,22 @@ function isBmpFile(file) {
   return name.endsWith(".bmp");
 }
 
-function syncTtfSizeLabel() {
-  if (!ttfSizeValueEl) return;
-  const n = Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE));
-  ttfSizeValueEl.textContent = String(n);
+function syncTtfSizeControls() {
+  if (ttfSizeInputEl && ttfSizeInputEl.value !== String(ttfSize)) ttfSizeInputEl.value = String(ttfSize);
+  for (const button of ttfSizeButtons) {
+    button.disabled = Number(button.dataset.ttfSizeStep) < 0 ? ttfSize <= TTF_SIZE_MIN : ttfSize >= TTF_SIZE_MAX;
+  }
+}
+
+function setTtfSize(value) {
+  const next = clampInt(Math.round(value), TTF_SIZE_MIN, TTF_SIZE_MAX);
+  const changed = next !== ttfSize;
+  ttfSize = next;
+  syncTtfSizeControls();
+  if (changed) {
+    scheduleTtfRerasterize();
+    sessionRecovery?.schedule();
+  }
 }
 
 function scheduleHudSettleRerender() {
@@ -3598,7 +3518,7 @@ function ttfRenderOptions() {
     cellW: 12,
     cellH: 18,
     strokeMargin: 1,
-    sizePx: Math.max(TTF_SIZE_MIN, Math.min(TTF_SIZE_MAX, Number(ttfSizeRangeEl?.value) || TTF_DEFAULT_SIZE)),
+    sizePx: ttfSize,
     charset: TTF_IMPORT_CHARS,
   };
 }
@@ -3776,6 +3696,14 @@ function initEvents() {
       showGrids = !!hudShowGuidesEl.checked;
       if (showGridsEl) showGridsEl.checked = showGrids;
       localStorage.setItem("showGrids", showGrids ? "1" : "0");
+      rerenderAll();
+    });
+  }
+  if (hudShowBackgroundEl) {
+    hudShowBackgroundEl.checked = hudShowBackground;
+    hudShowBackgroundEl.addEventListener("change", () => {
+      hudShowBackground = hudShowBackgroundEl.checked;
+      localStorage.setItem(HUD_SHOW_BACKGROUND_KEY, hudShowBackground ? "1" : "0");
       rerenderAll();
     });
   }
@@ -4008,11 +3936,18 @@ function initEvents() {
     setBootLogoExportFormat(BOOT_LOGO_EXPORT_NATIVE);
   });
   syncBootLogoExportFormatUI();
-  syncTtfSizeLabel();
-  ttfSizeRangeEl?.addEventListener("input", () => {
-    syncTtfSizeLabel();
-    scheduleTtfRerasterize();
+  syncTtfSizeControls();
+  ttfSizeInputEl?.addEventListener("input", () => {
+    const value = Number(ttfSizeInputEl.value);
+    if (Number.isInteger(value) && value >= TTF_SIZE_MIN && value <= TTF_SIZE_MAX) setTtfSize(value);
   });
+  ttfSizeInputEl?.addEventListener("change", () => {
+    const value = ttfSizeInputEl.value.trim() === "" ? ttfSize : Number(ttfSizeInputEl.value);
+    setTtfSize(Number.isFinite(value) ? value : ttfSize);
+  });
+  for (const button of ttfSizeButtons) {
+    button.addEventListener("click", () => setTtfSize(ttfSize + Number(button.dataset.ttfSizeStep)));
+  }
 
   fileInput?.addEventListener("change", async () => {
     const f = fileInput.files?.[0];
@@ -4270,6 +4205,155 @@ function initEvents() {
 }
 
 /* -----------------------------
+   Automatic local recovery
+------------------------------ */
+
+function captureSession() {
+  if (!baseFont) return null;
+  const history = editorHistory.snapshot();
+  if (zoomPaint.dirty && zoomPaint.startGlyph) {
+    history.push({ index: zoomPaint.startIndex, glyph: zoomPaint.startGlyph, offset: zoomPaint.startOffset });
+  }
+  return {
+    baseFont, overlay: currentOverlay, overlaySelection: currentOverlaySelection,
+    overrides: [...swapOverrides], editorOffsets: [...editorOverrideOffsets],
+    history: history.slice(-20), clipboard: cellClipboard,
+    nudge: { replaced: { ...nudge.replaced }, perGlyph: [...nudge.perGlyph] }, nudgeTarget,
+    emojiAssignments: [...specialCharEmojiAssignments], selectedEmoji: selectedSpecialEmojiFile,
+    strokeStyle: overlayStrokeStyle, letterCase: overlayLetterCase,
+    ttfSize,
+    ttfSource: currentTtfSource ? { name: currentTtfSource.file.name, blob: currentTtfSource.file } : null,
+    selection: { index: selection.selectedIndex, anchor: selection.selectionAnchor, indices: [...selection.selectedSet] },
+    baseChoice: bfFontSelect?.value || "", library: currentOverlayLibraryId,
+    view: { mode: viewMode, panel: workspacePanel, zoomMode, editorColor: editorColorValue,
+      sheetZoom: sheetZoomControl.value, hudZoom: hudZoomControl.value, inspectorZoom: inspectorZoomControl.value },
+  };
+}
+
+async function restoreSession(snapshot) {
+  const surfaces = [document.querySelector(".app-header"), document.querySelector(".split")];
+  for (const surface of surfaces) surface.inert = true;
+  let source = null;
+  try {
+    ++baseLoadId;
+    ++overlayLoadId;
+    pendingTtfImportId = 0;
+    cancelTtfRerasterize();
+    await initialLoadReady;
+    if (snapshot.ttfSource) {
+      source = await loadTtfSource(new File([snapshot.ttfSource.blob], snapshot.ttfSource.name));
+    }
+    resetZoomPaint();
+    closeSpecialEmojiMenu();
+    holdOriginalPreview = false;
+    holdOriginalPreviewBtn?.classList.remove("is-holding");
+    baseFont = snapshot.baseFont;
+    currentOverlay = snapshot.overlay;
+    setCurrentTtfSource(source);
+    source = null;
+    setOverlaySelection(snapshot.overlaySelection);
+    const replaceMap = (map, entries) => { map.clear(); for (const [index, value] of entries) map.set(index, value); };
+    replaceMap(swapOverrides, snapshot.overrides);
+    replaceMap(editorOverrideOffsets, snapshot.editorOffsets);
+    editorOverrideIndices.clear();
+    for (const [index] of snapshot.editorOffsets) editorOverrideIndices.add(index);
+    editorHistory.clear();
+    for (const entry of snapshot.history) editorHistory.push(entry.index, entry.glyph, entry.offset);
+    cellClipboard = snapshot.clipboard;
+    nudge.replaced.x = snapshot.nudge.replaced.x;
+    nudge.replaced.y = snapshot.nudge.replaced.y;
+    replaceMap(nudge.perGlyph, snapshot.nudge.perGlyph);
+    nudgeTarget = snapshot.nudgeTarget;
+    replaceMap(specialCharEmojiAssignments, snapshot.emojiAssignments);
+    selectedSpecialEmojiFile = snapshot.selectedEmoji || "";
+    selection.selectedIndex = snapshot.selection.index;
+    selection.selectionAnchor = snapshot.selection.anchor;
+    selection.selectedSet = new Set(snapshot.selection.indices);
+    overlayStrokeStyle = snapshot.strokeStyle;
+    overlayLetterCase = snapshot.letterCase;
+    currentOverlayLibraryId = snapshot.library || "";
+    ttfSize = snapshot.ttfSize;
+    if (bfFontSelect) bfFontSelect.value = snapshot.baseChoice || "";
+    try {
+      localStorage.setItem(OVERLAY_STROKE_STYLE_KEY, overlayStrokeStyle);
+      localStorage.setItem(OVERLAY_CASE_KEY, overlayLetterCase);
+      localStorage.setItem(OVERLAY_LIBRARY_KEY, currentOverlayLibraryId);
+    } catch { /* The working session can still be recovered if preference storage is full. */ }
+    syncOverlayStrokeStyleUI();
+    syncOverlayCaseUI();
+    syncTtfSizeControls();
+    clearDynamicPreviewCaches();
+    invalidateSpecialEmojiMenuPreviews();
+    fontBrowserApi?.setPending(null);
+    fontBrowserApi?.refresh();
+    bfPickerApi?.refresh();
+    swapTargetPickerApi?.refresh();
+    swapSourcePickerApi?.refresh();
+    syncSpecialEmojiButton();
+    const view = snapshot.view || {};
+    sheetZoomControl.set(view.sheetZoom || "auto");
+    hudZoomControl.set(view.hudZoom || "auto");
+    inspectorZoomControl.set(view.inspectorZoom || "auto");
+    setEditorColor(view.editorColor || 3);
+    setViewMode(view.mode);
+    setWorkspacePanel(view.panel);
+    setZoomMode(view.zoomMode);
+    rebuildResultFont();
+    rerenderAll();
+    setLoadStatus("Previous session restored", { subtext: "Automatic recovery is saved in this browser." });
+  } finally {
+    source?.dispose();
+    for (const surface of surfaces) surface.inert = false;
+  }
+}
+
+function showRecoveryOffer(snapshot, invalid = false) {
+  if (!recoveryBanner) return;
+  recoveryBanner.hidden = !snapshot;
+  announcements?.setRecoveryPending(!!snapshot);
+  scheduleRerender();
+  recoveryRestoreBtn.disabled = invalid;
+  recoveryFreshBtn.disabled = false;
+  if (!snapshot) return;
+  recoveryTitle.textContent = invalid ? "Your saved session could not be read." : "Restore your previous session?";
+  recoveryDetails.textContent = invalid
+    ? "Choose Start fresh to begin a new session."
+    : `Saved ${new Date(snapshot.savedAt).toLocaleString([], { dateStyle: "medium", timeStyle: "short" })} · Stored only in this browser.`;
+}
+
+function updateRecoveryStatus(status) {
+  if (status === "unavailable") {
+    setLoadStatus("Automatic recovery is unavailable", { error: true, subtext: "Export your font to keep your work." });
+  }
+  if (recoveryStatus) {
+    const labels = {
+      ready: "Changes are saved automatically in this browser.",
+      waiting: "Choose Restore or Start fresh to enable automatic recovery.",
+      invalid: "The saved session is unavailable. Choose Start fresh to continue saving.",
+      pending: "Saving in this browser…", saving: "Saving in this browser…", saved: "Session saved in this browser.",
+      restoring: "Restoring your previous session…",
+      "restore-failed": "Could not restore this session. Your saved copy is still available.",
+      unavailable: "Automatic recovery is unavailable. Export your font to keep your work.",
+    };
+    recoveryStatus.dataset.state = status;
+    const label = labels[status] || "";
+    if (recoveryStatus.textContent !== label) recoveryStatus.textContent = label;
+  }
+  if (status === "restoring") {
+    recoveryRestoreBtn.disabled = true;
+    recoveryFreshBtn.disabled = true;
+    recoveryBanner.setAttribute("aria-busy", "true");
+  } else {
+    recoveryBanner?.removeAttribute("aria-busy");
+    if (status === "restore-failed") {
+      recoveryRestoreBtn.disabled = false;
+      recoveryFreshBtn.disabled = false;
+      recoveryDetails.textContent = "Could not restore the session. Try again, or choose Start fresh.";
+    }
+  }
+}
+
+/* -----------------------------
    Init
 ------------------------------ */
 
@@ -4282,13 +4366,25 @@ function init() {
   syncNudgeControls();
   setLoadStatus(loadStatusText);
   initSwapUI();
-  initSpecialCharUI();
   initTheme();
   renderKofiBadgeIcon();
   initEvents();
   syncDefaultLoadCue();
-  loadOverlayIndex();
-  loadBetaflightDefaults();
+  initialLoadReady = Promise.allSettled([initSpecialCharUI(), loadOverlayIndex(), loadBetaflightDefaults()]);
+  announcements = createAnnouncements({
+    banner: document.getElementById("welcomeNotice"), toggle: document.getElementById("announcementsToggle"),
+    dismiss: document.getElementById("dismissWelcome"),
+    onChange: scheduleRerender,
+  });
+  sessionRecovery = createSessionRecovery({
+    store: createRecoveryStore(), capture: captureSession, restore: restoreSession,
+    onOffer: showRecoveryOffer, onStatus: updateRecoveryStatus,
+  });
+  recoveryRestoreBtn?.addEventListener("click", () => sessionRecovery.restoreSaved());
+  recoveryFreshBtn?.addEventListener("click", () => sessionRecovery.startFresh());
+  window.addEventListener("pagehide", () => sessionRecovery.flush());
+  document.addEventListener("visibilitychange", () => { if (document.hidden) sessionRecovery.flush(); });
+  sessionRecovery.init().then(() => announcements.init());
 }
 
 init();

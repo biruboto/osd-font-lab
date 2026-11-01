@@ -10,10 +10,12 @@ OSD Font Lab is a web application designed to help you create custom fonts for a
 10.31.2026 OSD FONT LAB LIVES!
 + Layout overhaul for desktop, tablet and phone, with clearer controls and collapsible tools.
 + Glyph sheet now flows to fit your screen while keeping crisp integer scaling. PNG exports stay in the standard 16×16 format.
-+ Huge font and library picker overhaul, including search.
++ Huge font and library picker overhaul, including search. Emoji picker performance improvements.
 + Independent sheet and inspector zoom controls, with Auto fitting and +/− buttons.
 + Copy cell / Paste cell, including copying between fonts.
 + 20-step undo for editor strokes and cell pastes.
++ TONS of little UI and bug fixes.
++ Automatic progress saving; restore a session and continue your work after refreshing or closing the page.
 + Faster previews and lighter logo animation, with reduced-motion support. Significant performance improvements.
 + Fixes for MCM transparency, edits after nudging, and rapid font switching.
 + FC uploads now support cancellation and better timeout/disconnect handling.

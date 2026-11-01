@@ -67,6 +67,11 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
     async def load_default(self, page):
         await page.goto(self.url, wait_until='networkidle')
         await page.locator('#bfFontSelect + .fontpicker').wait_for()
+        if await page.locator('#sessionRecovery').is_visible():
+            await page.locator('#startFreshSession').click()
+            await page.locator('#sessionRecovery').wait_for(state='hidden')
+        if await page.locator('#welcomeNotice').is_visible():
+            await page.locator('#dismissWelcome').click()
         await page.select_option('#bfFontSelect', 'betaflight.mcm')
         await page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: betaflight.mcm')")
 
@@ -134,6 +139,371 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
             'name': name, 'mimeType': 'font/otf', 'buffer': outline_fixture(variant),
         })
 
+    async def test_welcome_notice_first_visit_dismissal_and_keyboard_reopening(self):
+        # A fresh browser profile has no welcome preference or recovery record.
+        profile = await self.browser.new_context(viewport={'width':1440,'height':900})
+        page = await profile.new_page()
+        try:
+            await page.goto(self.url,wait_until='networkidle')
+            welcome = page.locator('#welcomeNotice')
+            toggle = page.locator('#announcementsToggle')
+            await welcome.wait_for(state='visible')
+            self.assertEqual(await toggle.get_attribute('aria-expanded'),'true')
+            self.assertEqual(await toggle.get_attribute('data-unread'),'true')
+            self.assertEqual(await welcome.locator('a').evaluate_all('links=>links.map(a=>a.href)'),[
+                'https://github.com/biruboto/osd-font-lab#readme',
+                'https://github.com/biruboto/osd-font-lab/issues'])
+            for width,height in [(1440,900),(1024,768),(390,844),(360,800),(844,390)]:
+                await page.set_viewport_size({'width':width,'height':height})
+                await self.settle_frames(page)
+                self.assertFalse(await page.evaluate('document.documentElement.scrollWidth>document.documentElement.clientWidth+1'),width)
+            await page.locator('#dismissWelcome').click()
+            self.assertFalse(await welcome.is_visible())
+            self.assertEqual(await toggle.get_attribute('data-unread'),'false')
+            self.assertTrue(await toggle.evaluate('e=>e===document.activeElement'))
+            await page.reload(wait_until='networkidle')
+            self.assertFalse(await welcome.is_visible(),'dismissed notice should stay closed on later visits')
+            await toggle.focus()
+            await page.keyboard.press('Enter')
+            await welcome.wait_for(state='visible')
+            await welcome.locator('a').first.focus()
+            await page.keyboard.press('Escape')
+            self.assertFalse(await welcome.is_visible())
+            self.assertTrue(await toggle.evaluate('e=>e===document.activeElement'))
+            # A versioned announcement can be shown again after an older notice was read.
+            await page.evaluate("localStorage.setItem('osdFontLabNoticeSeen','older-release')")
+            await page.reload(wait_until='networkidle')
+            self.assertTrue(await welcome.is_visible())
+        finally:
+            await profile.close()
+
+    async def test_welcome_dismissal_minimizes_to_bell_and_respects_reduced_motion(self):
+        await self.page.locator('#announcementsToggle').click()
+        self.assertEqual(await self.page.locator('#welcomeTitle').inner_text(),'Welcome to the new OSD Font Lab, pilots!')
+        self.assertIn('tons of ui and performance improvements,',(await self.page.locator('#welcomeNotice').inner_text()).lower())
+        self.assertNotIn('Have fun making it yours',await self.page.locator('#welcomeNotice').inner_text())
+        await self.page.evaluate('''() => {
+          window.welcomeMotions=[];const animate=Element.prototype.animate;
+          Element.prototype.animate=function(frames,options) {
+            const source=this.getBoundingClientRect(),target=document.querySelector('#announcementsToggle').getBoundingClientRect();
+            welcomeMotions.push({kind:this.classList.contains('notice-flight')?'flight':'bell',frames,duration:options.duration,
+              inert:this.inert,hidden:this.getAttribute('aria-hidden'),ids:this.querySelectorAll('[id]').length,
+              source:{x:source.x,y:source.y,width:source.width,height:source.height},
+              target:{x:target.x,y:target.y,width:target.width,height:target.height}});
+            return animate.call(this,frames,options);
+          };
+        }''')
+        await self.page.locator('#dismissWelcome').click()
+        await self.page.wait_for_function("welcomeMotions.some(m=>m.kind==='bell')")
+        motions=await self.page.evaluate('welcomeMotions')
+        flight=next(m for m in motions if m['kind']=='flight')
+        self.assertTrue(flight['inert'])
+        self.assertEqual(flight['hidden'],'true')
+        self.assertEqual(flight['ids'],0)
+        self.assertLessEqual(flight['duration'],400)
+        destination=await self.page.evaluate(r'''flight=>{
+          const values=flight.frames[1].transform.match(/-?[\d.]+/g).map(Number);
+          return {x:flight.source.x+values[0],y:flight.source.y+values[1],
+            width:flight.source.width*values[2],height:flight.source.height*values[3]};
+        }''',flight)
+        for dimension in ['x','y','width','height']:
+            self.assertLess(abs(destination[dimension]-flight['target'][dimension]),1)
+        self.assertEqual(await self.page.locator('.notice-flight').count(),0)
+        self.assertFalse(await self.page.locator('#welcomeNotice').is_visible())
+        await self.page.locator('#announcementsToggle').click()
+        await self.page.emulate_media(reduced_motion='reduce')
+        await self.page.evaluate('welcomeMotions=[]')
+        await self.page.locator('#dismissWelcome').click()
+        self.assertEqual(await self.page.evaluate('welcomeMotions'),[])
+        self.assertEqual(await self.page.locator('.notice-flight').count(),0)
+        self.assertFalse(await self.page.locator('#welcomeNotice').is_visible())
+        self.assertTrue(await self.page.locator('#announcementsToggle').evaluate('e=>e===document.activeElement'))
+        await self.page.emulate_media(reduced_motion='no-preference')
+        await self.page.locator('#announcementsToggle').click()
+        await self.page.locator('#dismissWelcome').click()
+        await self.page.locator('#announcementsToggle').click()
+        self.assertTrue(await self.page.locator('#welcomeNotice').is_visible(),'quickly reopening should cancel the minimize effect')
+        self.assertEqual(await self.page.locator('.notice-flight').count(),0)
+
+    async def test_welcome_notice_waits_for_recovery_and_does_not_change_the_font(self):
+        expected = await self.font()
+        await self.wait_for_recovery_save()
+        await self.page.evaluate("localStorage.removeItem('osdFontLabNoticeSeen')")
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#sessionRecovery').wait_for(state='visible')
+        self.assertFalse(await self.page.locator('#welcomeNotice').is_visible())
+        self.assertEqual(await self.page.locator('#announcementsToggle').get_attribute('data-unread'),'true')
+        await self.page.locator('#restoreSession').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Previous session restored')")
+        await self.page.locator('#welcomeNotice').wait_for(state='visible')
+        self.assertFalse(await self.page.locator('#sessionRecovery').is_visible())
+        self.assertEqual(await self.font(),expected)
+        for width,height in [(390,844),(844,390)]:
+            await self.page.set_viewport_size({'width':width,'height':height})
+            await self.page.locator('[data-workspace-target="preview"]').click()
+            await self.settle_frames(self.page)
+            self.assertGreater(await self.page.locator('.sheet-wrap').evaluate('e=>e.getBoundingClientRect().height'),120)
+        await self.page.locator('#dismissWelcome').click()
+        self.assertEqual(await self.font(),expected)
+
+    async def wait_for_recovery_save(self):
+        await self.page.wait_for_function("document.querySelector('#recoveryStatus').dataset.state==='saved'")
+
+    async def test_session_recovery_restores_layers_nudges_undo_and_emoji(self):
+        await self.page.select_option('#fontLibraryFilter','cpc')
+        await self.page.locator('#fontSearch').fill('alarm8x8')
+        await self.page.locator('[data-font-id="cpc::alarm8x8.json"]').click()
+        await self.page.wait_for_function("document.querySelector('#fontCurrentName').textContent==='alarm8x8'")
+        await self.page.locator('.dpad [data-dx="1"]').click()
+        await self.select_glyph(65)
+        await self.page.locator('#copyCell').click()
+        for index in [1,160]:
+            await self.select_glyph(index)
+            await self.page.locator('#pasteCell').click()
+        await self.page.locator('[data-nudge-scope="selection"]').click()
+        await self.page.locator('.dpad [data-dy="1"]').click()
+        await self.select_glyph(33)
+        await self.page.locator('#emojiTools > summary').click()
+        await self.page.locator('#specialEmojiBtn').click()
+        await self.page.locator('.special-emoji-option').first.wait_for(state='visible')
+        await self.page.locator('.special-emoji-option').first.click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Applied special character')")
+        await self.page.locator('#strokeStyle8Btn').click()
+        await self.select_glyph(160)
+        await self.page.locator('#zoomModeEditor').click()
+        expected = await self.font()
+        await self.wait_for_recovery_save()
+        saved = await self.page.evaluate('''async () => {
+          const {createRecoveryStore}=await import('/js/modules/session-recovery.js');const s=await createRecoveryStore().read();
+          return {history:s.history.length,emoji:s.emojiAssignments.length,offset:s.nudge.replaced,overrides:s.overrides.length};
+        }''')
+        self.assertEqual(saved,{'history':2,'emoji':1,'offset':{'x':1,'y':0},'overrides':3})
+        await self.page.evaluate("localStorage.setItem('osdOverlayStrokeStyle','4')")
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#sessionRecovery').wait_for(state='visible')
+        self.assertIn('No file loaded',await self.page.locator('#loadStatus').inner_text())
+        # Restoring library lettering must use the snapshot, not fetch its source again.
+        await self.page.route('**/fonts/data/cpc/**',lambda route:route.abort())
+        await self.page.locator('#restoreSession').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Previous session restored')")
+        self.assertFalse(await self.page.locator('#sessionRecovery').is_visible())
+        self.assertEqual(await self.font(),expected)
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'2')
+        self.assertEqual(await self.page.locator('#fontCurrentName').inner_text(),'alarm8x8')
+        self.assertIn('0xA0',await self.page.locator('#glyphInfo').inner_text())
+        self.assertEqual(await self.page.locator('[data-nudge-scope="selection"]').get_attribute('aria-pressed'),'true')
+        self.assertIn('is-active',await self.page.locator('#strokeStyle8Btn').get_attribute('class'))
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'1')
+        self.assertNotEqual((await self.font())[160],expected[160])
+        await self.page.locator('.dpad [data-dx="1"]').click()
+        current = await self.font()
+        await self.wait_for_recovery_save()
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#restoreSession').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Previous session restored')")
+        self.assertEqual(await self.font(),current,'repeated recovery must not apply nudges twice')
+
+    async def test_session_recovery_ttf_source_and_start_fresh(self):
+        await self.import_outline_fixture()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF')")
+        expected = await self.font()
+        await self.wait_for_recovery_save()
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#restoreSession').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Previous session restored')")
+        self.assertEqual(await self.font(),expected)
+        await self.page.locator('#ttfSizeInput').fill('8')
+        await self.page.locator('#ttfSizeInput').dispatch_event('input')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Updated TTF')")
+        self.assertNotEqual(await self.font(),expected,'the imported outline source must remain editable after recovery')
+        await self.wait_for_recovery_save()
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#startFreshSession').click()
+        await self.page.locator('#sessionRecovery').wait_for(state='hidden')
+        await self.page.reload(wait_until='networkidle')
+        self.assertFalse(await self.page.locator('#sessionRecovery').is_visible())
+        self.assertIn('No file loaded',await self.page.locator('#loadStatus').inner_text())
+
+    async def test_session_recovery_flushes_pending_changes_on_immediate_reload(self):
+        await self.wait_for_recovery_save()
+        await self.select_glyph(65)
+        await self.page.locator('#copyCell').click()
+        await self.select_glyph(1)
+        await self.page.locator('#pasteCell').click()
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#restoreSession').click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Previous session restored')")
+        result = await self.font()
+        self.assertEqual(result[1],result[65],'pagehide should flush a change still within the debounce window')
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'1')
+
+    async def test_session_recovery_unavailable_storage_does_not_break_editing(self):
+        await self.context.add_init_script("Object.defineProperty(window,'indexedDB',{value:{open(){throw new Error('Storage disabled')}}})")
+        await self.load_default(self.page)
+        await self.page.wait_for_function("document.querySelector('#recoveryStatus').dataset.state==='unavailable'")
+        await self.select_glyph(65)
+        await self.page.locator('#copyCell').click()
+        await self.select_glyph(1)
+        await self.page.locator('#pasteCell').click()
+        result = await self.font()
+        self.assertEqual(result[1],result[65])
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'1')
+        self.assertFalse(await self.page.locator('#sessionRecovery').is_visible())
+
+    async def test_session_recovery_invalid_record_and_failed_restore_remain_discardable(self):
+        await self.wait_for_recovery_save()
+        await self.page.evaluate('''async () => {
+          const {createRecoveryStore}=await import('/js/modules/session-recovery.js');
+          await createRecoveryStore().write({version:999,savedAt:Date.now()});
+        }''')
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#sessionRecovery').wait_for(state='visible')
+        self.assertTrue(await self.page.locator('#restoreSession').is_disabled())
+        await self.page.locator('#startFreshSession').click()
+        await self.page.locator('#sessionRecovery').wait_for(state='hidden')
+        await self.page.select_option('#bfFontSelect','betaflight.mcm')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: betaflight.mcm')")
+        await self.wait_for_recovery_save()
+        await self.page.evaluate('''async () => {
+          const {createRecoveryStore}=await import('/js/modules/session-recovery.js');const store=createRecoveryStore();
+          const snapshot=await store.read();snapshot.ttfSource={name:'broken.otf',blob:new Blob(['broken'])};
+          await store.write(snapshot);
+        }''')
+        await self.page.reload(wait_until='networkidle')
+        await self.page.locator('#restoreSession').click()
+        await self.page.wait_for_function("document.querySelector('#recoveryStatus').dataset.state==='restore-failed'")
+        self.assertFalse(await self.page.locator('#startFreshSession').is_disabled())
+        self.assertFalse(await self.page.locator('.split').evaluate('e=>e.inert'))
+        self.assertTrue(await self.page.locator('#sessionRecovery').is_visible())
+        await self.page.locator('#startFreshSession').click()
+        await self.page.locator('#sessionRecovery').wait_for(state='hidden')
+
+    async def assert_emoji_atlas_matches_source(self, stroke='4'):
+        catalog = json.loads((ROOT/'fonts/previews/emoji-pixels.json').read_text())
+        result = await self.page.evaluate('''async ({catalog,stroke}) => {
+          const {decodeEmojiCatalog,renderEmojiGlyph}=await import('/js/modules/emoji-preview.js');
+          const glyphs=decodeEmojiCatalog(catalog),menu=document.querySelector('#specialEmojiMenu');
+          const url=menu.style.getPropertyValue('--emoji-atlas').slice(5,-2);
+          const img=new Image();img.src=url;await img.decode();
+          const canvas=document.createElement('canvas');canvas.width=img.width;canvas.height=img.height;
+          const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0);
+          const atlas=ctx.getImageData(0,0,img.width,img.height).data;
+          const style=getComputedStyle(document.documentElement),colors={1:[0,0,0,0]};
+          for(const value of [2,3]) {
+            ctx.fillStyle=style.getPropertyValue('--osd-'+value);ctx.fillRect(0,0,1,1);
+            colors[value]=Array.from(ctx.getImageData(0,0,1,1).data);
+          }
+          const failures=[];
+          for(const thumb of menu.querySelectorAll('.special-emoji-option-thumb')) {
+            const [x,y]=thumb.style.backgroundPosition.split(' ').map(v=>-parseFloat(v)/2);
+            const source=glyphs.get(thumb.dataset.file),expected=renderEmojiGlyph(source.glyph,12,18,stroke);
+            for(let i=0;i<expected.length;i++) {
+              const offset=((y+Math.floor(i/12))*img.width+x+i%12)*4;
+              if(colors[expected[i]].some((v,c)=>v!==atlas[offset+c])) {
+                failures.push(thumb.dataset.file);break;
+              }
+            }
+          }
+          return {failures,count:menu.querySelectorAll('.special-emoji-option-thumb').length};
+        }''', {'catalog':catalog,'stroke':stroke})
+        self.assertEqual(result, {'failures':[], 'count':507})
+
+    async def test_emoji_catalog_fast_scroll_theme_refresh_and_keyboard_selection(self):
+        requests = []
+        self.page.on('request', lambda request: requests.append(request.url))
+        await self.load_default(self.page)
+        self.assertFalse(any('/fonts/data/emoji-pixels/' in url or '/previews/emoji-pixels.json' in url for url in requests),
+                         'opening the app should not fetch emoji pixels')
+        await self.select_glyph(33)
+        initial = await self.font()
+        await self.page.locator('#emojiTools > summary').click()
+        await self.page.locator('#specialEmojiBtn').click()
+        await self.page.wait_for_function("document.querySelector('#specialEmojiPicker').classList.contains('open')")
+        self.assertEqual(sum('/previews/emoji-pixels.json' in url for url in requests), 1)
+        self.assertFalse(any('/fonts/data/emoji-pixels/' in url for url in requests))
+        await self.assert_emoji_atlas_matches_source()
+        work = await self.page.evaluate('''async () => {
+          const menu=document.querySelector('#specialEmojiMenu');let measures=0,canvases=0;
+          const bounds=Element.prototype.getBoundingClientRect,create=document.createElement;
+          Element.prototype.getBoundingClientRect=function(...args) {
+            if(this.classList.contains('special-emoji-option-thumb'))measures++;
+            return bounds.apply(this,args);
+          };
+          document.createElement=function(tag,...args){if(tag==='canvas')canvases++;return create.call(this,tag,...args)};
+          try {
+            for(const fraction of [1,0,.75,.1,1,0]) {
+              menu.scrollTop=(menu.scrollHeight-menu.clientHeight)*fraction;
+              menu.dispatchEvent(new Event('scroll'));
+              await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+            }
+            return {measures,canvases};
+          } finally {Element.prototype.getBoundingClientRect=bounds;document.createElement=create;}
+        }''')
+        self.assertEqual(work, {'measures':0,'canvases':0}, 'scrolling must not measure or render thumbnails')
+        previous = await self.page.locator('#specialEmojiMenu').evaluate("e=>e.style.getPropertyValue('--emoji-atlas')")
+        await self.page.evaluate('''() => {
+          document.querySelector('input[name=siteTheme][value=crt]').click();
+          document.querySelector('#strokeStyle8Btn').click();
+          document.querySelector('input[name=siteTheme][value=afterburn]').click();
+        }''')
+        await self.page.wait_for_function("previous=>document.querySelector('#specialEmojiMenu').style.getPropertyValue('--emoji-atlas')!==previous",arg=previous)
+        await self.assert_emoji_atlas_matches_source('8')
+        await self.page.locator('#specialEmojiBtn').press('ArrowDown')
+        await self.page.keyboard.press('ArrowDown')
+        await self.page.keyboard.press('ArrowRight')
+        self.assertEqual(await self.page.locator('.special-emoji-option').nth(9).evaluate('e=>e===document.activeElement'), True)
+        await self.page.keyboard.press('Enter')
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Applied special character')")
+        applied = await self.font()
+        self.assertNotEqual(applied[33], initial[33])
+        self.assertTrue(all(applied[i]==initial[i] for i in range(256) if i!=33))
+        await self.page.locator('#clearSpecialCharBtn').click()
+        self.assertEqual(await self.font(), initial)
+        await self.page.set_viewport_size({'width':390,'height':844})
+        await self.page.locator('[data-workspace-target="tools"]').click()
+        await self.page.locator('#specialEmojiBtn').click()
+        await self.page.wait_for_function("document.querySelector('#specialEmojiPicker').classList.contains('open')")
+        await self.page.locator('#specialEmojiMenu').evaluate('e=>e.scrollTop=e.scrollHeight')
+        self.assertEqual(await self.page.locator('.special-emoji-option').count(),507)
+        self.assertFalse(await self.page.evaluate('document.documentElement.scrollWidth>document.documentElement.clientWidth+1'))
+        self.assertEqual(sum('/previews/emoji-pixels.json' in url for url in requests),1)
+        self.assertFalse(any('/fonts/data/emoji-pixels/' in url for url in requests))
+
+    async def test_emoji_catalog_failure_retry_and_cancel_during_loading(self):
+        attempts = 0
+        started, release = asyncio.Event(), asyncio.Event()
+
+        async def catalog_response(route):
+            nonlocal attempts
+            attempts += 1
+            if attempts == 1:
+                await route.fulfill(status=503,body='Unavailable')
+            else:
+                started.set()
+                await release.wait()
+                await route.continue_()
+
+        await self.page.route('**/fonts/previews/emoji-pixels.json*',catalog_response)
+        await self.page.locator('#emojiTools > summary').click()
+        button = self.page.locator('#specialEmojiBtn')
+        await button.click()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Could not load emoji')")
+        self.assertEqual(await button.get_attribute('aria-expanded'),'false')
+        self.assertIsNone(await button.get_attribute('aria-busy'))
+        await button.click()
+        await asyncio.wait_for(started.wait(),5)
+        await button.press('Escape')
+        await self.page.evaluate("document.querySelector('input[name=siteTheme][value=crt]').click()")
+        release.set()
+        # Reopening shares the pending request and uses the latest theme.
+        await button.press('Enter')
+        await self.page.wait_for_function("document.querySelector('#specialEmojiPicker').classList.contains('open')")
+        await self.assert_emoji_atlas_matches_source()
+        self.assertEqual(attempts,2)
+        await self.page.keyboard.press('Escape')
+        self.assertEqual(await button.get_attribute('aria-expanded'),'false')
+
     async def test_ttf_shared_baseline_coverage_and_reused_source(self):
         result = await self.page.evaluate(r'''async () => {
           const {loadTtfSource,parseTtfToOverlay}=await import('/js/modules/ttf-overlay.js');
@@ -197,7 +567,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(after[90], before[90], 'missing Z must keep the base glyph')
         self.assertEqual(after[32], [1]*216, 'supported space must be transparent')
         self.assertIn('missing (kept base)', await self.page.locator('#loadStatus').inner_text())
-        await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='6';e.dispatchEvent(new Event('input',{bubbles:true}))}")
+        await self.page.locator('#ttfSizeInput').evaluate("e=>{e.value='6';e.dispatchEvent(new Event('input',{bubbles:true}))}")
         await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Updated TTF overlay: fixture.otf') && document.querySelector('#loadStatus').textContent.includes('size 6')")
         small = await self.font()
         self.assertNotEqual(small[65], after[65])
@@ -207,7 +577,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.page.locator('#file').set_input_files(str(ROOT/'fonts/betaflight/bold.mcm'))
         await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: bold.mcm')")
         self.assertEqual((await self.font())[65], small[65])
-        await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='12';e.dispatchEvent(new Event('input',{bubbles:true}))}")
+        await self.page.locator('#ttfSizeInput').evaluate("e=>{e.value='12';e.dispatchEvent(new Event('input',{bubbles:true}))}")
         await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Updated TTF overlay: fixture.otf') && document.querySelector('#loadStatus').textContent.includes('size 12')")
         self.assertEqual((await self.font())[65], after[65])
         await self.page.select_option('#fontLibraryFilter', 'cpc')
@@ -245,7 +615,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         for key in ['ordinaryUnchanged', 'ordinaryGrew', 'hasWide', 'hasTall', 'marginClear']:
             self.assertTrue(result[key], (key, result))
 
-    async def test_ttf_slider_during_new_import_uses_new_font_and_latest_size(self):
+    async def test_ttf_size_change_during_new_import_uses_new_font_and_latest_size(self):
         await self.import_outline_fixture('first.otf')
         await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF overlay: first.otf')")
         await self.page.evaluate('''()=>{
@@ -254,7 +624,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         }''')
         await self.import_outline_fixture('second.otf', 1)
         await self.page.wait_for_function('ttfPending.length===1')
-        await self.page.locator('#ttfSizeRange').evaluate("e=>{e.value='6';e.dispatchEvent(new Event('input',{bubbles:true}))}")
+        await self.page.locator('#ttfSizeInput').evaluate("e=>{e.value='6';e.dispatchEvent(new Event('input',{bubbles:true}))}")
         await asyncio.sleep(.2)  # Let the old debounce period pass while load is held.
         self.assertEqual(await self.page.evaluate('ttfPending.length'), 1)
         await self.page.evaluate('()=>{ttfPending[0]()}')
@@ -314,6 +684,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         baseline = json.loads((ROOT/'tests/fixtures/render-baseline.json').read_text())
         # Check the original pixels at their original geometry, independently
         # of the new responsive column count.
+        await self.page.set_viewport_size({'width':1440,'height':1100})
+        await self.page.locator('.panel-result').evaluate("e=>e.style.setProperty('--inspector-width','270px')")
         await self.page.locator('.sheet-wrap').evaluate("""e=>{
           e.style.width=(576+e.offsetWidth-e.clientWidth)+'px'; e.style.maxHeight='864px';
         }""")
@@ -331,6 +703,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
               })))""")
             self.assertEqual(actual, expected, theme)
         await self.page.locator('.sheet-wrap').evaluate("e=>{e.style.removeProperty('width');e.style.removeProperty('max-height')}")
+        await self.page.locator('.panel-result').evaluate("e=>e.style.removeProperty('--inspector-width')")
+        await self.page.set_viewport_size({'width':1440,'height':900})
         await self.set_zoom('sheet','auto')
         await self.settle_frames(self.page)
         samples = await self.page.evaluate("""() => {
@@ -506,6 +880,75 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await (await older.value).body()
         await self.settle_frames(other)
         self.assertTrue(await self.font(other) == expected, 'export must match the latest selected font')
+
+    async def test_replacement_font_changes_preserve_icon_edits_and_their_undo_history(self):
+        original = await self.font()
+        await self.select_glyph(1)
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('.editor-color-btn[data-editor-color="2"]').click()
+        pixel = original[1].index(1)
+        box = await self.page.locator('#resultZoom').bounding_box()
+        await self.page.locator('#resultZoom').click(position={'x':(pixel%12+.5)*box['width']/12,
+                                                            'y':(pixel//12+.5)*box['height']/18})
+        edited = (await self.font())[1]
+        self.assertNotEqual(edited, original[1])
+        await self.page.select_option('#fontLibraryFilter','cpc')
+        for name in ['alarm8x8','alarm8x5']:
+            await self.page.locator('#fontSearch').fill(name)
+            await self.page.locator(f'[data-font-id="cpc::{name}.json"]').click()
+            await self.page.wait_for_function("name=>document.querySelector('#fontCurrentName').textContent===name",arg=name)
+            self.assertEqual((await self.font())[1],edited,'changing lettering must preserve the edited icon')
+            self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'1')
+        await self.page.locator('#clearOverlayBtn').click()
+        self.assertEqual((await self.font())[1],edited,'clearing lettering must preserve the edited icon')
+        await self.page.locator('#editorUndoBtn').click()
+        self.assertEqual(await self.font(),original,'the icon edit must remain undoable after font changes')
+
+    async def test_overlay_imports_preserve_icon_and_boot_edits_but_refresh_lettering(self):
+        original = await self.font()
+        await self.select_glyph(65)
+        await self.page.locator('#copyCell').click()
+        for index in [1,160,66]:
+            await self.select_glyph(index)
+            await self.page.locator('#pasteCell').click()
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'3')
+        await self.page.locator('[data-nudge-scope="selection"]').click()
+        for index in [1,160]:
+            await self.select_glyph(index)
+            await self.page.locator('.dpad [data-dx="1"]').click()
+        edited = shift(original[65],1)
+        await self.page.locator('#yaffFile').set_input_files({'name':'letters.yaff','mimeType':'text/plain',
+            'buffer':b'u+0041:\n    .@.\n    @.@\n    @@@\n'})
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded YAFF')")
+        result = await self.font()
+        self.assertEqual(result[1],edited)
+        self.assertEqual(result[160],edited)
+        self.assertEqual(result[66],original[66],'importing lettering must remove old manual letter overrides')
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'2')
+        await self.import_outline_fixture()
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded TTF')")
+        result = await self.font()
+        self.assertEqual(result[1],edited)
+        self.assertEqual(result[160],edited)
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'2')
+        await self.page.locator('#clearOverlayBtn').click()
+        await self.page.locator('#zoomModeEditor').click()
+        await self.page.locator('#editorUndoBtn').click()
+        result = await self.font()
+        self.assertEqual(result[160],shift(original[160],1))
+        self.assertEqual(result[1],edited)
+        await self.page.locator('#editorUndoBtn').click()
+        result = await self.font()
+        self.assertEqual(result[1],shift(original[1],1))
+        self.assertEqual(result[160],shift(original[160],1))
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'0')
+        # A new base font continues to reset manual edits and their history.
+        await self.select_glyph(1)
+        await self.page.locator('#pasteCell').click()
+        await self.page.locator('#file').set_input_files(str(ROOT/'fonts/betaflight/betaflight.mcm'))
+        await self.page.wait_for_function("document.querySelector('#loadStatus').textContent.includes('Loaded: betaflight.mcm')")
+        self.assertEqual((await self.font())[1],shift(original[1],1))
+        self.assertEqual(await self.page.locator('#editorUndoCount').inner_text(),'0')
 
     async def test_font_browser_filters_preserve_the_applied_font_and_edits(self):
         await self.page.select_option('#fontLibraryFilter', 'cpc')
@@ -734,8 +1177,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await page.locator('[data-workspace-target="edit"]').click()
         await self.settle_frames(page)
         self.assertIn('0x41', await page.locator('#glyphInfo').inner_text())
-        await self.set_zoom('inspector','8',page)
-        await page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='8'")
+        await self.set_zoom('inspector','6',page)
+        await page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='6'")
         await page.locator('#zoomModeEditor').click()
         await page.locator('.editor-color-btn[data-editor-color="2"]').click()
         pixel = original[65].index(1)
@@ -755,13 +1198,167 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         await self.settle_frames(self.page)
         before = await self.page.locator('#resultHud').bounding_box()
         self.assertGreater(before['width'], 250)
-        self.assertAlmostEqual(before['width']/before['height'],16/9,places=2)
+        self.assertEqual((before['width'],before['height']), (360,288))
         await self.page.locator('[data-workspace-target="tools"]').click()
         await self.page.set_viewport_size({'width':1024,'height':768})
         await self.settle_frames(self.page)
         after = await self.page.locator('#resultHud').bounding_box()
-        self.assertGreater(after['width'],before['width'])
-        self.assertAlmostEqual(after['width']/after['height'],16/9,places=2)
+        self.assertGreaterEqual(after['width'],before['width'])
+        self.assertAlmostEqual(after['width']/after['height'],5/4,places=2)
+        self.assertEqual(after['width'] % 360,0)
+
+    async def test_hud_background_toggle_follows_theme_and_persists_for_both_previews(self):
+        await self.page.locator('#viewModeHud').click()
+        toggle = self.page.locator('#hudShowBackground')
+        self.assertTrue(await toggle.is_checked())
+        await self.page.locator('label:has(#hudShowGuides)').click()
+        await self.page.locator('label:has(#hudShowBackground)').click()
+        await self.page.locator('#appearanceTools > summary').click()
+        async def backdrop_pixel():
+            return await self.page.locator('#resultHud').evaluate("""c => {
+              const s=Number(c.dataset.scale);
+              return Array.from(c.getContext('2d').getImageData(6*s,99*s,1,1).data);
+            }""")
+        for theme,color in [('dusk',[108,114,128,255]),('crt',[47,106,73,255]),('field-notes',[185,174,152,255])]:
+            await self.page.locator(f'input[name="siteTheme"][value="{theme}"]').check()
+            for video_format in ['Pal','Ntsc']:
+                await self.page.locator('#hudFormat'+video_format+'Btn').click()
+                for mode in ['Hud','Boot']:
+                    await self.page.locator('#hudPreview'+mode+'Btn').click()
+                    await self.settle_frames(self.page)
+                    self.assertEqual(await backdrop_pixel(),color,(theme,video_format,mode))
+        await self.load_default(self.page)
+        self.assertFalse(await toggle.is_checked(),'background preference must survive reload')
+        await self.page.locator('label:has(#hudShowBackground)').click()
+        await self.settle_frames(self.page)
+        self.assertNotEqual(await backdrop_pixel(),[185,174,152,255],'turning background on must restore the image')
+
+    async def test_hud_zoom_controls_limit_manual_scale_and_refit_when_resized(self):
+        await self.set_zoom('sheet','3')
+        await self.page.locator('#viewModeHud').click()
+        control = self.page.locator('#hudZoom')
+        decrease = control.locator('[data-zoom-step="-1"]')
+        increase = control.locator('[data-zoom-step="1"]')
+        async def check(scale,maximum):
+            await self.page.wait_for_function("s=>document.querySelector('#resultHud').dataset.scale===String(s)",arg=scale)
+            await self.settle_frames(self.page)
+            self.assertEqual(await control.locator('output').inner_text(),f'{scale}×')
+            self.assertEqual(await increase.is_disabled(),scale == maximum)
+            self.assertEqual(await decrease.is_disabled(),scale == 1)
+            bounds = await self.page.locator('#resultHud').evaluate("""c=>{
+              const panel=c.closest('.panel-result').getBoundingClientRect();
+              return {w:c.width,h:c.height,width:c.parentElement.clientWidth,
+                bottom:panel.bottom+scrollY,viewport:innerHeight,overflow:c.parentElement.scrollWidth>c.parentElement.clientWidth};
+            }""")
+            self.assertEqual((bounds['w'],bounds['h']),(360*scale,288*scale))
+            self.assertFalse(bounds['overflow'],bounds)
+            self.assertLessEqual(bounds['bottom'],bounds['viewport'],bounds)
+        await check(2,2)
+        self.assertFalse(await self.page.locator('#sheetZoom').is_visible())
+        await decrease.click()
+        await check(1,2)
+        self.assertEqual(await control.get_attribute('data-zoom'),'1')
+        await increase.click()
+        await check(2,2)
+        await self.page.set_viewport_size({'width':1280,'height':720})
+        await check(1,1)
+        self.assertEqual(await control.get_attribute('data-zoom'),'1')
+        await self.page.set_viewport_size({'width':2560,'height':1440})
+        await check(1,3)
+        await increase.click()
+        await check(2,3)
+        await increase.click()
+        await check(3,3)
+        await self.page.locator('#hudPreviewBootBtn').click()
+        await check(3,3)
+        await self.page.set_viewport_size({'width':1920,'height':1080})
+        await check(2,2)
+        await control.locator('.zoom-auto').click()
+        self.assertEqual(await control.get_attribute('data-zoom'),'auto')
+        await self.page.set_viewport_size({'width':2560,'height':1440})
+        await check(3,3)
+        await self.page.locator('#viewModeSheet').click()
+        self.assertFalse(await control.is_visible())
+        self.assertEqual(await self.page.locator('#sheetZoom').get_attribute('data-zoom'),'3')
+        await self.page.locator('#viewModeHud').click()
+        await check(3,3)
+
+    async def test_hud_integer_cells_preserve_pixels_boot_and_dragging_across_sizes(self):
+        original = await self.font()
+        for dpr in [1, 2]:
+            context = await self.browser.new_context(viewport={'width':1440,'height':900}, device_scale_factor=dpr)
+            page = await context.new_page()
+            page.on('pageerror', lambda e: self.errors.append(str(e)))
+            try:
+                await self.load_default(page)
+                await page.locator('#viewModeHud').click()
+                # Isolate RSSI so an overlapping element cannot cover its pixels.
+                await page.locator('.hud-element-toggle').evaluate_all("""inputs => inputs.forEach(input => {
+                  if (input.checked !== (input.dataset.hudElement === 'rssi')) input.click();
+                })""")
+                if await page.locator('#hudShowGuides').is_checked():
+                    await page.locator('label:has(#hudShowGuides)').click()
+                for width,height in [(1440,900),(2560,1440),(390,844)]:
+                    await page.set_viewport_size({'width':width,'height':height})
+                    if width <= 960:
+                        await page.locator('[data-workspace-target="preview"]').click()
+                    for video_format in ['PAL','NTSC']:
+                        await page.locator('#hudFormat'+video_format.title()+'Btn').click()
+                        for mode in ['Hud','Boot']:
+                            await page.locator('#hudPreview'+mode+'Btn').click()
+                            await self.settle_frames(page)
+                            frame = await page.locator('#resultHud').evaluate("""c => {
+                              const r=c.getBoundingClientRect(),ctx=c.getContext('2d'),m=ctx.getTransform();
+                              return {scale:Number(c.dataset.scale),w:c.width,h:c.height,cssW:r.width,cssH:r.height,
+                                transform:[m.a,m.b,m.c,m.d,m.e,m.f],smooth:ctx.imageSmoothingEnabled};
+                            }""")
+                            scale = frame['scale']
+                            self.assertIn(scale,[1,2,3,4],frame)
+                            self.assertEqual((frame['w'],frame['h']), (360*scale,288*scale))
+                            self.assertEqual((frame['cssW'],frame['cssH']), (frame['w'],frame['h']))
+                            self.assertEqual(frame['transform'],[1,0,0,1,0,0])
+                            self.assertFalse(frame['smooth'])
+                            if mode == 'Hud':
+                                position = await page.evaluate("JSON.parse(localStorage.getItem('osdHudLayout')).rssi")
+                                col,row = position['col'],position['row']+(1 if video_format == 'NTSC' else 0)
+                                glyph = original[1]
+                            else:
+                                tile = next(i for i,g in enumerate(original[160:]) if any(v != 1 for v in g))
+                                col,row = 3+tile%24,2+tile//24
+                                glyph = original[160+tile]
+                            pixels = await page.locator('#resultHud').evaluate("""(c,{glyph,col,row,scale}) => {
+                              const ctx=c.getContext('2d'),data=ctx.getImageData(col*12*scale,row*18*scale,12*scale,18*scale).data;
+                              let checked=0;
+                              for(let y=0;y<18;y++)for(let x=0;x<12;x++){
+                                const v=glyph[y*12+x];if(v===1)continue;
+                                const color=v===2?255:0;
+                                for(let dy=0;dy<scale;dy++)for(let dx=0;dx<scale;dx++){
+                                  const i=((y*scale+dy)*12*scale+x*scale+dx)*4;
+                                  if(data[i]!==color||data[i+1]!==color||data[i+2]!==color||data[i+3]!==255)
+                                    return {mismatch:[x,y,dx,dy,...data.slice(i,i+4)],checked};
+                                  checked++;
+                                }
+                              }return {checked};
+                            }""", {'glyph':glyph,'col':col,'row':row,'scale':scale})
+                            self.assertNotIn('mismatch',pixels,(dpr,width,video_format,mode,pixels))
+                            self.assertGreater(pixels['checked'],0)
+                # Pointer coordinates still map to whole cells after all the resizing.
+                await page.set_viewport_size({'width':1440,'height':900})
+                await page.locator('#hudPreviewHudBtn').click()
+                await self.settle_frames(page)
+                position = await page.evaluate("JSON.parse(localStorage.getItem('osdHudLayout')).rssi")
+                box = await page.locator('#resultHud').bounding_box()
+                scale = int(await page.locator('#resultHud').get_attribute('data-scale'))
+                x,y = box['x']+(position['col']+.5)*12*scale,box['y']+(position['row']+1.5)*18*scale
+                await page.mouse.move(x,y)
+                await page.mouse.down()
+                await page.mouse.move(x+12*scale,y-18*scale,steps=3)
+                await page.mouse.up()
+                moved = await page.evaluate("JSON.parse(localStorage.getItem('osdHudLayout')).rssi")
+                self.assertEqual(moved, {'col':position['col']+1,'row':position['row']-1})
+                self.assertEqual(await self.font(page),original,'HUD sizing must not change font data')
+            finally:
+                await context.close()
 
     async def test_sheet_reflows_at_integer_zoom_and_png_exports_stay_standard(self):
         original = await self.font()
@@ -807,13 +1404,13 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
 
 
     async def test_independent_inspector_zoom_reduces_height_and_preserves_edits_and_exports(self):
-        await self.page.set_viewport_size({'width':1366,'height':768})
+        await self.page.set_viewport_size({'width':1440,'height':900})
         await self.set_zoom('sheet','2')
         await self.select_glyph(65)
         original = await self.font()
         _, png = await self.download('#exportPNG1x')
-        await self.set_zoom('inspector','16')
-        await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='16'")
+        await self.set_zoom('inspector','17')
+        await self.page.wait_for_function("document.querySelector('#resultZoom').dataset.scale==='17'")
         large = await self.page.locator('.panel-result').bounding_box()
         sheet = await self.page.locator('#resultGrid').evaluate('c=>[c.width,c.height,c.dataset.columns,c.dataset.scale]')
         await self.set_zoom('inspector','8')
@@ -874,9 +1471,10 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await sheet.locator('.zoom-auto').get_attribute('aria-pressed'),'true')
         inspector = self.page.locator('#inspectorZoom')
         fitted = int(await self.page.locator('#resultZoom').get_attribute('data-scale'))
-        await inspector.locator('[data-zoom-step="1"]').click()
-        self.assertEqual(await inspector.get_attribute('data-zoom'),str(fitted+1))
-        await self.set_zoom('inspector',20)
+        self.assertTrue(await inspector.locator('[data-zoom-step="1"]').is_disabled())
+        await inspector.locator('[data-zoom-step="-1"]').click()
+        self.assertEqual(await inspector.get_attribute('data-zoom'),str(fitted-1))
+        await self.set_zoom('inspector',fitted)
         self.assertTrue(await inspector.locator('[data-zoom-step="1"]').is_disabled())
         for w,h in [(1440,900),(1024,768),(390,844)]:
             await self.page.set_viewport_size({'width':w,'height':h})
@@ -891,6 +1489,8 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
               const aside=e.closest('.sidecar').getBoundingClientRect();
               return {left,right,top:v.top-mode.bottom,inside:box.left>=aside.left&&box.right<=aside.right,
                 width:c.getBoundingClientRect().width,height:c.getBoundingClientRect().height,
+                scale:Number(c.dataset.scale),max:Number(c.dataset.maxScale),
+                scrolls:e.scrollWidth>e.clientWidth||e.scrollHeight>e.clientHeight,
                 overflow:document.documentElement.scrollWidth>document.documentElement.clientWidth+1};
             }""")
             self.assertGreaterEqual(margins['left'],20,margins)
@@ -898,7 +1498,11 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
             self.assertGreaterEqual(margins['top'],12,margins)
             self.assertTrue(margins['inside'],margins)
             self.assertFalse(margins['overflow'],margins)
-            self.assertEqual((margins['width'],margins['height']),(240,360))
+            self.assertFalse(margins['scrolls'],margins)
+            self.assertEqual((margins['width'],margins['height']),(12*margins['scale'],18*margins['scale']))
+            self.assertLessEqual(margins['scale'],margins['max'])
+            self.assertEqual(await inspector.get_attribute('data-zoom'),str(margins['scale']))
+            self.assertEqual(await self.page.evaluate("localStorage.getItem('osdInspectorZoom')"),str(margins['scale']))
         await self.set_zoom('inspector',4)
         self.assertTrue(await inspector.locator('[data-zoom-step="-1"]').is_disabled())
         await self.set_zoom('inspector','auto')

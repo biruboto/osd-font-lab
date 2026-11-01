@@ -1,4 +1,5 @@
 // js/modules/hud-render.js
+import { fitHudCanvas, HUD_COLUMNS, HUD_ROWS } from './hud-layout.js?v=20261031-hud-zoom';
 export const HUD_LAYOUT_DEFAULTS = Object.freeze({
   // User-defined default HUD layout.
   crosshair: { col: 14, row: 6 },
@@ -28,13 +29,12 @@ export function cloneHudLayoutDefaults() {
 }
 
 export function createHudRenderer({
-  fitCanvasToCSS,
   cssVar,
+  getHudZoom = () => "auto",
   backgroundImagePath = "",
   requestRerender = () => {},
 }) {
-  const HUD_COLS = 30;
-  const HUD_ROWS = 16;
+  const HUD_COLS = HUD_COLUMNS;
   const C = String.fromCharCode;
   const HUD_TEXT_SAMPLES = Object.freeze({
     rssi: { glyph: `${C(0x01)}99`, fallback: "RSSI 99", col: 1, row: 1 },
@@ -229,38 +229,35 @@ export function createHudRenderer({
     const dh = Math.round(ih * scale);
     const dx = Math.floor(x + (w - dw) / 2);
     const dy = Math.floor(y + (h - dh) / 2);
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
     ctx.drawImage(bgImage, dx, dy, dw, dh);
+    ctx.restore();
   }
 
   function renderHud(
     ctx,
     canvas,
     font,
-    { showGuides = true, enabledElements = null, videoFormat = "PAL", layout = null, labels = null } = {},
+    { showGuides = true, showBackground = true, enabledElements = null, videoFormat = "PAL", layout = null, labels = null } = {},
   ) {
     if (!ctx || !canvas) return;
-    fitCanvasToCSS(canvas, ctx);
-    ctx.imageSmoothingEnabled = false;
+    const frame = fitHudCanvas(canvas, ctx, font, getHudZoom());
+    if (!frame) return null;
 
-    ensureBackgroundImage();
+    if (showBackground) ensureBackgroundImage();
 
     const safeRows = videoFormat === "NTSC" ? 13 : 16;
     const safeTopRows = videoFormat === "NTSC" ? 1 : 0;
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const rowToGrid = (row) => safeTopRows + clamp(Math.round(row), 0, safeRows - 1);
 
-    const baseGlyphW = font?.width || 12;
-    const baseGlyphH = font?.height || 18;
-    const renderScale = Math.min(
-      canvas.width / (HUD_COLS * baseGlyphW),
-      canvas.height / (HUD_ROWS * baseGlyphH),
-    );
-    const cellW = baseGlyphW * renderScale;
-    const cellH = baseGlyphH * renderScale;
-    const hudW = HUD_COLS * cellW;
-    const hudH = HUD_ROWS * cellH;
-    const originX = Math.floor((canvas.width - hudW) / 2);
-    const originY = Math.floor((canvas.height - hudH) / 2);
+    const renderScale = frame.scale;
+    const cellW = frame.cellWidth;
+    const cellH = frame.cellHeight;
+    const hudW = frame.width;
+    const originX = 0;
+    const originY = 0;
     const safeY = originY + safeTopRows * cellH;
     const safeH = safeRows * cellH;
     const matte = cssVar("--osd-matte", "#1f232b");
@@ -270,9 +267,13 @@ export function createHudRenderer({
     ctx.beginPath();
     ctx.rect(originX, safeY, hudW, safeH);
     ctx.clip();
-    drawImageCover(ctx, canvas, originX, safeY, hudW, safeH);
+    if (showBackground) {
+      drawImageCover(ctx, canvas, originX, safeY, hudW, safeH);
+    } else {
+      ctx.fillStyle = cssVar("--osd-1", "#808080");
+      ctx.fillRect(originX, safeY, hudW, safeH);
+    }
     ctx.restore();
-    const rowStep = cellH * (safeRows / HUD_ROWS);
     for (let i = 0; i < reusableElementOrder.length; i++) {
       delete reusableElementRects[reusableElementOrder[i]];
     }

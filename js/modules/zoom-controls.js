@@ -7,6 +7,7 @@ export function createZoomControl({ root, min, max, initial = "auto", onChange }
   const number = Number(initial);
   let value = Number.isInteger(number) && number >= min && number <= max ? String(number) : "auto";
   let actual = value === "auto" ? min : Number(value);
+  let availableMax = max;
 
   function render() {
     const automatic = value === "auto";
@@ -15,7 +16,7 @@ export function createZoomControl({ root, min, max, initial = "auto", onChange }
     if (output.value !== text) output.value = text;
     auto.setAttribute("aria-pressed", String(automatic));
     decrease.disabled = scale <= min;
-    increase.disabled = scale >= max;
+    increase.disabled = scale >= availableMax;
     root.dataset.zoom = value;
   }
 
@@ -30,19 +31,27 @@ export function createZoomControl({ root, min, max, initial = "auto", onChange }
   for (const [button, direction] of [[decrease, -1], [increase, 1]]) {
     button.addEventListener("click", () => {
       const current = value === "auto" ? actual : Number(value);
-      setValue(String(Math.max(min, Math.min(max, current + direction))));
+      setValue(String(Math.max(min, Math.min(availableMax, current + direction))));
     });
   }
   render();
 
   return {
     get value() { return value; },
-    sync(scale) {
+    set(next) {
+      const number = Number(next);
+      if (next === "auto" || (Number.isInteger(number) && number >= min && number <= max)) setValue(String(next));
+    },
+    sync(scale, { max: fittedMax = max } = {}) {
       if (!Number.isInteger(Number(scale))) return;
-      const next = Math.max(min, Math.min(max, Number(scale)));
-      if (next === actual) return;
+      const limit = Number.isInteger(fittedMax) ? Math.max(min, Math.min(max, fittedMax)) : max;
+      const next = Math.max(min, Math.min(limit, Number(scale)));
+      const previousValue = value;
+      if (value !== "auto" && Number(value) > limit) value = String(limit);
+      if (next === actual && limit === availableMax && value === previousValue) return;
       actual = next;
-      if (value === "auto") render();
+      availableMax = limit;
+      render();
     },
   };
 }

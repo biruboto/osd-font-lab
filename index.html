@@ -6,15 +6,23 @@
   <title>OSD Font Lab</title>
   <link rel="icon" href="./favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="css/app.css?v=20261031-scrollbars">
+  <link rel="stylesheet" href="css/app.css?v=20261031-fixed-view-toggle">
 </head>
 
 <body>
   <div class="app-shell">
     <header class="app-header">
-      <div class="brandCluster">
-        <div id="brandTitle" class="brandTitle" role="img" aria-label="OSD Font Lab">OSD Font Lab</div>
-        <span id="brandDrone" class="brandDrone" aria-hidden="true"></span>
+      <div class="brand-area">
+        <div class="brandCluster">
+          <div id="brandTitle" class="brandTitle" role="img" aria-label="OSD Font Lab">OSD Font Lab</div>
+          <span id="brandDrone" class="brandDrone" aria-hidden="true"></span>
+        </div>
+        <button id="announcementsToggle" class="notice-toggle" type="button" aria-label="What's new" title="What's new" aria-controls="welcomeNotice" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+            <path d="M10 21h4M12 2V1" />
+          </svg>
+        </button>
       </div>
       <div id="loadStatus" class="load-status hint" role="status" aria-live="polite">No file loaded.</div>
       <div class="exports" aria-label="Export font">
@@ -29,6 +37,36 @@
         <button type="button" data-workspace-target="tools" aria-controls="toolsPane" aria-pressed="true">Fonts &amp; icons</button>
       </nav>
     </header>
+
+    <div id="appNotices" class="app-notices">
+    <section id="sessionRecovery" class="recovery-banner" aria-label="Session recovery" hidden>
+      <div class="recovery-copy">
+        <strong id="recoveryTitle">Restore your previous session?</strong>
+        <span id="recoveryDetails">Stored only in this browser.</span>
+      </div>
+      <div class="recovery-actions">
+        <button id="restoreSession" type="button">Restore session</button>
+        <button id="startFreshSession" type="button">Start fresh</button>
+      </div>
+    </section>
+    <section id="welcomeNotice" class="recovery-banner welcome-banner" aria-labelledby="welcomeTitle" hidden>
+      <div class="recovery-copy welcome-copy">
+        <svg class="welcome-bell" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+          <path d="M10 21h4M12 2V1" />
+        </svg>
+        <strong id="welcomeTitle">Welcome to the new OSD Font Lab, pilots!</strong>
+        <span class="welcome-description">TONS of UI and performance improvements, new features, faster library, font, and emoji pickers, automatic progress saving, and more. Have fun! <em>Analog in aeturnum.</em></span>
+        <span class="welcome-links">
+          <a href="https://github.com/biruboto/osd-font-lab#readme" target="_blank" rel="noopener noreferrer">Docs &amp; project on GitHub</a>
+          <a href="https://github.com/biruboto/osd-font-lab/issues" target="_blank" rel="noopener noreferrer">Bugs &amp; suggestions</a>
+        </span>
+      </div>
+      <div class="recovery-actions">
+        <button id="dismissWelcome" type="button">Got it</button>
+      </div>
+    </section>
+    </div>
 
     <!-- Split workspace -->
     <div class="split">
@@ -50,8 +88,17 @@
                   <button type="button" data-zoom-step="1" aria-label="Increase sheet zoom">+</button>
                 </div>
               </div>
+              <div id="hudZoom" class="hud-zoom-control" role="group" aria-label="HUD zoom" title="Zoom is limited to the largest scale that fits the preview">
+                <span aria-hidden="true">HUD</span>
+                <div class="zoom-stepper">
+                  <button type="button" class="zoom-auto" aria-label="Automatic HUD zoom" aria-pressed="true">Auto</button>
+                  <button type="button" data-zoom-step="-1" aria-label="Decrease HUD zoom">−</button>
+                  <output aria-label="HUD zoom level" aria-live="polite">1×</output>
+                  <button type="button" data-zoom-step="1" aria-label="Increase HUD zoom">+</button>
+                </div>
+              </div>
             </div>
-            <div id="inspectorZoom" class="inspector-zoom-control" role="group" aria-label="Inspector zoom">
+            <div id="inspectorZoom" class="inspector-zoom-control" role="group" aria-label="Inspector zoom" title="Zoom is limited to the largest scale that fits the inspector">
               <span aria-hidden="true">Inspector</span>
               <div class="zoom-stepper">
                 <button type="button" class="zoom-auto" aria-label="Automatic inspector zoom" aria-pressed="true">Auto</button>
@@ -121,11 +168,11 @@
                     <button type="button" data-nudge-scope="selection" aria-pressed="false"><span id="selCount">Selection · 1</span></button>
                   </div>
                   <div class="dpad" data-nudge-target="replaced" role="group" aria-labelledby="nudgeTitle" aria-describedby="nudgeStatus">
-                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left">←</button>
-                    <button type="button" data-dx="0" data-dy="-1" aria-label="Nudge up">↑</button>
-                    <button type="button" data-dx="0" data-dy="1" aria-label="Nudge down">↓</button>
-                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right">→</button>
-                    <button type="button" data-dx="0" data-dy="0" data-action="reset" aria-label="Reset nudge">↺</button>
+                    <button type="button" data-dx="-1" data-dy="0" aria-label="Nudge left"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="-1" aria-label="Nudge up"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="1" aria-label="Nudge down"><i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="1" data-dy="0" aria-label="Nudge right"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
+                    <button type="button" data-dx="0" data-dy="0" data-action="reset" aria-label="Reset nudge"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></button>
                   </div>
                   <div id="nudgeStatus" class="nudge-status" role="status">Choose a replacement font to nudge.</div>
                 </div>
@@ -147,6 +194,11 @@
               <input id="hudShowGuides" type="checkbox" checked />
               <span class="toggle-slider" aria-hidden="true"></span>
               <span class="checkbox-label">Grid</span>
+            </label>
+            <label class="field checkbox">
+              <input id="hudShowBackground" type="checkbox" checked />
+              <span class="toggle-slider" aria-hidden="true"></span>
+              <span class="checkbox-label">Background</span>
             </label>
             <button id="hudResetDefaultsBtn" type="button">Reset Layout</button>
           </div>
@@ -174,6 +226,7 @@
               <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="flight_time" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Flight Time</span></label>
               <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="on_time" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">On Time</span></label>
               <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="warnings" /><span class="toggle-slider" aria-hidden="true"></span><span class="checkbox-label">Warnings</span></label>
+              <div class="hud-name-fields">
               <div class="hud-element-with-input">
                 <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="pilot_name" aria-label="Toggle pilot name" /><span class="toggle-slider" aria-hidden="true"></span></label>
                 <input id="hudPilotNameInput" type="text" maxlength="16" placeholder="PILOT NAME" aria-label="Pilot name text" />
@@ -181,6 +234,7 @@
               <div class="hud-element-with-input">
                 <label class="field checkbox"><input type="checkbox" class="hud-element-toggle" data-hud-element="craft_name" aria-label="Toggle craft name" /><span class="toggle-slider" aria-hidden="true"></span></label>
                 <input id="hudCraftNameInput" type="text" maxlength="16" placeholder="CRAFT NAME" aria-label="Craft name text" />
+              </div>
               </div>
             </div>
           </div>
@@ -191,7 +245,8 @@
       <section id="toolsPane" class="tools-pane" aria-label="Fonts, icons, and boot logo">
         <section class="panel panel-base">
           <div class="panel-header">
-            <div class="tools-section-title">Fonts</div>
+            <details id="fontTools" class="tool-section" open><summary>Fonts</summary>
+            <div class="tool-section-body">
             <div class="panel-header-controls">
               <div class="font-select-stack">
                 <label class="field field-stack bf-inline">
@@ -229,28 +284,31 @@
               <input id="yaffFile" type="file" accept=".yaff,.ttf,.otf" hidden>
               <div class="ttf-stroke-row" title="Experimental TTF import controls">
                 <div class="stroke-style-group case-style-group">
-                  <span class="ttf-stroke-mini-label case-mini-label"><span>Case</span></span>
+                  <span class="ttf-stroke-mini-label">Case</span>
                   <div class="stroke-style-segment" role="group" aria-label="Overlay letter case">
                     <button id="caseUpperBtn" type="button" class="stroke-style-btn" title="Use overlay UPPERCASE A-Z for ASCII A-Z">A</button>
                     <button id="caseLowerBtn" type="button" class="stroke-style-btn" title="Use overlay lowercase a-z for ASCII A-Z">a</button>
                   </div>
                 </div>
                 <div class="stroke-style-group">
-                  <span class="ttf-stroke-mini-label"><span>Stroke</span><span>Style</span></span>
+                  <span class="ttf-stroke-mini-label">Stroke</span>
                   <div class="stroke-style-segment" role="group" aria-label="Overlay stroke style">
                     <button id="strokeStyle4Btn" type="button" class="stroke-style-btn" title="4-neighbor stroke (up/down/left/right)" aria-label="4-way stroke">
-                      4
+                      <i class="fa-solid fa-up-down-left-right" aria-hidden="true"></i>
                     </button>
                     <button id="strokeStyle8Btn" type="button" class="stroke-style-btn" title="8-neighbor stroke (includes diagonals)" aria-label="8-way stroke">
-                      8
+                      <i class="fa-solid fa-maximize" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>
-                <label class="ttf-size-control-inline" for="ttfSizeRange">
-                  <span class="ttf-stroke-mini-label"><span>TTF</span><span>Size</span></span>
-                  <input id="ttfSizeRange" type="range" min="6" max="24" step="1" value="12" aria-label="TTF size" title="Shared letter size and baseline. Unusually wide or tall characters fit individually within 12×18; the status shows any adjustments." />
-                  <span id="ttfSizeValue" class="ttf-size-value">12</span>
-                </label>
+                <div class="ttf-size-control-inline">
+                  <label class="ttf-stroke-mini-label" for="ttfSizeInput">TTF size</label>
+                  <div class="zoom-stepper ttf-size-stepper" role="group" aria-label="TTF size">
+                    <button type="button" data-ttf-size-step="-1" aria-label="Decrease TTF size">−</button>
+                    <input id="ttfSizeInput" type="number" inputmode="numeric" min="6" max="24" step="1" value="12" aria-label="TTF size" title="Shared letter size and baseline. Unusually wide or tall characters fit individually within 12×18; the status shows any adjustments." />
+                    <button type="button" data-ttf-size-step="1" aria-label="Increase TTF size">+</button>
+                  </div>
+                </div>
               </div>
             </div>
             <section id="fontBrowser" class="font-browser" aria-label="Replacement font browser">
@@ -278,6 +336,7 @@
                 <div class="font-browser-empty" hidden></div>
               </div>
             </section>
+            </div></details>
             <details id="iconTools" class="tool-section"><summary>Icons</summary>
             <div class="tool-section-body">
             <div class="swap-controls">
@@ -297,11 +356,10 @@
               </div>
             </div>
             </div></details>
-            <details id="emojiTools" class="tool-section"><summary>Special Characters</summary>
+            <details id="emojiTools" class="tool-section"><summary>Emoji</summary>
             <div class="tool-section-body">
             <div class="special-char-controls">
               <div class="field field-stack special-emoji-stack">
-                <span class="or-label">Emoji source</span>
                 <div id="specialEmojiPicker" class="special-emoji-picker">
                   <button id="specialEmojiBtn" type="button" class="special-emoji-btn" aria-haspopup="true" aria-expanded="false">
                     <img id="specialEmojiThumb" class="special-emoji-thumb" alt="" />
@@ -315,7 +373,7 @@
                 <button id="clearSpecialCharBtn" type="button">Clear character</button>
                 <div class="stroke-style-row special-safe-inline" title="Safe Mode: ON limits emoji replacement to safe characters (! &quot; # % &amp; ' , ; = ?). OFF allows replacing any character.">
                   <span class="stroke-style-label"><span>Safe</span><span>Mode</span></span>
-                  <div class="stroke-style-segment" role="group" aria-label="Special character safe mode">
+                  <div class="stroke-style-segment" role="group" aria-label="Emoji safe mode">
                     <button id="specialSafeOnBtn" type="button" class="stroke-style-btn" title="ON: replace only safe characters">ON</button>
                     <button id="specialSafeOffBtn" type="button" class="stroke-style-btn" title="OFF: replace any character">OFF</button>
                   </div>
@@ -345,6 +403,7 @@
             </div></details>
             <details id="appearanceTools" class="tool-section"><summary>Appearance &amp; project</summary>
             <div class="tool-section-body">
+                <p id="recoveryStatus" class="recovery-status">Checking automatic recovery…</p>
                 <div class="theme-radios" role="radiogroup" aria-label="Site theme">
                   <span class="theme-radios-label">Site theme:</span>
                   <label><input type="radio" name="siteTheme" value="dusk" aria-label="Dusk"></label>
@@ -372,6 +431,6 @@
 </div>
 
 
-  <script type="module" src="js/app.js?v=20261031-nudge-target"></script>
+  <script type="module" src="js/app.js?v=20261031-inspector-fit"></script>
 </body>
 </html>

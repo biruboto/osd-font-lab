@@ -39,8 +39,13 @@
 
   /* Control sizing */
   --control-h: 36px;
+  --control-compact-h: 30px;
   --control-radius: 10px;
   --control-px: 10px;
+}
+
+@media (max-width: 960px){
+  :root{ --control-h: 40px; }
 }
 
 /* Theme: CRT */

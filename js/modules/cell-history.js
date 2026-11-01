@@ -4,6 +4,9 @@ export function createCellUndoHistory(limit = 20) {
   const entries = [];
   return {
     get size() { return entries.length; },
+    snapshot() {
+      return entries.map(entry => ({ index: entry.index, glyph: new Uint8Array(entry.glyph), offset: { ...entry.offset } }));
+    },
     push(index, glyph, offset) {
       entries.push({ index, glyph: new Uint8Array(glyph), offset: { ...offset } });
       if (entries.length > limit) entries.shift();

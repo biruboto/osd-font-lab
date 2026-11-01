@@ -90,6 +90,7 @@
 }
 
 .fontpicker-item{
+  min-height: var(--control-h);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -469,7 +470,7 @@ select{
 
 .import-select-stack .import-inline > .dropzone-inline{
   width: 100%;
-  min-height: 40px;
+  min-height: var(--control-h);
   white-space: normal;
   line-height: 1.25;
   font-size: 0.8rem;
@@ -477,21 +478,21 @@ select{
 }
 
 .tool-section{ width: 100%; min-width: 0; border-top: 1px solid var(--bg-3); }
+#fontTools{ border-top: 0; }
 .tool-section > summary{ cursor: pointer; padding: 12px 4px; font-size: 0.9rem; font-weight: 600; }
 .tool-section > summary::marker{ color: var(--accent-0); }
 .tool-section-body{ display: flex; flex-direction: column; gap: 8px; min-width: 0; padding-bottom: 10px; }
 .tool-section-body .kofi-badge{ white-space: normal; }
 
 .ttf-stroke-row{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  align-items: end;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   margin-top: 4px;
   width: 100%;
   min-width: 0;
-  overflow: visible;
 }
 
 .panel-base .panel-header-controls .ttf-stroke-row{
@@ -499,125 +500,53 @@ select{
   justify-self: stretch;
 }
 
-.ttf-size-control-inline{
+.stroke-style-group, .ttf-size-control-inline{
   display: grid;
-  grid-template-columns: 38px minmax(64px, 92px) 20px;
-  align-items: center;
-  gap: 6px;
-  width: auto;
-  min-width: 0;
-  max-width: none;
-  justify-self: stretch;
-}
-
-.ttf-size-control-inline input[type="range"]{
-  width: 100%;
-  min-width: 64px;
-  max-width: 92px;
-}
-
-#ttfSizeRange{
-  -webkit-appearance: none;
-  appearance: none;
-  accent-color: var(--accent-0);
-  height: 16px;
-  background: transparent;
-  margin: 0;
-}
-
-#ttfSizeRange:focus{
-  outline: none;
-}
-
-#ttfSizeRange::-webkit-slider-runnable-track{
-  height: 6px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--bg-3) 82%, var(--accent-0) 18%);
-  border: 1px solid color-mix(in srgb, var(--bg-3) 85%, transparent);
-}
-
-#ttfSizeRange::-webkit-slider-thumb{
-  -webkit-appearance: none;
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  margin-top: -5px;
-  background: var(--accent-0);
-  border: 1px solid color-mix(in srgb, var(--bg-0) 45%, var(--accent-0) 55%);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bg-1) 60%, transparent);
-}
-
-#ttfSizeRange::-webkit-slider-thumb:hover{
-  background: var(--accent-1);
-}
-
-#ttfSizeRange::-moz-range-track{
-  height: 6px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--bg-3) 82%, var(--accent-0) 18%);
-  border: 1px solid color-mix(in srgb, var(--bg-3) 85%, transparent);
-}
-
-#ttfSizeRange::-moz-range-thumb{
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent-0);
-  border: 1px solid color-mix(in srgb, var(--bg-0) 45%, var(--accent-0) 55%);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bg-1) 60%, transparent);
-}
-
-.ttf-size-value{
-  min-width: 2ch;
-  text-align: right;
-  opacity: 0.8;
-  font-size: 0.82rem;
-}
-
-.stroke-style-group{
-  display: grid;
-  grid-template-columns: 46px max-content;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 6px;
   min-width: 0;
-  justify-self: end;
 }
-
-.stroke-style-group.case-style-group{
-  grid-template-columns: 28px max-content;
-}
-
 
 .ttf-stroke-mini-label{
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  min-width: 40px;
-  min-height: 24px;
-  font-size: 0.56rem;
-  letter-spacing: 0.06em;
-  line-height: 0.95;
+  display: block;
+  text-align: center;
+  font-size: .6rem;
+  letter-spacing: .06em;
+  line-height: 1;
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
 .ttf-stroke-row .stroke-style-btn{
-  min-height: 26px;
-  padding: 0 7px;
-}
-
-.ttf-stroke-mini-label > span{
-  display: block;
-}
-
-.ttf-stroke-mini-label.case-mini-label{
-  line-height: 1;
+  flex: none;
   width: 28px;
-  min-width: 28px;
+  min-width: 0;
+  min-height: calc(var(--control-compact-h) - 2px);
+  padding: 0;
 }
+
+.zoom-stepper.ttf-size-stepper{
+  grid-template-columns: 28px 28px 28px;
+}
+
+.zoom-stepper.ttf-size-stepper button{ min-height: calc(var(--control-compact-h) - 2px); font-size: .85rem; }
+#ttfSizeInput{
+  appearance: textfield;
+  min-width: 0;
+  width: 100%;
+  min-height: calc(var(--control-compact-h) - 2px);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  text-align: center;
+  font-size: .78rem;
+  font-variant-numeric: tabular-nums;
+}
+#ttfSizeInput::-webkit-inner-spin-button,
+#ttfSizeInput::-webkit-outer-spin-button{ -webkit-appearance: none; margin: 0; }
+#ttfSizeInput:focus-visible{ outline: 2px solid var(--accent-0); outline-offset: -3px; }
 
 
 /* ---------- drop zone + status ---------- */
@@ -691,6 +620,7 @@ select{
   flex: 0 0 auto;
   width: auto;
 }
+.special-safe-inline .stroke-style-segment{ --group-control-h: var(--control-h); }
 
 .special-char-controls .swap-actions{
   display: grid;
@@ -735,6 +665,8 @@ select{
 }
 
 .stroke-style-segment{
+  --group-control-h: var(--control-compact-h);
+  height: var(--group-control-h);
   display: inline-flex;
   border: 1px solid var(--bg-3);
   border-radius: 10px;
@@ -742,7 +674,7 @@ select{
 }
 
 .stroke-style-btn{
-  min-height: 28px;
+  min-height: calc(var(--group-control-h) - 2px);
   padding: 0 10px;
   border: 0;
   border-right: 1px solid var(--bg-3);
@@ -977,6 +909,9 @@ select{
 .special-emoji-caret{
   opacity: 0.6;
 }
+.special-emoji-btn[aria-busy="true"]{ cursor: progress; }
+.special-emoji-btn[aria-busy="true"] .special-emoji-caret{ font-size: 0; }
+.special-emoji-btn[aria-busy="true"] .special-emoji-caret::after{ content: "…"; font-size: 1rem; }
 
 .special-emoji-menu{
   position: absolute;
@@ -1032,6 +967,9 @@ select{
   image-rendering: crisp-edges;
   display: block;
   background: transparent;
+  background-image: var(--emoji-atlas, none);
+  background-size: var(--emoji-atlas-size, auto);
+  background-repeat: no-repeat;
   box-shadow: none;
 }
 
@@ -1088,6 +1026,7 @@ select{
 }
 
 .boot-logo-format-segment{
+  --group-control-h: var(--control-h);
   grid-column: 2;
   justify-self: start;
 }

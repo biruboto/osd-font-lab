@@ -165,7 +165,7 @@ export function createWorkspaceRenderer({
   }
 
   function snapZoomCanvasToIntegerScale(canvas, font) {
-    if (!canvas || !font) return;
+    if (!canvas || !font || !canvas.getClientRects().length) return;
     const wrapper = canvas.parentElement;
     const wrapperStyle = getComputedStyle(wrapper);
     const maxWidth = parseFloat(wrapperStyle.getPropertyValue("--inspector-max-width")) || Infinity;
@@ -175,21 +175,19 @@ export function createWorkspaceRenderer({
     // so we don't shrink the inspector from an invalid width measurement.
     if (targetW <= font.width) return;
     const requested = getInspectorZoom();
-    let cssScale;
-    if (requested === "auto") {
-      const inspector = canvas.closest(".sidecar");
-      const bounds = inspector.getBoundingClientRect();
-      const overhead = bounds.height - canvas.getBoundingClientRect().height;
-      const viewportHeight = window.visualViewport?.height || window.innerHeight;
-      const availableHeight = viewportHeight - (bounds.top + window.scrollY) - overhead - 24;
-      cssScale = Math.max(4, Math.min(20, Math.floor(targetW / font.width), Math.floor(availableHeight / font.height)));
-    } else {
-      cssScale = Math.max(1, Math.min(20, Math.floor(Number(requested)) || 4));
-    }
+    const inspector = canvas.closest(".sidecar");
+    const bounds = inspector.getBoundingClientRect();
+    const overhead = bounds.height - canvas.getBoundingClientRect().height;
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const availableHeight = viewportHeight - (bounds.top + window.scrollY) - overhead - 24;
+    const maxScale = Math.max(4, Math.min(20, Math.floor(targetW / font.width), Math.floor(availableHeight / font.height)));
+    // Manual zoom must respect the same width and height budget as Auto.
+    const cssScale = requested === "auto" ? maxScale : Math.max(4, Math.min(maxScale, Math.floor(Number(requested)) || 4));
     const width = `${cssScale * font.width}px`, height = `${cssScale * font.height}px`;
     if (canvas.style.width !== width) canvas.style.width = width;
     if (canvas.style.height !== height) canvas.style.height = height;
     canvas.dataset.scale = String(cssScale);
+    canvas.dataset.maxScale = String(maxScale);
   }
 
   function renderZoom(ctx, canvas, font, index, { showGrids } = {}) {
