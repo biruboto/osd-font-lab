@@ -38,6 +38,17 @@ def module_from_file(name, filename):
 audit = module_from_file('hoard_audit', 'audit-hoard-fonts.py')
 
 
+def display_name(name, properties):
+    """Amiga $VER headers are provenance, not picker labels."""
+    header = re.match(r'^\s*\$VER:\s*', name, re.IGNORECASE)
+    if not header:
+        return name
+    source_name = Path(properties.get('source_name', ''))
+    if source_name.suffix.lower() == '.font' and source_name.stem:
+        return source_name.stem
+    return re.split(r'\s+\d+\.\d+(?:\.\d+)*\b', name[header.end():], maxsplit=1)[0].strip()
+
+
 def lettering_baseline(glyphs):
     """Find the standing line in source coordinates, not the raster box bottom.
 
@@ -354,7 +365,7 @@ def main():
         has = lambda chars: all(any(glyphs.get(f'U+{ord(ch):04X}', {}).get('rows', [])) for ch in chars)
         entry = {
             'id': identifier, 'file': filename,
-            'name': f'{source["name"]} — {source["size"][0]}x{source["size"][1]}',
+            'name': f'{display_name(source["name"], source["properties"])} — {source["size"][0]}x{source["size"][1]}',
             'cell': [12, 18], 'glyphCount': len(glyphs),
             'hasUpper': has(audit.UPPER), 'hasLower': has(audit.LOWER), 'hasDigits': has(audit.DIGITS),
         }

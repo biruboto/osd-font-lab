@@ -1,31 +1,5 @@
 [
   {
-    "id": "mo-soul-441b9d91d4",
-    "file": "mo-soul-441b9d91d4.json",
-    "name": "$VER: mO'sOul8 39.0 (21.12.96) — 8x8",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
-    "id": "polarsmall-prop-40f91959cd",
-    "file": "polarsmall-prop-40f91959cd.json",
-    "name": "$VER: PolarSmall-Prop6 39.0 (18. — 7x6",
-    "cell": [
-      12,
-      18
-    ],
-    "glyphCount": 89,
-    "hasUpper": true,
-    "hasLower": true,
-    "hasDigits": true
-  },
-  {
     "id": "atari-st-6x6-6b455710c7",
     "file": "atari-st-6x6-6b455710c7.json",
     "name": "6x6 system font — 6x6",
@@ -2080,6 +2054,19 @@
     "hasDigits": true
   },
   {
+    "id": "mo-soul-441b9d91d4",
+    "file": "mo-soul-441b9d91d4.json",
+    "name": "mO'sOul — 8x8",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
     "id": "modern-78d762fad7",
     "file": "modern-78d762fad7.json",
     "name": "Modern 8 — 6x8",
@@ -2486,6 +2473,19 @@
     "id": "polarsmall-5064236b9b",
     "file": "polarsmall-5064236b9b.json",
     "name": "PolarSmall Regular 8x6 — 8x6",
+    "cell": [
+      12,
+      18
+    ],
+    "glyphCount": 89,
+    "hasUpper": true,
+    "hasLower": true,
+    "hasDigits": true
+  },
+  {
+    "id": "polarsmall-prop-40f91959cd",
+    "file": "polarsmall-prop-40f91959cd.json",
+    "name": "PolarSmall-Prop — 7x6",
     "cell": [
       12,
       18

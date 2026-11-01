@@ -33,6 +33,8 @@ and layout diagnostics in `_source` / `_layout`. The source standing-line value
 is an upward coordinate; the output baseline is a downward row boundary. These
 fields are for provenance and rebuilding; the application uses the standard
 `cell` and `glyphs` overlay structure.
+Amiga `$VER:` version headers are cleaned out of picker names; the original
+version/date strings remain in `_source` for attribution and rebuilding.
 Metadata for 52 consolidated variants is retained in `_source.variants`, including
 their original source properties and differences. The fixed selection in
 `fonts/hoard-curation.json` is reapplied on rebuild so variants stay consolidated.
