@@ -1,0 +1,3920 @@
+{
+  "version": 1,
+  "description": "Approved curation: one reference from each of the 330 reviewed style groups. Do not regroup the reduced catalog transitively.",
+  "inputCount": 382,
+  "outputCount": 330,
+  "eligibleFiles": [
+    "8044316a-d2d235f4c0.json",
+    "abtastfernschreiber-8x14-ca40ed33f2.json",
+    "amiga-ks10-topaz-08-e772de950d.json",
+    "amiga-ks10-topaz-09-3e9b531548.json",
+    "amiga-ks30-topaz-08-9585d18817.json",
+    "amiga-ks30-topaz-09-1c96ddb4b3.json",
+    "ammolite-8x10-4887de8b82.json",
+    "amstrad-cpc-ed286aefd9.json",
+    "amstrad-pcw-575cd62d91.json",
+    "apple-ii-jplus-135428a805.json",
+    "apple-iic-37ca57a17d.json",
+    "apple-iie-french-f72d2dfabd.json",
+    "apple-iie-german-f87e11ce21.json",
+    "apple-iie-uk-c2dd6f2b33.json",
+    "arial-1d3b2e0274.json",
+    "arial-8-eb9060f530.json",
+    "atari-classic-0ad5f15aa6.json",
+    "atari-st-6x6-6b455710c7.json",
+    "atari-st-8x16-b317722a83.json",
+    "atari-st-8x8-e6953c406c.json",
+    "atascii-d8228b86cc.json",
+    "barbedor10-screen-d7f85ab13a.json",
+    "barbedor10b-screen-40fa108ca5.json",
+    "barbedor10i-screen-35728284c2.json",
+    "bbc-master-f9c4055916.json",
+    "berkeley-10-28aa46ac71.json",
+    "berkeley-9-abb755bc2c.json",
+    "big-e8c1172bf8.json",
+    "bison-12-f6d8a4b573.json",
+    "bison-6x11-d87bd35464.json",
+    "bold-1aab12e283.json",
+    "c128-7d26bc4641.json",
+    "c16-a641733017.json",
+    "c64-7a28e17c8c.json",
+    "cedar-banner-37e798e768.json",
+    "chicago-12-4ef968e79e.json",
+    "classic-8028561105.json",
+    "courier-10-48ac87dfd6.json",
+    "courier-10-4a4a133df7.json",
+    "courier-10-71d113f890.json",
+    "courier-10-7918369993.json",
+    "courier-10-7fdb7a393e.json",
+    "courier-10-b3c1230233.json",
+    "courier-10x10-7117b84b17.json",
+    "courier-11-a7d1d3768a.json",
+    "courier-12-0ce003e42d.json",
+    "courier-12-d3a96cc12b.json",
+    "courier-12-da97c31d20.json",
+    "courier-13-50160062e6.json",
+    "courier-14-15a0e6d1df.json",
+    "courier-14-cd85d31458.json",
+    "courier-14-f93987f95e.json",
+    "courier-15-3508117caf.json",
+    "courier-8-22a65a5274.json",
+    "courier-8-2ca677150a.json",
+    "courier-8-3124162eef.json",
+    "courier-8-8a85497469.json",
+    "courier-8-bdb03e7e4a.json",
+    "courier-8x10-43b9a9c237.json",
+    "courier-8x13-442d4e7749.json",
+    "courier-8x13-eac29156d8.json",
+    "courier-8x7-4e6eac7c65.json",
+    "courier-9-5fdb6e7367.json",
+    "courier-9x12-886e3e2f74.json",
+    "courier-9x16-4c04b69fe1.json",
+    "courier-9x8-270b584395.json",
+    "courier-bold-10-8e4d037449.json",
+    "courier-bold-12-14182657d9.json",
+    "courier-bold-14-5bd5aee100.json",
+    "courier-boldoblique-10-4f4de56bd8.json",
+    "courier-boldoblique-12-b78c6b4bde.json",
+    "courier-oblique-10-b78a1406f0.json",
+    "courier-oblique-12-a81526d215.json",
+    "courier-oblique-14-930eed8994.json",
+    "courier10-screen-8632ae0ebf.json",
+    "courier12-screen-07f668b127.json",
+    "courier8-screen-3128557ed1.json",
+    "crt8002-003-55edbf8d4d.json",
+    "crt8002-005-3a13c9eee4.json",
+    "crt8002-018-8566539821.json",
+    "dutch-7-ega-6b93423390.json",
+    "dutch-7-vga-448999efaf.json",
+    "eagleplayer-66e05451ea.json",
+    "eagleplayer-prop-700b48ce17.json",
+    "ep-brd-ba83242cdf.json",
+    "ep-dk-385cb93f28.json",
+    "ep-hfont-501f899f8f.json",
+    "ep-uk-7c0114836a.json",
+    "epson-fx80-fx100-077368c4b5.json",
+    "espy-sans-10-2da68d34c0.json",
+    "espy-sans-9-759d8d4f12.json",
+    "esquire-10-0-c36ccdc656.json",
+    "esquire-10-59047d4210.json",
+    "esquire-12-0-ace22a53fb.json",
+    "esquire-12-059ceea2c6.json",
+    "esquire-9-0-d64875971f.json",
+    "esquire-9-e0401d3480.json",
+    "facit-5x7-15b87544dd.json",
+    "feld-hell-tbs24a-7x14-2b214887e1.json",
+    "figlet-banner-9cb7797878.json",
+    "font4-02233a05f8.json",
+    "gacha-6x12-a158a98077.json",
+    "gacha-6x9-fd000ebb87.json",
+    "gacha-7x13-4f72b1b582.json",
+    "gem-1-1-6x6-cga-49b49a8252.json",
+    "gem-3-1-8x14-1b31fee685.json",
+    "gem-3-1-8x16-4f8c21f0b9.json",
+    "gem-3-1-8x8-5eb62a0ad1.json",
+    "geneva-10-648a289b7f.json",
+    "geneva-12-38bf6849d3.json",
+    "geneva-9-c18c849771.json",
+    "gtl-telewriter-7x8-27b4448c26.json",
+    "hell80-7x9-81e2aee846.json",
+    "helv-10-142a211679.json",
+    "helv-12-3655b242b0.json",
+    "helv-8-287e11ddc0.json",
+    "helv-8-efb022c879.json",
+    "helvetica-10-d2f43ed1e9.json",
+    "helvetica-11-0718055dd8.json",
+    "helvetica-13-02194aca69.json",
+    "helvetica-9-76b00ebcc1.json",
+    "helvetica-9-f71afeb222.json",
+    "helvetica-bold-10-84b5b2d028.json",
+    "helvetica-bold-8-4de37fac52.json",
+    "helvetica-boldoblique-8-6b5d1e829f.json",
+    "helvetica-oblique-10-61015fd895.json",
+    "helvetica-oblique-8-6828705b72.json",
+    "hp16500b-large-59d3942eb9.json",
+    "hp16500b-small-9578d763c8.json",
+    "ibm3270-10x12-d6c2feb210.json",
+    "ibm3270-10x14-9d3e35a4fc.json",
+    "ibm3270-10x16-5e55030720.json",
+    "ibm3270-10x18-31a2ae3b49.json",
+    "ibm3270-4x6-c1445671d2.json",
+    "ibm3270-4x8-6c652047a1.json",
+    "ibm3270-5x14-ad97a080c4.json",
+    "ibm3270-5x7-aab40dd6b3.json",
+    "ibm3270-5x9-dc12aa6b9f.json",
+    "ibm3270-6x10-bff2088328.json",
+    "ibm3270-6x12-331b97fcfd.json",
+    "ibm3270-6x8-e3420a61f9.json",
+    "ibm3270-7x10-5a0b9ecdb2.json",
+    "ibm3270-7x12-3b649e430b.json",
+    "ibm3270-7x14-87347442ca.json",
+    "ibm3270-7x8-0820062905.json",
+    "ibm3270-8x10-528367f70f.json",
+    "ibm3270-8x12-aa019b43df.json",
+    "ibm3270-8x14-f3f9d4f566.json",
+    "ibm3270-8x16-2c36818145.json",
+    "ibm3270-8x18-5f0449402e.json",
+    "ibm3270-8x8-3a3286c1b0.json",
+    "ibm3270-9x10-2d0738afa6.json",
+    "ibm3270-9x12-bb0bf1a85d.json",
+    "ibm3270-9x14-7417efe532.json",
+    "ibm3270-9x16-b368543fba.json",
+    "italic-ed5504f95d.json",
+    "kyotronic-85-050901da1c.json",
+    "los-angeles-12-a50b8d2b15.json",
+    "mc6670p-62dbad84a3.json",
+    "mc6674-c62599861e.json",
+    "mc6847-46ca1ae145.json",
+    "mc6847t1-1a2ae736ac.json",
+    "mera-elzab-meritum-6b47cc419c.json",
+    "mera-elzab-meritum-lowercase-850d37237f.json",
+    "micro-05e59f62a8.json",
+    "microknight-60b308a825.json",
+    "mirrors-ega-dc8fbe8948.json",
+    "mirrors-oem-vga-05389ca0eb.json",
+    "mirrors-vga-0148d4b2b3.json",
+    "mo-soul-441b9d91d4.json",
+    "modern-78d762fad7.json",
+    "monaco-6x11-b036dd2ec2.json",
+    "monaco-6x16-f6ca50246f.json",
+    "ms-serif-6-8d67beea05.json",
+    "ms-serif-6-a9db96eb45.json",
+    "ms-serif-7-135934b42d.json",
+    "ms-serif-7-9ef7dc80c8.json",
+    "msx-brazilian-expert10-0e6883116f.json",
+    "msx-brazilian-hotbit11-f7a1613b36.json",
+    "msx-german-din-64126129f2.json",
+    "nec-pc8201-5f1b3f7566.json",
+    "nec-pc8201a-26f2b91631.json",
+    "new-york-10-486adb8f66.json",
+    "new-york-9-775a494589.json",
+    "oberon10-screen-3eaf9d4f6e.json",
+    "oberon10i-screen-637aaa43e9.json",
+    "oberon10k-screen-da6ebcd16a.json",
+    "oberon12i-screen-24ec628ece.json",
+    "oberon8-screen-72d6e055db.json",
+    "oberon8b-screen-860835b5ca.json",
+    "oberon8i-screen-7146be4cb3.json",
+    "oberon8m-screen-d17e565d0f.json",
+    "oberon9m-screen-7304fa4696.json",
+    "ohlfs-10-7def9b82c1.json",
+    "ohlfs-12-40bd622a9a.json",
+    "ohlfs-9-ee4b7a6efe.json",
+    "olivetti-m10-uk-a44f094fb0.json",
+    "onyx-7x9-5f49b8d374.json",
+    "p0t-ibm-787ebd04d1.json",
+    "p0t-noodle-c1d954ed74.json",
+    "p0t-prop-828279c712.json",
+    "pdp1-1961-codeword-289a053610.json",
+    "pdp1-1964-e2d95052c3.json",
+    "pdp1-bbn37-cc4326c619.json",
+    "peridot-7-54159c3f96.json",
+    "pet-baf6813a46.json",
+    "pk8000-0c3ff2b223.json",
+    "pk8002-0e66b4fe6b.json",
+    "polarsmall-5064236b9b.json",
+    "polarsmall-prop-40f91959cd.json",
+    "riscos-3-8x10-3b90b8e677.json",
+    "riscos-3-aafbffe8cf.json",
+    "saa5050-uk-1fdfa7d40f.json",
+    "saa5051-germany-aad9c150c8.json",
+    "saa5052-sweden-0245cf2111.json",
+    "saa5053-italy-8ffe6efafb.json",
+    "saa5054-belgium-0a4d9e4bf3.json",
+    "saa5055-us-9f6ab0ed6b.json",
+    "sather-gothic-10-f122ea5dae.json",
+    "sather-gothic-12-d606ff4de5.json",
+    "setfont-bold-fc2251e189.json",
+    "setfont-capitals-cae7ecd9fb.json",
+    "setfont-ibm-a6c139cdb3.json",
+    "setfont-italic-d76b12a971.json",
+    "setfont-joindup-14b49b8fa7.json",
+    "setfont-lcd-c9a336bff3.json",
+    "setfont-rounded-365cbb6537.json",
+    "setfont-serif-67632f7833.json",
+    "setfont-square1-b8534eef7c.json",
+    "setfont-square2-dcf585af91.json",
+    "setfont-tiny-2df646dda2.json",
+    "shaston-8-227b7d6e0c.json",
+    "small-fonts-3-075025d6a8.json",
+    "small-fonts-3-3f8841163f.json",
+    "small-fonts-4-23fd1affcc.json",
+    "small-fonts-4-482f7c59f9.json",
+    "small-fonts-4-c3c374a8af.json",
+    "small-fonts-5-ab7957d74a.json",
+    "small-fonts-5-b9e9571a15.json",
+    "small-fonts-5-bfeeaf7bab.json",
+    "small-fonts-6-0fde028ef5.json",
+    "small-fonts-6-b101900479.json",
+    "small-fonts-6-f022425758.json",
+    "small-fonts-7-11478c1a65.json",
+    "small-fonts-7-65de325098.json",
+    "squiggle-9520418063.json",
+    "superpet-apl-8cc756c65e.json",
+    "superpet-ascii-7531775451.json",
+    "swiss-7-ega-68c447a47f.json",
+    "swiss-7-vga-9e513b23a8.json",
+    "syndor11-screen-1124de663d.json",
+    "syndor8j-screen-70bd73a1ac.json",
+    "syndor9-screen-8fb9205306.json",
+    "syndor9i-screen-fa6e139caa.json",
+    "syntaxxx8-screen-72f36bca26.json",
+    "system-12-b2a2e4b2e9.json",
+    "system-12-hi-76863a8a32.json",
+    "system-12-lo-1029954661.json",
+    "system-12-sq-3d6b2f8c85.json",
+    "system-5x12-7c17931ad8.json",
+    "system-5x16-037c66f566.json",
+    "system-6x10-5b3726735d.json",
+    "system-6x14-3cf10aa779.json",
+    "system-8x10-334876a68c.json",
+    "system-8x12-6b575d0bc2.json",
+    "system-8x14-b0498720e0.json",
+    "system-8x16-eba432e5d8.json",
+    "system-8x8-a8136db8b8.json",
+    "system-monospaced-8x12-b21f99c91d.json",
+    "system-monospaced-8x16-52be184516.json",
+    "system-monospaced-8x8-8729349b76.json",
+    "system-vio-10x18-d4d27e5a75.json",
+    "system-vio-14-120x120dpi-ad49be198c.json",
+    "system-vio-5x12-742df94ceb.json",
+    "system-vio-5x16-b38e188628.json",
+    "system-vio-6x10-957dc6d727.json",
+    "system-vio-6x14-5b520283bf.json",
+    "system-vio-7x15-bdf7042767.json",
+    "system-vio-8x10-a4960ac608.json",
+    "system-vio-8x12-77ee3d4421.json",
+    "system-vio-8x14-8841b0b0a6.json",
+    "system-vio-8x16-76504acae6.json",
+    "system-vio-8x18-3e3479782b.json",
+    "system-vio-8x8-3aaa9c30c6.json",
+    "sysv-banner-a1524e6a6c.json",
+    "t-typ72-gl-7x14-9dc134b751.json",
+    "tandy-200-00c95bbd71.json",
+    "terminal-12-6dcc75e448.json",
+    "terminal-12-sq-c744d6d70a.json",
+    "terminal-120-82a11e209c.json",
+    "terminal-15-9c4bec598f.json",
+    "terminal-90-1311c7d9a4.json",
+    "terminal-bold-21-0af13f3526.json",
+    "terminal-ega80-cp437-ff87bf88f9.json",
+    "terminal-hercules-cp437-537639b3ff.json",
+    "terminal-vga-cp860-f64d441f90.json",
+    "times-10-75f57fdd2e.json",
+    "times-9-af4d1e9588.json",
+    "times-9-cc03572098.json",
+    "times-bold-10-8f021304e6.json",
+    "times-new-roman-8-86cbcac8d4.json",
+    "times-roman-7-5cbcac08f8.json",
+    "times-roman-9-c210df77d4.json",
+    "times10-screen-ce533a63af.json",
+    "times10b-screen-e31d7269d8.json",
+    "times10i-screen-62dbdd9fd2.json",
+    "times8-screen-b68590049d.json",
+    "times8b-screen-1c04e2134f.json",
+    "times8i-screen-479478dc5f.json",
+    "tms-rmn-10-2a56eb3ed3.json",
+    "tms-rmn-12-b7e332f416.json",
+    "tms-rmn-18-46b030984d.json",
+    "tms-rmn-6-fefd06a51d.json",
+    "tms-rmn-8-6f7a0d4a87.json",
+    "tms-rmn-8-b090b1bec2.json",
+    "tms-rmn-8-e35a74a433.json",
+    "tms-rmn-8-e5595438a1.json",
+    "tms-rmn-c95a6ecd18.json",
+    "topaz-8x11-52cff24666.json",
+    "trs80-coco-4d5ab986ec.json",
+    "trs80-coco3-d0251e3476.json",
+    "trs80-dt1-af55f1a9c7.json",
+    "trs80-dvi-7x8-4125bd874a.json",
+    "trs80-dvi-8x8-268eff8322.json",
+    "trs80-m2-94c06dd920.json",
+    "trs80-model1-93b5ddee18.json",
+    "trs80-model1-lowercase-29049e8732.json",
+    "trs80-model3-4-sym-6f2895075d.json",
+    "trs80-model4-int-latin-db9a65eabf.json",
+    "tvc-fb977a9440.json",
+    "type340-b30b1dfdd5.json",
+    "university-10-044c0b0bf5.json",
+    "university-12-1d4305c62f.json",
+    "university-9-e504f7d0ba.json",
+    "urw-mono-10-0-e2b3bbbff5.json",
+    "urw-mono-10-1-ef427530e5.json",
+    "urw-mono-10-2-1b551123c3.json",
+    "urw-mono-10-a83a16937a.json",
+    "urw-mono-12-0-267416adf4.json",
+    "urw-mono-12-1-c2a2efb273.json",
+    "urw-mono-12-2-7ae629a00c.json",
+    "urw-mono-12-f2ac84f514.json",
+    "urw-mono-14-0-417a1e2bd4.json",
+    "urw-mono-14-0a097340f5.json",
+    "urw-mono-14-2-37ac4c2a28.json",
+    "urw-roman-10-0-ac73b3deed.json",
+    "urw-roman-10-1-7f14f2789a.json",
+    "urw-roman-10-2-8fc01d298c.json",
+    "urw-roman-10-9b5431aaa3.json",
+    "urw-roman-12-1b67cd3e48.json",
+    "urw-roman-12-2-abe0a55125.json",
+    "urw-sans-10-0-350d282b54.json",
+    "urw-sans-10-1-b747bb264d.json",
+    "urw-sans-10-2-40f3a44c87.json",
+    "urw-sans-10-546589f8b6.json",
+    "urw-sans-12-0e2283d01b.json",
+    "vga-8x14-2c19610882.json",
+    "vga-8x16-5ccd005125.json",
+    "vga-8x8-01bb88a802.json",
+    "vic-20-f74d979210.json",
+    "videowriter250-9x12-43d7a2d1f4.json",
+    "viewmax-1-6x6-46b4356fe9.json",
+    "viewmax-1-8x14-1ab41ffdb1.json",
+    "viewmax-1-8x16-7f732cbdb7.json",
+    "viewmax-1-8x8-98b4df11af.json",
+    "viewmax-2-8x14-e0d5d4046c.json",
+    "viewmax-2-8x16-d2fcc5a899.json",
+    "vt05-7f476aeaf8.json",
+    "vt100-d595b88226.json",
+    "vt220-dd0c3d6c34.json",
+    "vt52-87be51c9b9.json",
+    "warpsans-9-96x96dpi-bc0abfcd49.json",
+    "xcourier-15-67afceac89.json",
+    "xcourier-6x11-1e61becf35.json",
+    "xcourier-7x13-998b7091c1.json",
+    "xen-6x8-530ce46ad8.json",
+    "xen-6x9-7450484a76.json",
+    "xen-7x11-71d61f20d6.json",
+    "xhelvetica-11-cede2b6965.json",
+    "xhelvetica-13-45ce20ef9c.json",
+    "xhelvetica-9-1f548575d5.json",
+    "zx-spectrum-f9cc61c714.json"
+  ],
+  "policy": {
+    "changedAlphanumericGlyphs": 2,
+    "totalChangedPixels": 8,
+    "maxChangedPixelsInOneGlyph": 6,
+    "ignoreHorizontalPositionOnly": true,
+    "requireMatchingCoverage": true,
+    "allPairsMustMatch": true
+  },
+  "groups": [
+    {
+      "type": "near-letterforms",
+      "reference": "kyotronic-85-050901da1c.json",
+      "maximumChangedLetters": 1,
+      "maximumLetterPixels": 2,
+      "members": [
+        {
+          "file": "kyotronic-85-050901da1c.json",
+          "name": "Kyotronic 85 — 6x8",
+          "source": "kyotronic/kyotronic-85.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "msx-brazilian-hotbit11-f7a1613b36.json",
+          "name": "MSX Brazilian (Sharp Hotbit 1.1) — 8x8",
+          "source": "msx/msx-brazilian-hotbit11.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 10
+            },
+            {
+              "character": "\"",
+              "pixels": 12
+            },
+            {
+              "character": "#",
+              "pixels": 24
+            },
+            {
+              "character": "%",
+              "pixels": 18
+            },
+            {
+              "character": "&",
+              "pixels": 24
+            },
+            {
+              "character": "'",
+              "pixels": 6
+            },
+            {
+              "character": "(",
+              "pixels": 14
+            },
+            {
+              "character": ")",
+              "pixels": 14
+            },
+            {
+              "character": "*",
+              "pixels": 22
+            },
+            {
+              "character": "+",
+              "pixels": 10
+            },
+            {
+              "character": ",",
+              "pixels": 6
+            },
+            {
+              "character": "-",
+              "pixels": 1
+            },
+            {
+              "character": ".",
+              "pixels": 4
+            },
+            {
+              "character": "/",
+              "pixels": 10
+            },
+            {
+              "character": "0",
+              "pixels": 26
+            },
+            {
+              "character": "1",
+              "pixels": 16
+            },
+            {
+              "character": "2",
+              "pixels": 16
+            },
+            {
+              "character": "3",
+              "pixels": 18
+            },
+            {
+              "character": "4",
+              "pixels": 18
+            },
+            {
+              "character": "5",
+              "pixels": 14
+            },
+            {
+              "character": "6",
+              "pixels": 18
+            },
+            {
+              "character": "7",
+              "pixels": 16
+            },
+            {
+              "character": "8",
+              "pixels": 22
+            },
+            {
+              "character": "9",
+              "pixels": 18
+            },
+            {
+              "character": ":",
+              "pixels": 4
+            },
+            {
+              "character": ";",
+              "pixels": 8
+            },
+            {
+              "character": "<",
+              "pixels": 14
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 14
+            },
+            {
+              "character": "?",
+              "pixels": 14
+            },
+            {
+              "character": "@",
+              "pixels": 26
+            },
+            {
+              "character": "A",
+              "pixels": 24
+            },
+            {
+              "character": "B",
+              "pixels": 22
+            },
+            {
+              "character": "C",
+              "pixels": 18
+            },
+            {
+              "character": "D",
+              "pixels": 24
+            },
+            {
+              "character": "E",
+              "pixels": 14
+            },
+            {
+              "character": "F",
+              "pixels": 14
+            },
+            {
+              "character": "G",
+              "pixels": 22
+            },
+            {
+              "character": "H",
+              "pixels": 26
+            },
+            {
+              "character": "I",
+              "pixels": 14
+            },
+            {
+              "character": "J",
+              "pixels": 18
+            },
+            {
+              "character": "K",
+              "pixels": 26
+            },
+            {
+              "character": "L",
+              "pixels": 14
+            },
+            {
+              "character": "M",
+              "pixels": 32
+            },
+            {
+              "character": "N",
+              "pixels": 30
+            },
+            {
+              "character": "O",
+              "pixels": 24
+            },
+            {
+              "character": "P",
+              "pixels": 18
+            },
+            {
+              "character": "Q",
+              "pixels": 28
+            },
+            {
+              "character": "R",
+              "pixels": 24
+            },
+            {
+              "character": "S",
+              "pixels": 18
+            },
+            {
+              "character": "T",
+              "pixels": 14
+            },
+            {
+              "character": "U",
+              "pixels": 26
+            },
+            {
+              "character": "V",
+              "pixels": 26
+            },
+            {
+              "character": "W",
+              "pixels": 32
+            },
+            {
+              "character": "X",
+              "pixels": 26
+            },
+            {
+              "character": "Y",
+              "pixels": 20
+            },
+            {
+              "character": "Z",
+              "pixels": 14
+            },
+            {
+              "character": "[",
+              "pixels": 14
+            },
+            {
+              "character": "\\",
+              "pixels": 10
+            },
+            {
+              "character": "]",
+              "pixels": 14
+            },
+            {
+              "character": "^",
+              "pixels": 10
+            },
+            {
+              "character": "_",
+              "pixels": 2
+            },
+            {
+              "character": "a",
+              "pixels": 12
+            },
+            {
+              "character": "b",
+              "pixels": 24
+            },
+            {
+              "character": "c",
+              "pixels": 14
+            },
+            {
+              "character": "d",
+              "pixels": 24
+            },
+            {
+              "character": "e",
+              "pixels": 12
+            },
+            {
+              "character": "f",
+              "pixels": 16
+            },
+            {
+              "character": "g",
+              "pixels": 20
+            },
+            {
+              "character": "h",
+              "pixels": 22
+            },
+            {
+              "character": "i",
+              "pixels": 12
+            },
+            {
+              "character": "j",
+              "pixels": 16
+            },
+            {
+              "character": "k",
+              "pixels": 22
+            },
+            {
+              "character": "l",
+              "pixels": 14
+            },
+            {
+              "character": "m",
+              "pixels": 28
+            },
+            {
+              "character": "n",
+              "pixels": 20
+            },
+            {
+              "character": "o",
+              "pixels": 16
+            },
+            {
+              "character": "p",
+              "pixels": 20
+            },
+            {
+              "character": "q",
+              "pixels": 20
+            },
+            {
+              "character": "r",
+              "pixels": 14
+            },
+            {
+              "character": "s",
+              "pixels": 10
+            },
+            {
+              "character": "t",
+              "pixels": 16
+            },
+            {
+              "character": "u",
+              "pixels": 20
+            },
+            {
+              "character": "v",
+              "pixels": 18
+            },
+            {
+              "character": "w",
+              "pixels": 26
+            },
+            {
+              "character": "x",
+              "pixels": 18
+            },
+            {
+              "character": "y",
+              "pixels": 20
+            },
+            {
+              "character": "z",
+              "pixels": 10
+            }
+          ]
+        },
+        {
+          "file": "msx-german-din-64126129f2.json",
+          "name": "MSX DIN — 8x8",
+          "source": "msx/msx-german-din.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "0",
+                "pixels": 2
+              }
+            ],
+            "pixels": 2
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 10
+            },
+            {
+              "character": "\"",
+              "pixels": 12
+            },
+            {
+              "character": "#",
+              "pixels": 24
+            },
+            {
+              "character": "%",
+              "pixels": 18
+            },
+            {
+              "character": "&",
+              "pixels": 24
+            },
+            {
+              "character": "'",
+              "pixels": 6
+            },
+            {
+              "character": "(",
+              "pixels": 14
+            },
+            {
+              "character": ")",
+              "pixels": 14
+            },
+            {
+              "character": "*",
+              "pixels": 22
+            },
+            {
+              "character": "+",
+              "pixels": 10
+            },
+            {
+              "character": ",",
+              "pixels": 6
+            },
+            {
+              "character": "-",
+              "pixels": 1
+            },
+            {
+              "character": ".",
+              "pixels": 4
+            },
+            {
+              "character": "/",
+              "pixels": 10
+            },
+            {
+              "character": "0",
+              "pixels": 26
+            },
+            {
+              "character": "1",
+              "pixels": 16
+            },
+            {
+              "character": "2",
+              "pixels": 16
+            },
+            {
+              "character": "3",
+              "pixels": 18
+            },
+            {
+              "character": "4",
+              "pixels": 18
+            },
+            {
+              "character": "5",
+              "pixels": 14
+            },
+            {
+              "character": "6",
+              "pixels": 18
+            },
+            {
+              "character": "7",
+              "pixels": 16
+            },
+            {
+              "character": "8",
+              "pixels": 22
+            },
+            {
+              "character": "9",
+              "pixels": 18
+            },
+            {
+              "character": ":",
+              "pixels": 4
+            },
+            {
+              "character": ";",
+              "pixels": 8
+            },
+            {
+              "character": "<",
+              "pixels": 14
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 14
+            },
+            {
+              "character": "?",
+              "pixels": 14
+            },
+            {
+              "character": "@",
+              "pixels": 26
+            },
+            {
+              "character": "A",
+              "pixels": 24
+            },
+            {
+              "character": "B",
+              "pixels": 22
+            },
+            {
+              "character": "C",
+              "pixels": 18
+            },
+            {
+              "character": "D",
+              "pixels": 24
+            },
+            {
+              "character": "E",
+              "pixels": 14
+            },
+            {
+              "character": "F",
+              "pixels": 14
+            },
+            {
+              "character": "G",
+              "pixels": 22
+            },
+            {
+              "character": "H",
+              "pixels": 26
+            },
+            {
+              "character": "I",
+              "pixels": 14
+            },
+            {
+              "character": "J",
+              "pixels": 18
+            },
+            {
+              "character": "K",
+              "pixels": 26
+            },
+            {
+              "character": "L",
+              "pixels": 14
+            },
+            {
+              "character": "M",
+              "pixels": 32
+            },
+            {
+              "character": "N",
+              "pixels": 30
+            },
+            {
+              "character": "O",
+              "pixels": 24
+            },
+            {
+              "character": "P",
+              "pixels": 18
+            },
+            {
+              "character": "Q",
+              "pixels": 28
+            },
+            {
+              "character": "R",
+              "pixels": 24
+            },
+            {
+              "character": "S",
+              "pixels": 18
+            },
+            {
+              "character": "T",
+              "pixels": 14
+            },
+            {
+              "character": "U",
+              "pixels": 26
+            },
+            {
+              "character": "V",
+              "pixels": 26
+            },
+            {
+              "character": "W",
+              "pixels": 32
+            },
+            {
+              "character": "X",
+              "pixels": 26
+            },
+            {
+              "character": "Y",
+              "pixels": 20
+            },
+            {
+              "character": "Z",
+              "pixels": 14
+            },
+            {
+              "character": "[",
+              "pixels": 14
+            },
+            {
+              "character": "\\",
+              "pixels": 10
+            },
+            {
+              "character": "]",
+              "pixels": 14
+            },
+            {
+              "character": "^",
+              "pixels": 10
+            },
+            {
+              "character": "_",
+              "pixels": 2
+            },
+            {
+              "character": "a",
+              "pixels": 12
+            },
+            {
+              "character": "b",
+              "pixels": 24
+            },
+            {
+              "character": "c",
+              "pixels": 14
+            },
+            {
+              "character": "d",
+              "pixels": 24
+            },
+            {
+              "character": "e",
+              "pixels": 12
+            },
+            {
+              "character": "f",
+              "pixels": 16
+            },
+            {
+              "character": "g",
+              "pixels": 20
+            },
+            {
+              "character": "h",
+              "pixels": 22
+            },
+            {
+              "character": "i",
+              "pixels": 12
+            },
+            {
+              "character": "j",
+              "pixels": 16
+            },
+            {
+              "character": "k",
+              "pixels": 22
+            },
+            {
+              "character": "l",
+              "pixels": 14
+            },
+            {
+              "character": "m",
+              "pixels": 28
+            },
+            {
+              "character": "n",
+              "pixels": 20
+            },
+            {
+              "character": "o",
+              "pixels": 16
+            },
+            {
+              "character": "p",
+              "pixels": 20
+            },
+            {
+              "character": "q",
+              "pixels": 20
+            },
+            {
+              "character": "r",
+              "pixels": 14
+            },
+            {
+              "character": "s",
+              "pixels": 10
+            },
+            {
+              "character": "t",
+              "pixels": 16
+            },
+            {
+              "character": "u",
+              "pixels": 20
+            },
+            {
+              "character": "v",
+              "pixels": 18
+            },
+            {
+              "character": "w",
+              "pixels": 26
+            },
+            {
+              "character": "x",
+              "pixels": 18
+            },
+            {
+              "character": "y",
+              "pixels": 20
+            },
+            {
+              "character": "z",
+              "pixels": 10
+            }
+          ]
+        },
+        {
+          "file": "pk8000-0c3ff2b223.json",
+          "name": "PK-8000 Hobbi/Vesta/Sura — 8x8",
+          "source": "msx/pk8000.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 10
+            },
+            {
+              "character": "\"",
+              "pixels": 12
+            },
+            {
+              "character": "#",
+              "pixels": 24
+            },
+            {
+              "character": "%",
+              "pixels": 18
+            },
+            {
+              "character": "&",
+              "pixels": 24
+            },
+            {
+              "character": "'",
+              "pixels": 6
+            },
+            {
+              "character": "(",
+              "pixels": 14
+            },
+            {
+              "character": ")",
+              "pixels": 14
+            },
+            {
+              "character": "*",
+              "pixels": 16
+            },
+            {
+              "character": "+",
+              "pixels": 10
+            },
+            {
+              "character": ",",
+              "pixels": 6
+            },
+            {
+              "character": "-",
+              "pixels": 1
+            },
+            {
+              "character": ".",
+              "pixels": 4
+            },
+            {
+              "character": "/",
+              "pixels": 10
+            },
+            {
+              "character": "0",
+              "pixels": 26
+            },
+            {
+              "character": "1",
+              "pixels": 16
+            },
+            {
+              "character": "2",
+              "pixels": 16
+            },
+            {
+              "character": "3",
+              "pixels": 18
+            },
+            {
+              "character": "4",
+              "pixels": 18
+            },
+            {
+              "character": "5",
+              "pixels": 14
+            },
+            {
+              "character": "6",
+              "pixels": 18
+            },
+            {
+              "character": "7",
+              "pixels": 16
+            },
+            {
+              "character": "8",
+              "pixels": 22
+            },
+            {
+              "character": "9",
+              "pixels": 18
+            },
+            {
+              "character": ":",
+              "pixels": 4
+            },
+            {
+              "character": ";",
+              "pixels": 8
+            },
+            {
+              "character": "<",
+              "pixels": 14
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 14
+            },
+            {
+              "character": "?",
+              "pixels": 14
+            },
+            {
+              "character": "@",
+              "pixels": 26
+            },
+            {
+              "character": "A",
+              "pixels": 24
+            },
+            {
+              "character": "B",
+              "pixels": 22
+            },
+            {
+              "character": "C",
+              "pixels": 18
+            },
+            {
+              "character": "D",
+              "pixels": 24
+            },
+            {
+              "character": "E",
+              "pixels": 14
+            },
+            {
+              "character": "F",
+              "pixels": 14
+            },
+            {
+              "character": "G",
+              "pixels": 22
+            },
+            {
+              "character": "H",
+              "pixels": 26
+            },
+            {
+              "character": "I",
+              "pixels": 14
+            },
+            {
+              "character": "J",
+              "pixels": 18
+            },
+            {
+              "character": "K",
+              "pixels": 26
+            },
+            {
+              "character": "L",
+              "pixels": 14
+            },
+            {
+              "character": "M",
+              "pixels": 32
+            },
+            {
+              "character": "N",
+              "pixels": 30
+            },
+            {
+              "character": "O",
+              "pixels": 24
+            },
+            {
+              "character": "P",
+              "pixels": 18
+            },
+            {
+              "character": "Q",
+              "pixels": 28
+            },
+            {
+              "character": "R",
+              "pixels": 24
+            },
+            {
+              "character": "S",
+              "pixels": 18
+            },
+            {
+              "character": "T",
+              "pixels": 14
+            },
+            {
+              "character": "U",
+              "pixels": 26
+            },
+            {
+              "character": "V",
+              "pixels": 26
+            },
+            {
+              "character": "W",
+              "pixels": 32
+            },
+            {
+              "character": "X",
+              "pixels": 26
+            },
+            {
+              "character": "Y",
+              "pixels": 20
+            },
+            {
+              "character": "Z",
+              "pixels": 14
+            },
+            {
+              "character": "[",
+              "pixels": 14
+            },
+            {
+              "character": "\\",
+              "pixels": 10
+            },
+            {
+              "character": "]",
+              "pixels": 14
+            },
+            {
+              "character": "^",
+              "pixels": 10
+            },
+            {
+              "character": "_",
+              "pixels": 2
+            },
+            {
+              "character": "a",
+              "pixels": 12
+            },
+            {
+              "character": "b",
+              "pixels": 24
+            },
+            {
+              "character": "c",
+              "pixels": 14
+            },
+            {
+              "character": "d",
+              "pixels": 24
+            },
+            {
+              "character": "e",
+              "pixels": 12
+            },
+            {
+              "character": "f",
+              "pixels": 16
+            },
+            {
+              "character": "g",
+              "pixels": 20
+            },
+            {
+              "character": "h",
+              "pixels": 22
+            },
+            {
+              "character": "i",
+              "pixels": 12
+            },
+            {
+              "character": "j",
+              "pixels": 16
+            },
+            {
+              "character": "k",
+              "pixels": 22
+            },
+            {
+              "character": "l",
+              "pixels": 14
+            },
+            {
+              "character": "m",
+              "pixels": 28
+            },
+            {
+              "character": "n",
+              "pixels": 20
+            },
+            {
+              "character": "o",
+              "pixels": 16
+            },
+            {
+              "character": "p",
+              "pixels": 20
+            },
+            {
+              "character": "q",
+              "pixels": 20
+            },
+            {
+              "character": "r",
+              "pixels": 14
+            },
+            {
+              "character": "s",
+              "pixels": 10
+            },
+            {
+              "character": "t",
+              "pixels": 16
+            },
+            {
+              "character": "u",
+              "pixels": 20
+            },
+            {
+              "character": "v",
+              "pixels": 18
+            },
+            {
+              "character": "w",
+              "pixels": 26
+            },
+            {
+              "character": "x",
+              "pixels": 18
+            },
+            {
+              "character": "y",
+              "pixels": 20
+            },
+            {
+              "character": "z",
+              "pixels": 10
+            }
+          ]
+        },
+        {
+          "file": "pk8002-0e66b4fe6b.json",
+          "name": "PK-8002 Elf — 5x8",
+          "source": "msx/pk8002.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "*",
+              "pixels": 24
+            },
+            {
+              "character": "-",
+              "pixels": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "near-letterforms",
+      "reference": "saa5055-us-9f6ab0ed6b.json",
+      "maximumChangedLetters": 2,
+      "maximumLetterPixels": 4,
+      "members": [
+        {
+          "file": "saa5055-us-9f6ab0ed6b.json",
+          "name": "Mullard SAA-5055 (US ASCII) — 6x10",
+          "source": "teletext/saa5055-us.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "saa5050-uk-1fdfa7d40f.json",
+          "name": "Mullard SAA-5050 (UK) — 6x10",
+          "source": "teletext/saa5050-uk.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "'",
+              "pixels": 2
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            },
+            {
+              "character": "^",
+              "pixels": null
+            },
+            {
+              "character": "_",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "riscos-3-8x10-3b90b8e677.json",
+          "name": "RISC OS 3 8x10 — 8x10",
+          "source": "acorn/riscos/riscos-3-8x10.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "M",
+                "pixels": 1
+              }
+            ],
+            "pixels": 1
+          },
+          "renderedDifferences": [
+            {
+              "character": "'",
+              "pixels": 2
+            },
+            {
+              "character": ":",
+              "pixels": 2
+            },
+            {
+              "character": "M",
+              "pixels": 1
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            },
+            {
+              "character": "^",
+              "pixels": null
+            },
+            {
+              "character": "_",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "saa5053-italy-8ffe6efafb.json",
+          "name": "mullard SAA-5053 (Italy) — 6x10",
+          "source": "teletext/saa5053-italy.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "'",
+              "pixels": 2
+            },
+            {
+              "character": "@",
+              "pixels": null
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            },
+            {
+              "character": "^",
+              "pixels": null
+            },
+            {
+              "character": "_",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "saa5054-belgium-0a4d9e4bf3.json",
+          "name": "Mullard SAA-5054 (Belgium) — 6x10",
+          "source": "teletext/saa5054-belgium.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "a",
+                "pixels": 3
+              }
+            ],
+            "pixels": 3
+          },
+          "renderedDifferences": [
+            {
+              "character": "'",
+              "pixels": 2
+            },
+            {
+              "character": "@",
+              "pixels": null
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            },
+            {
+              "character": "^",
+              "pixels": null
+            },
+            {
+              "character": "_",
+              "pixels": null
+            },
+            {
+              "character": "a",
+              "pixels": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "apple-iic-37ca57a17d.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "apple-iic-37ca57a17d.json",
+          "name": "Apple IIe Enhanced — 7x8",
+          "source": "apple/ii/apple-iic.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "apple-iie-uk-c2dd6f2b33.json",
+          "name": "Apple IIe UK-USA — 7x8",
+          "source": "apple/ii/apple-iie-uk.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "#",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "apple-iie-german-f87e11ce21.json",
+          "name": "Apple IIe German-USA — 7x8",
+          "source": "apple/ii/apple-iie-german.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "@",
+              "pixels": null
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "apple-iie-french-f72d2dfabd.json",
+          "name": "Apple IIe French-USA — 7x8",
+          "source": "apple/ii/apple-iie-french.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "#",
+              "pixels": null
+            },
+            {
+              "character": "@",
+              "pixels": null
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-10-4a4a133df7.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-10-4a4a133df7.json",
+          "name": "Courier 10 — 8x13",
+          "source": "windows/windows-3.1/courier-e/Courier_10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-8-8a85497469.json",
+          "name": "Courier 8 — 8x13",
+          "source": "windows/windows-2.03/courier-e/Courier_8.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "]",
+              "pixels": 5
+            }
+          ]
+        },
+        {
+          "file": "courier-8x13-442d4e7749.json",
+          "name": "Courier — 8x13",
+          "source": "os-2/os2_2.1/courier/Courier_8x13.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 8
+            }
+          ]
+        },
+        {
+          "file": "courier-8x13-eac29156d8.json",
+          "name": "Courier — 8x13",
+          "source": "os-2/os2_1.3/courier/Courier_8x13.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "]",
+              "pixels": 5
+            },
+            {
+              "character": "^",
+              "pixels": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "8044316a-d2d235f4c0.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "8044316a-d2d235f4c0.json",
+          "name": "Tandy-8044316A (TRS-80 Model III and Model 4) — 8x8",
+          "source": "trs-80/model-i-iii-4/8044316a.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "trs80-model4-int-latin-db9a65eabf.json",
+          "name": "TRS-80 Model 4 International (with accented Latin) — 8x12",
+          "source": "trs-80/model-i-iii-4/trs80-model4-int-latin.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "%",
+              "pixels": 13
+            }
+          ]
+        },
+        {
+          "file": "trs80-m2-94c06dd920.json",
+          "name": "TRS-80 Model II — 8x10",
+          "source": "trs-80/various/trs80-m2.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "%",
+              "pixels": 13
+            }
+          ]
+        },
+        {
+          "file": "trs80-model3-4-sym-6f2895075d.json",
+          "name": "TRS-80 Model III and Model 4 (with symbols) — 8x12",
+          "source": "trs-80/model-i-iii-4/trs80-model3-4-sym.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "superpet-ascii-7531775451.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "superpet-ascii-7531775451.json",
+          "name": "Commodore SuperPET (ASCII range) — 8x8",
+          "source": "commodore/pet/superpet-ascii.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "pet-baf6813a46.json",
+          "name": "Commodore PET 8x8 — 8x8",
+          "source": "commodore/pet/pet.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": null
+            },
+            {
+              "character": "_",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "vic-20-f74d979210.json",
+          "name": "Commodore VIC-20 8x8 — 8x8",
+          "source": "commodore/vic20/vic-20.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "^",
+              "pixels": null
+            },
+            {
+              "character": "_",
+              "pixels": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "ep-uk-7c0114836a.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "ep-uk-7c0114836a.json",
+          "name": "Elan Enterprise (UK) — 8x9",
+          "source": "elan_enterprise/ep_uk.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "ep-dk-385cb93f28.json",
+          "name": "Elan Enterprise (DK) — 8x9",
+          "source": "elan_enterprise/ep_dk.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            }
+          ]
+        },
+        {
+          "file": "ep-brd-ba83242cdf.json",
+          "name": "Elan Enterprise (BRD) — 8x9",
+          "source": "elan_enterprise/ep_brd.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "@",
+              "pixels": null
+            },
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "mc6670p-62dbad84a3.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "mc6670p-62dbad84a3.json",
+          "name": "MC-6670P (TRS-80 Model I) — 6x8",
+          "source": "trs-80/model-i-iii-4/mc6670p.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "mc6674-c62599861e.json",
+          "name": "Motorola MC 6674 — 5x8",
+          "source": "trs-80/model-i-iii-4/mc6674.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 12
+            },
+            {
+              "character": "\"",
+              "pixels": 12
+            },
+            {
+              "character": "#",
+              "pixels": 24
+            },
+            {
+              "character": "%",
+              "pixels": 18
+            },
+            {
+              "character": "&",
+              "pixels": 26
+            },
+            {
+              "character": "'",
+              "pixels": 8
+            },
+            {
+              "character": "(",
+              "pixels": 14
+            },
+            {
+              "character": ")",
+              "pixels": 14
+            },
+            {
+              "character": "*",
+              "pixels": 22
+            },
+            {
+              "character": "+",
+              "pixels": 10
+            },
+            {
+              "character": ",",
+              "pixels": 8
+            },
+            {
+              "character": "-",
+              "pixels": 2
+            },
+            {
+              "character": ".",
+              "pixels": 4
+            },
+            {
+              "character": "/",
+              "pixels": 10
+            },
+            {
+              "character": "0",
+              "pixels": 26
+            },
+            {
+              "character": "1",
+              "pixels": 14
+            },
+            {
+              "character": "2",
+              "pixels": 16
+            },
+            {
+              "character": "3",
+              "pixels": 18
+            },
+            {
+              "character": "4",
+              "pixels": 18
+            },
+            {
+              "character": "5",
+              "pixels": 16
+            },
+            {
+              "character": "6",
+              "pixels": 18
+            },
+            {
+              "character": "7",
+              "pixels": 14
+            },
+            {
+              "character": "8",
+              "pixels": 22
+            },
+            {
+              "character": "9",
+              "pixels": 18
+            },
+            {
+              "character": ":",
+              "pixels": 8
+            },
+            {
+              "character": ";",
+              "pixels": 12
+            },
+            {
+              "character": "<",
+              "pixels": 14
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 14
+            },
+            {
+              "character": "?",
+              "pixels": 14
+            },
+            {
+              "character": "@",
+              "pixels": 26
+            },
+            {
+              "character": "A",
+              "pixels": 24
+            },
+            {
+              "character": "B",
+              "pixels": 22
+            },
+            {
+              "character": "C",
+              "pixels": 18
+            },
+            {
+              "character": "D",
+              "pixels": 24
+            },
+            {
+              "character": "E",
+              "pixels": 14
+            },
+            {
+              "character": "F",
+              "pixels": 14
+            },
+            {
+              "character": "G",
+              "pixels": 20
+            },
+            {
+              "character": "H",
+              "pixels": 26
+            },
+            {
+              "character": "I",
+              "pixels": 14
+            },
+            {
+              "character": "J",
+              "pixels": 16
+            },
+            {
+              "character": "K",
+              "pixels": 26
+            },
+            {
+              "character": "L",
+              "pixels": 14
+            },
+            {
+              "character": "M",
+              "pixels": 32
+            },
+            {
+              "character": "N",
+              "pixels": 30
+            },
+            {
+              "character": "O",
+              "pixels": 24
+            },
+            {
+              "character": "P",
+              "pixels": 18
+            },
+            {
+              "character": "Q",
+              "pixels": 28
+            },
+            {
+              "character": "R",
+              "pixels": 24
+            },
+            {
+              "character": "S",
+              "pixels": 18
+            },
+            {
+              "character": "T",
+              "pixels": 14
+            },
+            {
+              "character": "U",
+              "pixels": 26
+            },
+            {
+              "character": "V",
+              "pixels": 24
+            },
+            {
+              "character": "W",
+              "pixels": 30
+            },
+            {
+              "character": "X",
+              "pixels": 26
+            },
+            {
+              "character": "Y",
+              "pixels": 20
+            },
+            {
+              "character": "Z",
+              "pixels": 14
+            },
+            {
+              "character": "[",
+              "pixels": 16
+            },
+            {
+              "character": "\\",
+              "pixels": 12
+            },
+            {
+              "character": "]",
+              "pixels": 14
+            },
+            {
+              "character": "^",
+              "pixels": 10
+            },
+            {
+              "character": "_",
+              "pixels": 2
+            },
+            {
+              "character": "a",
+              "pixels": 12
+            },
+            {
+              "character": "b",
+              "pixels": 24
+            },
+            {
+              "character": "c",
+              "pixels": 14
+            },
+            {
+              "character": "d",
+              "pixels": 24
+            },
+            {
+              "character": "e",
+              "pixels": 12
+            },
+            {
+              "character": "f",
+              "pixels": 16
+            },
+            {
+              "character": "g",
+              "pixels": 24
+            },
+            {
+              "character": "h",
+              "pixels": 24
+            },
+            {
+              "character": "i",
+              "pixels": 12
+            },
+            {
+              "character": "j",
+              "pixels": 14
+            },
+            {
+              "character": "k",
+              "pixels": 22
+            },
+            {
+              "character": "l",
+              "pixels": 14
+            },
+            {
+              "character": "m",
+              "pixels": 28
+            },
+            {
+              "character": "n",
+              "pixels": 20
+            },
+            {
+              "character": "o",
+              "pixels": 16
+            },
+            {
+              "character": "p",
+              "pixels": 24
+            },
+            {
+              "character": "q",
+              "pixels": 24
+            },
+            {
+              "character": "r",
+              "pixels": 14
+            },
+            {
+              "character": "s",
+              "pixels": 10
+            },
+            {
+              "character": "t",
+              "pixels": 16
+            },
+            {
+              "character": "u",
+              "pixels": 20
+            },
+            {
+              "character": "v",
+              "pixels": 18
+            },
+            {
+              "character": "w",
+              "pixels": 24
+            },
+            {
+              "character": "x",
+              "pixels": 18
+            },
+            {
+              "character": "y",
+              "pixels": 22
+            },
+            {
+              "character": "z",
+              "pixels": 10
+            }
+          ]
+        },
+        {
+          "file": "trs80-model1-93b5ddee18.json",
+          "name": "TRS-80 Model I — 6x12",
+          "source": "trs-80/model-i-iii-4/trs80-model1.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "[",
+              "pixels": null
+            },
+            {
+              "character": "\\",
+              "pixels": null
+            },
+            {
+              "character": "]",
+              "pixels": null
+            },
+            {
+              "character": "^",
+              "pixels": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "p0t-ibm-787ebd04d1.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "p0t-ibm-787ebd04d1.json",
+          "name": "P0T-Ibm Regular 8x8 — 8x8",
+          "source": "|custom|/amiga/nudelfonts/P0T-IBM.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "p0t-noodle-c1d954ed74.json",
+          "name": "P0T-NOoDLE Regular 8x8 — 8x8",
+          "source": "|custom|/amiga/nudelfonts/P0T-NOoDLE.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "-",
+              "pixels": 2
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            }
+          ]
+        },
+        {
+          "file": "p0t-prop-828279c712.json",
+          "name": "P0T-Prop Regular 8 — 8x8",
+          "source": "|custom|/amiga/nudelfonts/P0T-Prop.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 12
+            },
+            {
+              "character": "\"",
+              "pixels": 8
+            },
+            {
+              "character": "%",
+              "pixels": 32
+            },
+            {
+              "character": "&",
+              "pixels": 26
+            },
+            {
+              "character": "(",
+              "pixels": 14
+            },
+            {
+              "character": ")",
+              "pixels": 14
+            },
+            {
+              "character": "*",
+              "pixels": 14
+            },
+            {
+              "character": "+",
+              "pixels": 10
+            },
+            {
+              "character": "-",
+              "pixels": 2
+            },
+            {
+              "character": ".",
+              "pixels": 4
+            },
+            {
+              "character": "/",
+              "pixels": 3
+            },
+            {
+              "character": "1",
+              "pixels": 12
+            },
+            {
+              "character": ":",
+              "pixels": 8
+            },
+            {
+              "character": "<",
+              "pixels": 14
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 14
+            },
+            {
+              "character": "?",
+              "pixels": 14
+            },
+            {
+              "character": "I",
+              "pixels": 12
+            },
+            {
+              "character": "[",
+              "pixels": 12
+            },
+            {
+              "character": "\\",
+              "pixels": 15
+            },
+            {
+              "character": "]",
+              "pixels": 12
+            },
+            {
+              "character": "^",
+              "pixels": 8
+            },
+            {
+              "character": "f",
+              "pixels": 16
+            },
+            {
+              "character": "i",
+              "pixels": 14
+            },
+            {
+              "character": "l",
+              "pixels": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "near-letterforms",
+      "reference": "terminal-12-sq-c744d6d70a.json",
+      "maximumChangedLetters": 2,
+      "maximumLetterPixels": 8,
+      "members": [
+        {
+          "file": "terminal-12-sq-c744d6d70a.json",
+          "name": "Terminal 12 — 8x12",
+          "source": "windows/windows-2.03/Terminal_12_sq.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "terminal-ega80-cp437-ff87bf88f9.json",
+          "name": "Terminal 12 — 8x12",
+          "source": "windows/windows-3.0/Terminal_EGA80_cp437.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "8",
+                "pixels": 2
+              }
+            ],
+            "pixels": 2
+          },
+          "renderedDifferences": [
+            {
+              "character": "8",
+              "pixels": 2
+            }
+          ]
+        },
+        {
+          "file": "terminal-vga-cp860-f64d441f90.json",
+          "name": "Terminal 12 — 8x12",
+          "source": "windows/windows-3.0/Terminal_VGA_cp860.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "0",
+                "pixels": 6
+              }
+            ],
+            "pixels": 6
+          },
+          "renderedDifferences": [
+            {
+              "character": "0",
+              "pixels": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "bbc-master-f9c4055916.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "bbc-master-f9c4055916.json",
+          "name": "Acorn BBC Master — 8x8",
+          "source": "acorn/bbc/bbc_master.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "riscos-3-aafbffe8cf.json",
+          "name": "RISC OS 3 — 8x8",
+          "source": "acorn/riscos/riscos-3.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "'",
+              "pixels": 4
+            },
+            {
+              "character": "?",
+              "pixels": 48
+            },
+            {
+              "character": "^",
+              "pixels": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "bison-12-f6d8a4b573.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "bison-12-f6d8a4b573.json",
+          "name": "Bison 12 — 5x11",
+          "source": "pc-geos/BreadBox_Ensemble_4.1.3/Bison_12.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "monaco-6x16-f6ca50246f.json",
+          "name": "Monaco Regular 6x16 — 5x15",
+          "source": "apple/mac/Monaco_6x16.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "bison-6x11-d87bd35464.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "bison-6x11-d87bd35464.json",
+          "name": "Bison 6x11 — 5x8",
+          "source": "pc-geos/BreadBox_Ensemble_4.1.3/Bison_6x11.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "monaco-6x11-b036dd2ec2.json",
+          "name": "Monaco Regular 6x11 — 5x11",
+          "source": "apple/mac/Monaco_6x11.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "near-letterforms",
+      "reference": "c128-7d26bc4641.json",
+      "maximumChangedLetters": 1,
+      "maximumLetterPixels": 3,
+      "members": [
+        {
+          "file": "c128-7d26bc4641.json",
+          "name": "Commodore 128 8x8 — 8x8",
+          "source": "commodore/c64-c16-c128/c128.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "c16-a641733017.json",
+          "name": "Commodore 16 8x8 — 8x8",
+          "source": "commodore/c64-c16-c128/c16.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "m",
+                "pixels": 3
+              }
+            ],
+            "pixels": 3
+          },
+          "renderedDifferences": [
+            {
+              "character": "m",
+              "pixels": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-10-71d113f890.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-10-71d113f890.json",
+          "name": "Courier 10 — 7x7",
+          "source": "next/Courier/Courier_10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-11-a7d1d3768a.json",
+          "name": "Courier Regular 11 — 7x11",
+          "source": "amiga/workbench-3.1/Courier_11.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 12
+            },
+            {
+              "character": "\"",
+              "pixels": 12
+            },
+            {
+              "character": "'",
+              "pixels": 2
+            },
+            {
+              "character": "(",
+              "pixels": 18
+            },
+            {
+              "character": ")",
+              "pixels": 18
+            },
+            {
+              "character": ",",
+              "pixels": 6
+            },
+            {
+              "character": "-",
+              "pixels": 1
+            },
+            {
+              "character": ".",
+              "pixels": 2
+            },
+            {
+              "character": "0",
+              "pixels": 24
+            },
+            {
+              "character": "1",
+              "pixels": 14
+            },
+            {
+              "character": "2",
+              "pixels": 16
+            },
+            {
+              "character": "3",
+              "pixels": 18
+            },
+            {
+              "character": "5",
+              "pixels": 14
+            },
+            {
+              "character": "6",
+              "pixels": 18
+            },
+            {
+              "character": "7",
+              "pixels": 16
+            },
+            {
+              "character": "8",
+              "pixels": 22
+            },
+            {
+              "character": "9",
+              "pixels": 18
+            },
+            {
+              "character": ":",
+              "pixels": 4
+            },
+            {
+              "character": ";",
+              "pixels": 8
+            },
+            {
+              "character": "<",
+              "pixels": 10
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 10
+            },
+            {
+              "character": "?",
+              "pixels": 12
+            },
+            {
+              "character": "C",
+              "pixels": 16
+            },
+            {
+              "character": "G",
+              "pixels": 18
+            },
+            {
+              "character": "O",
+              "pixels": 20
+            },
+            {
+              "character": "Q",
+              "pixels": 22
+            },
+            {
+              "character": "S",
+              "pixels": 14
+            },
+            {
+              "character": "Z",
+              "pixels": 16
+            },
+            {
+              "character": "[",
+              "pixels": 18
+            },
+            {
+              "character": "\\",
+              "pixels": 16
+            },
+            {
+              "character": "]",
+              "pixels": 18
+            },
+            {
+              "character": "a",
+              "pixels": 14
+            },
+            {
+              "character": "c",
+              "pixels": 14
+            },
+            {
+              "character": "d",
+              "pixels": 22
+            },
+            {
+              "character": "e",
+              "pixels": 14
+            },
+            {
+              "character": "f",
+              "pixels": 14
+            },
+            {
+              "character": "g",
+              "pixels": 22
+            },
+            {
+              "character": "i",
+              "pixels": 12
+            },
+            {
+              "character": "j",
+              "pixels": 16
+            },
+            {
+              "character": "l",
+              "pixels": 14
+            },
+            {
+              "character": "o",
+              "pixels": 16
+            },
+            {
+              "character": "q",
+              "pixels": 22
+            },
+            {
+              "character": "r",
+              "pixels": 12
+            },
+            {
+              "character": "s",
+              "pixels": 10
+            },
+            {
+              "character": "t",
+              "pixels": 16
+            },
+            {
+              "character": "z",
+              "pixels": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-10-7918369993.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-10-7918369993.json",
+          "name": "Courier 10 — 9x12",
+          "source": "windows/windows-1.04/courier-b/Courier_10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-9x12-886e3e2f74.json",
+          "name": "Courier — 9x12",
+          "source": "os-2/os2_1.3/courier/Courier_9x12.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-10-48ac87dfd6.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-10-48ac87dfd6.json",
+          "name": "Courier 10 — 9x16",
+          "source": "windows/windows-2.03/courier-e/Courier_10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-9x16-4c04b69fe1.json",
+          "name": "Courier — 9x16",
+          "source": "os-2/os2_1.3/courier/Courier_9x16.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-14-f93987f95e.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-14-f93987f95e.json",
+          "name": "Courier 14 — 9x11",
+          "source": "next/Courier/Courier_14.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-15-3508117caf.json",
+          "name": "Courier Regular 15 — 9x15",
+          "source": "amiga/workbench-3.1/Courier_15.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 14
+            },
+            {
+              "character": "\"",
+              "pixels": 16
+            },
+            {
+              "character": "#",
+              "pixels": 32
+            },
+            {
+              "character": "'",
+              "pixels": 7
+            },
+            {
+              "character": "(",
+              "pixels": 24
+            },
+            {
+              "character": ")",
+              "pixels": 24
+            },
+            {
+              "character": ",",
+              "pixels": 8
+            },
+            {
+              "character": "-",
+              "pixels": 1
+            },
+            {
+              "character": ".",
+              "pixels": 4
+            },
+            {
+              "character": ":",
+              "pixels": 8
+            },
+            {
+              "character": ";",
+              "pixels": 12
+            },
+            {
+              "character": "I",
+              "pixels": 18
+            },
+            {
+              "character": "[",
+              "pixels": 24
+            },
+            {
+              "character": "]",
+              "pixels": 24
+            },
+            {
+              "character": "^",
+              "pixels": 18
+            },
+            {
+              "character": "i",
+              "pixels": 18
+            },
+            {
+              "character": "l",
+              "pixels": 18
+            },
+            {
+              "character": "z",
+              "pixels": 18
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-8-3124162eef.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-8-3124162eef.json",
+          "name": "Courier 8 — 10x10",
+          "source": "windows/windows-1.04/courier-d/Courier_8.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-10x10-7117b84b17.json",
+          "name": "Courier — 10x10",
+          "source": "os-2/os2_1.3/courier/Courier_10x10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "courier-8-bdb03e7e4a.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "courier-8-bdb03e7e4a.json",
+          "name": "Courier 8 — 8x10",
+          "source": "windows/windows-1.04/courier-b/Courier_8.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "courier-8x10-43b9a9c237.json",
+          "name": "Courier — 8x10",
+          "source": "os-2/os2_1.3/courier/Courier_8x10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "eagleplayer-66e05451ea.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "eagleplayer-66e05451ea.json",
+          "name": "Eagleplayer Regular 8x8 — 8x8",
+          "source": "|custom|/amiga/nudelfonts/Eagleplayer.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "eagleplayer-prop-700b48ce17.json",
+          "name": "Eagleplayer-Prop Regular 8 — 8x8",
+          "source": "|custom|/amiga/nudelfonts/Eagleplayer-Prop.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 12
+            },
+            {
+              "character": "&",
+              "pixels": 26
+            },
+            {
+              "character": "'",
+              "pixels": 6
+            },
+            {
+              "character": "(",
+              "pixels": 14
+            },
+            {
+              "character": ")",
+              "pixels": 14
+            },
+            {
+              "character": "+",
+              "pixels": 10
+            },
+            {
+              "character": "/",
+              "pixels": 14
+            },
+            {
+              "character": "2",
+              "pixels": 16
+            },
+            {
+              "character": "3",
+              "pixels": 20
+            },
+            {
+              "character": "4",
+              "pixels": 18
+            },
+            {
+              "character": "5",
+              "pixels": 20
+            },
+            {
+              "character": "8",
+              "pixels": 22
+            },
+            {
+              "character": "9",
+              "pixels": 20
+            },
+            {
+              "character": ":",
+              "pixels": 4
+            },
+            {
+              "character": "=",
+              "pixels": 4
+            },
+            {
+              "character": ">",
+              "pixels": 14
+            },
+            {
+              "character": "?",
+              "pixels": 14
+            },
+            {
+              "character": "J",
+              "pixels": 20
+            },
+            {
+              "character": "[",
+              "pixels": 14
+            },
+            {
+              "character": "]",
+              "pixels": 14
+            },
+            {
+              "character": "f",
+              "pixels": 18
+            },
+            {
+              "character": "g",
+              "pixels": 20
+            },
+            {
+              "character": "i",
+              "pixels": 14
+            },
+            {
+              "character": "j",
+              "pixels": 20
+            },
+            {
+              "character": "l",
+              "pixels": 20
+            },
+            {
+              "character": "q",
+              "pixels": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "geneva-10-648a289b7f.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "geneva-10-648a289b7f.json",
+          "name": "Geneva 10 — 9x12",
+          "source": "apple/iigs/Geneva_10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "university-10-044c0b0bf5.json",
+          "name": "University 10 — 9x9",
+          "source": "pc-geos/BreadBox_Ensemble_4.1.3/University_10.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "geneva-12-38bf6849d3.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "geneva-12-38bf6849d3.json",
+          "name": "Geneva 12 — 9x15",
+          "source": "apple/iigs/Geneva_12.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "university-12-1d4305c62f.json",
+          "name": "University 12 — 9x10",
+          "source": "pc-geos/BreadBox_Ensemble_4.1.3/University_12.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "geneva-9-c18c849771.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "geneva-9-c18c849771.json",
+          "name": "Geneva Regular 9 — 7x12",
+          "source": "apple/mac/Geneva_9.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "university-9-e504f7d0ba.json",
+          "name": "University 9 — 7x8",
+          "source": "pc-geos/BreadBox_Ensemble_4.1.3/University_9.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "mc6847-46ca1ae145.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "mc6847-46ca1ae145.json",
+          "name": "MC-6847 — 5x7",
+          "source": "trs-80/coco/mc6847.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "trs80-coco-4d5ab986ec.json",
+          "name": "MC-6847 — 8x12",
+          "source": "trs-80/coco/trs80-coco.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "mirrors-oem-vga-05389ca0eb.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "mirrors-oem-vga-05389ca0eb.json",
+          "name": "Mirrors-OEM-VGA — 8x15",
+          "source": "os-2/os2_warp3/mirrors/Mirrors-OEM-VGA.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "mirrors-vga-0148d4b2b3.json",
+          "name": "Mirrors-VGA — 8x15",
+          "source": "os-2/os2_warp3/mirrors/Mirrors-VGA.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 6
+            },
+            {
+              "character": "'",
+              "pixels": 2
+            },
+            {
+              "character": "@",
+              "pixels": 31
+            },
+            {
+              "character": "_",
+              "pixels": 14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "nec-pc8201-5f1b3f7566.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "nec-pc8201-5f1b3f7566.json",
+          "name": "NEC PC-8201 — 6x8",
+          "source": "kyotronic/nec-pc8201.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "nec-pc8201a-26f2b91631.json",
+          "name": "NEC PC-8201A — 6x8",
+          "source": "kyotronic/nec-pc8201a.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "\\",
+              "pixels": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "oberon8-screen-72d6e055db.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "oberon8-screen-72d6e055db.json",
+          "name": "Oberon8.Scn.Fnt — 8x9",
+          "source": "oberon/Oberon8.screen.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "syntaxxx8-screen-72f36bca26.json",
+          "name": "SyntaxXX8.Scn.Fnt — 8x9",
+          "source": "oberon/SyntaxXX8.screen.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "-",
+              "pixels": 1
+            },
+            {
+              "character": ":",
+              "pixels": 4
+            },
+            {
+              "character": "=",
+              "pixels": 2
+            },
+            {
+              "character": "L",
+              "pixels": 14
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "near-letterforms",
+      "reference": "small-fonts-4-482f7c59f9.json",
+      "maximumChangedLetters": 1,
+      "maximumLetterPixels": 1,
+      "members": [
+        {
+          "file": "small-fonts-4-482f7c59f9.json",
+          "name": "Small Fonts 4 — 6x8",
+          "source": "windows/windows-3.1/small-f/Small_Fonts_4.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "small-fonts-5-b9e9571a15.json",
+          "name": "Small Fonts 5 — 6x8",
+          "source": "windows/windows-3.1/small-e/Small_Fonts_5.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "J",
+                "pixels": 1
+              }
+            ],
+            "pixels": 1
+          },
+          "renderedDifferences": [
+            {
+              "character": "-",
+              "pixels": 4
+            },
+            {
+              "character": "J",
+              "pixels": 1
+            },
+            {
+              "character": "^",
+              "pixels": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "near-letterforms",
+      "reference": "system-12-lo-1029954661.json",
+      "maximumChangedLetters": 1,
+      "maximumLetterPixels": 2,
+      "members": [
+        {
+          "file": "system-12-lo-1029954661.json",
+          "name": "System 12 — 8x8",
+          "source": "windows/windows-2.03/System_12_lo.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "system-8x8-a8136db8b8.json",
+          "name": "System — 8x8",
+          "source": "os-2/os2_1.3/system/System_8x8.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "0",
+                "pixels": 2
+              }
+            ],
+            "pixels": 2
+          },
+          "renderedDifferences": [
+            {
+              "character": "0",
+              "pixels": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "system-vio-10x18-d4d27e5a75.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "system-vio-10x18-d4d27e5a75.json",
+          "name": "System VIO — 10x18",
+          "source": "os-2/os2_2.1/system/System_VIO_10x18.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "system-vio-14-120x120dpi-ad49be198c.json",
+          "name": "System VIO — 10x18",
+          "source": "os-2/os2_warp4/system/System_VIO_14-120x120dpi.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "-",
+              "pixels": 6
+            },
+            {
+              "character": "=",
+              "pixels": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "near-letterforms",
+      "reference": "gem-1-1-6x6-cga-49b49a8252.json",
+      "maximumChangedLetters": 2,
+      "maximumLetterPixels": 3,
+      "members": [
+        {
+          "file": "gem-1-1-6x6-cga-49b49a8252.json",
+          "name": "System — 6x6",
+          "source": "gem/gem-1.1-6x6-cga.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "viewmax-1-6x6-46b4356fe9.json",
+          "name": "System — 6x6",
+          "source": "gem/viewmax-1-6x6.yaff",
+          "letterDifference": {
+            "changedLetters": [
+              {
+                "character": "J",
+                "pixels": 1
+              },
+              {
+                "character": "1",
+                "pixels": 2
+              }
+            ],
+            "pixels": 3
+          },
+          "renderedDifferences": [
+            {
+              "character": "\"",
+              "pixels": 2
+            },
+            {
+              "character": "1",
+              "pixels": 2
+            },
+            {
+              "character": "?",
+              "pixels": 1
+            },
+            {
+              "character": "J",
+              "pixels": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "tms-rmn-8-6f7a0d4a87.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "tms-rmn-8-6f7a0d4a87.json",
+          "name": "Tms Rmn 8 — 10x10",
+          "source": "windows/windows-2.03/tmsrmn-b/Tms_Rmn_8.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "tms-rmn-c95a6ecd18.json",
+          "name": "Tms Rmn — 10x10",
+          "source": "os-2/os2_1.3/times/Tms_Rmn.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "tms-rmn-8-e5595438a1.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "tms-rmn-8-e5595438a1.json",
+          "name": "Tms Rmn 8 — 10x13",
+          "source": "windows/windows-2.03/tmsrmn-e/Tms_Rmn_8.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "tms-rmn-6-fefd06a51d.json",
+          "name": "Tms Rmn — 10x13",
+          "source": "os-2/os2_1.3/times/Tms_Rmn.6.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "^",
+              "pixels": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "same-letterforms",
+      "reference": "urw-sans-10-0-350d282b54.json",
+      "maximumChangedLetters": 0,
+      "maximumLetterPixels": 0,
+      "members": [
+        {
+          "file": "urw-sans-10-0-350d282b54.json",
+          "name": "URW Sans 10 — 8x7",
+          "source": "pc-geos/GeoWorks_Ensemble_2.0/URW_Sans_10.0.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": []
+        },
+        {
+          "file": "urw-sans-10-2-40f3a44c87.json",
+          "name": "URW Sans 10 — 8x7",
+          "source": "pc-geos/GeoWorks_Ensemble_2.0/URW_Sans_10.2.yaff",
+          "letterDifference": {
+            "changedLetters": [],
+            "pixels": 0
+          },
+          "renderedDifferences": [
+            {
+              "character": "!",
+              "pixels": 2
+            },
+            {
+              "character": "%",
+              "pixels": 2
+            },
+            {
+              "character": "&",
+              "pixels": 24
+            },
+            {
+              "character": "A",
+              "pixels": 22
+            },
+            {
+              "character": "^",
+              "pixels": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

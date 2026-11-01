@@ -1,5 +1,6 @@
 // js/modules/theme.js
 export const THEME_KEY = "osdFontLabTheme";
+export const DEFAULT_THEME = "afterburn";
 
 export function applyTheme(theme, root = document.documentElement) {
   if (!theme || theme === "dusk") {
@@ -22,8 +23,9 @@ export function initThemeControls({
 }) {
   if (!Array.isArray(themeRadios) || !themeRadios.length) return;
 
-  const saved = storage.getItem(key) || "dusk";
-  const initial = themeRadios.some((r) => r.value === saved) ? saved : themeRadios[0].value;
+  const saved = storage.getItem(key);
+  const fallback = themeRadios.some((r) => r.value === DEFAULT_THEME) ? DEFAULT_THEME : themeRadios[0].value;
+  const initial = themeRadios.some((r) => r.value === saved) ? saved : fallback;
 
   for (const radio of themeRadios) {
     radio.checked = radio.value === initial;

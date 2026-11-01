@@ -1,8 +1,18 @@
 ﻿<!doctype html>
-<html lang="en" data-workspace-panel="tools">
+<html lang="en" data-workspace-panel="tools" data-theme="afterburn">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script>
+    // Restore saved colors before loading styles to avoid a flash of the default.
+    try {
+      const saved = localStorage.getItem("osdFontLabTheme");
+      if (saved === "dusk") document.documentElement.removeAttribute("data-theme");
+      else if (["crt", "amber-terminal", "cold-phosphor", "lavender-circuit", "field-notes", "afterburn"].includes(saved)) {
+        document.documentElement.setAttribute("data-theme", saved);
+      }
+    } catch {}
+  </script>
   <title>OSD Font Lab</title>
   <link rel="icon" href="./favicon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -265,7 +275,7 @@
                     type="button"
                     title="Import a base .mcm or exported .png font file"
                   >
-                    Import .mcm/.png
+                    Import .mcm / .png
                   </button>
                 </label>
                 <label class="field field-stack import-inline">
@@ -274,9 +284,9 @@
                     id="yaffImportBtn"
                     type="button"
                     class="dropzone dropzone-inline"
-                    title="Import a YAFF replacement overlay or an experimental TTF/OTF rasterized to 12x18"
+                    title="Import a .yaff replacement overlay or an experimental .ttf/.otf font rasterized to 12x18"
                   >
-                    Import YAFF / TTF
+                    Import .yaff / .ttf
                   </button>
                 </label>
               </div>
@@ -412,8 +422,8 @@
                   <label><input type="radio" name="siteTheme" value="cold-phosphor" aria-label="Cold Phosphor"></label>
                   <label><input type="radio" name="siteTheme" value="lavender-circuit" aria-label="Lavender Circuit"></label>
                   <label title="Field Notes"><input type="radio" name="siteTheme" value="field-notes" aria-label="Field Notes"></label>
-                  <label title="Afterburn"><input type="radio" name="siteTheme" value="afterburn" aria-label="Afterburn"></label>
-                  <span id="themeCodeLabel" class="theme-code-label">DUSK</span>
+                  <label title="Afterburn"><input type="radio" name="siteTheme" value="afterburn" aria-label="Afterburn" checked></label>
+                  <span id="themeCodeLabel" class="theme-code-label">BURN</span>
                 </div>
                 <div class="font-serving-note">Serving <span id="servingFontCount" class="font-serving-count">0</span> fonts! • "Analog in aeternum"</div>
                 <a class="kofi-badge kofi-badge-sidecar" href="https://ko-fi.com/V7V51TP9SQ" target="_blank" rel="noopener noreferrer" aria-label="Support on Ko-fi" title="If you appreciate my work ♥">
@@ -431,6 +441,6 @@
 </div>
 
 
-  <script type="module" src="js/app.js?v=20261031-inspector-fit"></script>
+  <script type="module" src="js/app.js?v=20261031-burn-default"></script>
 </body>
 </html>

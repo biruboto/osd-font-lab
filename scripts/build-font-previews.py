@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LIBRARIES = ('arcade-font-engine', 'atari', 'bbc', 'cpc', 'dg', 'oldschool-pc', 'zx')
+LIBRARIES = ('arcade-font-engine', 'atari', 'bbc', 'cpc', 'dg', 'hoard', 'oldschool-pc', 'zx')
 
 
 def key(ch):

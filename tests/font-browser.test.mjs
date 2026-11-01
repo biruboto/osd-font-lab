@@ -31,7 +31,7 @@ test('font browser keeps a bounded window while every catalog position remains r
 });
 
 test('compact previews cover every library font and both case samples', () => {
-  for (const library of ['arcade-font-engine', 'atari', 'bbc', 'cpc', 'dg', 'oldschool-pc', 'zx']) {
+  for (const library of ['arcade-font-engine', 'atari', 'bbc', 'cpc', 'dg', 'hoard', 'oldschool-pc', 'zx']) {
     const read = path => JSON.parse(readFileSync(new URL(`../fonts/${path}`, import.meta.url), 'utf8').replace(/^\uFEFF/, ''));
     const manifest = read(`manifest-${library}.json`);
     const catalog = read(`previews/${library}.json`);

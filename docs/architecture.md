@@ -20,6 +20,12 @@
 - `js/modules/hud-render.js`: goggles preview composition, default element positions, and hit-test geometry.
 - `js/modules/yaff.js` and `js/modules/ttf-overlay.js`: file-to-overlay conversion.
 
+Afterburn (BURN) is the first-visit theme and the fallback for unknown saved
+theme IDs. Every valid stored choice, including Dusk, takes precedence and new
+choices remain saved under `osdFontLabTheme`. The HTML starts in BURN and restores
+valid saved colors before loading stylesheets, avoiding a flash of the default
+while the application module loads.
+
 TTF/OTF imports lazily load the locally bundled MIT-licensed opentype.js 2.0.0
 parser (`js/vendor/opentype-2.0.0/`). The retained source checks character coverage
 before Canvas rendering, caches measurements, and reuses two canvases. A shared
@@ -57,6 +63,18 @@ fetched only when selected. Regenerate previews after library updates with
 On desktop the tools column scrolls within the remaining viewport height, so the
 font browser does not extend the page below an otherwise fitted sheet/inspector.
 Mobile tools retain normal document scrolling.
+
+The Hoard of Bitfonts library is generated offline from the audited
+Latin sources by `scripts/import-hoard-fonts.py`. Its overlays use the existing
+JSON format and preview pipeline. Fonts sharing a visible capital height share an
+output baseline centered on each face's own capitals; the generator preserves
+source glyph metrics and normalizes the font's common standing-line offset.
+Whole candidates are culled unless every supplied glyph fits the 10×16 ink
+interior, reserving one pixel for either stroke style. Approved fixed groups in
+`fonts/hoard-curation.json` consolidate 382 stroke-safe faces into 330 picker
+entries on every rebuild, preserving variant metadata with representatives.
+See `docs/hoard-font-import.md` for the
+comparison gallery, omission report, regeneration, and validation.
 
 The emoji picker loads `fonts/previews/emoji-pixels.json` on first use. This
 52 KB catalog packs all 507 original 12×18 glyphs into two bits per pixel;

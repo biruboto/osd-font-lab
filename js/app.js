@@ -2,7 +2,7 @@
 import { decodeMCM, encodeMCM, encodeFontBytes } from "./mcm.js";
 import { buildFontPicker } from "./modules/picker.js";
 import { createFontBrowser } from "./modules/font-browser.js";
-import { currentThemeId, initThemeControls } from "./modules/theme.js";
+import { currentThemeId, initThemeControls } from "./modules/theme.js?v=20261031-burn-default";
 import {
   applyStroke4,
   applyStroke8,
@@ -273,6 +273,12 @@ const OVERLAY_LIBRARIES = [
     label: "NFG's Arcade Font Engine",
     manifestPath: "fonts/manifest-arcade-font-engine.json",
     dataDir: "fonts/data/arcade-font-engine",
+  },
+  {
+    id: "hoard",
+    label: "Hoard of Bitfonts",
+    manifestPath: "fonts/manifest-hoard.json",
+    dataDir: "fonts/data/hoard",
   },
 ];
 const overlayManifestCache = new Map(); // library id -> manifest list
@@ -3953,7 +3959,7 @@ function initEvents() {
     const f = fileInput.files?.[0];
     if (!f) return;
     if (!isMcmFile(f) && !isPngFile(f)) {
-      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff/.ttf/.otf for overlay fonts.", { error: true });
+      setLoadStatus("Please choose a .mcm or exported .png file here. Use Import .yaff / .ttf for overlay fonts.", { error: true });
       fileInput.value = "";
       return;
     }
@@ -3999,7 +4005,7 @@ function initEvents() {
     if (!f) return;
     if (!isMcmFile(f) && !isPngFile(f)) {
       if (isYaffFile(f) || isTtfFile(f)) {
-        setLoadStatus("Drop .yaff/.ttf/.otf files on the Import .yaff/.ttf/.otf button.", { error: true });
+        setLoadStatus("Drop .yaff, .ttf, or .otf files on the Import .yaff / .ttf button.", { error: true });
       } else {
         setLoadStatus("Unsupported file type. Drop a .mcm or exported .png file here.", { error: true });
       }

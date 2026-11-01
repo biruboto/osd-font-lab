@@ -1,0 +1,267 @@
+{
+  "repository": "https://github.com/robhagemans/hoard-of-bitfonts",
+  "commit": "240a23ec828810504b45e6d9b0c5bd8065ab5d5c",
+  "archive_sha256": "953d858288e556ae60c526a379c5849034f55468fd8dcf97d79fe632841852e8",
+  "selection_policy": "Latin source faces only; non-Latin language variants excluded even when a Roman subset fits",
+  "replacement_characters": " !\"#%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz",
+  "monobit_version": "0.54",
+  "files": {
+    "yaff": 2138,
+    "draw": 113
+  },
+  "faces": 2251,
+  "parse_errors": [],
+  "statuses": {
+    "candidate": 775,
+    "missing-alphanumeric": 511,
+    "oversized-alphanumeric": 812,
+    "non-latin-source": 153
+  },
+  "candidates_with_lowercase": 751,
+  "candidates_all_glyphs_fit": 675,
+  "unique_replacement_payloads_all_glyphs_fit": 434,
+  "candidates_baseline_height_fits": 775,
+  "candidates_outline_margin": 627,
+  "unique_core_designs": 440,
+  "unique_replacement_payloads": 497,
+  "existing_core_match_faces": 16,
+  "unique_core_designs_without_existing_match": 431,
+  "current_importer_qualifying_files": 967,
+  "current_importer_unconfirmed_or_incompatible": 198,
+  "candidates_needing_importer_improvements": 6,
+  "additional_candidates_if_padding_trimmed": 61,
+  "missing_coverage_without_declared_encoding": 477,
+  "unverified_native_ascii_fitting_files": 250,
+  "by_source": {
+    "acorn": {
+      "total": 6,
+      "candidates": 5,
+      "lowercase": 5
+    },
+    "amiga": {
+      "total": 47,
+      "candidates": 21,
+      "lowercase": 21
+    },
+    "amstrad": {
+      "total": 3,
+      "candidates": 2,
+      "lowercase": 2
+    },
+    "apple": {
+      "total": 327,
+      "candidates": 60,
+      "lowercase": 58
+    },
+    "atari": {
+      "total": 8,
+      "candidates": 6,
+      "lowercase": 6
+    },
+    "banner": {
+      "total": 4,
+      "candidates": 3,
+      "lowercase": 2
+    },
+    "commodore": {
+      "total": 22,
+      "candidates": 7,
+      "lowercase": 6
+    },
+    "crt8002": {
+      "total": 5,
+      "candidates": 4,
+      "lowercase": 4
+    },
+    "datapoint": {
+      "total": 1,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "dec": {
+      "total": 9,
+      "candidates": 8,
+      "lowercase": 5
+    },
+    "elan_enterprise": {
+      "total": 8,
+      "candidates": 4,
+      "lowercase": 4
+    },
+    "elektronika": {
+      "total": 3,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "epson": {
+      "total": 2,
+      "candidates": 2,
+      "lowercase": 2
+    },
+    "fujitsu": {
+      "total": 1,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "gem": {
+      "total": 53,
+      "candidates": 22,
+      "lowercase": 22
+    },
+    "geos": {
+      "total": 46,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "hellschreiber": {
+      "total": 7,
+      "candidates": 6,
+      "lowercase": 0
+    },
+    "hitachi": {
+      "total": 1,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "hp": {
+      "total": 11,
+      "candidates": 2,
+      "lowercase": 2
+    },
+    "ibm": {
+      "total": 3,
+      "candidates": 3,
+      "lowercase": 3
+    },
+    "jupiter_cantab": {
+      "total": 1,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "kyotronic": {
+      "total": 8,
+      "candidates": 8,
+      "lowercase": 8
+    },
+    "msx": {
+      "total": 22,
+      "candidates": 7,
+      "lowercase": 7
+    },
+    "ncr7250": {
+      "total": 2,
+      "candidates": 1,
+      "lowercase": 1
+    },
+    "nec-pc": {
+      "total": 7,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "next": {
+      "total": 61,
+      "candidates": 39,
+      "lowercase": 39
+    },
+    "oberon": {
+      "total": 352,
+      "candidates": 61,
+      "lowercase": 61
+    },
+    "oric": {
+      "total": 2,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "os-2": {
+      "total": 427,
+      "candidates": 139,
+      "lowercase": 139
+    },
+    "palm": {
+      "total": 8,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "pc": {
+      "total": 3,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "pc-geos": {
+      "total": 189,
+      "candidates": 135,
+      "lowercase": 129
+    },
+    "rk-86": {
+      "total": 6,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "robotron": {
+      "total": 6,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "sharp": {
+      "total": 3,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "sinclair": {
+      "total": 7,
+      "candidates": 1,
+      "lowercase": 1
+    },
+    "sony": {
+      "total": 2,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "symbos": {
+      "total": 10,
+      "candidates": 10,
+      "lowercase": 10
+    },
+    "teletext": {
+      "total": 15,
+      "candidates": 6,
+      "lowercase": 6
+    },
+    "texas_instruments": {
+      "total": 8,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "trs-80": {
+      "total": 27,
+      "candidates": 18,
+      "lowercase": 15
+    },
+    "various": {
+      "total": 19,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "videoton_tvc": {
+      "total": 2,
+      "candidates": 1,
+      "lowercase": 1
+    },
+    "windows": {
+      "total": 410,
+      "candidates": 162,
+      "lowercase": 160
+    },
+    "xerox": {
+      "total": 1,
+      "candidates": 0,
+      "lowercase": 0
+    },
+    "|custom|": {
+      "total": 86,
+      "candidates": 32,
+      "lowercase": 32
+    }
+  }
+}

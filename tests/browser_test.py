@@ -139,6 +139,32 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
             'name': name, 'mimeType': 'font/otf', 'buffer': outline_fixture(variant),
         })
 
+    async def test_first_visit_uses_burn_and_saved_theme_choices_survive_reload(self):
+        self.assertEqual(await self.page.locator('html').get_attribute('data-theme'), 'afterburn')
+        self.assertEqual(await self.page.locator('#themeCodeLabel').text_content(), 'BURN')
+        self.assertTrue(await self.page.locator('input[name=siteTheme][value=afterburn]').is_checked())
+        for theme, label in [('field-notes', 'FIELD'), ('dusk', 'DUSK'), ('crt', 'CRT')]:
+            await self.page.locator('#appearanceTools').evaluate('e=>e.open=true')
+            await self.page.locator(f'input[name=siteTheme][value="{theme}"]').check()
+            self.assertEqual(await self.page.evaluate("localStorage.getItem('osdFontLabTheme')"), theme)
+            await self.page.reload(wait_until='networkidle')
+            self.assertEqual(await self.page.locator('html').get_attribute('data-theme'), None if theme == 'dusk' else theme)
+            self.assertTrue(await self.page.locator(f'input[name=siteTheme][value="{theme}"]').is_checked())
+            self.assertEqual(await self.page.locator('#themeCodeLabel').text_content(), label)
+
+    async def test_initial_theme_colors_do_not_wait_for_the_application_module(self):
+        for saved, expected in [(None, 'afterburn'), ('crt', 'crt'), ('dusk', None), ('invalid-theme', 'afterburn')]:
+            context = await self.browser.new_context()
+            try:
+                if saved is not None:
+                    await context.add_init_script(f"localStorage.setItem('osdFontLabTheme', {json.dumps(saved)})")
+                page = await context.new_page()
+                await page.route('**/js/app.js*', lambda route: route.abort())
+                await page.goto(self.url, wait_until='networkidle')
+                self.assertEqual(await page.locator('html').get_attribute('data-theme'), expected)
+            finally:
+                await context.close()
+
     async def test_welcome_notice_first_visit_dismissal_and_keyboard_reopening(self):
         # A fresh browser profile has no welcome preference or recovery record.
         profile = await self.browser.new_context(viewport={'width':1440,'height':900})
@@ -989,11 +1015,30 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
             self.assertLessEqual(await self.page.locator('.font-browser-row').count(), 9)
             positions = await self.page.locator('.font-browser-row').evaluate_all("rows=>rows.map(row=>Number(row.getAttribute('aria-posinset')))")
             self.assertEqual(positions, sorted(positions), 'screen-reader order must match the visible rows')
-        libraries = ['arcade-font-engine','atari','bbc','cpc','dg','oldschool-pc','zx']
+        libraries = ['arcade-font-engine','atari','bbc','cpc','dg','hoard','oldschool-pc','zx']
         self.assertEqual([url for url in requests if any(f'/fonts/data/{lib}/' in url for lib in libraries)], [])
         self.assertEqual(len([url for url in requests if url.endswith('/fonts/previews/dg.json')]), 1)
         for lib in libraries:
             self.assertEqual(len([url for url in requests if url.endswith(f'/fonts/manifest-{lib}.json')]), 1)
+
+    async def test_hoard_library_keeps_8x8_fonts_and_descenders_on_shared_baseline(self):
+        manifest = json.loads((ROOT/'fonts/manifest-hoard.json').read_text(encoding='utf-8'))
+        await self.page.select_option('#fontLibraryFilter', 'hoard')
+        await self.page.wait_for_function("count=>document.querySelector('#fontResultsCount').textContent===`${count} fonts`", arg=len(manifest))
+        for prefix in ['Acorn BBC Master — 8x8', 'topaz/8 — 8x8', 'Oberon9m.Scn.Fnt — 7x9']:
+            entry = next(e for e in manifest if e['name'] == prefix)
+            await self.page.locator('#fontSearch').fill(prefix)
+            await self.page.locator(f'[data-font-id="hoard::{entry["file"]}"]').click()
+            await self.page.wait_for_function("name=>document.querySelector('#fontCurrentName').textContent===name", arg=prefix)
+            letters = await self.font()
+            self.assertEqual(max(i//12 for i,v in enumerate(letters[ord('H')]) if v == 2), 11)
+            self.assertEqual(min(i//12 for i,v in enumerate(letters[ord('H')]) if v == 2), 5)
+            await self.page.locator('#caseLowerBtn').click()
+            letters = await self.font()
+            self.assertEqual(max(i//12 for i,v in enumerate(letters[ord('X')]) if v == 2), 11)
+            expected_bottom = 13 if prefix.startswith('Oberon9m.') else 12
+            self.assertEqual(max(i//12 for i,v in enumerate(letters[ord('G')]) if v == 2), expected_bottom)
+            await self.page.locator('#caseUpperBtn').click()
 
     async def test_font_browser_keyboard_theme_refresh_and_clear(self):
         original = await self.font()
@@ -1006,7 +1051,7 @@ class BrowserTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotEqual(await self.font(), original)
         preview = self.page.locator('[data-font-id="cpc::alarm8x8.json"] img')
         old_url = await preview.get_attribute('src')
-        await self.page.evaluate("document.querySelector('input[name=siteTheme][value=afterburn]').click()")
+        await self.page.evaluate("document.querySelector('input[name=siteTheme][value=crt]').click()")
         await self.page.wait_for_function("old=>{const img=document.querySelector('[data-font-id=\"cpc::alarm8x8.json\"] img');return img?.src&&img.getAttribute('src')!==old}", arg=old_url)
         await self.page.locator('#clearOverlayBtn').click()
         self.assertEqual(await self.font(), original)

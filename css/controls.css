@@ -581,7 +581,6 @@ select{
 #bootSplashImportBtn.dropzone-inline{
   border: 1px dashed var(--bg-3);
   color: var(--text-muted);
-  font: inherit;
   line-height: 1;
 }
 
