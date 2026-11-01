@@ -95,6 +95,58 @@
     "group": "crosshair"
   },
   {
+    "id": "crosshair_eyeofra",
+    "name": "Eye of Ra",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/eyeofra.png"
+      }
+    },
+    "group": "crosshair"
+  },
+  {
+    "id": "crosshair_eyeofhorus",
+    "name": "Eye of Horus",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/eyeofhorus.png"
+      }
+    },
+    "group": "crosshair"
+  },
+  {
+    "id": "crosshair_pointleft",
+    "name": "Point Left",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/pointleft.png"
+      }
+    },
+    "group": "crosshair"
+  },
+  {
+    "id": "crosshair_pointright",
+    "name": "Point Right",
+    "glyphWidth": 12,
+    "glyphHeight": 18,
+    "gap": 0,
+    "targets": {
+      "crosshair_set": {
+        "png": "custom/crosshair_set/pointright.png"
+      }
+    },
+    "group": "crosshair"
+  },
+  {
     "id": "crosshair_air65",
     "name": "Air 65",
     "glyphWidth": 12,
