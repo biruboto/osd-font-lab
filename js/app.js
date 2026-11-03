@@ -29,7 +29,7 @@ import {
 } from "./modules/swap-registry.js";
 import { initDpadControls } from "./modules/dpad.js?v=20261031-nudge-target";
 import { createWorkspaceRenderer } from "./modules/workspace-render.js?v=20261031-inspector-fit";
-import { cloneHudLayoutDefaults, createHudRenderer } from "./modules/hud-render.js?v=20261031-hud-zoom";
+import { cloneHudLayoutDefaults, createHudRenderer, HUD_BACKGROUND_SHADE } from "./modules/hud-render.js?v=20261102-hud-background";
 import { fitHudCanvas } from "./modules/hud-layout.js?v=20261031-hud-zoom";
 import { parseYaffToOverlay } from "./modules/yaff.js";
 import { loadTtfSource } from "./modules/ttf-overlay.js";
@@ -2810,6 +2810,8 @@ function renderHudBootMock(ctx, canvas, font, { videoFormat = "PAL", showBackgro
         ctx.imageSmoothingEnabled = true;
         ctx.drawImage(hudBootBgImage, dx, dy, dw, dh);
         ctx.restore();
+        ctx.fillStyle = HUD_BACKGROUND_SHADE;
+        ctx.fillRect(x, y, w, h);
         return;
       }
     }

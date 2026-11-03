@@ -1,5 +1,6 @@
 // js/modules/hud-render.js
 import { fitHudCanvas, HUD_COLUMNS, HUD_ROWS } from './hud-layout.js?v=20261031-hud-zoom';
+export const HUD_BACKGROUND_SHADE = 'rgba(0,0,0,0.15)';
 export const HUD_LAYOUT_DEFAULTS = Object.freeze({
   // User-defined default HUD layout.
   crosshair: { col: 14, row: 6 },
@@ -232,6 +233,8 @@ export function createHudRenderer({
     ctx.save();
     ctx.imageSmoothingEnabled = true;
     ctx.drawImage(bgImage, dx, dy, dw, dh);
+    ctx.fillStyle = HUD_BACKGROUND_SHADE;
+    ctx.fillRect(x, y, w, h);
     ctx.restore();
   }
 
